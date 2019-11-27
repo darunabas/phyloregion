@@ -9,7 +9,7 @@ If you find ```phyloregion``` helpful, please cite as:
 
 Daru B. H. & Schliep, K. phyloregion: an R package for mapping biodiversity and conservation (R package version 0.1.0. https://github.com/darunabas/phyloregion, 2019).
 # Introduction
-This tutorial is an introduction to using `R` for analysing geographic data in biodiversity science and conservation. Specifically, you will be testing my new `R` package called `phyloregion` which is still in a beta-testing phase. The `bioregion` package is a tool for mapping various facets of biodiversity ranging from local (alpha-) to between community (beta-) diversity.
+This tutorial is an introduction to using `R` for analysing geographic data in biodiversity science and conservation. Specifically, you will be testing my new `R` package called `phyloregion` which is still in a beta-testing phase. The `phyloregion` package is a tool for mapping various facets of biodiversity ranging from local (alpha-) to between community (beta-) diversity.
 
 The `phyloregion` package will introduce the basics of mapping various facets of spatial data ranging from species richness, endemism, to threat as evaluated by the International Union for the Conservation of Nature as well as beta diversity metrics. More advanced implementations of `phyloregion` is the addition of phylogenetic information to quantify evolutionary diversity including phylogenetic diversity, phylogenetic endemism, and evolutionary distinctiveness and global endangerment.
 
