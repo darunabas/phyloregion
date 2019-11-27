@@ -1,4 +1,4 @@
-# bioregion
+# phyloregion
 This R package is for mapping biodiversity and for conservation. It is simple, fast, and particularly tailored for handling large datasets.
 ### Authors
 [Barnabas Daru](https://barnabasdaru.com/) 
