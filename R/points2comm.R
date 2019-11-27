@@ -58,7 +58,7 @@ points2comm <- function(dat,
   if (verbose) {
     message("Generating community data from point records")
   }
-  
+  dat <- as.data.frame(dat)
   dat <- dat[, c(species, lon, lat)]
   names(dat) <- c("species", "lon", "lat")
   
