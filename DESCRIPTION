@@ -1,0 +1,24 @@
+Package: phyloregion
+Type: Package
+Title: R package for biogeographic regionalization and spatial
+        conservation
+Version: 0.1.0
+Date: 2019-06-29
+Author: Barnabas H. Daru <darunabas@gmail.com>,
+        Piyal Karunarathne <pylkaru@gmail.com>,
+        Klaus Schliep <klaus.schliep@gmail.com>
+Maintainer: Barnabas H. Daru <darunabas@gmail.com>
+Description: Biogeographic regionalization and spatial conservation.
+Imports: ape, phangorn, Matrix, betapart, fastmatch, parallel, methods,
+        Rdpack, raster, data.table, colorspace, cluster, rgeos, vegan,
+        magrittr, sp
+Suggests: testthat
+RdMacros: Rdpack
+URL: https://github.com/darunabas/bioregion
+BugReports: https://github.com/darunabas/bioregion/issues
+License: AGPL-3
+Encoding: UTF-8
+RoxygenNote: 7.0.1
+NeedsCompilation: no
+Packaged: 2019-11-26 02:36:40 UTC; barnabasdaru
+Depends: R (>= 3.5.0)

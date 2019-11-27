@@ -1,0 +1,35 @@
+#' Get descendant nodes of phylogeny at a given time depth.
+#'
+#' \code{getClusters} returns the tips that descend from a given node or time depth on a dated phylogenetic tree.
+#'
+#' @param tree is a dated phylogenetic tree with branch lengths stored 
+#' as a phylo object (as in the \code{ape} package).
+#' @param cut the slice time
+#' @rdname getClusters
+#' @keywords bioregion
+#' @importFrom phangorn Descendants
+#' @importFrom ape node.depth.edgelength 
+#'
+#' @return A list of descendants
+#'
+#' @references
+#' Schliep, K.P. (2010) phangorn: phylogenetic analysis in 
+#' R. \emph{Bioinformatics} \strong{27}: 592–593.
+#' 
+#' @examples
+#' require(ape)
+#' data(bird.orders)
+#' plot(bird.orders)
+#' axisPhylo(side = 1)
+#' abline(v=23)
+#' getClusters(tree, 5)
+#' @export
+getClusters <- function(tree, cut=2, ...){
+  nh <- node.depth.edgelength(tree)
+  nh <- max(nh) - nh
+  ind <- which( (nh[tree$edge[,1]] > cut) & (nh[tree$edge[,2]] <= cut) )
+  desc <- Descendants(tree)
+  res <- desc[tree$edge[ind,2]]
+  lapply(res, function(res, tips)tips[res], tree$tip.label)
+}
+

@@ -1,0 +1,13 @@
+citHeader("To cite phyloregion in publications use:")
+
+bibentry(bibtype = "Article",
+    author = "Daru, Barnabas H. and Karunarathne, Piyal and Schliep, Klaus",
+    title = "phyloregion: R package for biogeographic regionalization and spatial conservation",
+    journal = "Trends in Ecology & Evolution",
+    volume = "32",
+    url = "http://dx.doi.org/10.1016/j.tree.2017.08.013",
+    doi = "10.1016/j.tree.2017.08.013",
+    pages = "845--860",
+    year = "2017", 
+    textVersion = "Daru, B. H., Elliott, T. L., Park, D. S. & Davies, T. J. (2017), Understanding the Processes Underpinning Patterns of Phylogenetic Regionalization. Trends in Ecology and Evolution, 32: 845--860. doi: 10.1016/j.tree.2017.08.013"
+)
