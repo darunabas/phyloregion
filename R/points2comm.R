@@ -1,8 +1,8 @@
 #' Convert point occurrences to community data
 #'
-#' \code{points2comm} converts point occurrence records (e.g. from GBIF, 
+#' \code{points2comm} converts point occurrence records (e.g. from GBIF,
 #' iDigBio) to a community data sample
-#' 
+#'
 #' @param dat A point occurrence data frame with at least three columns:
 #' \itemize{
 #'   \item Column 1: \code{species} (listing the taxon names)
@@ -11,22 +11,22 @@
 #' }
 #' @param mask a polygon shapefile covering the boundary of the survey region.
 #' @param res the grain size of the grid cells in degrees.
-#' @param shp.grids if specified, the polygon shapefile of grid cells 
+#' @param shp.grids if specified, the polygon shapefile of grid cells
 #' with a column labeled \dQuote{grids}.
-#' @param species a character string. The column with the species or taxon name. 
+#' @param species a character string. The column with the species or taxon name.
 #' Default = \dQuote{species}.
 #' @rdname points2comm
-#' 
-#' @param index Diversity index, one of \dQuote{taxon_richness} (default) or 
+#'
+#' @param index Diversity index, one of \dQuote{taxon_richness} (default) or
 #' \dQuote{abundance}.
 #' @param \dots Further arguments passed to or from other methods.
 #' @keywords phyloregion
 #' @importFrom sp coordinates<- over CRS proj4string merge
 #' @importFrom sp coordinates<- CRS proj4string<-
-#' 
+#' @importFrom stats complete.cases
 #' @inheritParams fishnet
 #'
-#' @return 
+#' @return
 #' \itemize{
 #'   \item comm_dat: community data frame
 #'   \item poly_shp: shapefile of grid cells with the values per cell.
@@ -36,21 +36,21 @@
 #' @examples
 #' require(raster)
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
-#' 
+#'
 #' set.seed(1)
 #' m <- data.frame(sp::spsample(s, 10000, type="nonaligned"))
 #' names(m) <- c("lon", "lat")
 #' species <- paste0("sp", sample(1:1000))
 #' m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 #' pts <- points2comm(dat = m, mask = s, res = 0.5, lon="lon", lat="lat", species="taxon")
-#' 
+#'
 #' plot.swatch(pts$poly_shp, values = pts$poly_shp$richness, k=10)
-#' @export 
-points2comm <- function(dat, 
-                        mask, 
+#' @export
+points2comm <- function(dat,
+                        mask,
                         res=1,
-                        lon = "decimallongitude", 
-                        lat = "decimallatitude", 
+                        lon = "decimallongitude",
+                        lat = "decimallatitude",
                         species = "species",
                         shp.grids=NULL,
                         verbose = TRUE,
@@ -61,11 +61,11 @@ points2comm <- function(dat,
   dat <- as.data.frame(dat)
   dat <- dat[, c(species, lon, lat)]
   names(dat) <- c("species", "lon", "lat")
-  
+
   dat <- dat[complete.cases(dat),]
-  
+
   coordinates(dat) = ~lon+lat
-  
+
   if(length(shp.grids)==0){
     m <- fishnet(mask = mask, res = res)
   } else (m = shp.grids)

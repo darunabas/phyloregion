@@ -9,6 +9,5 @@
 #'
 #' data(africa)
 #' plot(africa$phylo)
-#' plot(africa$polys)
 #'
 NULL

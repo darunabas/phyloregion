@@ -29,13 +29,13 @@ points2comm(
 
 \item{res}{the grain size of the grid cells in degrees.}
 
-\item{species}{a character string. The column with the species or taxon name. 
+\item{species}{a character string. The column with the species or taxon name.
 Default = \dQuote{species}.}
 
-\item{shp.grids}{if specified, the polygon shapefile of grid cells 
+\item{shp.grids}{if specified, the polygon shapefile of grid cells
 with a column labeled \dQuote{grids}.}
 
-\item{index}{Diversity index, one of \dQuote{taxon_richness} (default) or 
+\item{index}{Diversity index, one of \dQuote{taxon_richness} (default) or
 \dQuote{abundance}.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
@@ -47,7 +47,7 @@ with a column labeled \dQuote{grids}.}
 }
 }
 \description{
-\code{points2comm} converts point occurrence records (e.g. from GBIF, 
+\code{points2comm} converts point occurrence records (e.g. from GBIF,
 iDigBio) to a community data sample
 }
 \examples{

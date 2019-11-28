@@ -65,6 +65,7 @@ legend <- function(y,
 #' @importFrom graphics legend par points rect segments strheight strwidth text xinch yinch
 #' @importFrom sp plot
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
+#' @importFrom stats median
 #'
 #' @inheritParams choropleth
 #'
@@ -88,9 +89,9 @@ plot_swatch <- function (x,
 {
   x$values <- values
   COLRS <- hcl.colors(k, swatch)
-  y = choropleth(x, values, k, style = style)
+  y <- choropleth(x, values, k, style = style)
   plot(y, col = COLRS[y$values], border = NA)
   if(legend) {
-    legend(y,COLRS,vals = values,lab=lab,pos = pos,leg = leg,lwd = lwd)
+    legend(y, COLRS, vals=values, lab=lab, pos=pos, leg=leg, lwd=lwd)
   }
 }

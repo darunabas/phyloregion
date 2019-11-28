@@ -25,12 +25,11 @@
 #'
 #' @examples
 #' require(ape)
-#' require(phytools)
-#' 
+#'
 #' set.seed(1)
 #' tree <- rcoal(50)
 #' x <- timeslice(tree,.5)
-#' 
+#'
 #' par(mfrow=c(1,2))
 #' plot(tree); axisPhylo()
 #' plot(x); axisPhylo()

@@ -26,7 +26,6 @@ the origins of species assemblages.
 }
 \examples{
 require(ape)
-require(phytools)
 
 set.seed(1)
 tree <- rcoal(50)

@@ -11,7 +11,6 @@ example data set.
 
 data(africa)
 plot(africa$phylo)
-plot(africa$polys)
 
 }
 \keyword{datasets}
