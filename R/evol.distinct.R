@@ -1,15 +1,16 @@
 #' A function to calculate evolutionary distinctiveness of bioregions.
 #'
-#' This function estimates evolutionary distinctiveness of each bioregion by computing the mean value of
-#' phylogenetic beta diversity between a focal bioregion and all other
-#' bioregions in the study area.
+#' This function estimates evolutionary distinctiveness of each bioregion by
+#' computing the mean value of phylogenetic beta diversity between a focal
+#' bioregion and all other bioregions in the study area.
 #'
-#' @param P A distance matrix
+#' @param x A distance matrix
 #' @param k The desired number of bioregions
-#' @param method the agglomeration method to be used. This should be (an unambiguous abbreviation of) one 
-#' of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), 
-#' "median" (= WPGMC) or "centroid" (= UPGMC).
-#' 
+#' @param method the agglomeration method to be used. This should be (an
+#' unambiguous abbreviation of) one of "ward.D", "ward.D2", "single",
+#' "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or
+#' "centroid" (= UPGMC).
+#'
 #' @rdname evoldistinct
 #' @keywords phyloregion
 #' @importFrom stats as.dist hclust cutree
@@ -17,18 +18,19 @@
 #' @return
 #' \item{psim}{A bioregion × bioregion phylogenetic beta diversity distance matrix}
 #' @references
-#' 
-#' Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H., Slingsby, 
-#' J.A. & Davies, T.J. (2016) A novel phylogenetic 
-#' regionalization of the phytogeographic zones of southern Africa reveals their 
-#' hidden evolutionary affinities. \emph{Journal of Biogeography} \strong{43}: 155-166.
-#' 
-#' Daru, B.H., Elliott, T.L., Park, D.S. & Davies, T.J. (2017) Understanding the processes underpinning patterns of phylogenetic 
-#' regionalization. \emph{Trends in Ecology and Evolution} \strong{32}: 845-860.
-#' 
-#' Daru, B.H., Holt, B.G., Lessard, J.P., Yessoufou, K. & Davies, T.J. (2017) 
-#' Phylogenetic regionalization of marine plants reveals close evolutionary 
-#' affinities among disjunct temperate assemblages. 
+#'
+#' Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H.,
+#' Slingsby, J.A. & Davies, T.J. (2016) A novel phylogenetic regionalization of
+#' the phytogeographic zones of southern Africa reveals their hidden
+#' evolutionary affinities. \emph{Journal of Biogeography} \strong{43}: 155-166.
+#'
+#' Daru, B.H., Elliott, T.L., Park, D.S. & Davies, T.J. (2017) Understanding the
+#' processes underpinning patterns of phylogenetic regionalization.
+#' \emph{Trends in Ecology and Evolution} \strong{32}: 845-860.
+#'
+#' Daru, B.H., Holt, B.G., Lessard, J.P., Yessoufou, K. & Davies, T.J. (2017)
+#' Phylogenetic regionalization of marine plants reveals close evolutionary
+#' affinities among disjunct temperate assemblages.
 #' \emph{Biological Conservation} \strong{213}: 351-356.
 
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
@@ -45,26 +47,24 @@
 #' pbc <- phylobeta.core(com, tree)
 #' evoldistinct(pbc, k=3)
 #' @export
-evoldistinct <- function(P, 
-                         k=10, 
-                         method="average", ...){
-  P1 <- as.dist(P)
-  
+evoldistinct <- function(x, k=10, method="average", ...){
+  P1 <- as.dist(x)
+
   P2 <- hclust(P1, method="average")
   g <- cutree(P2, k)
-  
+
   d <- data.frame(bioreg=g)
   d$grids <- rownames(d)
-  
-  P <- as.matrix(P)
-  colnames(P) <- rownames(P)
+
+  x <- as.matrix(x)
+  colnames(x) <- rownames(x)
 
   region.mat <- matrix(NA, k, k, dimnames = list(1:k, 1:k))
 
   for(i in 1:k){
 
     for(j in 1:k){
-      region.mat[i, j] <- mean(P[names(g)[g == i], names(g)[g == j]])
+      region.mat[i, j] <- mean(x[names(g)[g == i], names(g)[g == j]])
     }
 
   }

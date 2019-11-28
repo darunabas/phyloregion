@@ -4,24 +4,25 @@
 \alias{evoldistinct}
 \title{A function to calculate evolutionary distinctiveness of bioregions.}
 \usage{
-evoldistinct(P, k = 10, method = "average", ...)
+evoldistinct(x, k = 10, method = "average", ...)
 }
 \arguments{
-\item{P}{A distance matrix}
+\item{x}{A distance matrix}
 
 \item{k}{The desired number of bioregions}
 
-\item{method}{the agglomeration method to be used. This should be (an unambiguous abbreviation of) one 
-of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), 
-"median" (= WPGMC) or "centroid" (= UPGMC).}
+\item{method}{the agglomeration method to be used. This should be (an
+unambiguous abbreviation of) one of "ward.D", "ward.D2", "single",
+"complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or
+"centroid" (= UPGMC).}
 }
 \value{
 \item{psim}{A bioregion × bioregion phylogenetic beta diversity distance matrix}
 }
 \description{
-This function estimates evolutionary distinctiveness of each bioregion by computing the mean value of
-phylogenetic beta diversity between a focal bioregion and all other
-bioregions in the study area.
+This function estimates evolutionary distinctiveness of each bioregion by
+computing the mean value of phylogenetic beta diversity between a focal
+bioregion and all other bioregions in the study area.
 }
 \examples{
 library(ape)
@@ -35,17 +36,18 @@ pbc <- phylobeta.core(com, tree)
 evoldistinct(pbc, k=3)
 }
 \references{
-Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H., Slingsby, 
-J.A. & Davies, T.J. (2016) A novel phylogenetic 
-regionalization of the phytogeographic zones of southern Africa reveals their 
-hidden evolutionary affinities. \emph{Journal of Biogeography} \strong{43}: 155-166.
+Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H.,
+Slingsby, J.A. & Davies, T.J. (2016) A novel phylogenetic regionalization of
+the phytogeographic zones of southern Africa reveals their hidden
+evolutionary affinities. \emph{Journal of Biogeography} \strong{43}: 155-166.
 
-Daru, B.H., Elliott, T.L., Park, D.S. & Davies, T.J. (2017) Understanding the processes underpinning patterns of phylogenetic 
-regionalization. \emph{Trends in Ecology and Evolution} \strong{32}: 845-860.
+Daru, B.H., Elliott, T.L., Park, D.S. & Davies, T.J. (2017) Understanding the
+processes underpinning patterns of phylogenetic regionalization.
+\emph{Trends in Ecology and Evolution} \strong{32}: 845-860.
 
-Daru, B.H., Holt, B.G., Lessard, J.P., Yessoufou, K. & Davies, T.J. (2017) 
-Phylogenetic regionalization of marine plants reveals close evolutionary 
-affinities among disjunct temperate assemblages. 
+Daru, B.H., Holt, B.G., Lessard, J.P., Yessoufou, K. & Davies, T.J. (2017)
+Phylogenetic regionalization of marine plants reveals close evolutionary
+affinities among disjunct temperate assemblages.
 \emph{Biological Conservation} \strong{213}: 351-356.
 }
 \seealso{

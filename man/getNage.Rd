@@ -25,4 +25,7 @@ nodelabels()
 axisPhylo()
 getNage(tree, 5)
 }
+\seealso{
+\code{\link[ape]{node.depth.edgelength}}
+}
 \keyword{bioregion}
