@@ -71,7 +71,7 @@ subphy <- match_phylo_comm(tree, x)$phy
 submat <- match_phylo_comm(tree, x)$com
 
 pbc <- phylobeta.core(submat, subphy)
-plot.evoldistinct(pbc, shp=africa$polys)
+plot_evoldistinct(pbc, shp=africa$polys)
 }
 \references{
 Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H., Slingsby, J.A. & Davies, T.J. (2016) A novel phylogenetic

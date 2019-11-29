@@ -1,11 +1,4 @@
-legend <- function(y,
-                   cols,
-                   vals,
-                   lab="ED",
-                   leg=5,
-                   lwd=15,
-                   pos="bottomright") {
-
+legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
   if(pos=="bottomright"){
     a=y@bbox[3]+0.5
     b=y@bbox[2]
@@ -22,10 +15,9 @@ legend <- function(y,
     a=y@bbox[3]+0.5
     b=y@bbox[4]-leg
   }
-
   X <- cbind(rep(a, length(cols)), rep(a, length(cols)))
-  Y <- b + cbind(0:(length(cols) - 1)/length(cols), 1:length(cols)/length(cols)) *
-    (leg)
+  Y <- b + cbind(0:(length(cols) - 1)/length(cols),
+                 1:length(cols)/length(cols)) * (leg)
   for (i in 1:length(cols)) lines(X[i, ], Y[i, ], col = cols[i],
                                   lwd = lwd, lend = 2)
   text(x = a, y = b, round(min(vals), 3), pos = 4,
@@ -97,7 +89,7 @@ legend <- function(y,
 #' submat <- match_phylo_comm(tree, x)$com
 #'
 #' pbc <- phylobeta.core(submat, subphy)
-#' plot.evoldistinct(pbc, shp=africa$polys)
+#' plot_evoldistinct(pbc, shp=africa$polys)
 #' @export plot_evoldistinct
 plot_evoldistinct <- function (dat,
                                method = "average",
