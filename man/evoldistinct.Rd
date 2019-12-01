@@ -32,7 +32,7 @@ com <- matrix(c(1,0,1,1,0,0,
                 1,1,1,1,1,1,
                 0,0,1,1,0,1), 6, 4,
               dimnames=list(paste0("g",1:6), tree$tip.label))
-pbc <- phylobeta.core(com, tree)
+pbc <- phylobeta(com, tree)
 evoldistinct(pbc, k=3)
 }
 \references{

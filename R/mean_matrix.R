@@ -1,20 +1,20 @@
 #' Mean matrix from a set of pairwise distance matrices
-#' 
-#' This function generates the mean pairwise distance matrix from a set 
+#'
+#' This function generates the mean pairwise distance matrix from a set
 #' many pairwise distance matrices. Note: all matrices should be of the same dimension.
-#' 
-#' @param files list of pairwise distance matrices stored as CSVs or .rds 
+#'
+#' @param files list of pairwise distance matrices stored as CSVs or .rds
 #' with the same dimensions.
 #' @param tips list of site or grid names
 #' @rdname av.matrix
 #' @return average pairwise distance matrix
 #' @importFrom utils read.csv
-#' 
+#'
 #' @examples
 #' rm(list = ls())
 #' wd <- tempdir()
 #' setwd(wd)
-#' 
+#'
 #' ## Generate the sets of pairwise distance matrices
 #' require(ape)
 #' set.seed(1)
@@ -26,21 +26,21 @@
 #'                 1,1,1,1,1,1,
 #'                 0,0,1,1,0,1), 6, 4,
 #'               dimnames=list(paste0("g",1:6), paste0("t", 1:4)))
-#' 
-#' 
+#'
+#'
 #' for (i in 1:length(tree)) {
-#'   pbc <- phylobeta.core(com, tree[[i]])
+#'   pbc <- phylobeta(com, tree[[i]])
 #'   write.csv(pbc, file = xzfile(paste0("matrix", i, ".xz")))
 #' }
-#' 
+#'
 ## compute average pairwise distance matrix
 #' files <- list.files(wd, pattern="*.xz", full.names=TRUE)
 #' tr <- colnames(read.csv(files[1], row.names = 1, stringsAsFactors = FALSE))
 #' tr1 <- sort(tr)
 #' av.matrix(files, tr1)
 #' @export
-av.matrix <- function(files, 
-                        tips, 
+av.matrix <- function(files,
+                        tips,
                         verbose = TRUE, ...){
   if (verbose) {
     message("Generating average pairwise matrix from several matrices")

@@ -15,7 +15,8 @@ PD.sparse(x, phy)
 a vector with the PD for all samples.
 }
 \description{
-\code{PD.sparse} calculates Faith's phylogenetic diversity and much faster using sparse matrix.
+\code{PD.sparse} calculates Faith's phylogenetic diversity and much faster
+using sparse matrix.
 }
 \examples{
 library(ape)

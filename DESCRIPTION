@@ -8,7 +8,7 @@ Authors@R: c(person("Barnabas", "Daru", email= "darunabas@gmail.com", role = c("
 Description: Biogeographic regionalization and spatial conservation.
 Imports: ape, phangorn, Matrix, betapart, fastmatch, parallel, methods,
         Rdpack, raster, data.table, colorspace, cluster, rgeos, vegan,
-        magrittr, sp
+        magrittr, sp, maptools
 Suggests: testthat, tinytest
 RdMacros: Rdpack
 URL: https://github.com/darunabas/phyloregion

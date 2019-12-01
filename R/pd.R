@@ -1,6 +1,7 @@
 #' Phylogenetic diversity
 #'
-#' \code{PD.sparse} calculates Faith's phylogenetic diversity and much faster using sparse matrix.
+#' \code{PD.sparse} calculates Faith's phylogenetic diversity and much faster
+#' using sparse matrix.
 #'
 #' @param x a community matrix, i.e. an object of class matrix or Matrix.
 #' @param phy a phylogenetic tree (object of class phylo).

@@ -37,7 +37,7 @@ x <- sampl2sparse(africa$comm)
 subphy <- match_phylo_comm(tree, x)$phy
 submat <- match_phylo_comm(tree, x)$com
 
-pbc <- phylobeta.core(submat, subphy)
+pbc <- phylobeta(submat, subphy)
 plot_NMDS(pbc)
 }
 \author{

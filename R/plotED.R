@@ -88,7 +88,7 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
 #' subphy <- match_phylo_comm(tree, x)$phy
 #' submat <- match_phylo_comm(tree, x)$com
 #'
-#' pbc <- phylobeta.core(submat, subphy)
+#' pbc <- phylobeta(submat, subphy)
 #' plot_evoldistinct(pbc, shp=africa$polys)
 #' @export plot_evoldistinct
 plot_evoldistinct <- function (dat,

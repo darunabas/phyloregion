@@ -61,14 +61,15 @@ phylo_community <- function(x, phy){
 
 #' Phylogenetic beta diversity
 #'
-#' \code{beta.core} and \code{phylobeta.core} computes efficiently for
+#' \code{beta_diss} and \code{phylobeta_core} computes efficiently for
 #' large community matrices and trees the necessary quantities used by the
 #' betapart package to compute pairwise and multiple-site phylogenetic
 #' dissimilarities.
 #'
-#' @aliases phylobeta.core 
+#' @aliases phylobeta phylobeta_core
 #' @param x an object of class Matrix or matrix
 #' @param phy a phylogenetic tree (object of class phylo)
+#' @param index.family
 #'
 #' @keywords phyloregion
 #' @seealso read.community PD
@@ -80,13 +81,14 @@ phylo_community <- function(x, phy){
 #'                 1,1,1,1,1,1,
 #'                 0,0,1,1,0,1), 6, 4,
 #'               dimnames=list(paste0("g",1:6), tree$tip.label))
-#' pbc <- phylobeta.core(com, tree)
+#' pbc <- phylobeta_core(com, tree)
+#' pb <- phylobeta(com, tree)
 #'
-#' @rdname phylobeta.core
+#' @rdname phylobeta
 #' @importFrom fastmatch fmatch
 #' @importFrom betapart phylo.beta.multi phylo.beta.pair
-#' @export phylobeta.core
-phylobeta.core <- function(x, phy, index.family="sorensen", index="Simpson"){
+#' @export
+phylobeta_core <- function(x, phy){ #, index.family="sorensen", index="Simpson"
   x <- phylo_community(x, phy)
   l <- length(x)
   el <- attr(x, "edge.length")
@@ -124,20 +126,25 @@ phylobeta.core <- function(x, phy, index.family="sorensen", index="Simpson"){
               sum.not.shared = sum.not.shared,
               max.not.shared=max.not.shared, min.not.shared=min.not.shared)
   class(res) <- "phylo.betapart"
-  
+  res
+}
+
+
+#' @rdname phylobeta
+#' @export
+phylobeta <- function(x, phy, index.family="sorensen"){
+  res <- phylobeta_core(x, phy)
   p <- phylo.beta.pair(res, index.family = index.family)
-  
-  if (index == "Simpson") {
+  if (index.family == "simpson") {
     z <- as.matrix(p[[1]])
   }
-  else if (index == "Sorensen") {
+  else if (index.family == "sorensen") {
     z <- as.matrix(p[[3]])
   }
   else if (index.family == "jaccard") {
     z <- as.matrix(p[[3]])
   }
   return(z)
-  
 }
 
 
@@ -158,7 +165,7 @@ phylobeta.core <- function(x, phy, index.family="sorensen", index="Simpson"){
 #' example(plot.phyloregion)
 #' tree <- africa$phylo
 #' x <- sampl2sparse(africa$comm)
-#' 
+#'
 #' subphy <- match_phylo_comm(tree, x)$phy
 #' submat <- match_phylo_comm(tree, x)$com
 #' @importFrom ape keep.tip
@@ -183,14 +190,16 @@ match_phylo_comm <- function (phy, comm)
 }
 
 #' Taxonomic (non-phylogenetic) beta diversity
-#' @rdname beta.core
+#' @rdname beta_diss
+#' @param x an object of class Matrix or matrix.
+#' @param index.family family of dissimilarity indices, partial match of
+#' "sorensen" or "jaccard".
 #' @importFrom Matrix Matrix tcrossprod colSums
 #' @importFrom betapart beta.pair beta.multi
 #' @export
-## non_phylo version
-beta.core <- function (x, index.family="sorensen", index="Simpson") {
+## non phylogenetic version
+beta_core <- function (x) {
   if (!inherits(x, "Matrix")) x <- Matrix(x)
-
   shared <- as.matrix( tcrossprod(x) )# %*% t(x)
   not.shared <- abs(sweep(shared, 2, diag(shared)))
   sumSi <- sum(diag(shared))
@@ -204,18 +213,22 @@ beta.core <- function (x, index.family="sorensen", index="Simpson") {
                        max.not.shared = max.not.shared,
                        min.not.shared = min.not.shared)
   class(computations) <- "betapart"
+  computations
+}
 
+#' @rdname beta_diss
+#' @export
+beta_diss <- function(x, index.family="sorensen"){ #, index="Simpson"
+  computations <- beta_diss(x)
   p <- beta.pair(computations, index.family = index.family)
-  
-  if (index == "Simpson") {
+  if (index.family == "simpson") {
     res <- as.matrix(p[[1]])
   }
-  else if (index == "Sorensen") {
+  else if (index.family == "sorensen") {
     res <- as.matrix(p[[3]])
   }
   else if (index.family == "jaccard") {
     res <- as.matrix(p[[3]])
   }
   return(res)
-  
 }

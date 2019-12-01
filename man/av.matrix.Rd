@@ -7,7 +7,7 @@
 av.matrix(files, tips, verbose = TRUE, ...)
 }
 \arguments{
-\item{files}{list of pairwise distance matrices stored as CSVs or .rds 
+\item{files}{list of pairwise distance matrices stored as CSVs or .rds
 with the same dimensions.}
 
 \item{tips}{list of site or grid names}
@@ -16,7 +16,7 @@ with the same dimensions.}
 average pairwise distance matrix
 }
 \description{
-This function generates the mean pairwise distance matrix from a set 
+This function generates the mean pairwise distance matrix from a set
 many pairwise distance matrices. Note: all matrices should be of the same dimension.
 }
 \examples{
@@ -37,7 +37,7 @@ com <- matrix(c(1,0,1,1,0,0,
 
 
 for (i in 1:length(tree)) {
-  pbc <- phylobeta.core(com, tree[[i]])
+  pbc <- phylobeta(com, tree[[i]])
   write.csv(pbc, file = xzfile(paste0("matrix", i, ".xz")))
 }
 

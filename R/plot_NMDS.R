@@ -33,7 +33,7 @@
 #' subphy <- match_phylo_comm(tree, x)$phy
 #' submat <- match_phylo_comm(tree, x)$com
 #'
-#' pbc <- phylobeta.core(submat, subphy)
+#' pbc <- phylobeta(submat, subphy)
 #' plot_NMDS(pbc)
 #' @export plot_NMDS
 plot_NMDS <- function(x, k = 10, method = "average", ...){
