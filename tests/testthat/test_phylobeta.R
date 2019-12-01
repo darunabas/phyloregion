@@ -16,7 +16,7 @@ pd_bioregion <- PD.sparse(com, tree)
 pbc_phyloregion <- phylobeta.core(com, tree)
 
 data(africa)
-#fdir <- system.file("extdata", package = "bioregion")
+#fdir <- system.file("extdata", package = "phyloregion")
 comm <- africa$comm
 comm <- sampl2sparse(comm)
 tree <- africa$phylo

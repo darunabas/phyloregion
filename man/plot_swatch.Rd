@@ -51,7 +51,7 @@ Returns no value, just map swatch of colors in geographic space!
 }
 \examples{
 require(raster)
-s <- readRDS(system.file("nigeria/SR_Naija.rds", package= "bioregion"))
+s <- readRDS(system.file("nigeria/SR_Naija.rds", package= "phyloregion"))
 plot_swatch(s, values = s$SR, k=20)
 }
 \author{

@@ -22,7 +22,6 @@ legend <- function(y,
     a=y@bbox[3]+0.5
     b=y@bbox[4]-leg
   }
-
   X <- cbind(rep(a, length(cols)), rep(a, length(cols)))
   Y <- b + cbind(0:(length(cols) - 1)/length(cols), 1:length(cols)/length(cols)) *
     (leg)
@@ -74,7 +73,7 @@ legend <- function(y,
 #'
 #' @examples
 #' require(raster)
-#' s <- readRDS(system.file("nigeria/SR_Naija.rds", package= "bioregion"))
+#' s <- readRDS(system.file("nigeria/SR_Naija.rds", package= "phyloregion"))
 #' plot_swatch(s, values = s$SR, k=20)
 #' @export
 plot_swatch <- function (x,

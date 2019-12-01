@@ -11,7 +11,7 @@ hotspots(x, values, prob = 2.5, ...)
 
 \item{values}{Variable in the dataframe on which to compute hotspots analysis}
 
-\item{prob}{The threshold quantile for representing the highest proportion of biodiversity 
+\item{prob}{The threshold quantile for representing the highest proportion of biodiversity
 in an area. By default, the threshold is set to \code{prob = 2.5} percent.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
@@ -20,7 +20,7 @@ in an area. By default, the threshold is set to \code{prob = 2.5} percent.}
 Integers of 1s and 0s with 1 corresponding to the hotspots.
 }
 \description{
-\code{hotspots} map areas or grid cells with highest values for a biodiversity metric e.g. 
+\code{hotspots} map areas or grid cells with highest values for a biodiversity metric e.g.
 species richness, species endemism or degree of threat.
 }
 \examples{
@@ -42,20 +42,20 @@ plot(m[(m@data$hot==1),], col="red", add=TRUE, border=NA)
 plot.swatch(m, m$WE, k=20, pos = "bottomright")
 }
 \references{
-Myers, M., Mittermeier, R.A., Mittermeier, C.G., da Fonseca, G.A.B. & Kent, J. 
-(2000) Biodiversity hotspots for conservation priorities. \emph{Nature} 
+Myers, M., Mittermeier, R.A., Mittermeier, C.G., da Fonseca, G.A.B. & Kent, J.
+(2000) Biodiversity hotspots for conservation priorities. \emph{Nature}
 \strong{403}: 853–858.
 
-Ceballos, G. & Ehrlich, P.R. (2006) Global mammal distributions, biodiversity 
-hotspots, and conservation. \emph{Proceedings of the National Academy of 
+Ceballos, G. & Ehrlich, P.R. (2006) Global mammal distributions, biodiversity
+hotspots, and conservation. \emph{Proceedings of the National Academy of
 Sciences USA} \strong{103}: 19374–19379.
 
-Orme, C.D., Davies, R.G., Burgess, M., Eigenbrod, F., Pickup, N. et al. (2005) 
-Global hotspots of species richness are not congruent with endemism or 
+Orme, C.D., Davies, R.G., Burgess, M., Eigenbrod, F., Pickup, N. et al. (2005)
+Global hotspots of species richness are not congruent with endemism or
 threat. \emph{Nature} \strong{436}: 1016–1019.
 }
 \seealso{
-\code{\link[bioregion]{coldspots}}
+\code{\link{coldspots}}
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

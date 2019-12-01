@@ -2,15 +2,15 @@
 #'
 #' \code{mapTraits} add species trait values to species distribution in geographic space.
 #'
-#' @param x A community data object - a vector (with names matching trait data) 
+#' @param x A community data object - a vector (with names matching trait data)
 #' or a data.frame or matrix (with column names matching names in trait data)
-#' @param trait A data.frame of species traits with a column of species names 
+#' @param trait A data.frame of species traits with a column of species names
 #' matching species names in the community data, and another column with the trait values.
-#' @param FUN The function used to aggregate species trait values in geographic space. 
-#' By default, if \code{FUN = sum}, the sum of all species traits per area or grid cell 
+#' @param FUN The function used to aggregate species trait values in geographic space.
+#' By default, if \code{FUN = sum}, the sum of all species traits per area or grid cell
 #' is calculated.
 #' @param \dots Further arguments passed to or from other methods.
-#' 
+#'
 #' @rdname mapTraits
 #' @keywords phyloregion
 #' @importFrom raster values
@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' require(data.table)
-#' fdir <- system.file("NGAplants", package="bioregion")
+#' fdir <- system.file("NGAplants", package="phyloregion")
 #' files <- file.path(fdir, dir(fdir))
 #' dat <- data.frame(raster2comm(files))
 #' dd <- data.frame(table(dat$species))

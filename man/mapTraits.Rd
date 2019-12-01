@@ -7,14 +7,14 @@
 mapTraits(x, trait, FUN = sum, ...)
 }
 \arguments{
-\item{x}{A community data object - a vector (with names matching trait data) 
+\item{x}{A community data object - a vector (with names matching trait data)
 or a data.frame or matrix (with column names matching names in trait data)}
 
-\item{trait}{A data.frame of species traits with a column of species names 
+\item{trait}{A data.frame of species traits with a column of species names
 matching species names in the community data, and another column with the trait values.}
 
-\item{FUN}{The function used to aggregate species trait values in geographic space. 
-By default, if \code{FUN = sum}, the sum of all species traits per area or grid cell 
+\item{FUN}{The function used to aggregate species trait values in geographic space.
+By default, if \code{FUN = sum}, the sum of all species traits per area or grid cell
 is calculated.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
@@ -27,7 +27,7 @@ A data frame of species traits by site.
 }
 \examples{
 require(data.table)
-fdir <- system.file("NGAplants", package="bioregion")
+fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
 dat <- data.frame(raster2comm(files))
 dd <- data.frame(table(dat$species))

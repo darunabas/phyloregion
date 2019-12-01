@@ -29,7 +29,7 @@ sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
 #' \insertRef{Philips2006}{bioregion}
 #'
 #' @examples
-#' fdir <- system.file("Aloes", package="bioregion")
+#' fdir <- system.file("Aloes", package="phyloregion")
 #' files <- file.path(fdir, dir(fdir))
 #' res <- raster2comm(files)
 sdm <- function(x) {
