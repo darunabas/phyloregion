@@ -47,7 +47,7 @@ of the legend.}
 Returns no value, just map swatch of colors in geographic space!
 }
 \description{
-\code{plot.swatch} maps discretized values of a quantity based on their quantiles.
+\code{plot_swatch} maps discretized values of a quantity based on their quantiles.
 }
 \examples{
 require(raster)

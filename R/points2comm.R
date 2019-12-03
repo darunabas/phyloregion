@@ -44,7 +44,7 @@
 #' m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 #' pts <- points2comm(dat = m, mask = s, res = 0.5, lon="lon", lat="lat", species="taxon")
 #'
-#' plot.swatch(pts$poly_shp, values = pts$poly_shp$richness, k=10)
+#' plot_swatch(pts$poly_shp, values = pts$poly_shp$richness, k=10)
 #' @export
 points2comm <- function(dat,
                         mask,

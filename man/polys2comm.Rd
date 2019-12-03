@@ -14,14 +14,14 @@ polys2comm(
 )
 }
 \arguments{
-\item{dat}{layers of merged maps corresponding to species ranges from 
+\item{dat}{layers of merged maps corresponding to species ranges from
 which the geometries or attributes are queried.}
 
 \item{res}{the grain size of the grid cells in degrees.}
 
 \item{shp.grids}{if specified, the polygon shapefile of grid cells}
 
-\item{species}{a character string. The column with the species or taxon name. 
+\item{species}{a character string. The column with the species or taxon name.
 Default = \dQuote{species}.
 with a column labeled "grids"}
 
@@ -36,7 +36,7 @@ with a column labeled "grids"}
 }
 }
 \description{
-This function performs spatial overlays of polygons with polygons 
+This function performs spatial overlays of polygons with polygons
 to generate a community matrix
 }
 \examples{
@@ -47,12 +47,12 @@ p2 <- Polygons(list(Polygon(rbind(c(-10,0), c(140,60), c(160,0),
                                   c(140,-55), c(-10,0)))), 2)
 p3 <- Polygons(list(Polygon(rbind(c(-125,0), c(0,60), c(40,5),
                                   c(15,-45), c(-125,0)))), 3)
-sp <- SpatialPolygons( list( p1 , p2, p3), 
+sp <- SpatialPolygons( list( p1 , p2, p3),
                        proj4string=CRS('+proj=longlat +ellps=WGS84 +datum=WGS84'))
 sp <- SpatialPolygonsDataFrame(sp, data.frame(Species=c("sp1", "sp2", "sp3")))
 
-pol <- polys2comm(dat = sp, species="Species") 
-plot.swatch(pol$poly_shp, values = pol$poly_shp$richness, k=10)
+pol <- polys2comm(dat = sp, species="Species")
+plot_swatch(pol$poly_shp, values = pol$poly_shp$richness, k=10)
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

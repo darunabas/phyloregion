@@ -24,7 +24,7 @@ Endm <- weighted.endemism(africa$comm)
 m <- merge(africa$polys, Endm, by="grids")
 m <- m[!is.na(m@data$WE),]
 
-plot.swatch(m, values = m$WE, k=20)
+plot_swatch(m, values = m$WE, k=20)
 
 }
 \references{

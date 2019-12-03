@@ -11,6 +11,8 @@ av.matrix(files, tips, verbose = TRUE, ...)
 with the same dimensions.}
 
 \item{tips}{list of site or grid names}
+
+\item{...}{Further arguments passed to or from other methods.}
 }
 \value{
 average pairwise distance matrix

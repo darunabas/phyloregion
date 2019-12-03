@@ -47,7 +47,7 @@
 #' plot(africa$polys, border="grey", col="lightgrey", main="Endemism Hotspots")
 #' plot(m[(m@data$hot==1),], col="red", add=TRUE, border=NA)
 #'
-#' plot.swatch(m, m$WE, k=20, pos = "bottomright")
+#' plot_swatch(m, m$WE, k=20, pos = "bottomright")
 
 #' @export hotspots
 hotspots <- function(x, values, prob = 2.5, ...){

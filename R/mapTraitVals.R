@@ -32,6 +32,7 @@
 #' gg <- mapTraits(dat, trait = trait_range, FUN = sd)
 #' @export mapTraits
 mapTraits <- function(x, trait, FUN = sum, ...){
+  grids <- NULL
   ind1 <- intersect(x$species, names(trait))
   if(length(ind1)>0){
     submat <- x[x$species %in% ind1,]

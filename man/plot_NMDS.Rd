@@ -26,10 +26,6 @@ Returns no value, just plot the bioregions
 This function plots clusters of cells in NMDS space.
 }
 \examples{
-x <- c("phyloregion", "raster", "Matrix", "ape", "betapart",
-"rgeos", "vegan", "colorspace")
-lapply(x, require, character.only = TRUE) # load the required packages
-
 data(africa)
 tree <- africa$phylo
 x <- sampl2sparse(africa$comm)

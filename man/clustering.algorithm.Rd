@@ -18,23 +18,23 @@ clustering.algorithm(
 
 \item{rot_angle}{rotation angle of the barplot x-axis labels.}
 
-\item{cex}{character (or symbol) expansion: a numerical vector for 
+\item{cex}{character (or symbol) expansion: a numerical vector for
 the size of the x-axis labels}
 
 \item{\dots}{arguments passed among methods.}
 }
 \value{
 \itemize{
-  \item A numeric value corresponding to the good clustering algorithm 
+  \item A numeric value corresponding to the good clustering algorithm
   for the distance matrix
   \item If plot = TRUE, a barplot of cophenetic correlation for all
   the clustering algorithms is drawn.
 }
 }
 \description{
-This function contrasts different hierarchical clustering algorithms 
-on the phylogenetic beta diversity matrix for degree of 
-data distortion using Sokal & Rohlf’s (1962) cophenetic 
+This function contrasts different hierarchical clustering algorithms
+on the phylogenetic beta diversity matrix for degree of
+data distortion using Sokal & Rohlf’s (1962) cophenetic
 correlation coefficient.
 }
 \examples{
@@ -43,11 +43,11 @@ data(africa)
 tree <- africa$phylo
 M <- sampl2sparse(africa$comm, method = "nonphylo")
 
-bc <- beta.core(M)
+bc <- beta_diss(M)
 clustering.algorithm(bc, plot = TRUE)
 }
 \references{
-Sokal, R.R. & Rohlf, F.J. (1962) The comparison of dendrograms by 
+Sokal, R.R. & Rohlf, F.J. (1962) The comparison of dendrograms by
 objective methods. \emph{Taxon} \strong{11}: 33–40.
 }
 \keyword{bioregion}

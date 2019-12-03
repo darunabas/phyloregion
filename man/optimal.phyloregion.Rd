@@ -9,16 +9,16 @@ optimal.phyloregion(x, method = "average", k = 20, verbose = TRUE)
 \arguments{
 \item{x}{a numeric matrix, data frame or \dQuote{dist} object.}
 
-\item{method}{the agglomeration method to be used. This should 
-be (an unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, 
-\dQuote{single}, \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA), 
+\item{method}{the agglomeration method to be used. This should
+be (an unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2},
+\dQuote{single}, \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA),
 \dQuote{median} (= WPGMC) or \dQuote{centroid} (= UPGMC).}
 
-\item{k}{numeric, the upper bound of the number of clusters to 
+\item{k}{numeric, the upper bound of the number of clusters to
 compute. DEFAULT: 20 or the number of observations (if less than 20).}
 }
 \value{
-a list containing the following as returned from the GMD 
+a list containing the following as returned from the GMD
 package (Zhao et al. 2011):
 \itemize{
   \item \code{k}:	optimal number of clusters (bioregions)
@@ -28,8 +28,8 @@ package (Zhao et al. 2011):
 }
 }
 \description{
-This function divides the hierarchical dendrogram into meaningful 
-clusters ("phyloregions"), based on the ‘elbow’ or ‘knee’ of 
+This function divides the hierarchical dendrogram into meaningful
+clusters ("phyloregions"), based on the ‘elbow’ or ‘knee’ of
 an evaluation graph that corresponds to the point of optimal curvature.
 }
 \examples{
@@ -37,7 +37,7 @@ data(africa)
 tree <- africa$phylo
 M <- sampl2sparse(africa$comm, method = "nonphylo")
 
-bc <- beta.core(M)
+bc <- beta_diss(M)
 (d <- optimal.phyloregion(bc))
 plot(d$df$k, d$df$ev, ylab = "Explained variances", xlab = "Number of clusters")
 lines(d$df$k[order(d$df$k)], d$df$ev[order(d$df$k)],pch=1)
@@ -45,14 +45,14 @@ points(d$optimal$k, d$optimal$ev, pch=21, bg="red", cex=3)
 points(d$optimal$k, d$optimal$ev, pch=21, bg="red", type = "h")
 }
 \references{
-Salvador, S. & Chan, P. (2004) \emph{Determining the number of 
-clusters/segments in hierarchical clustering/segmentation algorithms}. 
-Proceedings of the Sixteenth IEEE International Conference on Tools 
-with Artificial Intelligence, pp. 576–584. Institute of Electrical 
+Salvador, S. & Chan, P. (2004) \emph{Determining the number of
+clusters/segments in hierarchical clustering/segmentation algorithms}.
+Proceedings of the Sixteenth IEEE International Conference on Tools
+with Artificial Intelligence, pp. 576–584. Institute of Electrical
 and Electronics Engineers, Piscataway, New Jersey, USA.
 
-Zhao, X., Valen, E., Parker, B.J. & Sandelin, A. (2011) Systematic 
-clustering of transcription start site landscapes. 
+Zhao, X., Valen, E., Parker, B.J. & Sandelin, A. (2011) Systematic
+clustering of transcription start site landscapes.
 \emph{PLoS ONE} \strong{6}: e23409.
 }
 \keyword{phyloregion}

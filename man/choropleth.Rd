@@ -9,14 +9,12 @@ choropleth(x, values, k = 10, ...)
 \arguments{
 \item{x}{A data frame or object of the class SpatialPolygonsDataFrame}
 
-\item{values}{Variable in the SpatialPolygonsDataFrame for which to discretize 
+\item{values}{Variable in the SpatialPolygonsDataFrame for which to discretize
 the values of the quantity.}
 
 \item{k}{Numeric, the desired number of bins to discretize.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
-
-\item{style}{one of \dQuote{equal}, \dQuote{pretty}, or \dQuote{quantile}.}
 }
 \value{
 {returns a SpatialPolygonsDataFrame with a column of the discretized values}
@@ -28,7 +26,7 @@ the values of the quantity.}
 require(raster)
 s <- readRDS(system.file("nigeria/SR_Naija.rds", package= "phyloregion"))
 k=10
-COLOUR <- hcl.colors(k, "RdYlBu") 
+COLOUR <- hcl.colors(k, "RdYlBu")
 y = choropleth(s, values=s$SR, k)
 
 ## To plot and color according to some metric:

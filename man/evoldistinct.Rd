@@ -15,6 +15,8 @@ evoldistinct(x, k = 10, method = "average", ...)
 unambiguous abbreviation of) one of "ward.D", "ward.D2", "single",
 "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or
 "centroid" (= UPGMC).}
+
+\item{...}{Further arguments passed to or from other methods.}
 }
 \value{
 \item{psim}{A bioregion × bioregion phylogenetic beta diversity distance matrix}

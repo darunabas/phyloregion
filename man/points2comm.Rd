@@ -61,7 +61,7 @@ species <- paste0("sp", sample(1:1000))
 m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 pts <- points2comm(dat = m, mask = s, res = 0.5, lon="lon", lat="lat", species="taxon")
 
-plot.swatch(pts$poly_shp, values = pts$poly_shp$richness, k=10)
+plot_swatch(pts$poly_shp, values = pts$poly_shp$richness, k=10)
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

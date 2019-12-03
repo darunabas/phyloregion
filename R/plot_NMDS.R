@@ -21,11 +21,6 @@
 #' @inheritParams evoldistinct
 #' @author Barnabas H. Daru
 #' @examples
-
-#' x <- c("phyloregion", "raster", "Matrix", "ape", "betapart",
-#' "rgeos", "vegan", "colorspace")
-#' lapply(x, require, character.only = TRUE) # load the required packages
-#'
 #' data(africa)
 #' tree <- africa$phylo
 #' x <- sampl2sparse(africa$comm)

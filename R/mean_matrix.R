@@ -6,6 +6,7 @@
 #' @param files list of pairwise distance matrices stored as CSVs or .rds
 #' with the same dimensions.
 #' @param tips list of site or grid names
+#' @param ... Further arguments passed to or from other methods.
 #' @rdname av.matrix
 #' @return average pairwise distance matrix
 #' @importFrom utils read.csv

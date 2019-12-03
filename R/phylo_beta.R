@@ -45,7 +45,7 @@ phylo_community <- function(x, phy){
   if(is.matrix(x) | is(x, "sparseMatrix")){
     x <- as.splits(x)
   }
-#  x <- phangorn::changeOrder(x, phy$tip.label)
+  #  x <- phangorn::changeOrder(x, phy$tip.label)
   if(is.character(x) | is.numeric(x))  y <- list(phylo_com(x, phy))
   if(is.list(x)){
     y <- lapply(x, function(x, phy)phylo_com(x, phy), phy)
@@ -69,8 +69,8 @@ phylo_community <- function(x, phy){
 #' @aliases phylobeta phylobeta_core
 #' @param x an object of class Matrix or matrix
 #' @param phy a phylogenetic tree (object of class phylo)
-#' @param index.family
-#'
+#' @param index.family family of dissimilarity indices, partial match of
+#' "sorensen" or "jaccard".
 #' @keywords phyloregion
 #' @seealso read.community PD
 #' @examples
@@ -162,7 +162,7 @@ phylobeta <- function(x, phy, index.family="sorensen"){
 #' @param comm A (sparse) community data matrix
 #' @keywords bioregion
 #' @examples
-#' example(plot.phyloregion)
+#' data(africa)
 #' tree <- africa$phylo
 #' x <- sampl2sparse(africa$comm)
 #'
@@ -219,7 +219,7 @@ beta_core <- function (x) {
 #' @rdname beta_diss
 #' @export
 beta_diss <- function(x, index.family="sorensen"){ #, index="Simpson"
-  computations <- beta_diss(x)
+  computations <- beta_core(x)
   p <- beta.pair(computations, index.family = index.family)
   if (index.family == "simpson") {
     res <- as.matrix(p[[1]])

@@ -7,10 +7,12 @@
 getClusters(tree, cut = 2, ...)
 }
 \arguments{
-\item{tree}{is a dated phylogenetic tree with branch lengths stored 
+\item{tree}{is a dated phylogenetic tree with branch lengths stored
 as a phylo object (as in the \code{ape} package).}
 
 \item{cut}{the slice time}
+
+\item{...}{Further arguments passed to or from other methods.}
 }
 \value{
 A list of descendants
@@ -24,10 +26,10 @@ data(bird.orders)
 plot(bird.orders)
 axisPhylo(side = 1)
 abline(v=23)
-getClusters(tree, 5)
+getClusters(bird.orders, 23)
 }
 \references{
-Schliep, K.P. (2010) phangorn: phylogenetic analysis in 
+Schliep, K.P. (2010) phangorn: phylogenetic analysis in
 R. \emph{Bioinformatics} \strong{27}: 592–593.
 }
 \keyword{bioregion}

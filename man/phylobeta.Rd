@@ -14,7 +14,8 @@ phylobeta(x, phy, index.family = "sorensen")
 
 \item{phy}{a phylogenetic tree (object of class phylo)}
 
-\item{index.family}{}
+\item{index.family}{family of dissimilarity indices, partial match of
+"sorensen" or "jaccard".}
 }
 \description{
 \code{beta_diss} and \code{phylobeta_core} computes efficiently for

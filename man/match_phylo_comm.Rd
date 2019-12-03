@@ -21,7 +21,7 @@ Based on the function of the same name in picante but allows sparse matrices
 and with taxa addition.
 }
 \examples{
-example(plot.phyloregion)
+data(africa)
 tree <- africa$phylo
 x <- sampl2sparse(africa$comm)
 

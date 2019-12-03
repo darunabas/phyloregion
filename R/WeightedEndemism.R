@@ -35,10 +35,11 @@
 #' m <- merge(africa$polys, Endm, by="grids")
 #' m <- m[!is.na(m@data$WE),]
 #'
-#' plot.swatch(m, values = m$WE, k=20)
+#' plot_swatch(m, values = m$WE, k=20)
 #'
 #' @export weighted.endemism
 weighted.endemism <- function(x){
+  WE <- grids <- V1 <- NULL
   tmp <- .SpecRich(x)
   index <- match(x$grids, tmp$grids)
   SR <- tmp$SR[index]

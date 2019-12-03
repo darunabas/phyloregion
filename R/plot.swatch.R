@@ -40,7 +40,7 @@ legend <- function(y,
 
 #' Plot shapefile polygons based on slot values
 #'
-#' \code{plot.swatch} maps discretized values of a quantity based on their quantiles.
+#' \code{plot_swatch} maps discretized values of a quantity based on their quantiles.
 #'
 #' @param x A data frame or object of the class SpatialPolygonsDataFrame
 #' @param values Variable in the SpatialPolygonsDataFrame for which to discretize
@@ -76,19 +76,12 @@ legend <- function(y,
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package= "phyloregion"))
 #' plot_swatch(s, values = s$SR, k=20)
 #' @export
-plot_swatch <- function (x,
-                         values,
-                         k = 10,
-                         swatch = "Blue-Red 3",
-                         lab="",
-                         leg=5,
-                         lwd=15,
-                         pos="bottomright",
-                         legend = TRUE, ...)
+plot_swatch <- function(x, values, k = 10, swatch = "Blue-Red 3", lab="",
+                         leg=5, lwd=15, pos="bottomright", legend=TRUE, ...)
 {
   x$values <- values
   COLRS <- hcl.colors(k, swatch)
-  y <- choropleth(x, values, k, style = style)
+  y <- choropleth(x, values, k) #, style = style
   plot(y, col = COLRS[y$values], border = NA)
   if(legend) {
     legend(y, COLRS, vals=values, lab=lab, pos=pos, leg=leg, lwd=lwd)

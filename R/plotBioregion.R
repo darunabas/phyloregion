@@ -13,7 +13,7 @@
 #' (as in the \code{GMD} package).
 #' @param border color of the border.
 #' @param ... graphical parameters to plot
-#' @rdname plot.phyloregion
+#' @rdname plot_phyloregion
 #' @return Returns no value, just plot the bioregions
 #' @importFrom stats hclust cutree
 #' @importFrom rgeos gUnaryUnion

@@ -53,14 +53,14 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
 #' @param title a character string indicating the caption to be placed on top
 #' of the legend.
 #' @param \dots arguments passed among methods.
-#' @rdname plot.evoldistinct
+#' @rdname plot_evoldistinct
 #' @return Returns no value, just plot the evolutionary distinctiveness of bioregions
 #' @importFrom stats hclust cutree
 #' @importFrom rgeos gUnaryUnion
 #' @importFrom sp SpatialPolygonsDataFrame merge
 #' @importFrom sp CRS proj4string
 #' @importFrom raster text
-#' @importFrom graphics legend par points rect segments strheight strwidth text xinch yinch plot
+#' @importFrom graphics legend par points rect segments strheight strwidth text xinch yinch plot lines
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
 ## @method plot default
 #'
@@ -128,7 +128,7 @@ plot_evoldistinct <- function (dat,
   m1 <- sp::merge(region, ED[[1]], by = "cluster")
   proj4string(m1) = proj4string(shp)
   COLRS <- rev(hcl.colors(k, swatch))
-  y <- choropleth(m1, m1$ED, k, style = style)
+  y <- choropleth(m1, m1$ED, k) #, style = style
   plot(y, col = COLRS[y$values], border = border, ...)
   text(y, labels = as.character(y$cluster), cex = cex)
   if(legend){

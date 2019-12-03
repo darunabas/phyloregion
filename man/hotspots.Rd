@@ -39,7 +39,7 @@ par(mar = rep(0, 4))
 plot(africa$polys, border="grey", col="lightgrey", main="Endemism Hotspots")
 plot(m[(m@data$hot==1),], col="red", add=TRUE, border=NA)
 
-plot.swatch(m, m$WE, k=20, pos = "bottomright")
+plot_swatch(m, m$WE, k=20, pos = "bottomright")
 }
 \references{
 Myers, M., Mittermeier, R.A., Mittermeier, C.G., da Fonseca, G.A.B. & Kent, J.
