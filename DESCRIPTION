@@ -9,7 +9,7 @@ Description: Biogeographic regionalization and spatial conservation.
 Imports: ape, phangorn, Matrix, betapart, fastmatch, parallel, methods,
         Rdpack, raster, data.table, colorspace, cluster, rgeos, vegan,
         magrittr, sp, maptools
-Suggests: testthat, tinytest
+Suggests: tinytest
 RdMacros: Rdpack
 URL: https://github.com/darunabas/phyloregion
 BugReports: https://github.com/darunabas/phyloregion/issues
