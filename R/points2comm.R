@@ -24,7 +24,7 @@
 #' @importFrom sp coordinates<- over CRS proj4string merge
 #' @importFrom sp coordinates<- CRS proj4string<-
 #' @importFrom stats complete.cases
-#' @inheritParams fishnet
+## @inheritParams fishnet
 #'
 #' @return
 #' \itemize{

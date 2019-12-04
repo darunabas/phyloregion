@@ -4,14 +4,7 @@
 \alias{polys2comm}
 \title{Overlay of polygons to community matrix}
 \usage{
-polys2comm(
-  dat,
-  res = 1,
-  shp.grids = NULL,
-  species = "species",
-  verbose = TRUE,
-  ...
-)
+polys2comm(dat, res = 1, shp.grids = NULL, species = "species", ...)
 }
 \arguments{
 \item{dat}{layers of merged maps corresponding to species ranges from
@@ -26,8 +19,6 @@ Default = \dQuote{species}.
 with a column labeled "grids"}
 
 \item{\dots}{Further arguments passed to or from other methods.}
-
-\item{mask}{a polygon shapefile covering the boundary of the survey region.}
 }
 \value{
 \itemize{
@@ -40,7 +31,8 @@ This function performs spatial overlays of polygons with polygons
 to generate a community matrix
 }
 \examples{
-require(raster)
+library(raster)
+# generate some example data
 p1 <- Polygons(list(Polygon(rbind(c(-180,-20), c(-140,55), c(10, 0),
                                   c(-140,-60), c(-180,-20)))), 1)
 p2 <- Polygons(list(Polygon(rbind(c(-10,0), c(140,60), c(160,0),
@@ -48,8 +40,9 @@ p2 <- Polygons(list(Polygon(rbind(c(-10,0), c(140,60), c(160,0),
 p3 <- Polygons(list(Polygon(rbind(c(-125,0), c(0,60), c(40,5),
                                   c(15,-45), c(-125,0)))), 3)
 sp <- SpatialPolygons( list( p1 , p2, p3),
-                       proj4string=CRS('+proj=longlat +ellps=WGS84 +datum=WGS84'))
-sp <- SpatialPolygonsDataFrame(sp, data.frame(Species=c("sp1", "sp2", "sp3")))
+                proj4string=CRS('+proj=longlat +ellps=WGS84 +datum=WGS84'))
+sp <- SpatialPolygonsDataFrame(sp,
+                data.frame(Species=c("sp1", "sp2", "sp3")))
 
 pol <- polys2comm(dat = sp, species="Species")
 plot_swatch(pol$poly_shp, values = pol$poly_shp$richness, k=10)
