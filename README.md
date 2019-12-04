@@ -29,7 +29,7 @@ Then install the `phyloregion` package from github:
 ```
 Load the `phyloregion` package:
 ```{r, echo=TRUE}
-library(bioregion)
+library(phyloregion)
 ```
 Although the package's strong focus is for mapping biodiversity patterns, we will draw from other packages including: `raster`, `Matrix`, `ape`, `data.table` and `rgeos`.
 
