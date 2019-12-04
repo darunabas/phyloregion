@@ -41,10 +41,6 @@ This function plots clusters of cells i.e \sQuote{phyloregions} or \sQuote{biore
 geographic space based on turnover of species or phylogenetic lineages.
 }
 \examples{
-x <- c("phyloregion", "raster", "Matrix", "ape", "betapart",
-"rgeos", "vegan", "colorspace")
-lapply(x, require, character.only = TRUE) # load the required packages
-
 data(africa)
 tree <- africa$phylo
 x <- sampl2sparse(africa$comm)

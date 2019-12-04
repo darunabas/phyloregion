@@ -4,26 +4,20 @@
 \alias{sampl2sparse}
 \title{Convert community data to sparse matrix.}
 \usage{
-sampl2sparse(
-  dat,
-  grids = "grids",
-  species = "species",
-  method = "phylo",
-  verbose = TRUE
-)
+sampl2sparse(dat, grids = "grids", species = "species", method = "phylo")
 }
 \arguments{
-\item{dat}{A community data frame with two columns, grids and species 
+\item{dat}{A community data frame with two columns, grids and species
 (or taxa)}
 
-\item{method}{one of "phylo" (the default) corresponding to phylogenetic 
+\item{method}{one of "phylo" (the default) corresponding to phylogenetic
 beta diversity, or "nonphylo" for beta diversity.}
 }
 \value{
 A compressed sparse community matrix of sites by species
 }
 \description{
-This function converts community data frame to compressed sparse matrix. 
+This function converts community data frame to compressed sparse matrix.
 It is especially developed for handling big data.
 }
 \examples{

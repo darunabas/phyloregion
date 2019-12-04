@@ -32,8 +32,8 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
 
 #' Map evolutionary distinctiveness of phyloregions in space
 #'
-#' This function maps evolutionary distinctiveness of bioregions based on the mean
-#' value of phylogenetic beta diversity between a focal bioregion and all
+#' This function maps evolutionary distinctiveness of bioregions based on the
+#' mean value of phylogenetic beta diversity between a focal bioregion and all
 #' other bioregions in the study area.
 #' @param dat a pairwise matrix of beta diversity (phylo or non-phylo).
 #' @param shp a polygon shapefile of grid cells.
@@ -77,10 +77,6 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
 #' Daru, B.H., Elliott, T.L., Park, D.S. & Davies, T.J. (2017) Understanding the processes underpinning patterns of phylogenetic
 #' regionalization. \emph{Trends in Ecology and Evolution} \strong{32}: 845-860.
 #' @examples
-#' x <- c("phyloregion", "raster", "Matrix", "ape", "betapart",
-#' "rgeos", "vegan", "colorspace")
-#' lapply(x, require, character.only = TRUE) # load the required packages
-#'
 #' data(africa)
 #' tree <- africa$phylo
 #' x <- sampl2sparse(africa$comm)

@@ -40,10 +40,6 @@
 #' Daru, B.H., Elliott, T.L., Park, D.S. & Davies, T.J. (2017) Understanding the processes underpinning patterns of phylogenetic
 #' regionalization. \emph{Trends in Ecology and Evolution} \strong{32}: 845-860.
 #' @examples
-#' x <- c("phyloregion", "raster", "Matrix", "ape", "betapart",
-#' "rgeos", "vegan", "colorspace")
-#' lapply(x, require, character.only = TRUE) # load the required packages
-#'
 #' data(africa)
 #' tree <- africa$phylo
 #' x <- sampl2sparse(africa$comm)
@@ -58,18 +54,14 @@
 
 plot_phyloregion <- function(dat, shp, method="average", k=15, border=NA, cex=1,
                              ...){
-
   # checks
   if(!inherits(dat,"matrix")){
     stop("dat must be of class 'matrix'")
   }
   P <- dat
   Q <- as.dist(P)
-
   P1 <- hclust(Q, method=method)
-
   g <- cutree(P1, k)
-
   dx <- data.frame(cluster=g)
 
   dx <- data.frame(grids = row.names(dx), dx)

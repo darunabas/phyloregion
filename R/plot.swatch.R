@@ -65,9 +65,7 @@ legend <- function(y,
 #' @importFrom sp plot
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
 #' @importFrom stats median
-#'
 #' @inheritParams choropleth
-#'
 #' @return Returns no value, just map swatch of colors in geographic space!
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #'

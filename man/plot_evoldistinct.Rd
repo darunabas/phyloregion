@@ -54,15 +54,11 @@ of the legend.}
 Returns no value, just plot the evolutionary distinctiveness of bioregions
 }
 \description{
-This function maps evolutionary distinctiveness of bioregions based on the mean
-value of phylogenetic beta diversity between a focal bioregion and all
+This function maps evolutionary distinctiveness of bioregions based on the
+mean value of phylogenetic beta diversity between a focal bioregion and all
 other bioregions in the study area.
 }
 \examples{
-x <- c("phyloregion", "raster", "Matrix", "ape", "betapart",
-"rgeos", "vegan", "colorspace")
-lapply(x, require, character.only = TRUE) # load the required packages
-
 data(africa)
 tree <- africa$phylo
 x <- sampl2sparse(africa$comm)
