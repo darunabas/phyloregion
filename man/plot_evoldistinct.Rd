@@ -46,9 +46,6 @@ the code{grDevices} package.}
 \item{border}{color of the border.}
 
 \item{\dots}{arguments passed among methods.}
-
-\item{title}{a character string indicating the caption to be placed on top
-of the legend.}
 }
 \value{
 Returns no value, just plot the evolutionary distinctiveness of bioregions

@@ -12,7 +12,7 @@
 #' @param mask a polygon shapefile covering the boundary of the survey region.
 #' @param res the grain size of the grid cells in degrees.
 #' @param lon character with the column name of the longitude.
-#' @param lon character with the column name of the lattitude.
+#' @param lat character with the column name of the lattitude.
 #' @param shp.grids if specified, the polygon shapefile of grid cells
 #' with a column labeled \dQuote{grids}.
 #' @param species a character string. The column with the species or taxon name.

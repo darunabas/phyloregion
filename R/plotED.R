@@ -50,8 +50,6 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
 #' @param legend logical indicating whether to add a legend to the map.
 #' @param pos location to position the legend such as \dQuote{bottomright},
 #' \dQuote{bottomleft}, \dQuote{topleft}, and \dQuote{topright}.
-#' @param title a character string indicating the caption to be placed on top
-#' of the legend.
 #' @param \dots arguments passed among methods.
 #' @rdname plot_evoldistinct
 #' @return Returns no value, just plot the evolutionary distinctiveness of bioregions

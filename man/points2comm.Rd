@@ -28,7 +28,9 @@ points2comm(
 
 \item{res}{the grain size of the grid cells in degrees.}
 
-\item{lon}{character with the column name of the lattitude.}
+\item{lon}{character with the column name of the longitude.}
+
+\item{lat}{character with the column name of the lattitude.}
 
 \item{species}{a character string. The column with the species or taxon name.
 Default = \dQuote{species}.}

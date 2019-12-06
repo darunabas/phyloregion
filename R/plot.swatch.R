@@ -55,8 +55,6 @@ legend <- function(y,
 #' \dQuote{bottomleft}, \dQuote{topleft}, and \dQuote{topright}.
 #'
 #' @param lwd numeric, line width of the legend.
-#' @param title a character string indicating the caption to be placed on top
-#' of the legend.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname plot_swatch
 #' @keywords visualization and mapping

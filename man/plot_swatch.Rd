@@ -39,9 +39,6 @@ the code{grDevices} package.}
 \item{legend}{logical indicating whether to add a legend to the map.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
-
-\item{title}{a character string indicating the caption to be placed on top
-of the legend.}
 }
 \value{
 Returns no value, just map swatch of colors in geographic space!

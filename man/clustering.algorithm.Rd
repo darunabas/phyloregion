@@ -16,10 +16,14 @@ clustering.algorithm(
 \arguments{
 \item{x}{a numeric matrix, data frame or "dist" object.}
 
+\item{plot}{logical if results should be plotted.}
+
 \item{rot_angle}{rotation angle of the barplot x-axis labels.}
 
 \item{cex}{character (or symbol) expansion: a numerical vector for
 the size of the x-axis labels}
+
+\item{col}{color of the plot.}
 
 \item{\dots}{arguments passed among methods.}
 }

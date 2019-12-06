@@ -6,9 +6,11 @@
 #' correlation coefficient.
 #'
 #' @param x a numeric matrix, data frame or "dist" object.
+#' @param plot logical if results should be plotted.
 #' @param rot_angle rotation angle of the barplot x-axis labels.
 #' @param cex character (or symbol) expansion: a numerical vector for
 #' the size of the x-axis labels
+#' @param col color of the plot.
 #' @param \dots arguments passed among methods.
 #' @rdname clustering.algorithm
 #' @keywords bioregion
