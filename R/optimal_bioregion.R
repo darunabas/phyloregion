@@ -246,7 +246,7 @@ elbow.batch <-
 #' \dQuote{median} (= WPGMC) or \dQuote{centroid} (= UPGMC).
 #' @param k numeric, the upper bound of the number of clusters to
 #' compute. DEFAULT: 20 or the number of observations (if less than 20).
-#'
+#' @param verbose logical; if TRUE, show even more when running example code.
 #' @rdname optimal.phyloregion
 #' @keywords phyloregion
 #' @importFrom stats hclust as.dist

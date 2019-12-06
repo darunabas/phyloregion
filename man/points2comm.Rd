@@ -12,7 +12,6 @@ points2comm(
   lat = "decimallatitude",
   species = "species",
   shp.grids = NULL,
-  verbose = TRUE,
   index = "taxon_richness",
   ...
 )
@@ -28,6 +27,8 @@ points2comm(
 \item{mask}{a polygon shapefile covering the boundary of the survey region.}
 
 \item{res}{the grain size of the grid cells in degrees.}
+
+\item{lon}{character with the column name of the lattitude.}
 
 \item{species}{a character string. The column with the species or taxon name.
 Default = \dQuote{species}.}

@@ -12,6 +12,8 @@ with the same dimensions.}
 
 \item{tips}{list of site or grid names}
 
+\item{verbose}{logical; if TRUE, show even more when running example code.}
+
 \item{...}{Further arguments passed to or from other methods.}
 }
 \value{

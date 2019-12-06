@@ -6,6 +6,7 @@
 #' @param files list of pairwise distance matrices stored as CSVs or .rds
 #' with the same dimensions.
 #' @param tips list of site or grid names
+#' @param verbose logical; if TRUE, show even more when running example code.
 #' @param ... Further arguments passed to or from other methods.
 #' @rdname av.matrix
 #' @return average pairwise distance matrix
@@ -21,7 +22,6 @@
 #' set.seed(1)
 #' tree <- read.tree(text ="((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
 #' tree <- rmtree(10, 4)
-
 #' com <- matrix(c(1,0,1,1,0,0,
 #'                1,0,0,1,1,0,
 #'                 1,1,1,1,1,1,
@@ -40,9 +40,7 @@
 #' tr1 <- sort(tr)
 #' av.matrix(files, tr1)
 #' @export
-av.matrix <- function(files,
-                        tips,
-                        verbose = TRUE, ...){
+av.matrix <- function(files, tips, verbose = TRUE, ...){
   if (verbose) {
     message("Generating average pairwise matrix from several matrices")
   }
