@@ -42,7 +42,6 @@ data distortion using Sokal & Rohlf’s (1962) cophenetic
 correlation coefficient.
 }
 \examples{
-require(betapart)
 data(africa)
 tree <- africa$phylo
 M <- sampl2sparse(africa$comm, method = "nonphylo")

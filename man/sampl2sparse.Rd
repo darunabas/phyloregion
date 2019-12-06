@@ -7,8 +7,11 @@
 sampl2sparse(dat, grids = "grids", species = "species", method = "phylo")
 }
 \arguments{
-\item{dat}{A community data frame with two columns, grids and species
-(or taxa)}
+\item{dat}{A community data frame with at least two columns, grids and species}
+
+\item{grids}{column name of the column containing grid cells}
+
+\item{species}{column name of the column containing  the species / taxa names}
 
 \item{method}{one of "phylo" (the default) corresponding to phylogenetic
 beta diversity, or "nonphylo" for beta diversity.}
@@ -21,7 +24,6 @@ This function converts community data frame to compressed sparse matrix.
 It is especially developed for handling big data.
 }
 \examples{
-require(data.table)
 fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
 x <- data.frame(raster2comm(files))

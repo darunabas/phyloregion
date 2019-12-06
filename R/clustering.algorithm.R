@@ -31,7 +31,6 @@
 #' }
 #'
 #' @examples
-#' require(betapart)
 #' data(africa)
 #' tree <- africa$phylo
 #' M <- sampl2sparse(africa$comm, method = "nonphylo")

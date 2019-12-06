@@ -1,4 +1,4 @@
-legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
+color_key <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
   if(pos=="bottomright"){
     a=y@bbox[3]+0.5
     b=y@bbox[2]
@@ -20,14 +20,10 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
                  1:length(cols)/length(cols)) * (leg)
   for (i in 1:length(cols)) lines(X[i, ], Y[i, ], col = cols[i],
                                   lwd = lwd, lend = 2)
-  text(x = a, y = b, round(min(vals), 3), pos = 4,
-       cex = 0.7) # lim texts
-  text(x = a, y = b+(leg/2), round(median(vals), 3), pos = 4,
-       cex = 0.7)
-  text(x = a, y = b+leg, round(max(vals), 3),
-       pos = 4, cex = 0.7)
-  text(x = a, y = b+leg, lab,
-       pos = 3, cex = 1)
+  text(x = a, y = b, round(min(vals), 3), pos = 4, cex = 0.7) # lim texts
+  text(x = a, y = b+(leg/2), round(median(vals), 3), pos = 4, cex = 0.7)
+  text(x = a, y = b+leg, round(max(vals), 3), pos = 4, cex = 0.7)
+  text(x = a, y = b+leg, lab, pos = 3, cex = 1)
 }
 
 #' Map evolutionary distinctiveness of phyloregions in space
@@ -44,12 +40,15 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
 #' @param k the optimal number of clusters derived from the elbow method
 #' (as in the \code{GMD} package).
 #' @param border color of the border.
-#' @param swatch name of the palette to generate colors from. The name is matched
-#' to the list of available color palettes from the code{hcl.colors} function in
-#' the code{grDevices} package.
+#' @param palette name of the palette to generate colors from. The name is matched
+#' to the list of available color palettes from the \code{hcl.colors} function in
+#' the \code{grDevices} package.
+#' @param key_label label for the color key
 #' @param legend logical indicating whether to add a legend to the map.
 #' @param pos location to position the legend such as \dQuote{bottomright},
 #' \dQuote{bottomleft}, \dQuote{topleft}, and \dQuote{topright}.
+#' @param leg parameter of the color key.
+#' @param lwd parameter of the color key.
 #' @param \dots arguments passed among methods.
 #' @rdname plot_evoldistinct
 #' @return Returns no value, just plot the evolutionary distinctiveness of bioregions
@@ -60,10 +59,6 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
 #' @importFrom raster text
 #' @importFrom graphics legend par points rect segments strheight strwidth text xinch yinch plot lines
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
-## @method plot default
-#'
-#' @inheritParams evoldistinct
-#' @inheritParams choropleth
 
 #' @author Barnabas H. Daru
 
@@ -85,23 +80,15 @@ legend <- function(y, cols, vals, lab="ED", leg=5, lwd=15, pos="bottomright") {
 #' pbc <- phylobeta(submat, subphy)
 #' plot_evoldistinct(pbc, shp=africa$polys)
 #' @export plot_evoldistinct
-plot_evoldistinct <- function (dat,
-                               method = "average",
-                               shp = shp,
-                               k = 10,
-                               cex = 1,
-                               swatch = "YlOrBr",
-                               pos = "bottomright",
-                               lab = "",
-                               legend = TRUE,
-                               border = NA,
-                               leg =5,
-                               lwd = 15, ...) {
+plot_evoldistinct <- function (dat, method = "average", shp = shp, k = 10,
+                               cex = 1, palette = "YlOrBr", pos = "bottomright",
+                               key_label = "", legend = TRUE, border = NA,
+                               leg =5, lwd = 15, ...) {
   if (!inherits(dat, "matrix")) {
     stop("dat must be of class 'matrix'")
   }
   P <- dat
-  Q = as.dist(P)
+  Q <- as.dist(P)
   P1 <- hclust(Q, method = method)
   g <- cutree(P1, k)
   dx <- data.frame(cluster = g)
@@ -121,11 +108,11 @@ plot_evoldistinct <- function (dat,
   names(ED[[1]])[2] <- "cluster"
   m1 <- sp::merge(region, ED[[1]], by = "cluster")
   proj4string(m1) = proj4string(shp)
-  COLRS <- rev(hcl.colors(k, swatch))
+  COLRS <- rev(hcl.colors(k, palette))
   y <- choropleth(m1, m1$ED, k) #, style = style
   plot(y, col = COLRS[y$values], border = border, ...)
   text(y, labels = as.character(y$cluster), cex = cex)
   if(legend){
-    legend(y,COLRS,vals = m1$ED,leg = leg,lwd = lwd,pos = pos,lab = lab)
+    color_key(y,COLRS,vals = m1$ED,leg = leg,lwd = lwd,pos = pos, lab = key_label)
   }
 }

@@ -8,8 +8,8 @@ plot_swatch(
   x,
   values,
   k = 10,
-  swatch = "Blue-Red 3",
-  lab = "",
+  palette = "Blue-Red 3",
+  key_label = "",
   leg = 5,
   lwd = 15,
   pos = "bottomright",
@@ -25,9 +25,11 @@ the values of the quantity.}
 
 \item{k}{Numeric, the desired number of bins to discretize.}
 
-\item{swatch}{name of the palette to generate colors from. The name is matched
-to the list of available color palettes from the code{hcl.colors} function in
-the code{grDevices} package.}
+\item{palette}{name of the palette to generate colors from. The name is matched
+to the list of available color palettes from the \code{hcl.colors} function
+in the \code{grDevices} package.}
+
+\item{key_label}{label for the color key}
 
 \item{leg}{Numeric, length of the legend}
 

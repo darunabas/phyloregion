@@ -10,9 +10,9 @@ plot_evoldistinct(
   shp = shp,
   k = 10,
   cex = 1,
-  swatch = "YlOrBr",
+  palette = "YlOrBr",
   pos = "bottomright",
-  lab = "",
+  key_label = "",
   legend = TRUE,
   border = NA,
   leg = 5,
@@ -34,16 +34,22 @@ of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA),
 
 \item{cex}{character (or symbol) expansion: a numerical vector.}
 
-\item{swatch}{name of the palette to generate colors from. The name is matched
-to the list of available color palettes from the code{hcl.colors} function in
-the code{grDevices} package.}
+\item{palette}{name of the palette to generate colors from. The name is matched
+to the list of available color palettes from the \code{hcl.colors} function in
+the \code{grDevices} package.}
 
 \item{pos}{location to position the legend such as \dQuote{bottomright},
 \dQuote{bottomleft}, \dQuote{topleft}, and \dQuote{topright}.}
 
+\item{key_label}{label for the color key}
+
 \item{legend}{logical indicating whether to add a legend to the map.}
 
 \item{border}{color of the border.}
+
+\item{leg}{parameter of the color key.}
+
+\item{lwd}{parameter of the color key.}
 
 \item{\dots}{arguments passed among methods.}
 }
