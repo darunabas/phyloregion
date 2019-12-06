@@ -56,7 +56,7 @@ polys2comm <- function(dat, res=1, shp.grids=NULL, species="species", ...){
   } else (m = shp.grids)
   proj4string(dat) <- proj4string(m)
   x <- mapply(cbind, sp::over(dat, m, returnList = TRUE),
-              dat@data$species, SIMPLIFY=F)
+              dat@data$species, SIMPLIFY=FALSE)
   y <- rbindlist(x)
   names(y) <- c("grids", "species")
   y <- y[complete.cases(y),]
