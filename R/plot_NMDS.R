@@ -12,7 +12,6 @@
 #' @param ... graphical parameters to plot
 #' @rdname plot_NMDS
 #' @return Returns no value, just plot the bioregions
-#' @importFrom colorspace hex2RGB
 #' @importFrom vegan metaMDS
 #' @importFrom graphics plot Axis box
 #' @keywords visualization and mapping

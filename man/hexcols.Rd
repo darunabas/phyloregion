@@ -10,7 +10,7 @@ hexcols(x)
 \item{x}{An object of class \code{\link[vegan]{metaMDS}}}
 }
 \value{
-A range of discrete colors differentiating between bioregions in 
+A range of discrete colors differentiating between bioregions in
 terms of their shared relationships.
 }
 \description{

@@ -1,4 +1,5 @@
-require(colorspace)
+#' @importFrom colorspace hex2RGB mixcolor polarLUV
+
 testcol <- vector()
 for(i in 0:199){
   testcol <- c(testcol, hex(mixcolor(i/199,polarLUV(70,50,30),polarLUV(70,50,120))))
@@ -38,13 +39,13 @@ rescale<-function(x,newrange) {
 #' A function to generate colors in Hue-Chroma-Luminance colour scheme for mapping bioregions.
 #'
 #' @param x An object of class \code{\link[vegan]{metaMDS}}
-#' 
+#'
 #' @rdname hexcols
 #'
 #' @keywords phyloregion
 #' @importFrom colorspace hex
 #' @export
-#' @return A range of discrete colors differentiating between bioregions in 
+#' @return A range of discrete colors differentiating between bioregions in
 #' terms of their shared relationships.
 #'
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
@@ -62,13 +63,13 @@ hexcols <- function(x){
   names(plotcols) <- as.character(1:k)
   rans <- c(max(x$points[,1])-min(x$points[,1]),
             max(x$points[,2])-min(x$points[,2]))
-  
+
   stan <- rans/max(rans)
   reord <- cbind(rescale(x$points[,1], c(stan[1],0)),
                  rescale(x$points[,2],c(stan[2],0)))  # rescale function in r stuff
   for(i in rownames(reord))
   {
-    plotcols[i] <- testcols[ceiling(reord[i,1]*199)+1,ceiling(reord[i,2]*199)+1]  
+    plotcols[i] <- testcols[ceiling(reord[i,1]*199)+1,ceiling(reord[i,2]*199)+1]
   }
   plotcols
 }
