@@ -24,13 +24,9 @@
 #' @importFrom sp CRS proj4string plot
 #' @importFrom raster text
 #' @importFrom graphics plot
-## @method plot default
 #' @keywords visualization and mapping
 #'
-#' @inheritParams evoldistinct
-
 #' @author Barnabas H. Daru
-
 #' @references
 #' Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H., Slingsby, J.A. & Davies, T.J. (2016) A novel phylogenetic
 #' regionalization of the phytogeographic zones of southern Africa reveals their hidden evolutionary affinities.

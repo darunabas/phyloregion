@@ -24,13 +24,14 @@ Integers of 1s and 0s with 1 corresponding to the hotspots.
 species richness, species endemism or degree of threat.
 }
 \examples{
-require(raster)
+library(raster)
 data(africa)
 names(africa)
 
 Endm <- weighted.endemism(africa$comm)
 
 H <- hotspots(Endm, values = Endm$WE)
+# Merge endemism values to shapefile of grid cells.
 m <- merge(africa$polys, H, by="grids")
 m <- m[!is.na(m@data$values),]
 

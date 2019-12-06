@@ -15,10 +15,7 @@
 #' @importFrom colorspace hex2RGB
 #' @importFrom vegan metaMDS
 #' @importFrom graphics plot Axis box
-## @method plot default
 #' @keywords visualization and mapping
-#'
-#' @inheritParams evoldistinct
 #' @author Barnabas H. Daru
 #' @examples
 #' data(africa)
