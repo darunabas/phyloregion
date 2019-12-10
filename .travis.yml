@@ -18,6 +18,7 @@ r_packages:
   - fastmatch
   - parallel
   - methods
+  - rgdal
   - raster
   - data.table
   - colorspace
