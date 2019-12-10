@@ -31,6 +31,7 @@ This function performs spatial overlays of polygons with polygons
 to generate a community matrix
 }
 \examples{
+\dontrun{
 library(raster)
 # generate some example data
 p1 <- Polygons(list(Polygon(rbind(c(-180,-20), c(-140,55), c(10, 0),
@@ -46,6 +47,7 @@ sp <- SpatialPolygonsDataFrame(sp,
 
 pol <- polys2comm(dat = sp, species="Species")
 plot_swatch(pol$poly_shp, values = pol$poly_shp$richness, k=10)
+}
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

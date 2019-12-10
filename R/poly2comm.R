@@ -27,6 +27,7 @@
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #'
 #' @examples
+#' \dontrun{
 #' library(raster)
 #' # generate some example data
 #' p1 <- Polygons(list(Polygon(rbind(c(-180,-20), c(-140,55), c(10, 0),
@@ -42,6 +43,7 @@
 #'
 #' pol <- polys2comm(dat = sp, species="Species")
 #' plot_swatch(pol$poly_shp, values = pol$poly_shp$richness, k=10)
+#' }
 #' @export
 polys2comm <- function(dat, res=1, shp.grids=NULL, species="species", ...){
   dat <- dat[, species, drop=FALSE]
