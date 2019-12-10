@@ -36,12 +36,11 @@ sons <- function(x){
 #' @seealso \code{\link[picante]{evol.distinct}}
 #' @return a named vector with species scores.
 #' @author Klaus Schliep based on version in picante
-#' @importFrom ape is.rooted is.ultrametric reorder.phylo
+#' @importFrom ape is.rooted is.ultrametric reorder.phylo branching.times
 #' @importFrom stats reorder
 #' @export
 evol_distinct <- function (tree, type = c("equal.splits", "fair.proportion"),
-    scale = FALSE, use.branch.lengths = TRUE)
-{
+    scale = FALSE, use.branch.lengths = TRUE) {
     type <- match.arg(type)
     if (is.rooted(tree) == FALSE)
         warning("A rooted phylogeny is required for meaningful output of this function",
