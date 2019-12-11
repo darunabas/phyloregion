@@ -37,30 +37,11 @@ r_packages:
 #  - jimhester/covr
 
 before_install:
-  - tlmgr install bera
-  - tlmgr install nowidow
-  - tlmgr install parnotes
-  - tlmgr install marginfix
-#  - Rscript -e 'update.packages(ask = FALSE)'
+#  - "docker pull ubuntu:16.04"
+#  - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable -y
+#  - sudo apt-get --yes --force-yes update -qq
+  - sudo apt-get install libgdal-dev libgeos-dev libproj-dev libudunits2-dev libv8-dev libprotobuf-dev protobuf-compiler libjq-dev
 
-
-addons:
-   apt:
-     update: true
-     sources:
-       - sourceline: 'ppa:opencpu/imagemagick'
-       - sourceline: 'ppa:ubuntugis/ppa'
-     packages:
-       - libmagick++-dev
-       - librsvg2-dev
-       - libwebp-dev
-       - libpoppler-cpp-dev
-       - libtesseract-dev
-       - libleptonica-dev
-       - tesseract-ocr-eng
-       - r-cran-rgdal
-       - libfftw3-dev
-       - cargo
 
 #after_success:
 #  - Rscript -e 'library(covr);coveralls();codecov()'
