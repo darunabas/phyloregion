@@ -1,13 +1,13 @@
 #' Convert community matrix to sparse community matrix
-#' 
-#' Converts a species by sites community matrix to a saprse community matrix. 
+#'
+#' Converts a species by sites community matrix to a saprse community matrix.
 #' Expects a matrix with rows as sites and columns as species or taxa.
-#' 
+#'
 #' @param x a community matrix or data frame
-#' 
-#' @note See \url{https://github.com/darunabas/bioregion} for more
+#'
+#' @note See \url{https://github.com/darunabas/phyloregion} for more
 #' details and tutorials.
-#' 
+#'
 #' @importFrom methods as
 #' @keywords Conversion
 #' @examples

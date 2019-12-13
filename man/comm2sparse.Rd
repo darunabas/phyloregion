@@ -10,11 +10,11 @@ comm2sparse(x)
 \item{x}{a community matrix or data frame}
 }
 \description{
-Converts a species by sites community matrix to a saprse community matrix. 
+Converts a species by sites community matrix to a saprse community matrix.
 Expects a matrix with rows as sites and columns as species or taxa.
 }
 \note{
-See \url{https://github.com/darunabas/bioregion} for more
+See \url{https://github.com/darunabas/phyloregion} for more
 details and tutorials.
 }
 \examples{

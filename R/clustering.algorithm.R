@@ -12,7 +12,7 @@
 #' the size of the x-axis labels
 #' @param col color of the plot.
 #' @param \dots arguments passed among methods.
-#' @rdname clustering.algorithm
+#' @rdname select_linkage
 #' @keywords bioregion
 #' @importFrom stats hclust as.dist cor cophenetic
 #' @importFrom cluster diana
@@ -36,9 +36,9 @@
 #' M <- sampl2sparse(africa$comm, method = "nonphylo")
 #'
 #' bc <- beta_diss(M)
-#' clustering.algorithm(bc, plot = TRUE)
-#' @export clustering.algorithm
-clustering.algorithm <- function(x, plot=FALSE,
+#' select_linkage(bc, plot = TRUE)
+#' @export select_linkage
+select_linkage <- function(x, plot=FALSE,
                                  rot_angle=45, cex=0.7, col="grey", ...){
   hc1 <- hclust(as.dist(x), method="average")
   hc2 <- hclust(as.dist(x), method="single")

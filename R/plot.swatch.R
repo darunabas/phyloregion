@@ -38,7 +38,7 @@ plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3", key_label="",
   x$values <- values
   COLRS <- hcl.colors(k, palette = palette)
   y <- choropleth(x, values, k) #, style = style
-  plot(y, col = COLRS[y$values], border = NA)
+  plot(y, col = COLRS[y$values], border = NA, ...)
   if(legend) {
     color_key(y, COLRS, vals=values, lab=key_label, pos=pos, leg=leg, lwd=lwd)
   }

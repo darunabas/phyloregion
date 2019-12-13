@@ -36,7 +36,7 @@ rescale<-function(x,newrange) {
 
 #' Generate diverging colors in HCL colour space.
 #'
-#' A function to generate colors in Hue-Chroma-Luminance colour scheme for mapping bioregions.
+#' A function to generate colors in Hue-Chroma-Luminance colour scheme for mapping phyloregions
 #'
 #' @param x An object of class \code{\link[vegan]{metaMDS}}
 #'
@@ -45,7 +45,7 @@ rescale<-function(x,newrange) {
 #' @keywords phyloregion
 #' @importFrom colorspace hex
 #' @export
-#' @return A range of discrete colors differentiating between bioregions in
+#' @return A range of discrete colors differentiating between phyloregions in
 #' terms of their shared relationships.
 #'
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}

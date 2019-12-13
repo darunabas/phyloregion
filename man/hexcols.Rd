@@ -10,11 +10,11 @@ hexcols(x)
 \item{x}{An object of class \code{\link[vegan]{metaMDS}}}
 }
 \value{
-A range of discrete colors differentiating between bioregions in
+A range of discrete colors differentiating between phyloregions in
 terms of their shared relationships.
 }
 \description{
-A function to generate colors in Hue-Chroma-Luminance colour scheme for mapping bioregions.
+A function to generate colors in Hue-Chroma-Luminance colour scheme for mapping phyloregions
 }
 \examples{
 library(vegan)

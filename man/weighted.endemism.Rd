@@ -4,10 +4,18 @@
 \alias{weighted.endemism}
 \title{Measure the distribution of narrow-ranged or endemic species.}
 \usage{
-weighted.endemism(x)
+weighted.endemism(x, species = "species", grids = "grids", format = "long")
 }
 \arguments{
 \item{x}{A community matrix or data frame.}
+
+\item{species}{If \code{format =} \dQuote{long} (the default),
+the column with the species name.}
+
+\item{grids}{The column with the sites or grids if \code{format =} \dQuote{long}.}
+
+\item{format}{Format of the community composition data: \dQuote{long} or \dQuote{wide}
+with species as columns and sites as rows.}
 }
 \value{
 A data frame of species traits by site.
