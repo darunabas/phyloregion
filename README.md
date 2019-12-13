@@ -15,26 +15,15 @@ The `phyloregion` package will introduce the basics of mapping various facets of
 
 A major feature of `phyloregion` is its ability to handle large datasets spanning 1000s to hundreds of thousands of taxa and spanning large geographic extents.
 # Installation
-`phyloregion` is an open source and free package hosted on GitHub. First, you will need to install the `devtools` package. In R, type:
+`phyloregion` is an open source and free package hosted on GitHub. You will need to install the `devtools` package. In R, type:
 ```{r, echo=TRUE}
 #install.packages("devtools") # uncommenting this will install devtools
 ```
-Next, load the `devtools` package.
+Then:
 ```{r, message=FALSE, results='hide', warning=FALSE}
 devtools::install_github("darunabas/phyloregion")
-```
-Then install the `phyloregion` package from github:
-```{r, echo=TRUE}
-#install_github("darunabas/phyloregion") # uncommenting this will install phyloregion package
 ```
 Load the `phyloregion` package:
 ```{r, echo=TRUE}
 library(phyloregion)
-```
-Although the package's strong focus is for mapping biodiversity patterns, we will draw from other packages including: `raster`, `Matrix`, `ape`, `data.table` and `rgeos`.
-
-```{r, message=FALSE, results='hide', warning=FALSE}
-z <- c("raster", "Matrix", "ape", "colorRamps", "data.table", "rgeos")
-# install.packages(z) # uncommenting this will install the packages
-lapply(z, library, character.only = TRUE) # load the required packages
 ```
