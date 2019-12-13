@@ -15,13 +15,13 @@ The `phyloregion` package will introduce the basics of mapping various facets of
 
 A major feature of `phyloregion` is its ability to handle large datasets spanning 1000s to hundreds of thousands of taxa and spanning large geographic extents.
 # Installation
-The `phyloregion` package is available from github. First, you will need to install the `devtools` package. In R, type:
+`phyloregion` is an open source and free package hosted on GitHub. First, you will need to install the `devtools` package. In R, type:
 ```{r, echo=TRUE}
-#install.packages("devtools") # uncommenting this will install the package
+#install.packages("devtools") # uncommenting this will install devtools
 ```
 Next, load the `devtools` package.
 ```{r, message=FALSE, results='hide', warning=FALSE}
-library(devtools)
+devtools::install_github("darunabas/phyloregion")
 ```
 Then install the `phyloregion` package from github:
 ```{r, echo=TRUE}
