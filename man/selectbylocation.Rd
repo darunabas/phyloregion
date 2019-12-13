@@ -12,23 +12,26 @@ selectbylocation(x, y)
 \item{y}{Target layer or mask extent to subset from.}
 }
 \value{
-A spatial polygons or spatial points object pruned to the extent 
+A spatial polygons or spatial points object pruned to the extent
 of the target layer.
 }
 \description{
-The \code{selectbylocation} function selects features based on 
+The \code{selectbylocation} function selects features based on
 their location relative to features in another layer.
 }
 \examples{
 require(raster)
-require(maptools)
-data("wrld_simpl")
+file <- system.file("nigeria/nigeria.rds", package="phyloregion")
+d <- readRDS(file)
+e <- extent(d)
+
 set.seed(1)
-m <- data.frame(lon = runif(2000, -180, 180), 
-                lat = runif(2000, -90, 90), sites=seq(2000))
+m <- data.frame(lon = runif(1000, e[1], e[2]),
+                lat = runif(1000, e[3], e[4]),
+                sites=seq(1000))
 coordinates(m) <- ~lon+lat
-z <- selectbylocation(m, wrld_simpl)
-plot(wrld_simpl)
+z <- selectbylocation(m, d)
+plot(d)
 points(m, col="blue", pch="+")
 points(z, col="red", pch="+")
 }
