@@ -10,9 +10,9 @@ plot_swatch(
   k = 10,
   palette = "Blue-Red 3",
   key_label = "",
-  leg = 5,
+  leg = 10,
   lwd = 15,
-  pos = "bottomright",
+  pos = "bottomleft",
   legend = TRUE,
   ...
 )

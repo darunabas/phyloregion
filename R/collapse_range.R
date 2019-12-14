@@ -49,7 +49,7 @@ collapse_range <- function(x, tree, n, species="species", grids="grids", format=
     subphy <- keep.tip(tree, ind)
     submat <- subset(x, x$species %in% ind)
 
-    d <- getClusters(subphy, n)
+    d <- get_clades(subphy, n)
 
     # SPECIES THAT CAN BE LUMPED
     m <- do.call("rbind", lapply(d, function(y) cbind(species=y,

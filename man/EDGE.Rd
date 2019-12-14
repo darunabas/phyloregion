@@ -38,7 +38,7 @@ and critically endangered = 0.999.
 }
 \examples{
 data(africa)
-n1 <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
+y <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
 }
 \references{
 Redding, D.W., & Mooers, A.Ø. (2006) Incorporating evolutionary measures

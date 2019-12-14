@@ -35,7 +35,7 @@
 #' and phylogeny. \emph{PLoS ONE} \strong{2}: e296.
 #' @examples
 #' data(africa)
-#' n1 <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
+#' y <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
 #' @export EDGE
 
 EDGE <- function(x, phy, Redlist="Redlist", species="species"){
@@ -65,16 +65,16 @@ EDGE <- function(x, phy, Redlist="Redlist", species="species"){
   # CALCULATING ED
   ED <- evol_distinct(phy, type = "fair.proportion")
   ED <- as.data.frame(ED)
-  ED <- cbind(species=rownames(ED), ED)
-  rownames(ED) <- NULL
-
-  colnames(ED) <- c("species", "ED")
+  ED <- cbind(species=rownames(ED), ED=data.frame(ED, row.names=NULL))
 
   index <- match(ED$species, Redlist$species)
   m <- cbind(ED, GE=Redlist$GE[index])
   m <- m[complete.cases(m),]
 
   m$EDGE <- (log(1+m$ED) + (m$GE*log(2)))
-  m
+
+  my_EDGE <- m$EDGE
+  names(my_EDGE) <- m$species
+  my_EDGE
 }
 

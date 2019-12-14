@@ -2,7 +2,7 @@
 % Please edit documentation in R/pd.R
 \name{PD.sparse}
 \alias{PD.sparse}
-\title{Phylogenetic diversity}
+\title{Phylogenetic diversity and faster}
 \usage{
 PD.sparse(x, phy)
 }

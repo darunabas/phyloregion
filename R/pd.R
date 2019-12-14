@@ -1,4 +1,4 @@
-#' Phylogenetic diversity
+#' Phylogenetic diversity and faster
 #'
 #' \code{PD.sparse} calculates Faith's phylogenetic diversity and much faster
 #' using sparse matrix.
