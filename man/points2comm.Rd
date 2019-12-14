@@ -6,7 +6,7 @@
 \usage{
 points2comm(
   dat,
-  mask,
+  mask = NULL,
   res = 1,
   lon = "decimallongitude",
   lat = "decimallatitude",

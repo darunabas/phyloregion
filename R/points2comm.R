@@ -24,8 +24,9 @@
 #' @param \dots Further arguments passed to or from other methods.
 #' @keywords phyloregion
 #' @importFrom sp coordinates<- over CRS proj4string merge
-#' @importFrom sp coordinates<- CRS proj4string<-
+#' @importFrom sp coordinates<- CRS proj4string<- SpatialPolygonsDataFrame
 #' @importFrom stats complete.cases
+#' @importFrom raster extent
 ## @inheritParams fishnet
 #'
 #' @return
@@ -48,7 +49,7 @@
 #'
 #' plot_swatch(pts$poly_shp, values = pts$poly_shp$richness, k=10)
 #' @export
-points2comm <- function(dat, mask, res=1, lon = "decimallongitude",
+points2comm <- function(dat, mask=NULL, res=1, lon = "decimallongitude",
                         lat = "decimallatitude", species = "species",
                         shp.grids=NULL, index="taxon_richness", ...){
   dat <- as.data.frame(dat)
@@ -60,7 +61,13 @@ points2comm <- function(dat, mask, res=1, lon = "decimallongitude",
   coordinates(dat) = ~lon+lat
 
   if(length(shp.grids)==0){
-    m <- fishnet(mask = mask, res = res)
+    if(length(mask)==0){
+      e <- raster::extent(c(xmin=-180, xmax=180, ymin=-90, ymax=89))
+      p <- as(e, 'SpatialPolygons')
+      m <- sp::SpatialPolygonsDataFrame(p, data.frame(sp="x"))
+      m <- fishnet(mask = m, res = res)
+    } else(m <- fishnet(mask = mask, res = res))
+
   } else (m = shp.grids)
   proj4string(dat) <- proj4string(m)
   x <- over(dat, m)

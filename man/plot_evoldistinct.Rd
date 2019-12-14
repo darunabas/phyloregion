@@ -58,8 +58,8 @@ submat <- match_phylo_comm(tree, x)$com
 pbc <- phylobeta(submat, subphy)
 y <- ed_phyloregion(pbc, shp=africa$polys)
 
-plot_NMDS(y, cex=3)
-text_NMDS(y, cex=4)
-plot_phyloregion(y, cex=3)
+plot_NMDS(y, cex=6)
+text_NMDS(y, cex=2)
+plot_phyloregion(y, cex=1)
 plot_evoldistinct(y)
 }

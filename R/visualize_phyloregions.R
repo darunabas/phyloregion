@@ -90,9 +90,9 @@ plot_NMDS <- function(x, ...){
 #' pbc <- phylobeta(submat, subphy)
 #' y <- ed_phyloregion(pbc, shp=africa$polys)
 #'
-#' plot_NMDS(y, cex=3)
-#' text_NMDS(y, cex=4)
-#' plot_phyloregion(y, cex=3)
+#' plot_NMDS(y, cex=6)
+#' text_NMDS(y, cex=2)
+#' plot_phyloregion(y, cex=1)
 #' plot_evoldistinct(y)
 #' @export
 text_NMDS <- function(x, ...){
