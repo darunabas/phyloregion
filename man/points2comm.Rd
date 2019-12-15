@@ -26,7 +26,7 @@ points2comm(
 
 \item{mask}{a polygon shapefile covering the boundary of the survey region.}
 
-\item{res}{the grain size of the grid cells in degrees.}
+\item{res}{the grain size of the grid cells in decimal degrees (default).}
 
 \item{lon}{character with the column name of the longitude.}
 

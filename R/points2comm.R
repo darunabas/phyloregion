@@ -10,7 +10,7 @@
 #'   \item Column 3: \code{decimallatitude} (corresponding to decimal latitude)
 #' }
 #' @param mask a polygon shapefile covering the boundary of the survey region.
-#' @param res the grain size of the grid cells in degrees.
+#' @param res the grain size of the grid cells in decimal degrees (default).
 #' @param lon character with the column name of the longitude.
 #' @param lat character with the column name of the lattitude.
 #' @param shp.grids if specified, the polygon shapefile of grid cells

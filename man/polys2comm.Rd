@@ -10,7 +10,7 @@ polys2comm(dat, res = 1, shp.grids = NULL, species = "species", ...)
 \item{dat}{layers of merged maps corresponding to species ranges from
 which the geometries or attributes are queried.}
 
-\item{res}{the grain size of the grid cells in degrees.}
+\item{res}{the grain size of the grid cells in decimal degrees (default).}
 
 \item{shp.grids}{if specified, the polygon shapefile of grid cells}
 

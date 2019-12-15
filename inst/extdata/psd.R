@@ -1,38 +1,35 @@
+#' @importFrom rgeos gBuffer
+#' @importFrom sp spsample
+
 sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
-  cc <- gBuffer(x, width=width)
+  cc <- rgeos::gBuffer(x, width=width)
   if(!is.null(limits)) cc <- crop(cc, limits)
-  res <- spsample(cc, n_points, type="random")
+  res <- sp::spsample(cc, n_points, type="random")
   res
 }
 
 
 
-#' Global scale species distribution modeling
+#' Predict species distributions
 #'
-#' The \code{sdm} function enables the process in which species occurrence
+#' The \code{psd} function enables the process in which species occurrence
 #' data and ecological and environmental variables are modeled together to
 #' predict species ranges.
 #'
-#' @param files A community matrix
-#' @rdname sdm
-#' @keywords bioregion
+#' @param x A community matrix
+#' @rdname psd
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
 #' @importFrom raster values
-#' @importFrom sp CRS proj4string<-
+#' @importFrom sp CRS proj4string<- coordinates
 #'
-#' @export
 #' @return
 #' \item{psim}{A site × site phylogenetic beta diversity distance matrix}
-#'
 #' @references
-#'
-#' \insertRef{Philips2006}{bioregion}
-#'
-#' @examples
-#' fdir <- system.file("Aloes", package="phyloregion")
-#' files <- file.path(fdir, dir(fdir))
-#' res <- raster2comm(files)
-sdm <- function(x) {
+#' Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy
+#' modeling of species geographic distributions. \emph{Ecological Modelling}
+#' \strong{190}: 231–259
+#' @export
+psd <- function(x) {
   name.sp <- S[i]
   newdat <- subset(mydata5, mydata5$species==name.sp)
 

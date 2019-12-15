@@ -5,7 +5,7 @@
 #'
 #' @param dat layers of merged maps corresponding to species ranges from
 #' which the geometries or attributes are queried.
-#' @param res the grain size of the grid cells in degrees.
+#' @param res the grain size of the grid cells in decimal degrees (default).
 #' @param shp.grids if specified, the polygon shapefile of grid cells
 #' @param species a character string. The column with the species or taxon name.
 #' Default = \dQuote{species}.

@@ -1,10 +1,10 @@
 #' Create a fishnet of regular grids
 #'
-#' The \code{fishnet} function creates a regular grid of locations covering 
+#' The \code{fishnet} function creates a regular grid of locations covering
 #' the study area.
 #'
 #' @param mask a polygon shapefile covering the boundary of the survey region.
-#' @param res the grain size of the grid cells in degrees.
+#' @param res the grain size of the grid cells in decimal degrees (default).
 #' @rdname fishnet
 #' @keywords bioregion
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
@@ -15,14 +15,14 @@
 #' @return A spatial polygon object of equal area grid cells covering the defined area.
 #'
 #' @references
-#' Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy modeling of species geographic distributions. 
+#' Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy modeling of species geographic distributions.
 #' \emph{Ecological Modelling} \strong{190}: 231-259.
 #' @examples
 #' library(raster)
 #' file <- system.file("nigeria/nigeria.rds", package="phyloregion")
 #' d <- readRDS(file)
 #' d1 <- fishnet(d, res = 0.75)
-fishnet <- function(mask, 
+fishnet <- function(mask,
                     res = 0.5){
   s <- raster(extent(mask))
   res(s) <- res
