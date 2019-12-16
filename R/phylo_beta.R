@@ -72,7 +72,7 @@ phylo_community <- function(x, phy){
 #' @param index.family family of dissimilarity indices, partial match of
 #' "sorensen" or "jaccard".
 #' @keywords phyloregion
-#' @seealso read.community PD
+#' @seealso \code{\link{read.community}}, \code{\link{phylo.betapart.core}}
 #' @examples
 #' library(ape)
 #' tree <- read.tree(text ="((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
@@ -88,7 +88,9 @@ phylo_community <- function(x, phy){
 #' @importFrom fastmatch fmatch
 #' @importFrom betapart phylo.beta.multi phylo.beta.pair
 #' @export
-phylobeta_core <- function(x, phy){ #, index.family="sorensen", index="Simpson"
+phylobeta_core <- function(x, phy){
+  if(!identical(sort(colnames(x)), sort(phy$tip.label)))
+    stop("Labels of community matrix and tree differ!")
   x <- phylo_community(x, phy)
   l <- length(x)
   el <- attr(x, "edge.length")
@@ -196,6 +198,7 @@ match_phylo_comm <- function (phy, comm)
 #' "sorensen" or "jaccard".
 #' @importFrom Matrix Matrix tcrossprod colSums
 #' @importFrom betapart beta.pair beta.multi
+#' @seealso \code{\link{betapart.core}}
 #' @export
 ## non phylogenetic version
 beta_core <- function (x) {

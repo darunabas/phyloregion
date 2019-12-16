@@ -20,7 +20,7 @@ make_poly <- function(file){
 #' \code{raster2comm} converts a set of raster files from a species distribution
 #' modeling into a community matrix.
 #'
-#' @param files  list of raster layer objects with the same spatial 
+#' @param files  list of raster layer objects with the same spatial
 #' extent and resolution.
 #' @rdname raster2comm
 #' @keywords bioregion
@@ -36,7 +36,7 @@ make_poly <- function(file){
 raster2comm <- function(files) {
   poly <- make_poly(files[1])
   tmp <- raster(files[1])
-  fg <- xyFromCell(tmp, cell=1:ncell(tmp)) %>% as.data.frame()
+  fg <- as.data.frame(xyFromCell(tmp, cell=1:ncell(tmp)))
   ind1 <- paste(as.character(fg$x),as.character(fg$y), sep="_")
   ind2 <- paste(as.character(poly$lon),as.character(poly$lat), sep="_")
   index <- match(ind1, ind2)
