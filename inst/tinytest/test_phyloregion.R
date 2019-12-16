@@ -25,3 +25,26 @@ expect_equivalent(phylo.beta.pair(pbc_phyloregion),
 # test pd compare with picante
 # test
 pb_phyloregion <- phylobeta(com, tree)
+
+
+
+data(africa)
+long <- africa$comm
+
+sparse <- sampl2sparse(long)
+long2 <- sparse2sampl(sparse)
+
+expect_equal(nrow(long2), nrow(long))
+
+set.seed(42)
+ind <- sample(60823, 1000, replace = TRUE)
+long_ind <- long[ind,]
+#sparse_ind <- sampl2sparse(long_ind)
+sparse_ind <- sampl2sparse(long_ind, method="nonphylo")
+long_ind2 <- sparse2sampl(sparse_ind)
+
+expect_equal(nrow(long_ind), nrow(long_ind2))
+
+
+
+
