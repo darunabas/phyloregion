@@ -1,7 +1,19 @@
+note=paste("R package version", meta$Version)
 citHeader("To cite phyloregion in publications use:")
 
+
+bibentry(bibtype = "Manual",
+    author = "Barnabas Daru and Piyal Karunarathne and Klaus Schliep",
+    title = "phyloregion: R package for biogeographic regionalization and spatial conservation",
+    year = "2019",
+    note = note,
+    url = "https://github.com/darunabas/phyloregion",
+    textVersion = "Daru, B. H., Karunarathne P., & Schliep K. (2019), phyloregion: R package for biogeographic regionalization and spatial conservation. R package version 0.1.0, https://github.com/darunabas/phyloregion"
+)
+
+
 bibentry(bibtype = "Article",
-    author = "Daru, Barnabas H. and Karunarathne, Piyal and Schliep, Klaus",
+    author =  "Daru, B. H., Elliott, T. L., Park, D. S. & Davies, T. J.",
     title = "phyloregion: R package for biogeographic regionalization and spatial conservation",
     journal = "Trends in Ecology & Evolution",
     volume = "32",
