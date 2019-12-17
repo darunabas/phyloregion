@@ -8,22 +8,31 @@ This R package is for analysis of biogeographic regionalization (the classificat
 If you find ```phyloregion``` helpful, please cite as:
 
 Daru B. H., Karunarathne, P. & Schliep, K. phyloregion: R package for biogeographic regionalization and spatial conservation (R package version 0.1.0. https://github.com/darunabas/phyloregion, 2019).
+
 # Introduction
 This tutorial is an introduction to using `R` for analyzing geographic data in biodiversity science and conservation. The `phyloregion` package is a tool for mapping various facets of biodiversity ranging from local (alpha-) to between community (beta-) diversity.
 
 The `phyloregion` package will introduce the basics of mapping various facets of spatial data ranging from species richness, endemism, to threat as evaluated by the International Union for the Conservation of Nature as well as beta diversity metrics. More advanced implementations of `phyloregion` is the addition of phylogenetic information to quantify evolutionary diversity including phylogenetic diversity, phylogenetic endemism, and evolutionary distinctiveness and global endangerment.
 
 A major feature of `phyloregion` is its ability to handle large datasets spanning 1000s to hundreds of thousands of taxa and spanning large geographic extents.
+
 # Installation
+
 `phyloregion` is an open source and free package hosted on GitHub. You will need to install the `devtools` package. In R, type:
-```{r, echo=TRUE}
-#install.packages("devtools") # uncommenting this will install devtools
+
 ```
+if (!requireNamespace("devtools", quietly = TRUE)) 
+    install.packages("devtools") 
+```
+
 Then:
-```{r, message=FALSE, results='hide', warning=FALSE}
+
+```
 devtools::install_github("darunabas/phyloregion")
 ```
+
 Load the `phyloregion` package:
-```{r, echo=TRUE}
+
+```
 library(phyloregion)
 ```
