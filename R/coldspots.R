@@ -16,7 +16,7 @@
 #' @importFrom stats quantile
 #' @export
 #' @return
-#' {Integers of 1s and 0s with 1 corresponding to the coldspots or hottspots}
+#' {Integers of 1s and 0s with 1 corresponding to the coldspots or hotspots}
 #'
 #' @references
 #' Myers, M., Mittermeier, R.A., Mittermeier, C.G., da Fonseca, G.A.B. &
