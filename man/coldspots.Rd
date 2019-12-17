@@ -22,7 +22,7 @@ biodiversity in an area. By default, the threshold is set to
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
-{Integers of 1s and 0s with 1 corresponding to the coldspots or hottspots}
+{Integers of 1s and 0s with 1 corresponding to the coldspots or hotspots}
 }
 \description{
 \code{coldspots} and \code{hotspots} map areas or grid cells with lowest
