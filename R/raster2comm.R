@@ -28,10 +28,11 @@ make_poly <- function(file){
 #' @importFrom raster values
 #' @importFrom sp CRS proj4string<-
 #' @examples
+#' \dontrun{
 #' fdir <- system.file("NGAplants", package="phyloregion")
 #' files <- file.path(fdir, dir(fdir))
 #' r <- raster2comm(files)
-#'
+#' }
 #' @export
 raster2comm <- function(files) {
   poly <- make_poly(files[1])

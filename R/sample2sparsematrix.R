@@ -16,10 +16,9 @@
 #' @return A compressed sparse community matrix of sites by species
 #'
 #' @examples
-#' fdir <- system.file("NGAplants", package="phyloregion")
-#' files <- file.path(fdir, dir(fdir))
-#' x <- data.frame(raster2comm(files))
-#' comm <- sampl2sparse(x)
+#' data(africa)
+#' head(africa$comm)
+#' comm <- sampl2sparse(africa$comm)
 #' @export sampl2sparse
 sampl2sparse <- function(dat, grids="grids", species="species", method="phylo"){
   dat <- dat[, c(grids, species)]

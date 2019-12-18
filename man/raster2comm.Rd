@@ -7,7 +7,7 @@
 raster2comm(files)
 }
 \arguments{
-\item{files}{list of raster layer objects with the same spatial 
+\item{files}{list of raster layer objects with the same spatial
 extent and resolution.}
 }
 \description{
@@ -15,9 +15,10 @@ extent and resolution.}
 modeling into a community matrix.
 }
 \examples{
+\dontrun{
 fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
 r <- raster2comm(files)
-
+}
 }
 \keyword{bioregion}
