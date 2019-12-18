@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/darunabas/phyloregion.svg?branch=master)](https://travis-ci.org/darunabas/phyloregion)
+
 # phyloregion
 This R package is for analysis of biogeographic regionalization (the classification of geographical areas in terms of their biotas) and spatial conservation in the R scientific computing environment. Previously it was only possible to perform analysis of biogeographic regionalization on small datasets, often using tools that are difficult to replicate. With macroecological datasets of ever increasing size and complexity, `phyloregion` now offers the possibility of clustering large-scale species distributions combined with phylogenetic information using sparse matrix, determining optimal number of clusters, quantifying evolutionary distinctiveness of bioregions, and visualizing patterns and underlying processes. It is simple, fast, and particularly tailored for handling large datasets.
 ### Authors
