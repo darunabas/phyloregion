@@ -41,10 +41,11 @@ M <- sampl2sparse(africa$comm, method = "nonphylo")
 
 bc <- beta_diss(M)
 (d <- optimal.phyloregion(bc))
-plot(d$df$k, d$df$ev, ylab = "Explained variances", xlab = "Number of clusters")
-lines(d$df$k[order(d$df$k)], d$df$ev[order(d$df$k)],pch=1)
-points(d$optimal$k, d$optimal$ev, pch=21, bg="red", cex=3)
-points(d$optimal$k, d$optimal$ev, pch=21, bg="red", type = "h")
+plot(d$df$k, d$df$ev, ylab = "Explained variances",
+  xlab = "Number of clusters")
+lines(d$df$k[order(d$df$k)], d$df$ev[order(d$df$k)], pch = 1)
+points(d$optimal$k, d$optimal$ev, pch = 21, bg = "red", cex = 3)
+points(d$optimal$k, d$optimal$ev, pch = 21, bg = "red", type = "h")
 }
 \references{
 Salvador, S. & Chan, P. (2004) \emph{Determining the number of

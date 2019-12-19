@@ -18,7 +18,6 @@ be added at the most recent common ancestor at the genus or family level when
 possible.
 }
 \examples{
-require(ape)
 data("africa")
 x <- africa$comm
 phylobuilder(species = x$species, tree = africa$phylo)

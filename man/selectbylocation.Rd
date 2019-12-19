@@ -7,7 +7,8 @@
 selectbylocation(x, y)
 }
 \arguments{
-\item{x}{source layer of the class SpatialPolygonsDataFrame or SpatialPointsDataFrame}
+\item{x}{source layer of the class SpatialPolygonsDataFrame or
+SpatialPointsDataFrame}
 
 \item{y}{Target layer or mask extent to subset from.}
 }
@@ -21,18 +22,18 @@ their location relative to features in another layer.
 }
 \examples{
 require(raster)
-file <- system.file("nigeria/nigeria.rds", package="phyloregion")
+file <- system.file("nigeria/nigeria.rds", package = "phyloregion")
 d <- readRDS(file)
 e <- extent(d)
 
 set.seed(1)
 m <- data.frame(lon = runif(1000, e[1], e[2]),
-                lat = runif(1000, e[3], e[4]),
-                sites=seq(1000))
-coordinates(m) <- ~lon+lat
+  lat = runif(1000, e[3], e[4]),
+  sites = seq(1000))
+coordinates(m) <- ~ lon + lat
 z <- selectbylocation(m, d)
 plot(d)
-points(m, col="blue", pch="+")
-points(z, col="red", pch="+")
+points(m, col = "blue", pch = "+")
+points(z, col = "red", pch = "+")
 }
 \keyword{bioregion}

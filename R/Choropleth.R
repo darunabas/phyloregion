@@ -11,8 +11,6 @@
 #' @rdname choropleth
 #' @keywords bioregion
 #' @importFrom stats quantile
-#'
-#' @export
 #' @return
 #' {returns a SpatialPolygonsDataFrame with a column of the discretized values}
 #'
@@ -27,11 +25,12 @@
 #'
 #' ## To plot and color according to some metric:
 #' plot(y, col = COLOUR[y$values], border = NA)
+#' @export
 choropleth <- function(x, values, k = 10, ...) {
-  x$values <- values
+#  x$values <- values
   quants <- quantile(values, seq(0, 1, length.out = k + 1))
   l <- length(quants) - 1
-  col_vec <- numeric(length(values))
+  col_vec <- integer(length(values))
   col_vec[values == quants[1]] <- 1
   for (i in seq_len(l)) {
     col_vec[values > quants[i] & values <= quants[i + 1]] <- i

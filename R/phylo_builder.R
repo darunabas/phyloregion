@@ -14,7 +14,6 @@
 #' @importFrom parallel mclapply
 #' @importFrom phangorn add.tips
 #' @examples
-#' require(ape)
 #' data("africa")
 #' x <- africa$comm
 #' phylobuilder(species = x$species, tree = africa$phylo)

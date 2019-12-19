@@ -30,44 +30,45 @@
 #' \dontrun{
 #' library(raster)
 #' # generate some example data
-#' p1 <- Polygons(list(Polygon(rbind(c(-180,-20), c(-140,55), c(10, 0),
-#'                                   c(-140,-60), c(-180,-20)))), 1)
-#' p2 <- Polygons(list(Polygon(rbind(c(-10,0), c(140,60), c(160,0),
-#'                                   c(140,-55), c(-10,0)))), 2)
-#' p3 <- Polygons(list(Polygon(rbind(c(-125,0), c(0,60), c(40,5),
-#'                                   c(15,-45), c(-125,0)))), 3)
-#' sp <- SpatialPolygons( list( p1 , p2, p3),
-#'                 proj4string=CRS('+proj=longlat +ellps=WGS84 +datum=WGS84'))
+#' p1 <- Polygons(list(Polygon(rbind(c(-180, -20), c(-140, 55), c(10, 0),
+#'   c(-140, -60), c(-180, -20)))), 1)
+#' p2 <- Polygons(list(Polygon(rbind(c(-10, 0), c(140, 60), c(160, 0),
+#'   c(140, -55), c(-10, 0)))), 2)
+#' p3 <- Polygons(list(Polygon(rbind(c(-125, 0), c(0, 60), c(40, 5),
+#'   c(15, -45), c(-125, 0)))), 3)
+#' sp <- SpatialPolygons(list(p1, p2, p3),
+#'   proj4string = CRS('+proj=longlat +ellps=WGS84 +datum=WGS84'))
 #' sp <- SpatialPolygonsDataFrame(sp,
-#'                 data.frame(Species=c("sp1", "sp2", "sp3")))
+#'   data.frame(Species = c("sp1", "sp2", "sp3")))
 #'
-#' pol <- polys2comm(dat = sp, species="Species")
-#' plot_swatch(pol$poly_shp, values = pol$poly_shp$richness, k=10)
+#' pol <- polys2comm(dat = sp, species = "Species")
+#' plot_swatch(pol$poly_shp, values = pol$poly_shp$richness, k = 10)
 #' }
 #' @export
-polys2comm <- function(dat, res=1, shp.grids=NULL, species="species", ...){
-  dat <- dat[, species, drop=FALSE]
+polys2comm <- function(dat, res = 1, shp.grids = NULL,
+                       species = "species", ...) {
+  dat <- dat[, species, drop = FALSE]
   names(dat) <- "species"
-  if(length(shp.grids)==0){
-    e <- extent(dat)+(2*res)
+  if (length(shp.grids) == 0) {
+    e <- extent(dat) + (2 * res)
     # coerce to a SpatialPolygons object
-    mask <- as(e, 'SpatialPolygons')
+    mask <- as(e, "SpatialPolygons")
     lu <- as.data.frame(1L)
     mask <- sp::SpatialPolygonsDataFrame(mask, lu)
     m <- fishnet(mask, res = res)
-  } else (m = shp.grids)
+  } else m <- shp.grids
   proj4string(dat) <- proj4string(m)
   x <- mapply(cbind, sp::over(dat, m, returnList = TRUE),
-              dat@data$species, SIMPLIFY=FALSE)
+    dat@data$species, SIMPLIFY = FALSE)
   y <- rbindlist(x)
   names(y) <- c("grids", "species")
-  y <- y[complete.cases(y),]
+  y <- y[complete.cases(y), ]
   y <- unique(y[, c("grids", "species")])
   res <- data.frame(table(y$grids))
   names(res) <- c("grids", "richness")
-  z <- sp::merge(m, res, by="grids")
-  z <- z[!is.na(z@data$richness),]
-  return(list(comm_dat=y, poly_shp=z, grids=m))
+  z <- sp::merge(m, res, by = "grids")
+  z <- z[!is.na(z@data$richness), ]
+  return(list(comm_dat = y, poly_shp = z, grids = m))
 }
 
 ## @param mask a polygon shapefile covering the boundary of the survey region.
