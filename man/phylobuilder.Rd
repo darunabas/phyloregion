@@ -21,9 +21,10 @@ possible.
 require(ape)
 data("africa")
 x <- africa$comm
-phylobuilder(species=x$species, tree=africa$phylo)
+phylobuilder(species = x$species, tree = africa$phylo)
 }
 \seealso{
-\code{\link[phangorn]{add.tips}}
+\code{\link[phangorn]{add.tips}}, \code{\link[ape]{label2table}},
+\code{\link[ape]{stripLabel}}
 }
 \keyword{bioregion}

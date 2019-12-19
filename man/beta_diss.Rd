@@ -18,3 +18,6 @@ beta_diss(x, index.family = "sorensen")
 \description{
 Taxonomic (non-phylogenetic) beta diversity
 }
+\seealso{
+\code{\link{betapart.core}}
+}
