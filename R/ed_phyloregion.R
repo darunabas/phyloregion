@@ -19,7 +19,8 @@
 #' @importFrom sp SpatialPolygonsDataFrame merge
 #' @importFrom sp CRS proj4string
 #' @importFrom raster text
-#' @importFrom graphics legend par points rect segments strheight strwidth text xinch yinch plot lines
+#' @importFrom graphics legend par points rect segments strheight strwidth text
+#' xinch yinch plot lines
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
 #'
 #' @return
@@ -48,16 +49,16 @@
 #'
 #' @examples
 #' library(ape)
-#' tree <- read.tree(text ="((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
-#' com <- matrix(c(1,0,1,1,0,0,
-#'                 1,0,0,1,1,0,
-#'                 1,1,1,1,1,1,
-#'                 0,0,1,1,0,1), 6, 4,
-#'               dimnames=list(paste0("g",1:6), tree$tip.label))
+#' tree <- read.tree(text = "((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
+#' com <- matrix(c(1, 0, 1, 1, 0, 0,
+#'   1, 0, 0, 1, 1, 0,
+#'   1, 1, 1, 1, 1, 1,
+#'   0, 0, 1, 1, 0, 1), 6, 4,
+#' dimnames = list(paste0("g", 1:6), tree$tip.label))
 #' pbc <- phylobeta(com, tree)
-#' ed_phyloregion(pbc, k=3)
+#' ed_phyloregion(pbc, k = 3)
 #' @export
-ed_phyloregion <- function(x, k=10, method="average", shp = NULL, ...){
+ed_phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
 
   Q <- as.dist(x)
   P1 <- hclust(Q, method = method)
@@ -70,9 +71,9 @@ ed_phyloregion <- function(x, k=10, method="average", shp = NULL, ...){
 
   region.mat <- matrix(NA, k, k, dimnames = list(1:k, 1:k))
 
-  for(i in 1:k){
+  for (i in 1:k) {
 
-    for(j in 1:k){
+    for (j in 1:k) {
       region.mat[i, j] <- mean(x[names(g)[g == i], names(g)[g == j]])
     }
 
@@ -80,28 +81,29 @@ ed_phyloregion <- function(x, k=10, method="average", shp = NULL, ...){
   region.dist <- as.dist(region.mat)
   region.mat <- as.matrix(region.dist)
 
-  evol_distinct <- colSums(region.mat)/(nrow(region.mat)-1)
+  evol_distinct <- colSums(region.mat) / (nrow(region.mat) - 1)
 
-  evol_distinct <- data.frame(ED=evol_distinct)
-  evol_distinct <- cbind(cluster=rownames(evol_distinct),
-                         data.frame(evol_distinct, row.names=NULL))
+  evol_distinct <- data.frame(ED = evol_distinct)
+  evol_distinct <- cbind(cluster = rownames(evol_distinct),
+    data.frame(evol_distinct, row.names = NULL))
 
-  if(length(shp)==0){
-    r <- list(evol_distinct=evol_distinct, region.dist=region.dist, region.df=dx)
-    class(r) <- c('list', 'phyloregion')
+  if (length(shp) == 0) {
+    r <- list(evol_distinct = evol_distinct, region.dist = region.dist,
+      region.df = dx)
+    class(r) <- c("list", "phyloregion")
     r
   } else {
 
-    m <- sp::merge(shp, dx, by="grids")
-    if (!inherits(m, "SpatialPolygons")){
+    m <- sp::merge(shp, dx, by = "grids")
+    if (!inherits(m, "SpatialPolygons")) {
       stop("Invalid geometry, may only be applied to polygons")
     }
-    m <- m[!is.na(m@data$cluster),]
+    m <- m[!is.na(m@data$cluster), ]
     # Now the dissolve
     region <- rgeos::gUnaryUnion(m, id = m@data$cluster)
 
     # make sure row names match
-    row.names(region) <- as.character(1:length(region))
+    row.names(region) <- as.character(seq_along(region))
 
     # Extract the data you want (the larger geography)
     fx <- unique(m$cluster)
@@ -111,28 +113,28 @@ ed_phyloregion <- function(x, k=10, method="average", shp = NULL, ...){
     # And add the data back in
     region <- SpatialPolygonsDataFrame(region, fx)
 
-    m1 <- sp::merge(region, evol_distinct, by="cluster")
-    proj4string(m1) = proj4string(shp)
+    m1 <- sp::merge(region, evol_distinct, by = "cluster")
+    proj4string(m1) <- proj4string(shp)
 
     c1 <- vegan::metaMDS(region.dist, trace = 0)
 
     v <- data.frame(hex2RGB(hexcols(c1))@coords)
-    v$r <- v$R*255
-    v$g <- v$G*255
-    v$b <- v$B*255
+    v$r <- v$R * 255
+    v$g <- v$G * 255
+    v$b <- v$B * 255
 
     v$COLOURS <- rgb(v$r, v$g, v$b, maxColorValue = 255)
     v$cluster <- rownames(v)
 
-    y <- Reduce(function(x,y) merge(x, y, by="cluster", all=TRUE) ,
-                list(region, v, m1))
+    y <- Reduce(function(x, y) merge(x, y, by = "cluster", all = TRUE),
+      list(region, v, m1))
 
     index <- match(dx$cluster, y$cluster)
-    z <- cbind(dx, ED=y$ED[index], COLOURS=y$COLOURS[index])
-    r <- list(evol_distinct=y, region.dist=region.dist, region.df=z, NMDS=c1)
-    class(r) <- c('list', 'phyloregion')
+    z <- cbind(dx, ED = y$ED[index], COLOURS = y$COLOURS[index])
+    r <- list(evol_distinct = y, region.dist = region.dist, region.df = z,
+              NMDS = c1)
+    class(r) <- c("list", "phyloregion")
     r
   }
-  #return(list(evol_distinct=y, region.dist=region.dist, region.df=z, NMDS=c1))
+  # return(list(evol_distinct=y, region.dist=region.dist, region.df=z, NMDS=c1))
 }
-

@@ -21,7 +21,7 @@
 #' @examples
 #' require(raster)
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
-#' k = 10
+#' k <- 10
 #' COLOUR <- hcl.colors(k, "RdYlBu")
 #' y <- choropleth(s, values = s$SR, k)
 #'
