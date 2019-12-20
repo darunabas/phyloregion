@@ -3,3 +3,5 @@
 ^\.Rproj\.user$
 ^\.httr-oauth$
 ^\Comments.txt
+^docs$
+^_pkgdown\.yml$

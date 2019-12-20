@@ -54,17 +54,15 @@ with a column labeled \dQuote{grids}.}
 iDigBio) to a community data sample
 }
 \examples{
-require(raster)
-s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
-
+s <- readRDS(system.file("nigeria/nigeria.rds", package = "phyloregion"))
 set.seed(1)
-m <- data.frame(sp::spsample(s, 10000, type="nonaligned"))
+m <- data.frame(sp::spsample(s, 10000, type = "nonaligned"))
 names(m) <- c("lon", "lat")
 species <- paste0("sp", sample(1:1000))
 m$taxon <- sample(species, size = nrow(m), replace = TRUE)
-pts <- points2comm(dat = m, mask = s, res = 0.5, lon="lon", lat="lat", species="taxon")
-
-plot_swatch(pts$poly_shp, values = pts$poly_shp$richness, k=10)
+pts <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
+  species = "taxon")
+plot_swatch(pts$poly_shp, values = pts$poly_shp$richness, k = 10)
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

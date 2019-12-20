@@ -9,8 +9,8 @@ timeslice(phy, n = 0.2, collapse = FALSE, ...)
 \arguments{
 \item{phy}{A dated phylogenetic tree as an object of class \dQuote{phylo}.}
 
-\item{n}{Time depth to slice the phylogenetic tree (often in millions of years
-for dated trees).}
+\item{n}{Time depth to slice the phylogenetic tree (often in millions of
+years for dated trees).}
 
 \item{collapse}{Logical, collapse internal edges with zero edge length.}
 
@@ -25,19 +25,22 @@ in time by collapsing younger phylogenetic branches into older ones to infer
 the origins of species assemblages.
 }
 \examples{
-require(ape)
+library(ape)
 
 set.seed(1)
 tree <- rcoal(50)
-x <- timeslice(tree,.5)
+x <- timeslice(tree, .5)
 
-par(mfrow=c(1,2))
-plot(tree); axisPhylo()
-plot(x); axisPhylo()
+par(mfrow = c(1, 2))
+plot(tree)
+axisPhylo()
+plot(x)
+axisPhylo()
 }
 \references{
-Daru, B.H., van der Bank, M. & Davies, T.J. (2018) Unravelling the evolutionary origins of biogeographic
-assemblages. \emph{Diversity and Distributions} \strong{24}: 313–324.
+Daru, B.H., van der Bank, M. & Davies, T.J. (2018) Unravelling the
+evolutionary origins of biogeographic assemblages.
+\emph{Diversity and Distributions} \strong{24}: 313–324.
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

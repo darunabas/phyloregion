@@ -15,9 +15,10 @@ extent and resolution.}
 modeling into a community matrix.
 }
 \examples{
+\dontrun{
 fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
 r <- raster2comm(files)
-
+}
 }
 \keyword{bioregion}

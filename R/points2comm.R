@@ -37,43 +37,40 @@
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #'
 #' @examples
-#' require(raster)
-#' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
-#'
+#' s <- readRDS(system.file("nigeria/nigeria.rds", package = "phyloregion"))
 #' set.seed(1)
-#' m <- data.frame(sp::spsample(s, 10000, type="nonaligned"))
+#' m <- data.frame(sp::spsample(s, 10000, type = "nonaligned"))
 #' names(m) <- c("lon", "lat")
 #' species <- paste0("sp", sample(1:1000))
 #' m$taxon <- sample(species, size = nrow(m), replace = TRUE)
-#' pts <- points2comm(dat = m, mask = s, res = 0.5, lon="lon", lat="lat", species="taxon")
-#'
-#' plot_swatch(pts$poly_shp, values = pts$poly_shp$richness, k=10)
+#' pts <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
+#'   species = "taxon")
+#' plot_swatch(pts$poly_shp, values = pts$poly_shp$richness, k = 10)
 #' @export
-points2comm <- function(dat, mask=NULL, res=1, lon = "decimallongitude",
+points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
                         lat = "decimallatitude", species = "species",
-                        shp.grids=NULL, index="taxon_richness", ...){
+                        shp.grids = NULL, index = "taxon_richness", ...) {
   dat <- as.data.frame(dat)
   dat <- dat[, c(species, lon, lat)]
   names(dat) <- c("species", "lon", "lat")
 
-  dat <- dat[complete.cases(dat),]
+  dat <- dat[complete.cases(dat), ]
 
-  coordinates(dat) = ~lon+lat
+  coordinates(dat) <- ~ lon + lat
 
-  if(length(shp.grids)==0){
-    if(length(mask)==0){
-      e <- raster::extent(c(xmin=-180, xmax=180, ymin=-90, ymax=89))
-      p <- as(e, 'SpatialPolygons')
-      m <- sp::SpatialPolygonsDataFrame(p, data.frame(sp="x"))
+  if (length(shp.grids) == 0) {
+    if (length(mask) == 0) {
+      e <- raster::extent(c(xmin = -180, xmax = 180, ymin = -90, ymax = 89))
+      p <- as(e, "SpatialPolygons")
+      m <- sp::SpatialPolygonsDataFrame(p, data.frame(sp = "x"))
       m <- fishnet(mask = m, res = res)
-    } else(m <- fishnet(mask = mask, res = res))
-
-  } else (m = shp.grids)
+    } else (m <- fishnet(mask = mask, res = res))
+  } else m <- shp.grids
   proj4string(dat) <- proj4string(m)
   x <- over(dat, m)
   y <- cbind(as.data.frame(dat), x)
-  y <- y[complete.cases(y),]
-  if (index=="abundance"){
+  y <- y[complete.cases(y), ]
+  if (index == "abundance") {
     y <- y[, c("grids", "species")]
   }
   else if (index == "taxon_richness") {
@@ -81,8 +78,7 @@ points2comm <- function(dat, mask=NULL, res=1, lon = "decimallongitude",
   }
   res <- data.frame(table(y$grids))
   names(res) <- c("grids", "richness")
-  z <- sp::merge(m, res, by="grids")
-  z <- z[!is.na(z@data$richness),]
-  return(list(comm_dat=y, poly_shp=z))
+  z <- sp::merge(m, res, by = "grids")
+  z <- z[!is.na(z@data$richness), ]
+  return(list(comm_dat = y, poly_shp = z))
 }
-

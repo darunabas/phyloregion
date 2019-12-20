@@ -24,9 +24,8 @@ This function converts community data frame to compressed sparse matrix.
 It is especially developed for handling big data.
 }
 \examples{
-fdir <- system.file("NGAplants", package="phyloregion")
-files <- file.path(fdir, dir(fdir))
-x <- data.frame(raster2comm(files))
-comm <- sampl2sparse(x)
+data(africa)
+head(africa$comm)
+comm <- sampl2sparse(africa$comm)
 }
 \keyword{bioregion}

@@ -14,7 +14,8 @@ A range of discrete colors differentiating between phyloregions in
 terms of their shared relationships.
 }
 \description{
-A function to generate colors in Hue-Chroma-Luminance colour scheme for mapping phyloregions
+A function to generate colors in Hue-Chroma-Luminance colour scheme for
+mapping phyloregions.
 }
 \examples{
 library(vegan)
@@ -22,7 +23,6 @@ data(dune)
 c1 <- metaMDS(dune)
 hexcols(c1)
 plot(c1$points, pch = 21, cex = 7, bg = hexcols(c1), las = 1)
-
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

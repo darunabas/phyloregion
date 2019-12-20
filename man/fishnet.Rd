@@ -12,7 +12,8 @@ fishnet(mask, res = 0.5)
 \item{res}{the grain size of the grid cells in decimal degrees (default).}
 }
 \value{
-A spatial polygon object of equal area grid cells covering the defined area.
+A spatial polygon object of equal area grid cells covering the
+defined area.
 }
 \description{
 The \code{fishnet} function creates a regular grid of locations covering
@@ -25,7 +26,8 @@ d <- readRDS(file)
 d1 <- fishnet(d, res = 0.75)
 }
 \references{
-Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy modeling of species geographic distributions.
-\emph{Ecological Modelling} \strong{190}: 231-259.
+Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy
+modeling of species geographic distributions. \emph{Ecological Modelling}
+\strong{190}: 231-259.
 }
 \keyword{bioregion}
