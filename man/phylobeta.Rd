@@ -36,6 +36,6 @@ pb <- phylobeta(com, tree)
 
 }
 \seealso{
-read.community PD
+\code{\link{read.community}}, \code{\link{phylo.betapart.core}}
 }
 \keyword{phyloregion}

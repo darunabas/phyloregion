@@ -7,7 +7,7 @@
 raster2comm(files)
 }
 \arguments{
-\item{files}{list of raster layer objects with the same spatial 
+\item{files}{list of raster layer objects with the same spatial
 extent and resolution.}
 }
 \description{

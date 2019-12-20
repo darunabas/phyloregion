@@ -13,7 +13,7 @@ sparse2sampl(x)
 a community data frame of sites and species pairs
 }
 \description{
-This function converts a compressed sparse matrix to a base R 
+This function converts a compressed sparse matrix to a base R
 community data frame of (row, column) pairs.
 }
 \examples{
