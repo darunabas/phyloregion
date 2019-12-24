@@ -10,7 +10,7 @@
 #'
 #' \code{weighted.endemism} is species richness inversely weighted
 #' by species ranges.
-#'
+#
 #' @param x A community matrix or data frame.
 #' @param species If \code{format =} \dQuote{long} (the default),
 #' the column with the species name.

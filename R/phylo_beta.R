@@ -129,7 +129,7 @@ phylobeta <- function(x, phy, index.family = "sorensen") {
     z <- p[[1]]
   }
   else if (index.family == "sorensen") {
-    z <- p[[3]]
+    z <- p[[1]]
   }
   else if (index.family == "jaccard") {
     z <- p[[3]]
