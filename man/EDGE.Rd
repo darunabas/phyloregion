@@ -27,7 +27,7 @@ of Nature (IUCN).
 }
 \details{
 EDGE is calculated as: \deqn{log(1+ED) + GE*log(2)}
-where where ED represents the evolutionary distinctiveness score of each
+where ED represents the evolutionary distinctiveness score of each
 species, i.e. the degree of phylogenetic isolation, and combining it
 with GE, global endangerment from IUCN conservation threat categories.
 GE is calculated as the expected probability of extinction over 100
