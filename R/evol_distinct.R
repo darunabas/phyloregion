@@ -32,6 +32,7 @@ sons <- function(x){
 #' that branch lengths are relative.
 #' @param use.branch.lengths If use.branch.lengths=FALSE, then all branch
 #' lengths are changed to 1.
+#' @param \dots Further arguments passed to or from other methods.
 #'
 #' @seealso \code{\link[picante]{evol.distinct}}
 #' @return a named vector with species scores.
@@ -40,7 +41,7 @@ sons <- function(x){
 #' @importFrom stats reorder
 #' @export
 evol_distinct <- function (tree, type = c("equal.splits", "fair.proportion"),
-    scale = FALSE, use.branch.lengths = TRUE) {
+    scale = FALSE, use.branch.lengths = TRUE, ...) {
     type <- match.arg(type)
     if (is.rooted(tree) == FALSE)
         warning("A rooted phylogeny is required for meaningful output of this function",

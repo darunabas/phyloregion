@@ -2,14 +2,15 @@
 % Please edit documentation in R/ed_phyloregion.R
 \name{ed_phyloregion}
 \alias{ed_phyloregion}
-\title{Calculate evolutionary distinctiveness of phyloregions.}
+\title{Calculate evolutionary distinctiveness of phyloregions}
 \usage{
 ed_phyloregion(x, k = 10, method = "average", shp = NULL, ...)
 }
 \arguments{
 \item{x}{A distance matrix}
 
-\item{k}{The desired number of phyloregions}
+\item{k}{The desired number of phyloregions, often as determined by 
+\code{optimal.phyloregion}.}
 
 \item{method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{single},

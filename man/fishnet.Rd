@@ -17,7 +17,7 @@ defined area.
 }
 \description{
 The \code{fishnet} function creates a regular grid of locations covering
-the study area.
+the study area at various grain sizes.
 }
 \examples{
 library(raster)

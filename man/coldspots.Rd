@@ -15,9 +15,9 @@ hotspots(x, values, prob = 2.5, ...)
 \item{values}{Variable in the dataframe on which to compute coldspots
 analysis}
 
-\item{prob}{The threshold quantile for representing the lowest proportion of
-biodiversity in an area. By default, the threshold is set to
-\code{prob = 2.5} percent.}
+\item{prob}{The threshold quantile for representing the lowest (\code{coldspots}) 
+or highest (\code{hotspots}) proportion of biodiversity in an area. 
+By default, the threshold is set to \code{prob = 2.5} percent.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }
@@ -62,6 +62,10 @@ Sciences USA} \strong{103}: 19374–19379.
 Orme, C.D., Davies, R.G., Burgess, M., Eigenbrod, F., Pickup, N. et al.
 (2005) Global hotspots of species richness are not congruent with endemism or
 threat. \emph{Nature} \strong{436}: 1016–1019.
+
+Daru, B.H., Van der Bank, M. & Davies, T.J. (2015) Spatial incongruence among 
+hotspots and complementary areas of tree diversity in southern Africa. 
+\emph{Diversity and Distributions} \strong{21}: 769-780.
 }
 \seealso{
 \code{\link{hotspots}}

@@ -8,7 +8,8 @@ evol_distinct(
   tree,
   type = c("equal.splits", "fair.proportion"),
   scale = FALSE,
-  use.branch.lengths = TRUE
+  use.branch.lengths = TRUE,
+  ...
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ that branch lengths are relative.}
 
 \item{use.branch.lengths}{If use.branch.lengths=FALSE, then all branch
 lengths are changed to 1.}
+
+\item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
 a named vector with species scores.

@@ -1,11 +1,12 @@
-#' Calculate evolutionary distinctiveness of phyloregions.
+#' Calculate evolutionary distinctiveness of phyloregions
 #'
 #' This function estimates evolutionary distinctiveness of each phyloregion by
 #' computing the mean value of phylogenetic beta diversity between a focal
 #' phyloregion and all other phyloregions in the study area.
 #'
 #' @param x A distance matrix
-#' @param k The desired number of phyloregions
+#' @param k The desired number of phyloregions, often as determined by 
+#' \code{optimal.phyloregion}.
 #' @param method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{single},
 #' \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA), \dQuote{median}

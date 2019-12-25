@@ -1,7 +1,7 @@
 #' Create a fishnet of regular grids
 #'
 #' The \code{fishnet} function creates a regular grid of locations covering
-#' the study area.
+#' the study area at various grain sizes.
 #'
 #' @param mask a polygon shapefile covering the boundary of the survey region.
 #' @param res the grain size of the grid cells in decimal degrees (default).

@@ -21,11 +21,10 @@ A compressed sparse community matrix of sites by species
 }
 \description{
 This function converts community data frame to compressed sparse matrix.
-It is especially developed for handling big data.
+It is fast and especially developed for handling large datasets.
 }
 \examples{
 data(africa)
 head(africa$comm)
 comm <- sampl2sparse(africa$comm)
 }
-\keyword{bioregion}

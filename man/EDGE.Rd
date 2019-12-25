@@ -4,7 +4,7 @@
 \alias{EDGE}
 \title{Evolutionary Distinctiveness and Global Endangerment}
 \usage{
-EDGE(x, phy, Redlist = "Redlist", species = "species")
+EDGE(x, phy, Redlist = "Redlist", species = "species", ...)
 }
 \arguments{
 \item{x}{a data.frame}
@@ -15,9 +15,11 @@ EDGE(x, phy, Redlist = "Redlist", species = "species")
 \code{NT}, \code{VU}, \code{EN}, \code{CR}, and \code{EX}.}
 
 \item{species}{data frame column specifying the taxon}
+
+\item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
-Returns a dataframe of the EDGE scores
+Returns a dataframe of EDGE scores
 }
 \description{
 This function calculates EDGE by combining evolutionary distinctiveness
@@ -27,10 +29,10 @@ of Nature (IUCN).
 }
 \details{
 EDGE is calculated as: \deqn{log(1+ED) + GE*log(2)}
-where ED represents the evolutionary distinctiveness score of each
-species, i.e. the degree of phylogenetic isolation, and combining it
-with GE, global endangerment from IUCN conservation threat categories.
-GE is calculated as the expected probability of extinction over 100
+where \emph{ED} represents the evolutionary distinctiveness score of each
+species (function \code{evol_distinct}), i.e. the degree of phylogenetic isolation, 
+and combining it with \emph{GE}, global endangerment from IUCN conservation threat 
+categories. \emph{GE} is calculated as the expected probability of extinction over 100
 years of each taxon in the phylogeny (Redding & Mooers, 2006),
 scaled as follows: least concern = 0.001, near threatened and
 conservation dependent = 0.01, vulnerable = 0.1, endangered = 0.67,

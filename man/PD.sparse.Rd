@@ -15,7 +15,7 @@ PD.sparse(x, phy)
 a vector with the PD for all samples.
 }
 \description{
-\code{PD.sparse} calculates Faith's phylogenetic diversity and much faster
+\code{PD.sparse} calculates Faith's (1992) phylogenetic diversity and much faster
 using sparse matrix.
 }
 \examples{
@@ -27,6 +27,10 @@ com <- matrix(c(1,0,1,1,0,0,
                 0,0,1,1,0,1), 6, 4,
               dimnames=list(paste0("g",1:6), tree$tip.label))
 PD.sparse(com, tree)
+}
+\references{
+Faith, D.P. (1992) Conservation evaluation and phylogenetic diversity.
+\emph{Biological Conservation} \strong{61}: 1–10.
 }
 \seealso{
 read.community read.tree phylobeta_core

@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_clades.R
 \name{get_clades}
 \alias{get_clades}
-\title{Get descendant nodes of phylogeny at a given time depth.}
+\title{Get descendant nodes of phylogeny at a given time depth}
 \usage{
 get_clades(tree, cut = 2, ...)
 }

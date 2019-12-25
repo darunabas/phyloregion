@@ -1,6 +1,6 @@
 #' Phylogenetic diversity and faster
 #'
-#' \code{PD.sparse} calculates Faith's phylogenetic diversity and much faster
+#' \code{PD.sparse} calculates Faith's (1992) phylogenetic diversity and much faster
 #' using sparse matrix.
 #'
 #' @param x a community matrix, i.e. an object of class matrix or Matrix.
@@ -8,6 +8,9 @@
 #' @return a vector with the PD for all samples.
 #' @keywords cluster
 #' @seealso read.community read.tree phylobeta_core
+#' @references
+#' Faith, D.P. (1992) Conservation evaluation and phylogenetic diversity.
+#' \emph{Biological Conservation} \strong{61}: 1–10.
 #' @examples
 #' library(ape)
 #' tree <- read.tree(text ="((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")

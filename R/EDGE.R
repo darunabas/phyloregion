@@ -6,10 +6,10 @@
 #' of Nature (IUCN).
 #'
 #' EDGE is calculated as: \deqn{log(1+ED) + GE*log(2)}
-#' where ED represents the evolutionary distinctiveness score of each
-#' species, i.e. the degree of phylogenetic isolation, and combining it
-#' with GE, global endangerment from IUCN conservation threat categories.
-#' GE is calculated as the expected probability of extinction over 100
+#' where \emph{ED} represents the evolutionary distinctiveness score of each
+#' species (function \code{evol_distinct}), i.e. the degree of phylogenetic isolation, 
+#' and combining it with \emph{GE}, global endangerment from IUCN conservation threat 
+#' categories. \emph{GE} is calculated as the expected probability of extinction over 100
 #' years of each taxon in the phylogeny (Redding & Mooers, 2006),
 #' scaled as follows: least concern = 0.001, near threatened and
 #' conservation dependent = 0.01, vulnerable = 0.1, endangered = 0.67,
@@ -20,8 +20,9 @@
 #' \code{NT}, \code{VU}, \code{EN}, \code{CR}, and \code{EX}.
 #' @param species data frame column specifying the taxon
 #' @param phy a phylogenetic tree (object of class phylo).
+#' @param \dots Further arguments passed to or from other methods.
 #' @rdname EDGE
-#' @return Returns a dataframe of the EDGE scores
+#' @return Returns a dataframe of EDGE scores
 #' @importFrom stats complete.cases
 #'
 #' @author Barnabas H. Daru
@@ -38,7 +39,7 @@
 #' y <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
 #' @export EDGE
 
-EDGE <- function(x, phy, Redlist="Redlist", species="species"){
+EDGE <- function(x, phy, Redlist="Redlist", species="species", ...){
 
   x <- as.data.frame(x)
   x <- x[, c(species, Redlist)]
@@ -63,7 +64,7 @@ EDGE <- function(x, phy, Redlist="Redlist", species="species"){
   colnames(Redlist) <- c("species", "GE")
 
   # CALCULATING ED
-  ED <- evol_distinct(phy, type = "fair.proportion")
+  ED <- evol_distinct(phy, type = "fair.proportion", ...)
   ED <- as.data.frame(ED)
   ED <- cbind(species=rownames(ED), ED=data.frame(ED, row.names=NULL))
 

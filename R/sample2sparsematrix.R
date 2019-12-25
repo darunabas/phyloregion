@@ -1,7 +1,7 @@
 #' Convert community data to sparse matrix.
 #'
 #' This function converts community data frame to compressed sparse matrix.
-#' It is especially developed for handling big data.
+#' It is fast and especially developed for handling large datasets.
 #'
 #' @param dat A community data frame with at least two columns, grids and species
 #' @param grids column name of the column containing grid cells
@@ -9,7 +9,6 @@
 #' @param method one of "phylo" (the default) corresponding to phylogenetic
 #' beta diversity, or "nonphylo" for beta diversity.
 #' @rdname sampl2sparse
-#' @keywords bioregion
 #' @importFrom Matrix sparseMatrix
 #' @importFrom data.table as.data.table
 #'

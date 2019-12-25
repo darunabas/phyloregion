@@ -4,7 +4,7 @@
 \alias{choropleth}
 \title{Bin shapefile polygons based on slot values}
 \usage{
-choropleth(x, values, k = 10, ...)
+choropleth(x, values, k = 10, style = "quantile", ...)
 }
 \arguments{
 \item{x}{A data frame or object of the class SpatialPolygonsDataFrame}
@@ -14,14 +14,15 @@ discretize the values of the quantity.}
 
 \item{k}{Numeric, the desired number of bins to discretize.}
 
+\item{style}{one of \dQuote{equal}, \dQuote{pretty}, or \dQuote{quantile}.}
+
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
 {returns a SpatialPolygonsDataFrame with a column of the discretized values}
 }
 \description{
-\code{choropleth} discretizes the values of a quantity based on their
-quantiles.
+\code{choropleth} discretizes the values of a quantity for mapping.
 }
 \examples{
 require(raster)

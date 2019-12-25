@@ -1,12 +1,12 @@
 #' Bin shapefile polygons based on slot values
 #'
-#' \code{choropleth} discretizes the values of a quantity based on their
-#' quantiles.
+#' \code{choropleth} discretizes the values of a quantity for mapping.
 #'
 #' @param x A data frame or object of the class SpatialPolygonsDataFrame
 #' @param values Variable in the SpatialPolygonsDataFrame for which to
 #' discretize the values of the quantity.
 #' @param k Numeric, the desired number of bins to discretize.
+#' @param style one of \dQuote{equal}, \dQuote{pretty}, or \dQuote{quantile}.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname choropleth
 #' @keywords bioregion
@@ -26,9 +26,17 @@
 #' ## To plot and color according to some metric:
 #' plot(y, col = COLOUR[y$values], border = NA)
 #' @export
-choropleth <- function(x, values, k = 10, ...) {
+choropleth <- function(x, values, k = 10, style="quantile", ...) {
 #  x$values <- values
-  quants <- quantile(values, seq(0, 1, length.out = k + 1))
+  if (style == "quantile") {
+    quants <- quantile(values, seq(0, 1, length.out = k + 1))
+  }
+  else if (style == "equal") {
+    quants <- seq(min(values), max(values), length.out = k)
+  }
+  else if (style == "pretty") {
+    quants <- c(pretty(values, k = k + 1))
+  }
   l <- length(quants) - 1
   col_vec <- integer(length(values))
   col_vec[values == quants[1]] <- 1
