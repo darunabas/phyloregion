@@ -5,7 +5,7 @@
 #' phyloregion and all other phyloregions in the study area.
 #'
 #' @param x A distance matrix
-#' @param k The desired number of phyloregions, often as determined by 
+#' @param k The desired number of phyloregions, often as determined by
 #' \code{optimal.phyloregion}.
 #' @param method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{single},
@@ -57,7 +57,7 @@
 #'   0, 0, 1, 1, 0, 1), 6, 4,
 #' dimnames = list(paste0("g", 1:6), tree$tip.label))
 #' pbc <- phylobeta(com, tree)
-#' ed_phyloregion(pbc, k = 3)
+#' ed_phyloregion(pbc[[1]], k = 3)
 #' @export
 ed_phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
 

@@ -36,7 +36,7 @@
 #' M <- sampl2sparse(africa$comm, method = "nonphylo")
 #'
 #' bc <- beta_diss(M)
-#' select_linkage(bc, plot = TRUE)
+#' select_linkage(bc[[1]], plot = TRUE)
 #' @export select_linkage
 select_linkage <- function(x, plot=FALSE,
                                  rot_angle=45, cex=0.7, col="grey", ...){

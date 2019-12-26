@@ -125,14 +125,11 @@ phylobeta_core <- function(x, phy) {
 phylobeta <- function(x, phy, index.family = "sorensen") {
   res <- phylobeta_core(x, phy)
   p <- phylo.beta.pair(res, index.family = index.family)
-  if (index.family == "simpson") {
-    z <- p[[1]]
-  }
-  else if (index.family == "sorensen") {
-    z <- p[[1]]
+  if (index.family == "sorensen") {
+    z <- p
   }
   else if (index.family == "jaccard") {
-    z <- p[[3]]
+    z <- p
   }
   return(z)
 }
@@ -211,14 +208,11 @@ beta_core <- function(x) {
 beta_diss <- function(x, index.family = "sorensen") {
   computations <- beta_core(x)
   p <- beta.pair(computations, index.family = index.family)
-  if (index.family == "simpson") {
-    res <- p[[1]]
-  }
-  else if (index.family == "sorensen") {
-    res <- p[[3]]
+  if (index.family == "sorensen") {
+    res <- p
   }
   else if (index.family == "jaccard") {
-    res <- p[[3]]
+    res <- p
   }
   return(res)
 }

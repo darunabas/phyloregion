@@ -40,7 +40,7 @@ tree <- africa$phylo
 M <- sampl2sparse(africa$comm, method = "nonphylo")
 
 bc <- beta_diss(M)
-select_linkage(bc, plot = TRUE)
+select_linkage(bc[[1]], plot = TRUE)
 }
 \references{
 Sokal, R.R. & Rohlf, F.J. (1962) The comparison of dendrograms by

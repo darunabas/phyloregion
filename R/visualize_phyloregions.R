@@ -90,7 +90,7 @@ plot_NMDS <- function(x, ...) {
 #' submat <- match_phylo_comm(tree, x)$com
 #'
 #' pbc <- phylobeta(submat, subphy)
-#' y <- ed_phyloregion(pbc, shp=africa$polys)
+#' y <- ed_phyloregion(pbc[[1]], shp=africa$polys)
 #'
 #' plot_NMDS(y, cex=6)
 #' text_NMDS(y, cex=2)

@@ -9,7 +9,7 @@ ed_phyloregion(x, k = 10, method = "average", shp = NULL, ...)
 \arguments{
 \item{x}{A distance matrix}
 
-\item{k}{The desired number of phyloregions, often as determined by 
+\item{k}{The desired number of phyloregions, often as determined by
 \code{optimal.phyloregion}.}
 
 \item{method}{the agglomeration method to be used. This should be (an
@@ -41,7 +41,7 @@ com <- matrix(c(1, 0, 1, 1, 0, 0,
   0, 0, 1, 1, 0, 1), 6, 4,
 dimnames = list(paste0("g", 1:6), tree$tip.label))
 pbc <- phylobeta(com, tree)
-ed_phyloregion(pbc, k = 3)
+ed_phyloregion(pbc[[1]], k = 3)
 }
 \references{
 Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H.,
