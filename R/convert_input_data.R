@@ -92,17 +92,9 @@ raster2comm <- function(files) {
 #'
 #' \dontrun{
 #' library(raster)
-#' p1 <- Polygons(list(Polygon(rbind(c(-180, -20), c(-140, 55), c(10, 0),
-#'   c(-140, -60), c(-180, -20)))), 1)
-#' p2 <- Polygons(list(Polygon(rbind(c(-10, 0), c(140, 60), c(160, 0),
-#'   c(140, -55), c(-10, 0)))), 2)
-#'
-#' sp <- SpatialPolygons(list(p1, p2),
-#'   proj4string = CRS('+proj=longlat +ellps=WGS84 +datum=WGS84'))
-#'
-#' sp <- SpatialPolygonsDataFrame(sp, data.frame(Species = c("sp1", "sp2")))
-#'
-#' polys2comm(dat = sp, species = "Species")
+#' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
+#' sp <- random_species(100, species=5, shp=s)
+#' polys2comm(dat = sp, species = "species")
 #' }
 #'
 #' @export
