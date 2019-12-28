@@ -1,6 +1,6 @@
 #' Phylogenetic diversity and faster
 #'
-#' \code{PD.sparse} calculates Faith's (1992) phylogenetic diversity and much faster
+#' \code{PD} calculates Faith's (1992) phylogenetic diversity and much faster
 #' using sparse matrix.
 #'
 #' @param x a community matrix, i.e. an object of class matrix or Matrix.
@@ -19,10 +19,10 @@
 #'                 1,1,1,1,1,1,
 #'                 0,0,1,1,0,1), 6, 4,
 #'               dimnames=list(paste0("g",1:6), tree$tip.label))
-#' PD.sparse(com, tree)
-#' @rdname PD.sparse
+#' PD(com, tree)
+#' @rdname PD
 #' @export
-PD.sparse <- function(x, phy){
+PD <- function(x, phy){
   y <- phylo_community(x, phy)
   el <- attr(y, "edge.length")
   res <- vapply(y, function(x, el)sum(el[x]), 0, el)

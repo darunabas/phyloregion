@@ -11,7 +11,7 @@ com <- matrix(c(1,0,1,1,0,0,
                 0,0,1,1,0,1), 6, 4,
               dimnames=list(paste0("g",1:6), tree$tip.label))
 
-pd_bioregion <- PD.sparse(com, tree)
+pd_bioregion <- PD(com, tree)
 
 pbc_phyloregion <- phylobeta_core(com, tree)
 pbc_betapart <- phylo.betapart.core(com, tree)
