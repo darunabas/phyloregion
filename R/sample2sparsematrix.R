@@ -20,6 +20,7 @@
 #' comm <- sampl2sparse(africa$comm)
 #' @export sampl2sparse
 sampl2sparse <- function(dat, grids="grids", species="species", method="phylo"){
+  dat <- as.data.frame(dat)
   dat <- dat[, c(grids, species)]
   names(dat) <- c("grids", "species")
   grids <- factor(as.character(dat$grids))
