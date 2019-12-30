@@ -11,7 +11,6 @@
 #' @importFrom methods as
 #' @keywords Conversion
 #' @examples
-#' require(sp)
 #' com <- matrix(c(1,0,1,1,0,0,
 #'                 1,0,0,1,1,0,
 #'                 1,1,1,1,1,1,

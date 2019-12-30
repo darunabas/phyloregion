@@ -18,7 +18,8 @@ collapse_range(
 
 \item{tree}{A phylogenetic tree.}
 
-\item{n}{Time depth to slice the phylogenetic tree (often in millions of years for dated trees).}
+\item{n}{Time depth to slice the phylogenetic tree (often in millions of
+years for dated trees).}
 
 \item{species}{If \code{format =} \dQuote{long} (the default),
 the column with the species name.}
@@ -33,8 +34,8 @@ Two community data frames: the \code{collapsed community data} and
 \code{original community data}
 }
 \description{
-This function collapses nodes and geographic ranges based on species' divergence
-times at various time depths.
+This function collapses nodes and geographic ranges based on species'
+divergence times at various time depths.
 }
 \examples{
 library(ape)
@@ -49,5 +50,6 @@ com <- matrix(c(1,0,1,1,0,0,
 collapse_range(com, tr1, n=1)
 }
 \references{
-Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. Endemism patterns are scale dependent.
+Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. Endemism patterns are
+scale dependent.
 }

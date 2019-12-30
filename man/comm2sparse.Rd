@@ -18,7 +18,6 @@ See \url{https://github.com/darunabas/phyloregion} for more
 details and tutorials.
 }
 \examples{
-require(sp)
 com <- matrix(c(1,0,1,1,0,0,
                 1,0,0,1,1,0,
                 1,1,1,1,1,1,

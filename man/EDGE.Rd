@@ -30,13 +30,13 @@ of Nature (IUCN).
 \details{
 EDGE is calculated as: \deqn{log(1+ED) + GE*log(2)}
 where \emph{ED} represents the evolutionary distinctiveness score of each
-species (function \code{evol_distinct}), i.e. the degree of phylogenetic isolation, 
-and combining it with \emph{GE}, global endangerment from IUCN conservation threat 
-categories. \emph{GE} is calculated as the expected probability of extinction over 100
-years of each taxon in the phylogeny (Redding & Mooers, 2006),
-scaled as follows: least concern = 0.001, near threatened and
-conservation dependent = 0.01, vulnerable = 0.1, endangered = 0.67,
-and critically endangered = 0.999.
+species (function \code{evol_distinct}), i.e. the degree of phylogenetic
+isolation, and combining it with \emph{GE}, global endangerment from IUCN
+conservation threat categories. \emph{GE} is calculated as the expected
+probability of extinction over 100 years of each taxon in the phylogeny
+(Redding & Mooers, 2006), scaled as follows: least concern = 0.001, near
+threatened and conservation dependent = 0.01, vulnerable = 0.1,
+endangered = 0.67, and critically endangered = 0.999.
 }
 \examples{
 data(africa)

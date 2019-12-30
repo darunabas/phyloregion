@@ -1,11 +1,12 @@
 #' Collapse nodes and ranges based on divergence times
 #'
-#' This function collapses nodes and geographic ranges based on species' divergence
-#' times at various time depths.
+#' This function collapses nodes and geographic ranges based on species'
+#' divergence times at various time depths.
 #'
 #' @param x A community matrix or data frame.
 #' @param tree A phylogenetic tree.
-#' @param n Time depth to slice the phylogenetic tree (often in millions of years for dated trees).
+#' @param n Time depth to slice the phylogenetic tree (often in millions of
+#' years for dated trees).
 #' @param species If \code{format =} \dQuote{long} (the default),
 #' the column with the species name.
 #' @param grids The column with the sites or grids if \code{format =} \dQuote{long}.
@@ -18,7 +19,8 @@
 #' \code{original community data}
 #'
 #' @references
-#' Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. Endemism patterns are scale dependent.
+#' Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. Endemism patterns are
+#' scale dependent.
 #' @examples
 #' library(ape)
 #' tr1 <- read.tree(text ="(((a:2,(b:1,c:1):1):1,d:3):1,e:4);")
@@ -31,7 +33,8 @@
 #'
 #' collapse_range(com, tr1, n=1)
 #' @export collapse_range
-collapse_range <- function(x, tree, n, species="species", grids="grids", format="wide"){
+collapse_range <- function(x, tree, n, species="species", grids="grids",
+                           format="wide"){
   if (format == "wide") {
     x <- data.frame(expand.grid(dimnames(provideDimnames(x)))[1:2],
                     as.vector(as.matrix(x)))
@@ -48,7 +51,6 @@ collapse_range <- function(x, tree, n, species="species", grids="grids", format=
   if(length(ind)>0){
     subphy <- keep.tip(tree, ind)
     submat <- subset(x, x$species %in% ind)
-
     d <- get_clades(subphy, n)
 
     # SPECIES THAT CAN BE LUMPED
@@ -64,22 +66,16 @@ collapse_range <- function(x, tree, n, species="species", grids="grids", format=
     S <- unique(as.character(r$rep))
 
     out <- NULL
-    for (i in 1:length(S)) {
+    for (i in seq_along(S)) {
       v <- subset(r, r$rep==S[i])
       v <- subset(submat, c(submat$species %in% as.vector(v$species)))
       v <- cbind(grids=v[1], species=v$species[1])
       out <- rbind(out, v)
     }
-
     rr <- unique(data.frame(out))
-
     z <- rbind(w, rr)
     return(list(collapsed_com=z, original_com=submat))
   } else {
     stop("Taxa names in community data do not match names in tree")
   }
-
 }
-
-
-

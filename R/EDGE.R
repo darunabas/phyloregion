@@ -7,13 +7,13 @@
 #'
 #' EDGE is calculated as: \deqn{log(1+ED) + GE*log(2)}
 #' where \emph{ED} represents the evolutionary distinctiveness score of each
-#' species (function \code{evol_distinct}), i.e. the degree of phylogenetic isolation, 
-#' and combining it with \emph{GE}, global endangerment from IUCN conservation threat 
-#' categories. \emph{GE} is calculated as the expected probability of extinction over 100
-#' years of each taxon in the phylogeny (Redding & Mooers, 2006),
-#' scaled as follows: least concern = 0.001, near threatened and
-#' conservation dependent = 0.01, vulnerable = 0.1, endangered = 0.67,
-#' and critically endangered = 0.999.
+#' species (function \code{evol_distinct}), i.e. the degree of phylogenetic
+#' isolation, and combining it with \emph{GE}, global endangerment from IUCN
+#' conservation threat categories. \emph{GE} is calculated as the expected
+#' probability of extinction over 100 years of each taxon in the phylogeny
+#' (Redding & Mooers, 2006), scaled as follows: least concern = 0.001, near
+#' threatened and conservation dependent = 0.01, vulnerable = 0.1,
+#' endangered = 0.67, and critically endangered = 0.999.
 #'
 #' @param x a data.frame
 #' @param Redlist column in the data frame with the IUCN ranks: \code{LC},
@@ -48,7 +48,7 @@ EDGE <- function(x, phy, Redlist="Redlist", species="species", ...){
   # Calculating GE
   y <- as.character(x$Redlist)
   Redlist <- as.data.frame(NULL)
-  for (i in 1:length(y)){
+  for (i in seq_along(y)){
     if (y[i]=="LC") RL <- 0.001
     if (y[i]=="NT") RL <- 0.01
     if (y[i]=="VU") RL <- 0.1
@@ -78,4 +78,3 @@ EDGE <- function(x, phy, Redlist="Redlist", species="species", ...){
   names(my_EDGE) <- m$species
   my_EDGE
 }
-
