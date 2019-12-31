@@ -7,9 +7,10 @@
 #' @param x A data frame
 #' @param values Variable in the dataframe on which to compute coldspots
 #' analysis
-#' @param prob The threshold quantile for representing the lowest (\code{coldspots}) 
-#' or highest (\code{hotspots}) proportion of biodiversity in an area. 
+#' @param prob The threshold quantile for representing the lowest (\code{coldspots})
+#' or highest (\code{hotspots}) proportion of biodiversity in an area.
 #' By default, the threshold is set to \code{prob = 2.5} percent.
+#' @param index string, specifying column name of result.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname coldspots
 #' @keywords phyloregion
@@ -30,9 +31,9 @@
 #' Orme, C.D., Davies, R.G., Burgess, M., Eigenbrod, F., Pickup, N. et al.
 #' (2005) Global hotspots of species richness are not congruent with endemism or
 #' threat. \emph{Nature} \strong{436}: 1016–1019.
-#' 
-#' Daru, B.H., Van der Bank, M. & Davies, T.J. (2015) Spatial incongruence among 
-#' hotspots and complementary areas of tree diversity in southern Africa. 
+#'
+#' Daru, B.H., Van der Bank, M. & Davies, T.J. (2015) Spatial incongruence among
+#' hotspots and complementary areas of tree diversity in southern Africa.
 #' \emph{Diversity and Distributions} \strong{21}: 769-780.
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #' @seealso \code{\link{hotspots}}
@@ -57,7 +58,7 @@
 #' plot(m[(m@data$hot == 1), ], col = "red", add = TRUE, border = NA)
 #' legend("bottomleft", fill = c("blue", "red", "yellow", "green"),
 #'   legend = c("coldspots", "hotspots"), bty = "n", inset = .092)
-coldspots <- function(x, values, prob = 2.5, ...) {
+coldspots <- function(x, values, prob = 2.5, index = "cold", ...) {
   quant <- prob / 100
   x$values <- values
   r <- quantile(values, quant, na.rm = TRUE)
@@ -65,20 +66,22 @@ coldspots <- function(x, values, prob = 2.5, ...) {
   values[which(values > r[[1]])] <- 0
   values[which(values == r[[1]])] <- NA
   values[which(is.na(values))] <- 1
-  x$cold <- values
+  x$values <- values
+  names(x)[names(x) == 'values'] <- index
   x
 }
 
 
 #' @rdname coldspots
 #' @export
-hotspots <- function(x, values, prob = 2.5, ...) {
+hotspots <- function(x, values, prob = 2.5, index = "hot",...) {
   quant <- (1 - (prob / 100))
   x$values <- values
   r <- quantile(values, quant, na.rm = TRUE)
   values[which(values < r[[1]])] <- 0
   values[which(values > r[[1]])] <- 1
   values[which(values == r[[1]])] <- 1
-  x$hot <- values
+  x$values <- values
+  names(x)[names(x) == 'values'] <- index
   x
 }
