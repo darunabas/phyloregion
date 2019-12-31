@@ -39,11 +39,23 @@ expect_equal(nrow(long2), nrow(long))
 set.seed(42)
 ind <- sample(60823, 1000, replace = TRUE)
 long_ind <- long[ind,]
-#sparse_ind <- sampl2sparse(long_ind)
+
 sparse_ind <- sampl2sparse(long_ind, method="nonphylo")
 long_ind2 <- sparse2sampl(sparse_ind)
 
 expect_equal(nrow(long_ind), nrow(long_ind2))
+
+
+#check if beta_core is equal to betapart.core
+data(africa)
+M_sparse <- sampl2sparse(africa$comm, method = "nonphylo")
+M_dense <- as(M_sparse, "matrix")
+
+bc_dense <- betapart.core(M_dense)
+bc_sparse <- beta_core(M_sparse)
+# first element is data
+expect_equal(bc_sparse[-1], bc_dense[-1])
+
 
 
 
