@@ -4,12 +4,16 @@
 \alias{PD}
 \title{Phylogenetic diversity and faster}
 \usage{
-PD(x, phy)
+PD(x, phy, method = "comm")
 }
 \arguments{
 \item{x}{a community matrix, i.e. an object of class matrix or Matrix.}
 
 \item{phy}{a phylogenetic tree (object of class phylo).}
+
+\item{method}{If \code{method =} \dQuote{comm} (the default),
+the phylogenetic diversity of each community in the study area;
+else \dQuote{total}, the total PD of the study area.}
 }
 \value{
 a vector with the PD for all samples.

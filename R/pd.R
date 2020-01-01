@@ -5,6 +5,9 @@
 #'
 #' @param x a community matrix, i.e. an object of class matrix or Matrix.
 #' @param phy a phylogenetic tree (object of class phylo).
+#' @param method If \code{method =} \dQuote{comm} (the default),
+#' the phylogenetic diversity of each community in the study area;
+#' else \dQuote{total}, the total PD of the study area.
 #' @return a vector with the PD for all samples.
 #' @keywords cluster
 #' @seealso read.community read.tree phylobeta_core
@@ -22,10 +25,15 @@
 #' PD(com, tree)
 #' @rdname PD
 #' @export
-PD <- function(x, phy){
-  y <- phylo_community(x, phy)
-  el <- attr(y, "edge.length")
-  res <- vapply(y, function(x, el)sum(el[x]), 0, el)
+PD <- function(x, phy, method = "comm"){
+    if (method == "comm") {
+        y <- phylo_community(x, phy)
+        el <- attr(y, "edge.length")
+        res <- vapply(y, function(x, el)sum(el[x]), 0, el)
+    }
+    else if (method == "total") {
+        res <- sum(phy$edge.length)
+    }
   res
 }
 
