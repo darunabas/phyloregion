@@ -22,7 +22,7 @@
 #' @export
 
 random_species <- function(n, species, shp, ...){
-    x <- sample(1:n, species, replace=TRUE, ...)
+    x <- sample(10:n, species, replace=TRUE, ...)
 
     y <- list()
     for (i in 1:length(x)) {
