@@ -6,7 +6,6 @@
 #' correlation coefficient.
 #'
 #' @param x a numeric matrix, data frame or "dist" object.
-#' @param plot logical if results should be plotted.
 #' @param rot_angle rotation angle of the barplot x-axis labels.
 #' @param cex character (or symbol) expansion: a numerical vector for
 #' the size of the x-axis labels
@@ -38,8 +37,7 @@
 #' bc <- beta_diss(M)
 #' select_linkage(bc[[1]], plot = TRUE)
 #' @export select_linkage
-select_linkage <- function(x, plot=FALSE,
-                                 rot_angle=45, cex=0.7, col="grey", ...){
+select_linkage <- function(x, rot_angle=45, cex=0.7, col="grey", ...){
   hc1 <- hclust(as.dist(x), method="average")
   hc2 <- hclust(as.dist(x), method="single")
   hc3 <- hclust(as.dist(x), method="complete")
@@ -51,24 +49,24 @@ select_linkage <- function(x, plot=FALSE,
   hc9 <- diana(as.dist(x))
 
 
-  z <- c(UPGMA=cor(as.dist(x), cophenetic(hc1)),
-    Single=cor(as.dist(x), cophenetic(hc2)),
-    Complete=cor(as.dist(x), cophenetic(hc3)),
-    ward.D=cor(as.dist(x), cophenetic(hc4)),
-    ward.D2=cor(as.dist(x), cophenetic(hc5)),
-    WPGMA=cor(as.dist(x), cophenetic(hc6)),
-    WPGMC=cor(as.dist(x), cophenetic(hc7)),
-    UPGMC=cor(as.dist(x), cophenetic(hc8)),
-    DIANA=cor(as.dist(x), cophenetic(hc9)))
+  z <- c(UPGMA=cor(as.dist(x), cophenetic(hc1), use="complete.obs"),
+    Single=cor(as.dist(x), cophenetic(hc2), use="complete.obs"),
+    Complete=cor(as.dist(x), cophenetic(hc3), use="complete.obs"),
+    ward.D=cor(as.dist(x), cophenetic(hc4), use="complete.obs"),
+    ward.D2=cor(as.dist(x), cophenetic(hc5), use="complete.obs"),
+    WPGMA=cor(as.dist(x), cophenetic(hc6), use="complete.obs"),
+    WPGMC=cor(as.dist(x), cophenetic(hc7), use="complete.obs"),
+    UPGMC=cor(as.dist(x), cophenetic(hc8), use="complete.obs"),
+    DIANA=cor(as.dist(x), cophenetic(hc9), use="complete.obs"))
   plt <- barplot(z, las=1,
                  ylab = "Cophenetic correlation",
-                 plot = plot, xaxt="n", col = col,
+                 xaxt="n", col = col,
                  ylim=c(0,0.1+max(z)), ...)
   text(plt, par("usr")[3],
        labels = names(z),
        srt = rot_angle,
        adj = c(1.1,1.1),
-       xpd = TRUE, cex=cex)
+       xpd = TRUE, cex=cex, ...)
 
   cat("\nA good clustering algorithm for the distance matrix is:\n",
       names(z[which.max(z)]),

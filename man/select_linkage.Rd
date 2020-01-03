@@ -4,12 +4,10 @@
 \alias{select_linkage}
 \title{Cluster algorithm selection and validation}
 \usage{
-select_linkage(x, plot = FALSE, rot_angle = 45, cex = 0.7, col = "grey", ...)
+select_linkage(x, rot_angle = 45, cex = 0.7, col = "grey", ...)
 }
 \arguments{
 \item{x}{a numeric matrix, data frame or "dist" object.}
-
-\item{plot}{logical if results should be plotted.}
 
 \item{rot_angle}{rotation angle of the barplot x-axis labels.}
 
