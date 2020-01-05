@@ -39,7 +39,7 @@ choropleth <- function(x, values, k = 10, style="quantile", ...) {
   }
   l <- length(quants) - 1
   col_vec <- integer(length(values))
-  col_vec[values == quants[1]] <- 1
+  col_vec[values == quants[1]] <- 1L
   for (i in seq_len(l)) {
     col_vec[values > quants[i] & values <= quants[i + 1]] <- i
   }
@@ -48,5 +48,16 @@ choropleth <- function(x, values, k = 10, style="quantile", ...) {
 }
 
 
-
-# @param style one of \dQuote{equal}, \dQuote{pretty}, or \dQuote{quantile}.
+choropleth3 <- function(values, k = 10, style="quantile", ...) {
+  quants <- switch(style,
+                   quantile = quantile(values, seq(0, 1, length.out = k + 1),
+                   equal = seq(min(values), max(values), length.out = k),
+                   pretty = c(pretty(values, k = k + 1))))
+  l <- length(quants) - 1
+  col_vec <- integer(length(values))
+  col_vec[values == quants[1]] <- 1L
+  for (i in seq_len(l)) {
+    col_vec[values > quants[i] & values <= quants[i + 1]] <- i
+  }
+  col_vec
+}
