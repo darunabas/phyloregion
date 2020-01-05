@@ -47,16 +47,25 @@ expect_equal(nrow(long_ind), nrow(long_ind2))
 
 
 #check if beta_core is equal to betapart.core
-data(africa)
 M_sparse <- sampl2sparse(africa$comm, method = "nonphylo")
 M_dense <- as(M_sparse, "matrix")
 
 bc_dense <- betapart.core(M_dense)
 bc_sparse <- beta_core(M_sparse)
-# first element is data
+# first element is data matrix, so we ignore it
 expect_equal(bc_sparse[-1], bc_dense[-1])
 
 
+# choropleth works (expect high positive correlation)
+x <- rnorm(1000)
+expect_true(cor(x, phyloregion:::choropleth3(x)) > 0.9)
 
 
 
+# evol_distinct vs evol.distinct
+if(requireNamespace("picante")){
+  tree <- rcoal(100)
+  expect_equivalent(evol_distinct(tree), picante::evol.distinct(tree)[,2])
+  expect_equivalent(evol_distinct(tree, "fair"),
+                    picante::evol.distinct(tree, "fair")[,2])
+}
