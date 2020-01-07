@@ -47,6 +47,40 @@ phylo_community <- function(x, phy) {
 }
 
 
+phylo_community_2 <- function(x, phy) {
+  el <- numeric(max(phy$edge))
+  el[phy$edge[, 2]] <- phy$edge.length
+  x <- x[, phy$tip.label]
+  if (is.matrix(x) | is(x, "sparseMatrix")) {
+    x <- as.splits(x)
+  }
+  if (is.character(x) | is.numeric(x)) y <- list(phylo_com(x, phy))
+  if (is.list(x)) {
+    y <- lapply(x, function(x, phy) phylo_com(x, phy), phy)
+  }
+  if (is.null(y)) return(NULL)
+  M <- Matrix::sparseMatrix(as.integer(rep(seq_along(y), lengths(y))),
+                            as.integer(unlist(y)), x = 1L)
+  list(Matrix = M, edge.length = el)
+}
+
+
+# replace phylo_community with this function
+phylo_community_3 <- function(x, phy) {
+  el <- numeric(max(phy$edge))
+  el[phy$edge[, 2]] <- phy$edge.length
+  x <- x[, phy$tip.label]
+  anc <- Ancestors(phy, seq_along(phy$tip.label))
+  anc <-  mapply(c, seq_along(phy$tip.label), anc, SIMPLIFY=FALSE)
+  M <- Matrix::sparseMatrix(as.integer(rep(seq_along(anc), lengths(anc))),
+                            as.integer(unlist(anc)), x = 1L)
+  commphylo <- x %*% M
+  commphylo@x[] <- 1
+  list(Matrix = commphylo, edge.length = el)
+}
+
+
+
 #' Phylogenetic beta diversity
 #'
 #' \code{beta_diss} and \code{phylobeta_core} computes efficiently for
