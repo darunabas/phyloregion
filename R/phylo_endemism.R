@@ -24,9 +24,9 @@
 #' @param weighted is a logical indicating whether weighted endemism (default)
 #' or strict endemism should be calculated.
 #' @references
-#' Faith, D.P., Reid, C.A.M. & Hunter, J. (2004) Integrating phylogenetic diversity,
-#' complementarity, and endemism for conservation assessment. \emph{Conservation
-#' Biology} \strong{18}(1): 255-261.
+#' Faith, D.P., Reid, C.A.M. & Hunter, J. (2004) Integrating phylogenetic
+#' diversity, complementarity, and endemism for conservation assessment.
+#' \emph{Conservation Biology} \strong{18}(1): 255-261.
 #'
 #' Rosauer, D., Laffan, S.W., Crisp, M.D., Donnellan, C. & Cook, L.G. (2009).
 #' Phylogenetic endemism: a new approach for identifying geographical
@@ -46,7 +46,7 @@ phylo_endemism <- function(x, phy, weighted = TRUE){
         phy <- keep.tip(phy, intersect(phy$tip.label, colnames(x)))
 #    x <- match_phylo_comm(phy, x)$com
 #    phy <- match_phylo_comm(phy, x)$phy
-    comm_phylo <- phylo_community_3(x, phy)
+    comm_phylo <- phylo_community(x, phy)
     weights <- comm_phylo$Matrix %*%
         Diagonal(x = 1 / colSums(comm_phylo$Matrix) )
     if (weighted == FALSE) weights[weights < 1] <- 0

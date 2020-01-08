@@ -51,11 +51,9 @@
 #' @examples
 #' library(ape)
 #' tree <- read.tree(text = "((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
-#' com <- matrix(c(1, 0, 1, 1, 0, 0,
-#'   1, 0, 0, 1, 1, 0,
-#'   1, 1, 1, 1, 1, 1,
-#'   0, 0, 1, 1, 0, 1), 6, 4,
-#' dimnames = list(paste0("g", 1:6), tree$tip.label))
+#' com <- sparseMatrix(c(1,3,4,1,4,5,1,2,3,4,5,6,3,4,6),
+#'   c(1,1,1,2,2,2,3,3,3,3,3,3,4,4,4),x=1,
+#'   dimnames = list(paste0("g", 1:6), tree$tip.label))
 #' pbc <- phylobeta(com, tree)
 #' ed_phyloregion(pbc[[1]], k = 3)
 #' @export

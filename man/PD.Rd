@@ -2,7 +2,7 @@
 % Please edit documentation in R/pd.R
 \name{PD}
 \alias{PD}
-\title{Phylogenetic diversity and faster}
+\title{Phylogenetic diversity}
 \usage{
 PD(x, phy, method = "comm")
 }
@@ -19,17 +19,16 @@ else \dQuote{total}, the total PD of the study area.}
 a vector with the PD for all samples.
 }
 \description{
-\code{PD} calculates Faith's (1992) phylogenetic diversity and much faster
-using sparse matrix.
+\code{PD} calculates Faith's (1992) phylogenetic diversity.
 }
 \examples{
 library(ape)
+library(Matrix)
 tree <- read.tree(text ="((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
-com <- matrix(c(1,0,1,1,0,0,
-                1,0,0,1,1,0,
-                1,1,1,1,1,1,
-                0,0,1,1,0,1), 6, 4,
-              dimnames=list(paste0("g",1:6), tree$tip.label))
+com <- sparseMatrix(c(1,3,4,1,4,5,1,2,3,4,5,6,3,4,6),
+  c(1,1,1,2,2,2,3,3,3,3,3,3,4,4,4),x=1,
+  dimnames = list(paste0("g", 1:6), tree$tip.label))
+
 PD(com, tree)
 }
 \references{

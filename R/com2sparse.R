@@ -20,7 +20,8 @@
 #' @export
 comm2sparse <- function(x){
   x <- as.matrix(x)
-  m <- as(x, "ngCMatrix")
-  m
+#  m <- as(x, "ngCMatrix")
+#  m
+  Matrix(x, sparse=TRUE)
 }
 

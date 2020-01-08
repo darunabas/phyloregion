@@ -3,6 +3,7 @@
 library(phyloregion)
 library(betapart)
 library(ape)
+library(Matrix)
 
 tree <- read.tree(text ="((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
 com <- matrix(c(1,0,1,1,0,0,
@@ -11,9 +12,11 @@ com <- matrix(c(1,0,1,1,0,0,
                 0,0,1,1,0,1), 6, 4,
               dimnames=list(paste0("g",1:6), tree$tip.label))
 
-pd_bioregion <- PD(com, tree)
+com_sparse <- Matrix(com, sparse=TRUE)
 
-pbc_phyloregion <- phylobeta_core(com, tree)
+pd_bioregion <- PD(com_sparse, tree)
+
+pbc_phyloregion <- phylobeta_core(com_sparse, tree)
 pbc_betapart <- phylo.betapart.core(com, tree)
 
 # check if betapart and phyloregion are equal
@@ -24,7 +27,7 @@ expect_equivalent(phylo.beta.pair(pbc_phyloregion),
 
 # test pd compare with picante
 # test
-pb_phyloregion <- phylobeta(com, tree)
+pb_phyloregion <- phylobeta(com_sparse, tree)
 
 
 
@@ -69,3 +72,4 @@ if(requireNamespace("picante")){
   expect_equivalent(evol_distinct(tree, "fair"),
                     picante::evol.distinct(tree, "fair")[,2])
 }
+

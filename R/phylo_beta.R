@@ -1,72 +1,4 @@
-phylo_com <- function(tip, phy) {
-  if (!inherits(phy, "phylo"))
-    stop("object \"phy\" is not of class \"phylo\"")
-  done_v <- logical(length(phy$tip.label) + phy$Nnode)
-  rootnd <- getRoot(phy)
-  if (is.character(tip)) tip <- match(tip, c(phy$tip.label, phy$node.label))
-  tip <- as.integer(tip)
-  res <- pvec <- integer(max(phy$edge))
-  pvec[phy$edge[, 2]] <- phy$edge[, 1]
-
-  res[seq_along(tip)] <- tip
-  l <- length(tip) + 1L
-  res[l] <- rootnd
-  done_v[rootnd] <- TRUE
-  for (k in tip) {
-    nd <- pvec[k]
-    done <- done_v[nd]
-    while (!done) {
-      done_v[nd] <- TRUE
-      l <- l + 1
-      res[l] <- nd
-      nd <- pvec[nd]
-      done <- done_v[nd]
-    }
-  }
-  sort(res[1:l])
-}
-
-
 phylo_community <- function(x, phy) {
-  el <- numeric(max(phy$edge))
-  el[phy$edge[, 2]] <- phy$edge.length
-  x <- x[, phy$tip.label]
-  if (is.matrix(x) | is(x, "sparseMatrix")) {
-    x <- as.splits(x)
-  }
-  if (is.character(x) | is.numeric(x)) y <- list(phylo_com(x, phy))
-  if (is.list(x)) {
-    y <- lapply(x, function(x, phy) phylo_com(x, phy), phy)
-  }
-  if (is.null(y)) return(NULL)
-  attr(y, "edge.length") <- el
-  attr(y, "labels") <- c(phy$tip.label, as.character(Ntip(phy)
-  + (1:Nnode(phy))))
-  class(y) <- c("phylo_community", "splits")
-  y
-}
-
-
-phylo_community_2 <- function(x, phy) {
-  el <- numeric(max(phy$edge))
-  el[phy$edge[, 2]] <- phy$edge.length
-  x <- x[, phy$tip.label]
-  if (is.matrix(x) | is(x, "sparseMatrix")) {
-    x <- as.splits(x)
-  }
-  if (is.character(x) | is.numeric(x)) y <- list(phylo_com(x, phy))
-  if (is.list(x)) {
-    y <- lapply(x, function(x, phy) phylo_com(x, phy), phy)
-  }
-  if (is.null(y)) return(NULL)
-  M <- Matrix::sparseMatrix(as.integer(rep(seq_along(y), lengths(y))),
-                            as.integer(unlist(y)), x = 1L)
-  list(Matrix = M, edge.length = el)
-}
-
-
-# replace phylo_community with this function
-phylo_community_3 <- function(x, phy) {
   el <- numeric(max(phy$edge))
   el[phy$edge[, 2]] <- phy$edge.length
   x <- x[, phy$tip.label]
@@ -78,6 +10,7 @@ phylo_community_3 <- function(x, phy) {
   commphylo@x[] <- 1
   list(Matrix = commphylo, edge.length = el)
 }
+
 
 
 
@@ -98,60 +31,53 @@ phylo_community_3 <- function(x, phy) {
 #' @examples
 #' library(ape)
 #' tree <- read.tree(text = "((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
-#' com <- matrix(c(1, 0, 1, 1, 0, 0,
-#'   1, 0, 0, 1, 1, 0,
-#'   1, 1, 1, 1, 1, 1,
-#'   0, 0, 1, 1, 0, 1), 6, 4,
-#' dimnames = list(paste0("g", 1:6), tree$tip.label))
+#' com <- sparseMatrix(c(1,3,4,1,4,5,1,2,3,4,5,6,3,4,6),
+#'   c(1,1,1,2,2,2,3,3,3,3,3,3,4,4,4),x=1,
+#'   dimnames = list(paste0("g", 1:6), tree$tip.label))
+#' com
+#'
 #' pbc <- phylobeta_core(com, tree)
 #' pb <- phylobeta(com, tree)
 #' @rdname phylobeta
+#' @author Klaus Schliep
 #' @importFrom fastmatch fmatch
 #' @importFrom betapart phylo.beta.multi phylo.beta.pair
 #' @importFrom phangorn getRoot
+#' @importFrom Matrix tril
 #' @export
 phylobeta_core <- function(x, phy) {
+  if(!is(x, "sparseMatrix")) stop("x needs to be a sparse matrix!")
   if (!identical(sort(colnames(x)), sort(phy$tip.label)))
     stop("Labels of community matrix and tree differ!")
+  Labels <- rownames(x)
   x <- phylo_community(x, phy)
-  l <- length(x)
-  el <- attr(x, "edge.length")
-  pd_tmp <- vapply(x, function(x, el) sum(el[x]), 0, el)
+  pd_tmp <- (x$Matrix %*% x$edge.length)[,1]
+  l <- length(pd_tmp)
+  m <- l - 1L
 
-  Labels <- names(x)
-  class(x) <- NULL
-  SHARED <- vector("numeric", l * (l - 1) / 2)
-  B <- vector("numeric", l * (l - 1) / 2)
-  C <- vector("numeric", l * (l - 1) / 2)
+  SHARED <- tcrossprod(x$Matrix, x$Matrix %*% Diagonal(x=x$edge.length) )
+  SHARED <- tril(SHARED, k=-1)@x
 
-  k <- 1
-  for (i in 1:(l - 1)) {
-    xi <- x[[i]]
-    for (j in (i + 1):l) {
-      #   sum(el[fast_intersect(x[[i]], x[[j]])])
-      SHARED[k] <- sum(el[xi[fmatch(x[[j]], xi, 0L)]])
-      B[k] <- pd_tmp[i] - SHARED[k]
-      C[k] <- pd_tmp[j] - SHARED[k]
-      k <- k + 1
-    }
-  }
+  B <- pd_tmp[rep(1:m, m:1)] - SHARED
+  C <- pd_tmp[sequence(m:1) + rep(1:m, m:1)] - SHARED
 
   sum.not.shared <- B + C
   max.not.shared <- pmax(B, C)
   min.not.shared <- pmin(B, C)
 
   at <- structure(list(Labels = Labels, Size = l, class = "dist", Diag = FALSE,
-    Upper = FALSE), .Names = c("Labels", "Size", "class", "Diag", "Upper"))
+        Upper = FALSE), .Names = c("Labels", "Size", "class", "Diag", "Upper"))
   attributes(SHARED) <- at
   attributes(sum.not.shared) <- at
   attributes(max.not.shared) <- at
   attributes(min.not.shared) <- at
-  res <- list(sumSi = sum(pd_tmp), St = sum(el), shared = SHARED,
-    sum.not.shared = sum.not.shared,
-    max.not.shared = max.not.shared, min.not.shared = min.not.shared)
+  res <- list(sumSi = sum(pd_tmp), St = sum(x$edge.length), shared = SHARED,
+              sum.not.shared = sum.not.shared,
+              max.not.shared = max.not.shared, min.not.shared = min.not.shared)
   class(res) <- "phylo.betapart"
   res
 }
+
 
 
 #' @rdname phylobeta
