@@ -41,11 +41,12 @@ M <- sampl2sparse(africa$comm)
 phylo_endemism(M, africa$phylo)
 }
 \references{
-Faith, Reid & Hunter. 2004. Integrating phylogenetic diversity,
+Faith, D.P., Reid, C.A.M. & Hunter, J. (2004) Integrating phylogenetic diversity,
 complementarity, and endemism for conservation assessment. \emph{Conservation
-Biology} \strong{18(1)}: 255-261.
+Biology} \strong{18}(1): 255-261.
 
-Rosauer, Laffan, Crisp, Donnellan & Cook. 2009. Phylogenetic endemism: a new
-approach for identifying geographical concentrations of evolutionary history.
-\emph{Molecular Ecology} \strong{18(19)}: 4061-4072.
+Rosauer, D., Laffan, S.W., Crisp, M.D., Donnellan, C. & Cook, L.G. (2009).
+Phylogenetic endemism: a new approach for identifying geographical
+concentrations of evolutionary history. \emph{Molecular Ecology}
+\strong{18}(19): 4061-4072.
 }
