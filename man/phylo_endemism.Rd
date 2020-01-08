@@ -4,7 +4,7 @@
 \alias{phylo_endemism}
 \title{Phylogenetic Endemism}
 \usage{
-phylo_endemism(x, phy)
+phylo_endemism(x, phy, weighted = TRUE)
 }
 \arguments{
 \item{x}{is the community data given as a data.frame or matrix with
@@ -34,6 +34,11 @@ branch length and summing for all branch lengths present at a sample/site.
 Range is calculated simply as the total number of samples/sites at which the
 branch is present. This latter approach is described by Rosauer et al. (2009)
 as Phylogenetic endemism.
+}
+\examples{
+data(africa)
+M <- sampl2sparse(africa$comm)
+phylo_endemism(M, africa$phylo)
 }
 \references{
 Faith, Reid & Hunter. 2004. Integrating phylogenetic diversity,

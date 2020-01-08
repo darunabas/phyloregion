@@ -31,14 +31,25 @@
 #' Rosauer, Laffan, Crisp, Donnellan & Cook. 2009. Phylogenetic endemism: a new
 #' approach for identifying geographical concentrations of evolutionary history.
 #' \emph{Molecular Ecology} \strong{18(19)}: 4061-4072.
+#' @examples
+#' data(africa)
+#' M <- sampl2sparse(africa$comm)
+#' phylo_endemism(M, africa$phylo)
+#' @importFrom Matrix Diagonal crossprod
+#' @importFrom phangorn Ancestors
 #' @export
-phylo_endemism <- function(x, phy){
-    x <- match_phylo_comm(phy, x)$com
-    phy <- match_phylo_comm(phy, x)$phy
+phylo_endemism <- function(x, phy, weighted = TRUE){
+    if(length(setdiff(colnames(x), phy$tip.label)) > 0)
+      stop("There are species labels in community matrix missing in the tree!")
+    if(length(setdiff(phy$tip.label, colnames(x))) > 0)
+        phy <- keep.tip(phy, intersect(phy$tip.label, colnames(x)))
+#    x <- match_phylo_comm(phy, x)$com
+#    phy <- match_phylo_comm(phy, x)$phy
     comm_phylo <- phylo_community_3(x, phy)
     weights <- comm_phylo$Matrix %*%
-        Diagonal(x = 1 / colSums(commphylo$Matrix) )
+        Diagonal(x = 1 / colSums(comm_phylo$Matrix) )
     if (weighted == FALSE) weights[weights < 1] <- 0
-    pd <- weights %*% comm_phylo$edge.length
+    pd <- (weights %*% comm_phylo$edge.length)[,1]
+    pd <- pd[row.names(x)]
     return(pd)
 }
