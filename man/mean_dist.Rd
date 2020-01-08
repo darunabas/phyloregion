@@ -2,7 +2,7 @@
 % Please edit documentation in R/mean_matrix.R
 \name{mean_dist}
 \alias{mean_dist}
-\title{Mean matrix from a set of distance matrices}
+\title{Mean distance matrix from a set of distance matrices}
 \usage{
 mean_dist(files, tips, verbose = TRUE, ...)
 }

@@ -7,7 +7,8 @@
 random_species(n, species, shp, ...)
 }
 \arguments{
-\item{n}{vector of one or more elements to choose from, or a positive integer.}
+\item{n}{vector of one or more elements to choose from, or a positive
+integer.}
 
 \item{species}{the desired number of species.}
 
@@ -20,8 +21,8 @@ species distributions}
 A polygon shapefile of species' extent of occurence ranges.
 }
 \description{
-This function generates random species distributions in geographic space
-as extent of occurrence range polygons based on convex hulls of random points.
+This function generates random species distributions in geographic space as
+extent of occurrence range polygons based on convex hulls of random points.
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

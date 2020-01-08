@@ -20,14 +20,14 @@ plot_swatch(
 \arguments{
 \item{x}{A data frame or object of the class SpatialPolygonsDataFrame}
 
-\item{values}{Variable in the SpatialPolygonsDataFrame for which to discretize
-the values of the quantity.}
+\item{values}{Variable in the SpatialPolygonsDataFrame for which to
+discretize the values of the quantity.}
 
 \item{k}{Numeric, the desired number of bins to discretize.}
 
-\item{palette}{name of the palette to generate colors from. The name is matched
-to the list of available color palettes from the \code{hcl.colors} function
-in the \code{grDevices} package.}
+\item{palette}{name of the palette to generate colors from. The name is
+matched to the list of available color palettes from the \code{hcl.colors}
+function in the \code{grDevices} package.}
 
 \item{key_label}{label for the color key}
 
@@ -46,12 +46,13 @@ in the \code{grDevices} package.}
 Returns no value, just map swatch of colors in geographic space!
 }
 \description{
-\code{plot_swatch} maps discretized values of a quantity based on their quantiles.
+\code{plot_swatch} maps discretized values of a quantity based on their
+quantiles.
 }
 \examples{
 require(raster)
-s <- readRDS(system.file("nigeria/SR_Naija.rds", package= "phyloregion"))
-plot_swatch(s, values = s$SR, k=20)
+s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
+plot_swatch(s, values = s$SR, k = 20)
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

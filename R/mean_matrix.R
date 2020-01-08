@@ -1,4 +1,4 @@
-#' Mean matrix from a set of distance matrices
+#' Mean distance matrix from a set of distance matrices
 #'
 #' This function generates the mean pairwise distance matrix from a set
 #' many pairwise distance matrices. Note: all matrices should be of the same dimension.
