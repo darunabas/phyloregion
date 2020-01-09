@@ -1,18 +1,15 @@
-#' Bin shapefile polygons based on slot values
+#' Bin values
 #'
 #' \code{choropleth} discretizes the values of a quantity for mapping.
 #'
-#' @param x A data frame or object of the class SpatialPolygonsDataFrame
-#' @param values Variable in the SpatialPolygonsDataFrame for which to
-#' discretize the values of the quantity.
+#' @param x Vector of values to discretize.
 #' @param k Numeric, the desired number of bins to discretize.
 #' @param style one of \dQuote{equal}, \dQuote{pretty}, or \dQuote{quantile}.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname choropleth
 #' @keywords bioregion
 #' @importFrom stats quantile
-#' @return
-#' {returns a SpatialPolygonsDataFrame with a column of the discretized values}
+#' @return a vector with of the discretized values.
 #'
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #'
@@ -21,43 +18,21 @@
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 #' k <- 10
 #' COLOUR <- hcl.colors(k, "RdYlBu")
-#' y <- choropleth(s, values = s$SR, k)
+#' y <- choropleth(s$SR, k)
 #'
 #' ## To plot and color according to some metric:
-#' plot(y, col = COLOUR[y$values], border = NA)
+#' plot(y, col = COLOUR[y], border = NA)
 #' @export
-choropleth <- function(x, values, k = 10, style="quantile", ...) {
-#  x$values <- values
-  if (style == "quantile") {
-    quants <- quantile(values, seq(0, 1, length.out = k + 1))
-  }
-  else if (style == "equal") {
-    quants <- seq(min(values), max(values), length.out = k)
-  }
-  else if (style == "pretty") {
-    quants <- c(pretty(values, k = k + 1))
-  }
-  l <- length(quants) - 1
-  col_vec <- integer(length(values))
-  col_vec[values == quants[1]] <- 1L
-  for (i in seq_len(l)) {
-    col_vec[values > quants[i] & values <= quants[i + 1]] <- i
-  }
-  x$values <- col_vec
-  x
-}
-
-
-choropleth3 <- function(values, k = 10, style="quantile", ...) {
+choropleth <- function(x, k = 10, style="quantile", ...) {
   quants <- switch(style,
-                   quantile = quantile(values, seq(0, 1, length.out = k + 1),
-                   equal = seq(min(values), max(values), length.out = k),
-                   pretty = c(pretty(values, k = k + 1))))
+                   quantile = quantile(x, seq(0, 1, length.out = k + 1),
+                   equal = seq(min(x), max(x), length.out = k),
+                   pretty = c(pretty(x, k = k + 1))))
   l <- length(quants) - 1
-  col_vec <- integer(length(values))
-  col_vec[values == quants[1]] <- 1L
+  col_vec <- integer(length(x))
+  col_vec[x == quants[1]] <- 1L
   for (i in seq_len(l)) {
-    col_vec[values > quants[i] & values <= quants[i + 1]] <- i
+    col_vec[x > quants[i] & x <= quants[i + 1]] <- i
   }
   col_vec
 }
