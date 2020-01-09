@@ -21,8 +21,8 @@ sons <- function(x){
 #' Calculates evolutionary distinctiveness measures for a suite of species by:
 #' a) equal splits (Redding and Mooers 2006)
 #' b) fair proportions (Isaac et al., 2007).
-#' This is an reimplemantation of the picante function allowing multifurcations
-#' and can be orders of magnitude faster.
+#' This a new implementation of the picante function \code{evol.distinct}
+#' however allowing multifurcations and can be orders of magnitude faster.
 #'
 #' @param tree an object of class \code{phylo}.
 #' @param type a) equal splits (Redding and Mooers 2006) or b) fair proportions
