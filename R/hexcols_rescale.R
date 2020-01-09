@@ -1,26 +1,4 @@
 #' @importFrom colorspace hex2RGB mixcolor polarLUV
-
-testcol <- vector()
-for (i in 0:199) {
-  testcol <- c(testcol, hex(mixcolor(i / 199, polarLUV(70, 50, 30),
-                                     polarLUV(70, 50, 120))))
-}
-#testcol3 <- hex(mixcolor( (0:199) / 199, polarLUV(70, 50, 30),
-#                         polarLUV(70, 50, 120)))
-
-testcol2 <- vector()
-for (i in 0:199) {
-  testcol2 <- c(testcol2, hex(mixcolor(i / 199, polarLUV(70, 50, 300),
-                                       polarLUV(70, 50, 210))))
-}
-
-testcols <- vector()
-for (i in 0:199) {
-  testcols <- rbind(testcols, hex(mixcolor(i / 199, hex2RGB(testcol),
-                                           hex2RGB(testcol2))))
-}
-
-
 rescale <- function(x, newrange) {
   if (nargs() > 1 && is.numeric(x) && is.numeric(newrange)) {
     if (newrange[1] > newrange[2]) {
@@ -63,6 +41,16 @@ rescale <- function(x, newrange) {
 #' hexcols(c1)
 #' plot(c1$points, pch = 21, cex = 7, bg = hexcols(c1), las = 1)
 hexcols <- function(x) {
+
+  testcol <- hex(mixcolor( seq(0,199) / 199, polarLUV(70, 50, 30),
+                           polarLUV(70, 50, 120)))
+  testcol2 <- hex(mixcolor( seq(0,199) / 199, polarLUV(70, 50, 300),
+                            polarLUV(70, 50, 210)))
+  testcols <- matrix(NA, 200, 200)
+  for (i in seq_len(200)) {
+    testcols[i, ] <- hex(mixcolor( (i-1) / 199, hex2RGB(testcol), hex2RGB(testcol2)))
+  }
+
   k <- x$nobj
   plotcols <- rep(0, k)
   names(plotcols) <- as.character(1:k)
