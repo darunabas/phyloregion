@@ -32,9 +32,7 @@
 #' @examples
 #' data(africa)
 #' tree <- africa$phylo
-#' M <- sampl2sparse(africa$comm, method = "nonphylo")
-#'
-#' bc <- beta_diss(M)
+#' bc <- beta_diss(africa$comm)
 #' select_linkage(bc[[1]], plot = TRUE)
 #' @export select_linkage
 select_linkage <- function(x, rot_angle=45, cex=0.7, col="grey", ...){

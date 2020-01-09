@@ -26,7 +26,7 @@
 #' @examples
 #' data(africa)
 #' x <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
-#' y <- map_trait(africa$comm, x, FUN = sd, shp=africa$polys)
+#' y <- map_trait(sparse2long(africa$comm), x, FUN = sd, shp=africa$polys)
 #'
 #' plot_swatch(y, y$traits, k=20)
 #' @export map_trait

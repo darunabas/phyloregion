@@ -37,9 +37,7 @@ an evaluation graph that corresponds to the point of optimal curvature.
 \examples{
 data(africa)
 tree <- africa$phylo
-M <- sampl2sparse(africa$comm, method = "nonphylo")
-
-bc <- beta_diss(M)
+bc <- beta_diss(africa$comm)
 (d <- optimal.phyloregion(bc[[1]]))
 plot(d$df$k, d$df$ev, ylab = "Explained variances",
   xlab = "Number of clusters")

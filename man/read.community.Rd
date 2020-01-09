@@ -12,8 +12,8 @@ read.community(file, ...)
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-read.community reads in file containing occurence data and returns a sparse
-matrix.
+\code{read.community} reads in file containing occurence data and returns a
+sparse matrix.
 }
 \examples{
 data(africa)

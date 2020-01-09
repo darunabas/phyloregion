@@ -18,10 +18,9 @@ phylobeta(x, phy, index.family = "sorensen")
 "sorensen" or "jaccard".}
 }
 \description{
-\code{beta_diss} and \code{phylobeta_core} computes efficiently for
-large community matrices and trees the necessary quantities used by the
-betapart package to compute pairwise and multiple-site phylogenetic
-dissimilarities.
+\code{phylobeta_core} computes efficiently for large community matrices and
+trees the necessary quantities used by the betapart package to compute
+pairwise and multiple-site phylogenetic dissimilarities.
 }
 \examples{
 library(ape)
@@ -35,7 +34,8 @@ pbc <- phylobeta_core(com, tree)
 pb <- phylobeta(com, tree)
 }
 \seealso{
-\code{\link{read.community}}, \code{\link{phylo.betapart.core}}
+\code{\link{read.community}}, \code{\link{phylo.betapart.core}},
+\code{\link{beta_core}}
 }
 \author{
 Klaus Schliep

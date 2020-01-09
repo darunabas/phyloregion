@@ -15,8 +15,7 @@
 #' @importFrom phangorn add.tips
 #' @examples
 #' data("africa")
-#' x <- africa$comm
-#' phylobuilder(species = x$species, tree = africa$phylo)
+#' phylobuilder(species = colnames(africa$comm), tree = africa$phylo)
 #' @export
 phylobuilder <- function(species, tree) {  # , sep=NULL,
   taxonomy <- c("subspecies", "species", "genus", "family")

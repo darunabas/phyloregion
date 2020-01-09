@@ -5,3 +5,4 @@
 ^\Comments.txt
 ^docs$
 ^_pkgdown\.yml$
+^inst/extdata$

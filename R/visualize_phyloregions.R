@@ -50,11 +50,11 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
   m1 <- x$evol_distinct
   k <- nrow(m1)
   COLRS <- hcl.colors(k, palette, rev = TRUE, ...)
-  y <- choropleth(m1, m1$ED, k) # , style = style
-  plot(y, col = COLRS[y$values], ...)
-  text(y, labels = as.character(y@data$cluster), ...)
+  y <- choropleth(m1$ED, k) # , style = style
+  plot(m1, col = COLRS[y], ...)
+  text(m1, labels = as.character(m1@data$cluster), ...)
   if (legend) {
-    color_key(y, COLRS, vals = m1$ED, leg = leg, lwd = lwd, pos = pos,
+    color_key(m1, COLRS, vals = m1$ED, leg = leg, lwd = lwd, pos = pos,
       lab = key_label)
   }
 }
@@ -84,7 +84,7 @@ plot_NMDS <- function(x, ...) {
 #' @examples
 #' data(africa)
 #' tree <- africa$phylo
-#' x <- sampl2sparse(africa$comm)
+#' x <- africa$comm
 #'
 #' subphy <- match_phylo_comm(tree, x)$phy
 #' submat <- match_phylo_comm(tree, x)$com

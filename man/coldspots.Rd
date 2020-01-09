@@ -5,26 +5,22 @@
 \alias{hotspots}
 \title{Computes biodiversity coldspots and hotspots}
 \usage{
-coldspots(x, values, prob = 2.5, index = "cold", ...)
+coldspots(x, prob = 2.5, ...)
 
-hotspots(x, values, prob = 2.5, index = "hot", ...)
+hotspots(x, prob = 2.5, ...)
 }
 \arguments{
-\item{x}{A data frame}
-
-\item{values}{Variable in the dataframe on which to compute coldspots
-analysis}
+\item{x}{a vector on which to compute coldspots}
 
 \item{prob}{The threshold quantile for representing the lowest (\code{coldspots})
 or highest (\code{hotspots}) proportion of biodiversity in an area.
 By default, the threshold is set to \code{prob = 2.5} percent.}
 
-\item{index}{string, specifying column name of result.}
-
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
-{Integers of 1s and 0s with 1 corresponding to the coldspots or hotspots}
+A vector of integers of 1s and 0s with 1 corresponding to the
+coldspots or hotspots
 }
 \description{
 \code{coldspots} and \code{hotspots} map areas or grid cells with lowest
@@ -36,14 +32,13 @@ require(raster)
 data(africa)
 names(africa)
 
-Endm <- weighted.endemism(africa$comm)
-C <- coldspots(Endm, values = Endm$WE) # coldspots
-H <- hotspots(Endm, values = Endm$WE) # hotspots
+Endm <- weighted_endemism(africa$comm)
+C <- coldspots(Endm) # coldspots
+H <- hotspots(Endm) # hotspots
 
 ## Merge endemism values to shapefile of grid cells.
-m <- Reduce(function(x, y) sp::merge(x, y, by = "grids", all = TRUE),
-  list(africa$polys, C, H))
-m <- m[!is.na(m@data$values.x), ]
+DF <- data.frame(grids=names(C), cold=C, hot=H)
+m <- merge(africa$polys, DF, by = "grids", all = TRUE)
 
 plot(africa$polys, border = "grey", col = "lightgrey",
   main = "Weighted Endemism Hotspots and Coldspots")

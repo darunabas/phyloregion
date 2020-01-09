@@ -22,8 +22,7 @@
 #' d <- readRDS(file)
 #' d1 <- fishnet(d, res = 0.75)
 #' @export
-fishnet <- function(mask,
-                    res = 0.5){
+fishnet <- function(mask, res = 0.5){
   s <- raster(extent(mask))
   res(s) <- res
   proj4string(s) <- proj4string(mask)

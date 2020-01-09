@@ -35,9 +35,7 @@ correlation coefficient.
 \examples{
 data(africa)
 tree <- africa$phylo
-M <- sampl2sparse(africa$comm, method = "nonphylo")
-
-bc <- beta_diss(M)
+bc <- beta_diss(africa$comm)
 select_linkage(bc[[1]], plot = TRUE)
 }
 \references{

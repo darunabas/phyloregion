@@ -32,25 +32,25 @@ pb_phyloregion <- phylobeta(com_sparse, tree)
 
 
 data(africa)
-long <- africa$comm
+sparse <- africa$comm
 
-sparse <- sampl2sparse(long)
-long2 <- sparse2sampl(sparse)
+long <- sparse2long(sparse)
+sparse2 <- long2sparse(long)
 
-expect_equal(nrow(long2), nrow(long))
+expect_equal(nrow(sparse), nrow(sparse2))
 
 set.seed(42)
 ind <- sample(60823, 1000, replace = TRUE)
 long_ind <- long[ind,]
 
-sparse_ind <- sampl2sparse(long_ind, method="nonphylo")
-long_ind2 <- sparse2sampl(sparse_ind)
+sparse_ind <- long2sparse(long_ind)
+long_ind2 <- sparse2long(sparse_ind)
 
 expect_equal(nrow(long_ind), nrow(long_ind2))
 
 
 #check if beta_core is equal to betapart.core
-M_sparse <- sampl2sparse(africa$comm, method = "nonphylo")
+M_sparse <- africa$comm
 M_dense <- as(M_sparse, "matrix")
 
 bc_dense <- betapart.core(M_dense)
@@ -61,7 +61,7 @@ expect_equal(bc_sparse[-1], bc_dense[-1])
 
 # choropleth works (expect high positive correlation)
 x <- rnorm(1000)
-expect_true(cor(x, phyloregion:::choropleth3(x)) > 0.9)
+expect_true(cor(x, choropleth(x)) > 0.9)
 
 
 

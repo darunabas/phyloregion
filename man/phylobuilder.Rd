@@ -19,8 +19,7 @@ possible.
 }
 \examples{
 data("africa")
-x <- africa$comm
-phylobuilder(species = x$species, tree = africa$phylo)
+phylobuilder(species = colnames(africa$comm), tree = africa$phylo)
 }
 \seealso{
 \code{\link[phangorn]{add.tips}}, \code{\link[ape]{label2table}},

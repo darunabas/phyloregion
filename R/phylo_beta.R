@@ -1,3 +1,4 @@
+# internally used in pd, phylobeta_core and phylo_endemism
 phylo_community <- function(x, phy) {
   el <- numeric(max(phy$edge))
   el[phy$edge[, 2]] <- phy$edge.length
@@ -12,14 +13,11 @@ phylo_community <- function(x, phy) {
 }
 
 
-
-
 #' Phylogenetic beta diversity
 #'
-#' \code{beta_diss} and \code{phylobeta_core} computes efficiently for
-#' large community matrices and trees the necessary quantities used by the
-#' betapart package to compute pairwise and multiple-site phylogenetic
-#' dissimilarities.
+#' \code{phylobeta_core} computes efficiently for large community matrices and
+#' trees the necessary quantities used by the betapart package to compute
+#' pairwise and multiple-site phylogenetic dissimilarities.
 #'
 #' @aliases phylobeta phylobeta_core
 #' @param x an object of class Matrix or matrix
@@ -27,7 +25,8 @@ phylo_community <- function(x, phy) {
 #' @param index.family family of dissimilarity indices, partial match of
 #' "sorensen" or "jaccard".
 #' @keywords phyloregion
-#' @seealso \code{\link{read.community}}, \code{\link{phylo.betapart.core}}
+#' @seealso \code{\link{read.community}}, \code{\link{phylo.betapart.core}},
+#' \code{\link{beta_core}}
 #' @examples
 #' library(ape)
 #' tree <- read.tree(text = "((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
@@ -111,7 +110,7 @@ phylobeta <- function(x, phy, index.family = "sorensen") {
 #' @examples
 #' data(africa)
 #' tree <- africa$phylo
-#' x <- sampl2sparse(africa$comm)
+#' x <- africa$comm
 #'
 #' subphy <- match_phylo_comm(tree, x)$phy
 #' submat <- match_phylo_comm(tree, x)$com
@@ -136,17 +135,28 @@ match_phylo_comm <- function(phy, comm) {
 }
 
 #' Taxonomic (non-phylogenetic) beta diversity
+#'
+#' Data are assumed to be presence / absence (0 / 1) and all values greater zero
+#' are assumed to reflect presence.
+#'
 #' @rdname beta_diss
-#' @param x an object of class Matrix or matrix.
+#' @param x an object of class Matrix, where rows are sites and columns are
+#' species.
 #' @param index.family family of dissimilarity indices, partial match of
 #' "sorensen" or "jaccard".
 #' @importFrom Matrix Matrix tcrossprod colSums
 #' @importFrom betapart beta.pair beta.multi
-#' @seealso \code{\link{betapart.core}}
+#' @seealso \code{\link{betapart.core}}, \code{\link{betapart}}
+#' @examples
+#' data(africa)
+#' x <- africa$comm
+#' bc <- beta_core(x)
+#' beta_sorensen <- beta_diss(x)
 #' @export
 ## non phylogenetic version
 beta_core <- function(x) {
-  if (!inherits(x, "Matrix")) x <- Matrix(x)
+  if (!inherits(x, "Matrix")) x <- Matrix(x, sparse=TRUE)
+  x@x[x@x > 0] <- 1
   shared <- as.matrix(tcrossprod(x)) # %*% t(x)
   not.shared <- abs(sweep(shared, 2, diag(shared)))
   sumSi <- sum(diag(shared))

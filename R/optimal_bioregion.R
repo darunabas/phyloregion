@@ -262,9 +262,7 @@ elbow.batch <- function(x, inc.thres = c(0.01, 0.05, 0.1),
 #' @examples
 #' data(africa)
 #' tree <- africa$phylo
-#' M <- sampl2sparse(africa$comm, method = "nonphylo")
-#'
-#' bc <- beta_diss(M)
+#' bc <- beta_diss(africa$comm)
 #' (d <- optimal.phyloregion(bc[[1]]))
 #' plot(d$df$k, d$df$ev, ylab = "Explained variances",
 #'   xlab = "Number of clusters")

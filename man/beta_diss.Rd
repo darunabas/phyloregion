@@ -10,14 +10,22 @@ beta_core(x)
 beta_diss(x, index.family = "sorensen")
 }
 \arguments{
-\item{x}{an object of class Matrix or matrix.}
+\item{x}{an object of class Matrix, where rows are sites and columns are
+species.}
 
 \item{index.family}{family of dissimilarity indices, partial match of
 "sorensen" or "jaccard".}
 }
 \description{
-Taxonomic (non-phylogenetic) beta diversity
+Data are assumed to be presence / absence (0 / 1) and all values greater zero
+are assumed to reflect presence.
+}
+\examples{
+data(africa)
+x <- africa$comm
+bc <- beta_core(x)
+beta_sorensen <- beta_diss(x)
 }
 \seealso{
-\code{\link{betapart.core}}
+\code{\link{betapart.core}}, \code{\link{betapart}}
 }

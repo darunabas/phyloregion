@@ -2,15 +2,12 @@
 % Please edit documentation in R/Choropleth.R
 \name{choropleth}
 \alias{choropleth}
-\title{Bin shapefile polygons based on slot values}
+\title{Bin values}
 \usage{
-choropleth(x, values, k = 10, style = "quantile", ...)
+choropleth(x, k = 10, style = "quantile", ...)
 }
 \arguments{
-\item{x}{A data frame or object of the class SpatialPolygonsDataFrame}
-
-\item{values}{Variable in the SpatialPolygonsDataFrame for which to
-discretize the values of the quantity.}
+\item{x}{Vector of values to discretize.}
 
 \item{k}{Numeric, the desired number of bins to discretize.}
 
@@ -19,7 +16,7 @@ discretize the values of the quantity.}
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
-{returns a SpatialPolygonsDataFrame with a column of the discretized values}
+a vector with of the discretized values.
 }
 \description{
 \code{choropleth} discretizes the values of a quantity for mapping.
@@ -29,10 +26,10 @@ require(raster)
 s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 k <- 10
 COLOUR <- hcl.colors(k, "RdYlBu")
-y <- choropleth(s, values = s$SR, k)
+y <- choropleth(s$SR, k)
 
 ## To plot and color according to some metric:
-plot(y, col = COLOUR[y$values], border = NA)
+plot(y, col = COLOUR[y], border = NA)
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

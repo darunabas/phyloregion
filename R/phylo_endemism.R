@@ -34,8 +34,7 @@
 #' \strong{18}(19): 4061-4072.
 #' @examples
 #' data(africa)
-#' M <- sampl2sparse(africa$comm)
-#' phylo_endemism(M, africa$phylo)
+#' phylo_endemism(africa$comm, africa$phylo)
 #' @importFrom Matrix Diagonal crossprod
 #' @importFrom phangorn Ancestors
 #' @export
@@ -44,8 +43,6 @@ phylo_endemism <- function(x, phy, weighted = TRUE){
       stop("There are species labels in community matrix missing in the tree!")
     if(length(setdiff(phy$tip.label, colnames(x))) > 0)
         phy <- keep.tip(phy, intersect(phy$tip.label, colnames(x)))
-#    x <- match_phylo_comm(phy, x)$com
-#    phy <- match_phylo_comm(phy, x)$phy
     comm_phylo <- phylo_community(x, phy)
     weights <- comm_phylo$Matrix %*%
         Diagonal(x = 1 / colSums(comm_phylo$Matrix) )

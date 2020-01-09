@@ -88,6 +88,7 @@ raster2comm <- function(files) {
 #' @rdname raster2comm
 #' @importFrom data.table rbindlist
 #' @importFrom sp coordinates over CRS proj4string merge
+#' @importFrom methods as
 #' @examples
 #'
 #' \dontrun{
