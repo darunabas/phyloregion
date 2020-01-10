@@ -75,9 +75,7 @@ files <- file.path(fdir, dir(fdir))
 raster2comm(files)
 }
 
-
 \dontrun{
-library(raster)
 s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 sp <- random_species(100, species=5, shp=s)
 polys2comm(dat = sp, species = "species")

@@ -13,10 +13,11 @@
 #'
 #' @examples
 #' data(africa)
-#' head(africa$comm)
+#' africa$comm[1:5, 1:20]
 #' long <- sparse2long(africa$comm)
+#' long[1:5, ]
 #' sparse <- long2sparse(long)
-#'
+#' all.equal(africa$comm, sparse)
 #'
 #' dense_comm <- matrix(c(1,0,1,1,0,0,
 #'                 1,0,0,1,1,0,

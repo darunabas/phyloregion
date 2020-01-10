@@ -34,7 +34,8 @@
 #' \strong{18}(19): 4061-4072.
 #' @examples
 #' data(africa)
-#' phylo_endemism(africa$comm, africa$phylo)
+#' pe <- phylo_endemism(africa$comm, africa$phylo)
+#' plot(density(pe))
 #' @importFrom Matrix Diagonal crossprod
 #' @importFrom phangorn Ancestors
 #' @export

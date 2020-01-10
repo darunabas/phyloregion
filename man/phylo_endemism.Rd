@@ -37,7 +37,8 @@ as Phylogenetic endemism.
 }
 \examples{
 data(africa)
-phylo_endemism(africa$comm, africa$phylo)
+pe <- phylo_endemism(africa$comm, africa$phylo)
+plot(density(pe))
 }
 \references{
 Faith, D.P., Reid, C.A.M. & Hunter, J. (2004) Integrating phylogenetic

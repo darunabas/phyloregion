@@ -4,10 +4,14 @@
 \alias{read.community}
 \title{Read in sparse community matrices}
 \usage{
-read.community(file, ...)
+read.community(file, grids = "grids", species = "species", ...)
 }
 \arguments{
 \item{file}{A file name.}
+
+\item{grids}{Column name of the column containing grid cells.}
+
+\item{species}{Column name of the column containing the species / taxa names.}
 
 \item{...}{further arguments passed to or from other methods.}
 }
@@ -16,6 +20,13 @@ read.community(file, ...)
 sparse matrix.
 }
 \examples{
-data(africa)
+df <- data.frame(grids=paste0("g", c(1,1,2,3,3)),
+                 species = paste0("sp", c(1,3,2,1,4)))
+df
+tmp <- tmp.file()
+write.csv(df, tmp)
+(M <- read.community(tmp) )
+sparse2long(M)
+unlink(tmp)
 }
 \keyword{cluster}
