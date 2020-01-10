@@ -5,9 +5,9 @@
 #' endemism or degree of threat.
 #'
 #' @param x a vector on which to compute coldspots
-#' @param prob The threshold quantile for representing the lowest (\code{coldspots})
-#' or highest (\code{hotspots}) proportion of biodiversity in an area.
-#' By default, the threshold is set to \code{prob = 2.5} percent.
+#' @param prob The threshold quantile for representing the lowest
+#' (\code{coldspots}) or highest (\code{hotspots}) proportion of biodiversity in
+#' an area. By default, the threshold is set to \code{prob = 2.5} percent.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname coldspots
 #' @keywords phyloregion

@@ -14,10 +14,9 @@
 #' @return A data frame of species traits by site.
 #'
 #' @references
-#' Crisp, M.D., Laffan, S., Linder, H.P. & Monro, A. (2001) Endemism in the Australian flora.
-#' \emph{Journal of Biogeography} \strong{28}: 183–198.
-## Laffan, S.W., & Crisp, M.D. (2003) Assessing endemism at multiple spatial scales,
-## with an example from the Australian vascular flora. \emph{Journal of Biogeography} \strong{30}: 511–520.
+#' Crisp, M.D., Laffan, S., Linder, H.P. & Monro, A. (2001) Endemism in the
+#' Australian flora. \emph{Journal of Biogeography} \strong{28}: 183–198.
+#'
 #' @examples
 #' require(raster)
 #' data(africa)

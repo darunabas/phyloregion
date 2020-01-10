@@ -27,8 +27,8 @@ points2comm(
 extent and resolution.}
 
 \item{dat}{layers of merged maps corresponding to species ranges for
-\code{polys2comm}; or point occurrence data frame for \code{points2comm}, with at
-least three columns:
+\code{polys2comm}; or point occurrence data frame for \code{points2comm},
+with at least three columns:
 \itemize{
   \item Column 1: \code{species} (listing the taxon names)
   \item Column 2: \code{decimallongitude} (corresponding to decimal longitude)
@@ -89,5 +89,6 @@ names(m) <- c("lon", "lat")
 species <- paste0("sp", sample(1:1000))
 m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 
-points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat", species = "taxon")
+points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
+            species = "taxon")
 }

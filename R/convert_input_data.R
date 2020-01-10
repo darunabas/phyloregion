@@ -26,8 +26,8 @@ make_poly <- function(file){
 #' @param files  list of raster layer objects with the same spatial
 #' extent and resolution.
 #' @param dat layers of merged maps corresponding to species ranges for
-#' \code{polys2comm}; or point occurrence data frame for \code{points2comm}, with at
-#' least three columns:
+#' \code{polys2comm}; or point occurrence data frame for \code{points2comm},
+#' with at least three columns:
 #' \itemize{
 #'   \item Column 1: \code{species} (listing the taxon names)
 #'   \item Column 2: \code{decimallongitude} (corresponding to decimal longitude)
@@ -139,7 +139,8 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
 #' species <- paste0("sp", sample(1:1000))
 #' m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 #'
-#' points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat", species = "taxon")
+#' points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
+#'             species = "taxon")
 #' @export
 points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
                         lat = "decimallatitude", species = "species",

@@ -27,7 +27,7 @@ plot_swatch(m, values = m$WE, k=20)
 
 }
 \references{
-Crisp, M.D., Laffan, S., Linder, H.P. & Monro, A. (2001) Endemism in the Australian flora.
-\emph{Journal of Biogeography} \strong{28}: 183–198.
+Crisp, M.D., Laffan, S., Linder, H.P. & Monro, A. (2001) Endemism in the
+Australian flora. \emph{Journal of Biogeography} \strong{28}: 183–198.
 }
 \keyword{bioregion}

@@ -12,9 +12,9 @@ hotspots(x, prob = 2.5, ...)
 \arguments{
 \item{x}{a vector on which to compute coldspots}
 
-\item{prob}{The threshold quantile for representing the lowest (\code{coldspots})
-or highest (\code{hotspots}) proportion of biodiversity in an area.
-By default, the threshold is set to \code{prob = 2.5} percent.}
+\item{prob}{The threshold quantile for representing the lowest
+(\code{coldspots}) or highest (\code{hotspots}) proportion of biodiversity in
+an area. By default, the threshold is set to \code{prob = 2.5} percent.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }
