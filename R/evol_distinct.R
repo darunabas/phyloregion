@@ -47,8 +47,8 @@ sons <- function(x){
 #' phylogeny. \emph{PLoS ONE}, \strong{2}, e296.
 #' @examples
 #' tree <- ape::rcoal(10)
-#' evol.distinct(tree)
-#' evol.distinct(tree, type = "fair.proportion")
+#' evol_distinct(tree)
+#' evol_distinct(tree, type = "fair.proportion")
 #' @importFrom ape is.rooted is.ultrametric reorder.phylo branching.times
 #' @importFrom stats reorder
 #' @export

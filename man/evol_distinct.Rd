@@ -39,8 +39,8 @@ however allowing multifurcations and can be orders of magnitude faster.
 }
 \examples{
 tree <- ape::rcoal(10)
-evol.distinct(tree)
-evol.distinct(tree, type = "fair.proportion")
+evol_distinct(tree)
+evol_distinct(tree, type = "fair.proportion")
 }
 \references{
 Redding, D.W. and Mooers, A.O. (2006). Incorporating evolutionary measures
