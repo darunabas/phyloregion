@@ -17,7 +17,7 @@
 #' df <- data.frame(grids=paste0("g", c(1,1,2,3,3)),
 #'                  species = paste0("sp", c(1,3,2,1,4)))
 #' df
-#' tmp <- tmpfile()
+#' tmp <- tempfile()
 #' write.csv(df, tmp)
 #' (M <- read.community(tmp) )
 #' sparse2long(M)
