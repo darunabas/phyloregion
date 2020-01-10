@@ -25,7 +25,7 @@ require(ape)
 data(bird.orders)
 plot(bird.orders)
 axisPhylo(side = 1)
-abline(v=23)
+abline(v=28-23) # the root is here at 28
 get_clades(bird.orders, 23)
 }
 \references{

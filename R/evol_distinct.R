@@ -34,9 +34,21 @@ sons <- function(x){
 #' lengths are changed to 1.
 #' @param \dots Further arguments passed to or from other methods.
 #'
-#' @seealso \code{\link[picante]{evol.distinct}}
+#' @seealso \code{\link[picante]{evol.distinct}}, \code{\link{ed_phyloregion}}
 #' @return a named vector with species scores.
-#' @author Klaus Schliep based on version in picante
+#' @author Klaus Schliep
+#' @references
+#' Redding, D.W. and Mooers, A.O. (2006). Incorporating evolutionary measures
+#' into conservation prioritisation. \emph{Conservation Biology}, \strong{20},
+#' 1670--1678.
+#'
+#' Isaac, N.J.B., Turvey, S.T., Collen, B., Waterman, C. and Baillie, J.E.M.
+#' (2007). Mammals on the EDGE: conservation priorities based on threat and
+#' phylogeny. \emph{PLoS ONE}, \strong{2}, e296.
+#' @examples
+#' tree <- ape::rcoal(10)
+#' evol.distinct(tree)
+#' evol.distinct(tree, type = "fair.proportion")
 #' @importFrom ape is.rooted is.ultrametric reorder.phylo branching.times
 #' @importFrom stats reorder
 #' @export

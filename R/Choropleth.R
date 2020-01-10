@@ -12,7 +12,7 @@
 #' @return a vector with of the discretized values.
 #'
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
-#'
+#' @seealso \code{\link{coldspots}}
 #' @examples
 #' require(raster)
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
@@ -21,7 +21,7 @@
 #' y <- choropleth(s$SR, k)
 #'
 #' ## To plot and color according to some metric:
-#' plot(y, col = COLOUR[y], border = NA)
+#' plot(y, col = COLOUR[y])
 #' @export
 choropleth <- function(x, k = 10, style="quantile", ...) {
   quants <- switch(style,

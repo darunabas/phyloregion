@@ -65,7 +65,7 @@ hotspots and complementary areas of tree diversity in southern Africa.
 \emph{Diversity and Distributions} \strong{21}: 769-780.
 }
 \seealso{
-\code{\link{hotspots}}
+\code{\link{choropleth}}
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

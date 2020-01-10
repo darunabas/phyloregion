@@ -46,7 +46,8 @@
 #' \emph{Biological Conservation} \strong{213}: 351-356.
 
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
-#' @seealso \code{\link[picante]{evol.distinct}} for a different approach.
+#' @seealso \code{\link{evol_distinct}}, \code{\link[picante]{evol.distinct}}
+#' for a different approach.
 #'
 #' @examples
 #' library(ape)

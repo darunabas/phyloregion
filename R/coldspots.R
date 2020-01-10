@@ -32,7 +32,7 @@
 #' hotspots and complementary areas of tree diversity in southern Africa.
 #' \emph{Diversity and Distributions} \strong{21}: 769-780.
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
-#' @seealso \code{\link{hotspots}}
+#' @seealso \code{\link{choropleth}}
 #'
 #' @examples
 #' require(raster)
@@ -56,13 +56,11 @@
 #'   legend = c("coldspots", "hotspots"), bty = "n", inset = .092)
 coldspots <- function(x, prob = 2.5, ...) {
   quant <- prob / 100
-#  x$values <- values
   r <- quantile(x, quant, na.rm = TRUE)
   x[which(x < r[[1]])] <- NA
   x[which(x > r[[1]])] <- 0
   x[which(x == r[[1]])] <- NA
   x[which(is.na(x))] <- 1
-#  x$values <- values
   x
 }
 
@@ -71,12 +69,9 @@ coldspots <- function(x, prob = 2.5, ...) {
 #' @export
 hotspots <- function(x, prob = 2.5,...) {
   quant <- (1 - (prob / 100))
-#  x$values <- values
   r <- quantile(x, quant, na.rm = TRUE)
   x[which(x < r[[1]])] <- 0
   x[which(x > r[[1]])] <- 1
   x[which(x == r[[1]])] <- 1
-#  x$values <- values
-#  names(x)[names(x) == 'values'] <- index
   x
 }

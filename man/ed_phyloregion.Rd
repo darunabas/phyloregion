@@ -57,7 +57,8 @@ affinities among disjunct temperate assemblages.
 \emph{Biological Conservation} \strong{213}: 351-356.
 }
 \seealso{
-\code{\link[picante]{evol.distinct}} for a different approach.
+\code{\link{evol_distinct}}, \code{\link[picante]{evol.distinct}}
+for a different approach.
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

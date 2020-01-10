@@ -37,7 +37,7 @@ rescale <- function(x, newrange) {
 #' @examples
 #' library(vegan)
 #' data(dune)
-#' c1 <- metaMDS(dune)
+#' c1 <- metaMDS(dune, trace = 0)
 #' hexcols(c1)
 #' plot(c1$points, pch = 21, cex = 7, bg = hexcols(c1), las = 1)
 hexcols <- function(x) {

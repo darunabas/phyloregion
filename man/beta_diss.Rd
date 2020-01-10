@@ -27,5 +27,9 @@ bc <- beta_core(x)
 beta_sorensen <- beta_diss(x)
 }
 \seealso{
-\code{\link{betapart.core}}, \code{\link{betapart}}
+\code{\link{betapart.core}}, \code{\link{betapart}},
+\code{\link{phylobeta}}
+}
+\author{
+Klaus Schliep
 }

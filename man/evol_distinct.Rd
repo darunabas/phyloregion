@@ -37,9 +37,23 @@ b) fair proportions (Isaac et al., 2007).
 This a new implementation of the picante function \code{evol.distinct}
 however allowing multifurcations and can be orders of magnitude faster.
 }
+\examples{
+tree <- ape::rcoal(10)
+evol.distinct(tree)
+evol.distinct(tree, type = "fair.proportion")
+}
+\references{
+Redding, D.W. and Mooers, A.O. (2006). Incorporating evolutionary measures
+into conservation prioritisation. \emph{Conservation Biology}, \strong{20},
+1670--1678.
+
+Isaac, N.J.B., Turvey, S.T., Collen, B., Waterman, C. and Baillie, J.E.M.
+(2007). Mammals on the EDGE: conservation priorities based on threat and
+phylogeny. \emph{PLoS ONE}, \strong{2}, e296.
+}
 \seealso{
-\code{\link[picante]{evol.distinct}}
+\code{\link[picante]{evol.distinct}}, \code{\link{ed_phyloregion}}
 }
 \author{
-Klaus Schliep based on version in picante
+Klaus Schliep
 }

@@ -146,7 +146,9 @@ match_phylo_comm <- function(phy, comm) {
 #' "sorensen" or "jaccard".
 #' @importFrom Matrix Matrix tcrossprod colSums
 #' @importFrom betapart beta.pair beta.multi
-#' @seealso \code{\link{betapart.core}}, \code{\link{betapart}}
+#' @seealso \code{\link{betapart.core}}, \code{\link{betapart}},
+#' \code{\link{phylobeta}}
+#' @author Klaus Schliep
 #' @examples
 #' data(africa)
 #' x <- africa$comm
