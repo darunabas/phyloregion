@@ -14,7 +14,7 @@ bibentry(bibtype = "Manual",
 
 bibentry(bibtype = "Article",
     author =  "Daru, B. H., Elliott, T. L., Park, D. S. & Davies, T. J.",
-    title = "phyloregion: R package for biogeographic regionalization and spatial conservation",
+    title = "Understanding the Processes Underpinning Patterns of Phylogenetic Regionalization",
     journal = "Trends in Ecology & Evolution",
     volume = "32",
     url = "http://dx.doi.org/10.1016/j.tree.2017.08.013",
