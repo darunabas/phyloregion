@@ -6,10 +6,7 @@
 #' @param x A (sparse) community matrix.
 #' @rdname weighted.endemism
 #' @keywords bioregion
-#' @importFrom raster raster rasterToPolygons xyFromCell ncell
-#' @importFrom raster values
-#' @importFrom sp CRS proj4string
-#' @importFrom Matrix rowSums
+#' @importFrom Matrix rowSums Diagonal Matrix colSums
 #'
 #' @return A data frame of species traits by site.
 #'
