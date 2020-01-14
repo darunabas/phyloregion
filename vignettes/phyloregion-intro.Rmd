@@ -6,11 +6,10 @@ output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
 nocite: '@Daru2017'
 vignette: >
-   %\VignetteIndexEntry{phylorregion-intro}
-   %\VignetteEngine{knitr::rmarkdown}
+   %\VignetteIndexEntry{phyloregion-intro}
+   %\VignetteEngine{knitr::knitr}
    %\usepackage[utf8]{inputenc}   
 ---
-
 
 
 ## Installing phyloregion
