@@ -41,6 +41,9 @@ r_packages:
   - knitr
   - covr
   - tinytest
+  - ggplot2
+  - microbenchmark
+  - picante
 
 
 after_success:
