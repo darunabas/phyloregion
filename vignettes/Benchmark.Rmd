@@ -1,0 +1,72 @@
+---
+title: "Benchmark"
+author: "Klaus Schliep"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: rmarkdown::html_vignette
+bibliography: phyloregion.bib
+vignette: >
+   %\VignetteIndexEntry{phylorregion-intro}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\usepackage[utf8]{inputenc}   
+---
+
+## R Markdown
+```{r}
+library(ape)
+library(phyloregion)
+library(betapart)
+library(picante)
+library(vegan)
+library(microbenchmark)
+library(ggplot2)
+library(Matrix)
+
+data(africa)
+X_Matrix <- africa$comm
+
+
+X_matrix <- as.matrix(X_Matrix)
+object.size(X_Matrix)
+object.size(X_matrix)
+dim(X_Matrix)
+```
+
+### Beta diversity
+
+```{r, beta_diversity, cache=TRUE}
+res <- microbenchmark(beta_phyloregion <- beta_diss(X_Matrix), 
+                      beta_betapart <- beta.pair(X_matrix),
+                      beta_vegan <- vegdist(X_matrix, binary=TRUE), times = 5L)
+summary(res)
+autoplot(res)
+
+all.equal(beta_phyloregion[[3]], beta_betapart[[3]],  check.attributes=FALSE)
+all.equal(beta_phyloregion[[3]], beta_vegan, check.attributes=FALSE)
+```
+
+### Phylogenetic beta diversity
+
+ 
+```{r, phylobeta_diversity, cache=TRUE}
+# subset matrix and tree
+X_Matrix <- X_Matrix[1:50, ]
+X_Matrix <- X_Matrix[, colSums(X_Matrix)>0]
+
+tree <- africa$phylo
+tree <- keep.tip(tree, colnames(X_Matrix))  
+X_matrix <- as.matrix(X_Matrix)
+
+gc()    
+res <- microbenchmark(phylobeta_phyloregion <- phylobeta(X_Matrix, tree), 
+         phylobeta_betapart <- phylo.beta.pair(X_matrix, tree),
+         phylobeta_picante <- phylosor(X_matrix, tree), times = 5L)
+summary(res)
+autoplot(res)
+
+all.equal(phylobeta_phyloregion, phylobeta_betapart, check.attributes=FALSE)
+all.equal(phylobeta_phyloregion[[3]], 
+          1-phylobeta_picante, check.attributes=FALSE)
+```
+
+
+
