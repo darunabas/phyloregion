@@ -15,7 +15,7 @@ vignette: >
 ## Installing phyloregion
 
 
-phyloregion is an free R package hosted on GitHub. To install the phyloregion 
+`phyloregion` is an free R package hosted on GitHub. To install the phyloregion 
 with the help from the remotes package type the following commands in R: 
 ```
 if (!requireNamespace("remotes", quietly = TRUE)) 
@@ -36,7 +36,6 @@ Nexus format it can be imported into R with the `read.tree` or `read.nexus`
 functions of the ape package.
 
 
-
 ### Community data
 
 Community data are commonly stored in a matrix with the sites / samples in the 
@@ -49,10 +48,10 @@ Phyloregion differs from other R packages like vegan [@vegan], picante
 (dense) `matrix` or `data.frame` but as a sparse matrix making use 
 infrastructure provided by the Matrix package [@Matrix]. 
 
-Th advantages are that usually that the community matrix can be stored much more 
-memory efficient and also computatuions with a sparse matrix are also 
-considerably faster. The phyloregion and Martrix package contains some functions 
-to conveniently change between formats. 
+Th advantages of the sparse representation is that the community matrix can be 
+stored much more memory efficient and also computatuions with a sparse matrix 
+are also considerably faster. The phyloregion and Martrix package contains some 
+functions to conveniently change between formats. 
 ```{r, eval=TRUE}
 library(Matrix) 
 data(africa)
@@ -61,8 +60,8 @@ comm_dense <- as.matrix(comm_sparse)
 object.size(comm_dense)
 object.size(comm_sparse)
 ```
-The data set the dense matrix representation consumes roughly five times more 
-memory than the sparse representation. 
+Here the data set in the dense matrix representation consumes roughly five times 
+more memory than the sparse representation. 
 
 ## Analysis
 
@@ -76,7 +75,6 @@ tree <- africa$phylo
 tree <- ape::keep.tip(tree, colnames(comm_sparse))
 pb <- phylobeta(comm_sparse, tree)
 ```
-
 
 ## Session Infomation
 ```{r, eval=TRUE}
