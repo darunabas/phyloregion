@@ -1,0 +1,90 @@
+---
+title: "An introduction to the phyloregion package"
+author: "Klaus Schliep"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: rmarkdown::html_vignette
+bibliography: phyloregion.bib
+nocite: '@Daru2017'
+vignette: >
+   %\VignetteIndexEntry{phylorregion-intro}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\usepackage[utf8]{inputenc}   
+---
+
+
+
+## Installing phyloregion
+
+
+phyloregion is an free R package hosted on GitHub. To install the phyloregion 
+with the help from the remotes package type the following commands in R: 
+```
+if (!requireNamespace("remotes", quietly = TRUE)) 
+    install.packages("remotes") 
+devtools::install_github("darunabas/phyloregion")
+```
+Once the package is installed you load the package inside R:
+```{r}
+library(phyloregion)
+```
+
+## Data formats
+
+### Phylogenies
+Phylogenetic relationships among species / taxa are represented in the phylo 
+format implemented in the ape package [@Paradis2018]. Phylogenies in Newick or 
+Nexus format it can be imported into R with the `read.tree` or `read.nexus` 
+functions of the ape package.
+
+
+
+### Community data
+
+Community data are commonly stored in a matrix with the sites / samples in the 
+rows and the species / otu's (operational taxonomic units) in the columns. The 
+elements of the matrix are numeric values indicating the abundance/observations 
+or resence/absence (0/1) of otu's in different samples. Very often we observe 
+that the majority of the the entries in such a comunity matrix is zero. 
+Phyloregion differs from other R packages like vegan [@vegan], picante 
+[@Kembel2010] or betapart [@Baselga2012] that the data are not stored in a 
+(dense) `matrix` or `data.frame` but as a sparse matrix making use 
+infrastructure provided by the Matrix package [@Matrix]. 
+
+Th advantages are that usually that the community matrix can be stored much more 
+memory efficient and also computatuions with a sparse matrix are also 
+considerably faster. The phyloregion and Martrix package contains some functions 
+to conveniently change between formats. 
+```{r, eval=TRUE}
+library(Matrix) 
+data(africa)
+comm_sparse <- africa$comm
+comm_dense <- as.matrix(comm_sparse) 
+object.size(comm_dense)
+object.size(comm_sparse)
+```
+The data set the dense matrix representation consumes roughly five times more 
+memory than the sparse representation. 
+
+## Analysis
+
+### Phylogenetic beta diversity
+
+Phyloregion offers a fast way to compute the phylogenetic beta diversity, making 
+use and improving on the infrastructure provided by the betapart package 
+[@Baselga2012].  
+```{r}
+tree <- africa$phylo
+tree <- ape::keep.tip(tree, colnames(comm_sparse))
+pb <- phylobeta(comm_sparse, tree)
+```
+
+
+## Session Infomation
+```{r, eval=TRUE}
+sessionInfo()
+```
+
+## References
+
+
+
