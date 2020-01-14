@@ -6,3 +6,5 @@
 ^docs$
 ^_pkgdown\.yml$
 ^inst/extdata$
+^vignettes/Benchmark.Rmd$
+^vignettes/Benchmark_cache$
