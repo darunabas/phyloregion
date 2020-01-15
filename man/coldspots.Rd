@@ -24,8 +24,8 @@ coldspots or hotspots
 }
 \description{
 \code{coldspots} and \code{hotspots} map areas or grid cells with lowest
-or highest values of a biodiversity metric e.g. species richness, species
-endemism or degree of threat.
+or highest values, respectively, of a biodiversity metric e.g.
+species richness, species endemism or degree of threat.
 }
 \examples{
 require(raster)

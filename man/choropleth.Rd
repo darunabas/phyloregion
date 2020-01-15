@@ -16,7 +16,7 @@ choropleth(x, k = 10, style = "quantile", ...)
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
-a vector with of the discretized values.
+a vector with the discretized values.
 }
 \description{
 \code{choropleth} discretizes the values of a quantity for mapping.
