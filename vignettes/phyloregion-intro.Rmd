@@ -31,27 +31,27 @@ library(phyloregion)
 
 ### Phylogenies
 Phylogenetic relationships among species / taxa are represented in the phylo 
-format implemented in the ape package [@Paradis2018]. Phylogenies in Newick or 
-Nexus format it can be imported into R with the `read.tree` or `read.nexus` 
-functions of the ape package.
+format implemented in the ape package [@Paradis2018]. Phylogenies often in the Newick 
+or Nexus format can be imported into R with the `read.tree` or `read.nexus` 
+functions of the `ape` package.
 
 
 ### Community data
 
-Community data are commonly stored in a matrix with the sites / samples in the 
-rows and the species / otu's (operational taxonomic units) in the columns. The 
+Community data are commonly stored in a matrix with the sites in the 
+rows and the species / operational taxonomic units (OTUs) in the columns. The 
 elements of the matrix are numeric values indicating the abundance/observations 
-or resence/absence (0/1) of otu's in different samples. Very often we observe 
-that the majority of the the entries in such a comunity matrix is zero. 
-Phyloregion differs from other R packages like vegan [@vegan], picante 
-[@Kembel2010] or betapart [@Baselga2012] that the data are not stored in a 
-(dense) `matrix` or `data.frame` but as a sparse matrix making use 
-infrastructure provided by the Matrix package [@Matrix]. 
+or presence/absence (0/1) of OTUs in different sites. In practice, such a matrix can contain many zero values because species are known to generally have unimodal distributions along environmental gradients (ter Braak & Prentice, 1988), and storing and analyzing every single element of that matrix can be computationally challenging and expensive. 
+
+`phyloregion` differs from other R packages like vegan [@vegan], picante 
+[@Kembel2010] or betapart [@Baselga2012] in that the data are not stored in a 
+(dense) `matrix` or `data.frame` but as a sparse matrix making use of the 
+infrastructure provided by the Matrix package [@Matrix]. A sparse matrix is a matrix with a high proportion of zero entries (Duff 1977), of which only the non-zero entries
+are stored and utlized for downstream analysis.
 
 Th advantages of the sparse representation is that the community matrix can be 
 stored much more memory efficient and also computatuions with a sparse matrix 
-are also considerably faster. The phyloregion and Martrix package contains some 
-functions to conveniently change between formats. 
+are also considerably faster. The `phyloregion` package contains functions to conveniently change between data formats. 
 ```{r, eval=TRUE}
 library(Matrix) 
 data(africa)
@@ -60,16 +60,15 @@ comm_dense <- as.matrix(comm_sparse)
 object.size(comm_dense)
 object.size(comm_sparse)
 ```
-Here the data set in the dense matrix representation consumes roughly five times 
+Here, the data set in the dense matrix representation consumes roughly five times 
 more memory than the sparse representation. 
 
 ## Analysis
 
 ### Phylogenetic beta diversity
 
-Phyloregion offers a fast way to compute the phylogenetic beta diversity, making 
-use and improving on the infrastructure provided by the betapart package 
-[@Baselga2012].  
+`phyloregion` offers a fast way to compute phylogenetic beta diversity, the turnover 
+of branch lengths among sites, making use and improving on the infrastructure provided by the betapart package [@Baselga2012].  
 ```{r}
 tree <- africa$phylo
 tree <- ape::keep.tip(tree, colnames(comm_sparse))

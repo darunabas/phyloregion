@@ -1,8 +1,8 @@
 #' Computes biodiversity coldspots and hotspots
 #'
 #' \code{coldspots} and \code{hotspots} map areas or grid cells with lowest
-#' or highest values of a biodiversity metric e.g. species richness, species
-#' endemism or degree of threat.
+#' or highest values, respectively, of a biodiversity metric e.g.
+#' species richness, species endemism or degree of threat.
 #'
 #' @param x a vector on which to compute coldspots
 #' @param prob The threshold quantile for representing the lowest
