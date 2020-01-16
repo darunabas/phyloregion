@@ -2,7 +2,7 @@ Package: phyloregion
 Type: Package
 Title: Biogeographic Regionalization and Spatial Conservation
 Version: 0.1.0
-Authors@R: c(person("Barnabas", "Daru", email= "darunabas@gmail.com", role = c("aut", "cre", "cph")),
+Authors@R: c(person("Barnabas", "Daru", email= "darunabas@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-2115-0257")),
              person("Piyal", "Karunarathne", role = c("aut")),
              person("Klaus", "Schliep", email="klaus.schliep@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0003-2941-0161")))
 Description: R package for biogeographic regionalization and spatial conservation.

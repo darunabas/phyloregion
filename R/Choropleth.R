@@ -9,7 +9,7 @@
 #' @rdname choropleth
 #' @keywords bioregion
 #' @importFrom stats quantile
-#' @return a vector with of the discretized values.
+#' @return a vector with the discretized values.
 #'
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #' @seealso \code{\link{coldspots}}
