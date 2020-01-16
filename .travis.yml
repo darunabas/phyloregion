@@ -42,7 +42,7 @@ r_packages:
   - covr
   - tinytest
   - ggplot2
-  - microbenchmark
+  - micro
   - picante
 
 
