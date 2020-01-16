@@ -17,13 +17,12 @@ library(phyloregion)
 library(betapart)
 library(picante)
 library(vegan)
-library(microbenchmark)
+library(bench)
 library(ggplot2)
 library(Matrix)
 
 data(africa)
 X_Matrix <- africa$comm
-
 
 X_matrix <- as.matrix(X_Matrix)
 object.size(X_Matrix)
@@ -33,40 +32,48 @@ dim(X_Matrix)
 
 ### Beta diversity
 
+For betadiversity there is only a small advantage: 
 ```{r, beta_diversity, cache=TRUE}
-res <- microbenchmark(beta_phyloregion <- beta_diss(X_Matrix), 
-                      beta_betapart <- beta.pair(X_matrix),
-                      beta_vegan <- vegdist(X_matrix, binary=TRUE), times = 5L)
-summary(res)
-autoplot(res)
+fun_phyloregion <- function(x) as.matrix(beta_diss(x)[[3]])
+fun_betapart <- function(x) as.matrix(beta.pair(x)[[3]])
+fun_vegan  <- function(x) as.matrix(vegdist(x, binary=TRUE)) 
 
-all.equal(beta_phyloregion[[3]], beta_betapart[[3]],  check.attributes=FALSE)
-all.equal(beta_phyloregion[[3]], beta_vegan, check.attributes=FALSE)
+results <- bench::mark(fun_phyloregion(X_Matrix), fun_betapart(X_matrix), 
+                       fun_vegan(X_matrix))
+summary(results)
+autoplot(results)
 ```
 
 ### Phylogenetic beta diversity
-
- 
+The is a huge difference in memory allocations and running time for the 
+phylogenetic beta diversity. 
 ```{r, phylobeta_diversity, cache=TRUE}
-# subset matrix and tree
-X_Matrix <- X_Matrix[1:50, ]
+# subset matrix and tree 
+X_Matrix <- X_Matrix[1:30, ]
 X_Matrix <- X_Matrix[, colSums(X_Matrix)>0]
+object.size(X_Matrix)
+object.size(X_matrix)
 
 tree <- africa$phylo
 tree <- keep.tip(tree, colnames(X_Matrix))  
 X_matrix <- as.matrix(X_Matrix)
 
-gc()    
-res <- microbenchmark(phylobeta_phyloregion <- phylobeta(X_Matrix, tree), 
-         phylobeta_betapart <- phylo.beta.pair(X_matrix, tree),
-         phylobeta_picante <- phylosor(X_matrix, tree), times = 5L)
-summary(res)
-autoplot(res)
+fun_phyloregion <- function(x, tree) 1 - phylobeta(x, tree)[[3]]
+fun_picante  <- function(x, tree)phylosor(x, tree)
 
-all.equal(phylobeta_phyloregion, phylobeta_betapart, check.attributes=FALSE)
-all.equal(phylobeta_phyloregion[[3]], 
-          1-phylobeta_picante, check.attributes=FALSE)
+chk_fun <- function(target, current)
+    all.equal(target, current, check.attributes = FALSE)
+
+cmp_betapart <- bench::mark(phylo.beta.pair(X_matrix, tree), 
+                        phylobeta(X_Matrix, tree), check=chk_fun)
+summary(cmp_betapart)
+autoplot(cmp_betapart)
+
+cmp_picante <- bench::mark(phylosor(X_matrix, tree), 
+                        fun_phyloregion(X_Matrix, tree), check=chk_fun)
+summary(cmp_picante)
+autoplot(cmp_picante)
 ```
-
-
+Note that the vegan function returns a similarity matrix while the function in 
+betapart and phyloregion return a dissimilarity matrix. 
 
