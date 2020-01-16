@@ -8,7 +8,7 @@ phylo_community <- function(x, phy) {
   M <- Matrix::sparseMatrix(as.integer(rep(seq_along(anc), lengths(anc))),
                             as.integer(unlist(anc)), x = 1L)
   commphylo <- x %*% M
-  commphylo@x[] <- 1
+  commphylo@x[commphylo@x > 1e-8] <- 1
   list(Matrix = commphylo, edge.length = el)
 }
 
@@ -158,7 +158,7 @@ match_phylo_comm <- function(phy, comm) {
 ## non phylogenetic version
 beta_core <- function(x) {
   if (!inherits(x, "Matrix")) x <- Matrix(x, sparse=TRUE)
-  x@x[x@x > 0] <- 1
+  x@x[x@x > 1e-8] <- 1
   shared <- as.matrix(tcrossprod(x)) # %*% t(x)
   not.shared <- abs(sweep(shared, 2, diag(shared)))
   sumSi <- sum(diag(shared))
