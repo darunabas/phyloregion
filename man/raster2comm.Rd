@@ -50,7 +50,7 @@ shapefile covering the boundary of the survey region.}
 
 \item{lon}{character with the column name of the longitude.}
 
-\item{lat}{character with the column name of the lattitude.}
+\item{lat}{character with the column name of the latitude.}
 
 \item{index}{Diversity index, one of \dQuote{richness} (default) or
 \dQuote{abundance}.}

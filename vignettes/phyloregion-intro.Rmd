@@ -49,9 +49,11 @@ or presence/absence (0/1) of OTUs in different sites. In practice, such a matrix
 infrastructure provided by the Matrix package [@Matrix]. A sparse matrix is a matrix with a high proportion of zero entries (Duff 1977), of which only the non-zero entries
 are stored and utlized for downstream analysis.
 
-Th advantages of the sparse representation is that the community matrix can be 
-stored much more memory efficient and also computatuions with a sparse matrix 
-are also considerably faster. The `phyloregion` package contains functions to conveniently change between data formats. 
+The are two advantages of the sparse representation: First the community matrix 
+can be stored much more memory efficient, which allows to analyze larger 
+datasets and second computations with a sparse matrix are often much faster. 
+The `phyloregion` package contains functions to conveniently change between data 
+formats. 
 ```{r, eval=TRUE}
 library(Matrix) 
 data(africa)

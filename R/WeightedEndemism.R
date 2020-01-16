@@ -4,7 +4,6 @@
 #' by species ranges.
 #
 #' @param x A (sparse) community matrix.
-#' @rdname weighted.endemism
 #' @keywords bioregion
 #' @importFrom Matrix rowSums Diagonal Matrix colSums
 #'

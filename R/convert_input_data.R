@@ -37,7 +37,7 @@ make_poly <- function(file){
 #' @param species a character string. The column with the species or taxon name.
 #' Default = \dQuote{species}.
 #' @param lon character with the column name of the longitude.
-#' @param lat character with the column name of the lattitude.
+#' @param lat character with the column name of the latitude.
 #' @param mask Only applicable to \code{points2comm}. If supplied, a polygon
 #' shapefile covering the boundary of the survey region.
 #' @param shp.grids if specified, the polygon shapefile of grid cells

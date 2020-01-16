@@ -20,6 +20,18 @@ possible.
 \examples{
 data("africa")
 phylobuilder(species = colnames(africa$comm), tree = africa$phylo)
+
+library(ape)
+cats_and_dogs <- read.tree(text="(((((Panthera_leo,Panthera_pardus),
+  Panthera_onca),(Panthera_uncia,(Panthera_tigris_altaica,
+  Panthera_tigris_amoyensis)))Panthera)Felidae,(((((((Canis_lupus,
+  Canis_lupus_familiaris),Canis_latrans),Canis_anthus),Canis_aureus),
+  Lycaon_pictus),(Canis_adustus,Canis_mesomelas))Canis,(Vulpes_vulpes,
+  Vulpes_corsac)Vulpes)Canidae)Carnivora;")
+plot(cats_and_dogs, show.node.label=TRUE)
+
+
+
 }
 \seealso{
 \code{\link[phangorn]{add.tips}}, \code{\link[ape]{label2table}},
