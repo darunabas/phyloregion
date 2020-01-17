@@ -20,13 +20,15 @@ addons:
       - libgeos-dev
       - libgdal-dev
 
+r_packages:
+  - bench
+
 r_binary_packages:
   - ape
   - phangorn
   - Matrix
   - betapart
   - fastmatch
-  - bench
   - rgdal
   - raster
   - data.table
