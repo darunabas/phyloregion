@@ -20,7 +20,7 @@ addons:
       - libgeos-dev
       - libgdal-dev
 
-r_packages:
+r_binary_packages:
   - ape
   - phangorn
   - Matrix
