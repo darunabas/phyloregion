@@ -26,8 +26,7 @@ r_packages:
   - Matrix
   - betapart
   - fastmatch
-  - parallel
-  - methods
+  - micro
   - rgdal
   - raster
   - data.table
