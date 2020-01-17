@@ -10,7 +10,7 @@ ed_phyloregion(x, k = 10, method = "average", shp = NULL, ...)
 \item{x}{A distance matrix}
 
 \item{k}{The desired number of phyloregions, often as determined by
-\code{optimal.phyloregion}.}
+\code{optimal_phyloregion}.}
 
 \item{method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{single},
@@ -57,8 +57,8 @@ affinities among disjunct temperate assemblages.
 \emph{Biological Conservation} \strong{213}: 351-356.
 }
 \seealso{
-\code{\link{evol_distinct}}, \code{\link[picante]{evol.distinct}}
-for a different approach.
+\code{\link{evol_distinct}}, \code{\link{optimal_phyloregion}},
+\code{\link[picante]{evol.distinct}} for a different approach.
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

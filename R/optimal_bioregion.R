@@ -236,7 +236,6 @@ elbow.batch <- function(x, inc.thres = c(0.01, 0.05, 0.1),
 #' @param k numeric, the upper bound of the number of clusters to
 #' compute. DEFAULT: 20 or the number of observations (if less than 20).
 #' @param verbose logical; if TRUE, show even more when running example code.
-#' @rdname optimal.phyloregion
 #' @keywords phyloregion
 #' @importFrom stats hclust as.dist
 #'
@@ -263,14 +262,14 @@ elbow.batch <- function(x, inc.thres = c(0.01, 0.05, 0.1),
 #' data(africa)
 #' tree <- africa$phylo
 #' bc <- beta_diss(africa$comm)
-#' (d <- optimal.phyloregion(bc[[1]]))
+#' (d <- optimal_phyloregion(bc[[1]]))
 #' plot(d$df$k, d$df$ev, ylab = "Explained variances",
 #'   xlab = "Number of clusters")
 #' lines(d$df$k[order(d$df$k)], d$df$ev[order(d$df$k)], pch = 1)
 #' points(d$optimal$k, d$optimal$ev, pch = 21, bg = "red", cex = 3)
 #' points(d$optimal$k, d$optimal$ev, pch = 21, bg = "red", type = "h")
 #' @export
-optimal.phyloregion <- function(x, method = "average", k = 20, verbose = TRUE) {
+optimal_phyloregion <- function(x, method = "average", k = 20, verbose = TRUE) {
   if (verbose) {
     message("Determining optimal number of phyloregions, please wait.")
   }

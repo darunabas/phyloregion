@@ -6,7 +6,7 @@
 #'
 #' @param x A distance matrix
 #' @param k The desired number of phyloregions, often as determined by
-#' \code{optimal.phyloregion}.
+#' \code{optimal_phyloregion}.
 #' @param method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{single},
 #' \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA), \dQuote{median}
@@ -46,8 +46,8 @@
 #' \emph{Biological Conservation} \strong{213}: 351-356.
 
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
-#' @seealso \code{\link{evol_distinct}}, \code{\link[picante]{evol.distinct}}
-#' for a different approach.
+#' @seealso \code{\link{evol_distinct}}, \code{\link{optimal_phyloregion}},
+#' \code{\link[picante]{evol.distinct}} for a different approach.
 #'
 #' @examples
 #' library(ape)
