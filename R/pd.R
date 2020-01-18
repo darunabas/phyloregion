@@ -30,9 +30,16 @@ PD <- function(x, phy, method = "comm"){
     stop("There are species labels in community matrix missing in the tree!")
   if(length(setdiff(phy$tip.label, colnames(x))) > 0)
     phy <- keep.tip(phy, intersect(phy$tip.label, colnames(x)))
+  x <- x[,intersect(phy$tip.label, colnames(x))]
+
   if (method == "comm") {
-    y <- phylo_community(x, phy)
-    res <- (y$Matrix %*% y$edge.length)[,1]
+    z <- phylo_community(x, phy)
+    z <- (z$Matrix %*% z$edge.length)[,1]
+    z <- data.frame(PD=z)
+    z <- data.frame(grids = row.names(z), z)
+    m <- data.frame(table(sparse2long(x)$grids))
+    names(m) <- c("grids", "ntaxa")
+    res <- Reduce(function(x, y) merge(x, y, by="grids",all=TRUE) , list(z, m))
   }
   else if (method == "total") {
     res <- sum(phy$edge.length)

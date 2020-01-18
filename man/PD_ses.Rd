@@ -42,6 +42,7 @@ com <- sparseMatrix(c(1,3,4,1,4,5,1,2,3,4,5,6,3,4,6),
   dimnames = list(paste0("g", 1:6), tree$tip.label))
 
 PD_ses(com, tree)
+
 }
 \references{
 Proches, S., Wilson, J.R.U. & Cowling, R.M. (2006) How much evolutionary
