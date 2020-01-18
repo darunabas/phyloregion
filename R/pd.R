@@ -4,9 +4,6 @@
 #'
 #' @param x a community matrix, i.e. an object of class matrix or Matrix.
 #' @param phy a phylogenetic tree (object of class phylo).
-#' @param method If \code{method =} \dQuote{comm} (the default),
-#' the phylogenetic diversity of each community in the study area;
-#' else \dQuote{total}, the total PD of the study area.
 #' @return a vector with the PD for all samples.
 #' @keywords cluster
 #' @seealso read.community read.tree phylobeta_core
@@ -24,27 +21,22 @@
 #' PD(com, tree)
 #' @rdname PD
 #' @export
-PD <- function(x, phy, method = "comm"){
+PD <- function(x, phy){
   if(!is(x, "sparseMatrix")) stop("x needs to be a sparse matrix!")
   if(length(setdiff(colnames(x), phy$tip.label)) > 0)
     stop("There are species labels in community matrix missing in the tree!")
   if(length(setdiff(phy$tip.label, colnames(x))) > 0)
     phy <- keep.tip(phy, intersect(phy$tip.label, colnames(x)))
   x <- x[,intersect(phy$tip.label, colnames(x))]
-
-  if (method == "comm") {
-    z <- phylo_community(x, phy)
-    z <- (z$Matrix %*% z$edge.length)[,1]
-    z <- data.frame(PD=z)
-    z <- data.frame(grids = row.names(z), z)
-    m <- data.frame(table(sparse2long(x)$grids))
-    names(m) <- c("grids", "ntaxa")
-    res <- Reduce(function(x, y) merge(x, y, by="grids",all=TRUE) , list(z, m))
-  }
-  else if (method == "total") {
-    res <- sum(phy$edge.length)
-  }
+  z <- phylo_community(x, phy)
+  z <- (z$Matrix %*% z$edge.length)[,1]
+  z <- data.frame(PD=z)
+  z <- data.frame(grids = row.names(z), z)
+  m <- data.frame(table(sparse2long(x)$grids))
+  names(m) <- c("grids", "ntaxa")
+  res <- Reduce(function(x, y) merge(x, y, by="grids",all=TRUE) , list(z, m))
   res
+
 }
 
 
