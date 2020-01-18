@@ -1,6 +1,9 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
+
+
+before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 cache: packages
 
 bioc_required: false
@@ -22,6 +25,7 @@ addons:
 
 r_packages:
   - bench
+  - ggbeeswarm
 
 r_binary_packages:
   - ape
@@ -45,6 +49,10 @@ r_binary_packages:
   - ggplot2
   - picante
 
+deploy:
+provider: script
+script: Rscript -e 'pkgdown::deploy_site_github()'
+skip_cleanup: true
 
 after_success:
 - Rscript -e 'library(covr); codecov()'
