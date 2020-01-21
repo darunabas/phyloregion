@@ -4,12 +4,15 @@
 \alias{phylobuilder}
 \title{Create a subtree with largest overlap from a species list.}
 \usage{
-phylobuilder(species, tree)
+phylobuilder(species, tree, extract = TRUE)
 }
 \arguments{
 \item{species}{A vector or matrix containing a species list}
 
 \item{tree}{a phylogenetic tree (object of class phylo)}
+
+\item{extract}{extract the species in the list after try ing to  add missing
+labels to the tree. If FALSE phylobuilder adds only the taxa in the list.}
 }
 \description{
 phylobuilder creates a subtree with largest overlap from a species list.
@@ -18,19 +21,40 @@ be added at the most recent common ancestor at the genus or family level when
 possible.
 }
 \examples{
-data("africa")
-phylobuilder(species = colnames(africa$comm), tree = africa$phylo)
-
 library(ape)
-cats_and_dogs <- read.tree(text="(((((Panthera_leo,Panthera_pardus),
-  Panthera_onca),(Panthera_uncia,(Panthera_tigris_altaica,
-  Panthera_tigris_amoyensis)))Panthera)Felidae,(((((((Canis_lupus,
-  Canis_lupus_familiaris),Canis_latrans),Canis_anthus),Canis_aureus),
-  Lycaon_pictus),(Canis_adustus,Canis_mesomelas))Canis,(Vulpes_vulpes,
-  Vulpes_corsac)Vulpes)Canidae)Carnivora;")
-plot(cats_and_dogs, show.node.label=TRUE)
+txt <- "(((((Panthera_leo,Panthera_pardus), Panthera_onca),(Panthera_uncia,
+  (Panthera_tigris_altaica, Panthera_tigris_amoyensis)))Panthera)Felidae,
+  (((((((Canis_lupus,Canis_lupus_familiaris),Canis_latrans),Canis_anthus),
+  Canis_aureus),Lycaon_pictus),(Canis_adustus,Canis_mesomelas))Canis)
+  Canidae)Carnivora;"
+txt <- gsub("[[:space:]]", "", txt)
+cats_and_dogs <- read.tree(text=txt)
+plot(cats_and_dogs, node.depth=2, direction="downwards")
+nodelabels(cats_and_dogs$node.label, frame="none", adj = c(0.5, 0))
 
+tree <- drop.tip(cats_and_dogs, c("Panthera_uncia", "Lycaon_pictus"),
+  collapse.singles=FALSE)
 
+dogs <- c("Canis_lupus", "Canis_lupus_familiaris", "Canis_latrans",
+  "Canis_anthus", "Canis_aureus", "Lycaon_pictus", "Canis_adustus",
+  "Canis_mesomelas")
+
+# try to extract tree with all 'dogs'
+t1 <- phylobuilder(dogs, tree)
+plot(t1, direction="downwards")
+attr(t1, "species_list")
+
+# providing extra information ("Family", "Order", ...) can help
+sp <- data.frame(Order = c("Carnivora", "Carnivora", "Carnivora"),
+  Family = c("Felidae", "Canidae", "Canidae"),
+  Genus = c("Panthera", "Lycaon", "Vulpes"),
+  Species = c("uncia", "pictus", "vulpes"),
+  Common_name = c("Snow leopard", "Africa wild dog", "Red fox"))
+sp
+# Now we just add some species
+t2 <- phylobuilder(sp, tree, extract=FALSE)
+plot(t2, direction="downwards")
+attr(t2, "species_list")
 
 }
 \seealso{
