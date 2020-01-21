@@ -42,7 +42,7 @@ phylo_community <- function(x, phy) {
 #' @importFrom fastmatch fmatch
 #' @importFrom betapart phylo.beta.multi phylo.beta.pair
 #' @importFrom phangorn getRoot
-#' @importFrom Matrix tril
+#' @importFrom Matrix tril tcrossprod Diagonal
 #' @export
 phylobeta_core <- function(x, phy) {
   if(!is(x, "sparseMatrix")) stop("x needs to be a sparse matrix!")

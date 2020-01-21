@@ -29,14 +29,7 @@ PD <- function(x, phy){
     phy <- keep.tip(phy, intersect(phy$tip.label, colnames(x)))
   x <- x[,intersect(phy$tip.label, colnames(x))]
   z <- phylo_community(x, phy)
-  z <- (z$Matrix %*% z$edge.length)[,1]
-  z <- data.frame(PD=z)
-  z <- data.frame(grids = row.names(z), z)
-  m <- data.frame(table(sparse2long(x)$grids))
-  names(m) <- c("grids", "ntaxa")
-  res <- Reduce(function(x, y) merge(x, y, by="grids",all=TRUE) , list(z, m))
-  res
-
+  (z$Matrix %*% z$edge.length)[,1]
 }
 
 
