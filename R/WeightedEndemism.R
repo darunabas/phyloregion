@@ -27,6 +27,7 @@ weighted_endemism <- function(x){
   if(inherits(x, "matrix") && ncol(x)>2) x <- Matrix(x, sparse=TRUE)
   if(!is(x, "sparseMatrix")) stop("x needs to be a sparse matrix!")
   x@x[x@x > 1e-8] <- 1  # we want to count species and not occurrences
-  rowSums(x %*% Diagonal(x = 1 / colSums(x) ) )
+  y <- rowSums(x %*% Diagonal(x = 1 / colSums(x) ) )
+  y
 }
 
