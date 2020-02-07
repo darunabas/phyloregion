@@ -9,3 +9,4 @@
 ^vignettes/Benchmark.Rmd$
 ^vignettes/Benchmark_cache$
 ^pkgdown$
+.DS_Store
