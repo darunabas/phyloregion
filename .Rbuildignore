@@ -10,3 +10,4 @@
 ^vignettes/Benchmark_cache$
 ^pkgdown$
 .DS_Store
+^logo\.png
