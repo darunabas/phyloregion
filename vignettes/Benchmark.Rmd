@@ -17,6 +17,19 @@ computing phylogenetic diversity (Faith 1992), beta diversity and phylogenetic
 beta diversity. 
 
 Lets load first a all the packages we are going to use. 
+```{r, echo=FALSE}
+library(ape)
+library(Matrix)
+library(bench)
+suppressPackageStartupMessages( library(ggplot2) )
+# packages we benchmark
+suppressPackageStartupMessages( library(phyloregion) )
+suppressPackageStartupMessages( library(betapart) )
+suppressPackageStartupMessages( library(picante) )
+suppressPackageStartupMessages( library(vegan) )
+suppressPackageStartupMessages( library(hilldiv) )
+suppressPackageStartupMessages( library(BAT) )
+```
 ```{r}
 library(ape)
 library(Matrix)
@@ -28,13 +41,13 @@ library(betapart)
 library(picante)
 library(vegan)
 library(hilldiv)
-library(BAT) 
+library(BAT)
 ```
 We will use a small data set which comes with `phyloregion`. 
 ```{r}
 data(africa)
 # subset matrix
-X_sparse <- africa$comm[1:30, ]
+X_sparse <- africa$comm[1:50, ]
 X_sparse <- X_sparse[, colSums(X_sparse)>0]
 X_dense <- as.matrix(X_sparse)
 Xt_dense <- t(X_dense)
