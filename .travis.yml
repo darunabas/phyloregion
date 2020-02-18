@@ -24,6 +24,8 @@ addons:
 r_packages:
   - bench
   - ggbeeswarm
+  - hilldiv
+  - BAT
 
 r_binary_packages:
   - ape
@@ -46,8 +48,6 @@ r_binary_packages:
   - tinytest
   - ggplot2
   - picante
-  - BAT
-  - hilldiv
 
 before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
