@@ -20,6 +20,8 @@ addons:
       - libproj-dev
       - libgeos-dev
       - libgdal-dev
+      - libgl1-mesa-dev
+      - libglu1-mesa-dev
 
 r_packages:
   - bench
@@ -49,11 +51,11 @@ r_binary_packages:
   - ggplot2
   - picante
 
-before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
-deploy:
-provider: script
-script: Rscript -e 'pkgdown::deploy_site_github()'
-skip_cleanup: true
+#before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+#deploy:
+#provider: script
+# script: Rscript -e 'pkgdown::deploy_site_github()'
+#skip_cleanup: true
 
 after_success:
 - Rscript -e 'library(covr); codecov()'
