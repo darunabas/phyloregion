@@ -23,11 +23,10 @@ addons:
       - libgl1-mesa-dev
       - libglu1-mesa-dev
 
-r_packages:
-  - bench
-  - ggbeeswarm
-  - hilldiv
-  - BAT
+
+# r_packages:
+r_github_packages:
+  - rstudio/pkgdown
 
 r_binary_packages:
   - ape
@@ -50,6 +49,11 @@ r_binary_packages:
   - tinytest
   - ggplot2
   - picante
+  - rgl
+  - bench
+  - ggbeeswarm
+  - hilldiv
+  - BAT
 
 #before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 #deploy:
