@@ -47,7 +47,7 @@ We will use a small data set which comes with `phyloregion`.
 ```{r}
 data(africa)
 # subset matrix
-X_sparse <- africa$comm[1:50, ]
+X_sparse <- africa$comm[1:30, ]
 X_sparse <- X_sparse[, colSums(X_sparse)>0]
 X_dense <- as.matrix(X_sparse)
 Xt_dense <- t(X_dense)
@@ -106,10 +106,10 @@ autoplot(results)
 Again there is a large difference in memory allocations and running time for the 
 phylogenetic beta diversity. 
 ```{r, phylobeta, cache=TRUE}
-fun_phyloregion <- function(x, tree) phylobeta(x, tree)[[3]]
-fun_betapart <- function(x, tree) phylo.beta.pair(x, tree)[[3]]
-fun_picante <- function(x, tree) 1- phylosor(x, tree)
-fun_BAT <- function(x, tree) beta(x, tree, func = "Soerensen")[[1]] 
+fun_phyloregion <- function(x, tree) phyloregion::phylobeta(x, tree)[[3]]
+fun_betapart <- function(x, tree) betapart::phylo.beta.pair(x, tree)[[3]]
+fun_picante <- function(x, tree) 1 - picante::phylosor(x, tree)
+fun_BAT <- function(x, tree) BAT::beta(x, tree, func = "Soerensen")[[1]] 
 
 chk_fun <- function(target, current)
     all.equal(target, current, check.attributes = FALSE)
