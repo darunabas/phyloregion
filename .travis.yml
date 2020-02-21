@@ -1,68 +1,31 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
 language: R
-
 cache: packages
-
-bioc_required: false
 
 env:
   - WARNINGS_ARE_ERRORS=false
 
-sudo: required
-dist: xenial
-
 addons:
   apt:
-    sources:
-      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
       - libproj-dev
       - libgeos-dev
       - libgdal-dev
       - libgl1-mesa-dev
       - libglu1-mesa-dev
+      - libudunits2-dev
 
 
-# r_packages:
-r_github_packages:
-  - rstudio/pkgdown
-
-r_binary_packages:
-  - ape
-  - phangorn
-  - Matrix
-  - betapart
-  - fastmatch
-  - rgdal
-  - raster
-  - data.table
-  - colorspace
-  - cluster
-  - rgeos
-  - vegan
-  - magrittr
-  - sp
-  - maptools
-  - knitr
-  - covr
-  - tinytest
-  - ggplot2
-  - picante
-  - rgl
-  - bench
-  - ggbeeswarm
-  - hilldiv
-  - BAT
-
-#before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
-#deploy:
-#provider: script
-# script: Rscript -e 'pkgdown::deploy_site_github()'
-#skip_cleanup: true
-
-after_success:
-- Rscript -e 'library(covr); codecov()'
+matrix:
+  include:
+  - r: devel
+  - r: release
+    after_success: Rscript -e 'covr::codecov()'
+#    before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
+#    deploy:
+#      provider: script
+#      script: Rscript -e 'pkgdown::deploy_site_github()'
+#      skip_cleanup: true
 
 notifications:
   email:
