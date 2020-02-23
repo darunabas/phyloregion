@@ -12,7 +12,7 @@ Imports: ape, phangorn, Matrix, betapart, fastmatch, parallel, methods, raster,
          data.table, colorspace, cluster, rgeos, vegan, sp
 Suggests: tinytest, knitr
 VignetteBuilder: knitr
-URL: https://github.com/darunabas/phyloregion
+URL: https://github.com/darunabas/phyloregion, https://darunabas.github.io/phyloregion/index.html
 BugReports: https://github.com/darunabas/phyloregion/issues
 License: AGPL-3
 Encoding: UTF-8
