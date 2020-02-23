@@ -17,9 +17,11 @@ The original implementation of ```phyloregion``` is described in:
 Daru B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion: R package for biogeographic regionalization and spatial conservation. **_bioRxiv_** 2020.02.12.945691; doi: doi: 10.1101/2020.02.12.945691
 
 It is based on the method described in:
+
 Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism patterns are scale dependent. **_Nature Communications_**. 
 
 The original conceptual is described in:
+
 Daru, B. H., Elliott, T. L., Park, D. S. & Davies, T. J. (2017), Understanding the processes underpinning patterns of phylogenetic pegionalization. **_Trends in Ecology and Evolution_** __32__: 845--860. doi: 10.1016/j.tree.2017.08.013
 
 ### Feedback
