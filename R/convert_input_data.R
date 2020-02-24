@@ -97,8 +97,10 @@ raster2comm <- function(files) {
 #' @export
 polys2comm <- function(dat, res=1, shp.grids = NULL,
                        species = "species", ...) {
+
     dat <- dat[, species, drop = FALSE]
-    shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
+    nam <- dat@data$species
+    #nam <- levels(z)
 
     names(dat) <- "species"
     if (length(shp.grids) == 0) {
@@ -108,13 +110,19 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
         lu <- as.data.frame(1L)
         mask <- sp::SpatialPolygonsDataFrame(mask, lu)
         m <- fishnet(mask, res = res)
-    } else m <- shp.grids
+    } else {shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
+    m <- shp.grids}
+
     proj4string(dat) <- proj4string(m)
-    y <- do.call("rbind", mapply(cbind, sp::over(dat, m, returnList = TRUE),
-                species = levels(dat@data$species), SIMPLIFY = FALSE))
-    names(y) <- c("grids", "species")
+
+    x <- sp::over(dat, m, returnList = TRUE)
+    x <- lapply(x, function(x) unlist(x))
+    x <- lapply(x, unique)
+
+    l <- lengths(x)
+    y <- data.frame(grids = unlist(x), species= factor(rep(nam, l)))
+
     y <- y[complete.cases(y), ]
-    y <- unique(y[, c("grids", "species")])
     res <- data.frame(table(y$grids))
     names(res) <- c("grids", "richness")
     z <- sp::merge(m, res, by = "grids")
