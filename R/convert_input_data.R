@@ -49,7 +49,6 @@ make_poly <- function(file){
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
 #' @importFrom raster values
 #' @importFrom sp CRS proj4string<-
-#' @importFrom data.table as.data.table
 #' @return
 #' \itemize{
 #'   \item comm_dat: community data frame
@@ -80,13 +79,12 @@ raster2comm <- function(files) {
         if(length(tmp) > 0) res <- rbind(res, cbind(tmp, names(obj)))
     }
     if(length(tmp) > 0) colnames(res) <- c("grids", "species")
-    y <- data.table::as.data.table(res)
+    y <- as.data.frame(res)
     return(list(comm_dat = y, poly_shp = poly))
 }
 
 
 #' @rdname raster2comm
-#' @importFrom data.table rbindlist
 #' @importFrom sp coordinates over CRS proj4string merge
 #' @importFrom methods as
 #' @examples
@@ -100,6 +98,8 @@ raster2comm <- function(files) {
 polys2comm <- function(dat, res=1, shp.grids = NULL,
                        species = "species", ...) {
     dat <- dat[, species, drop = FALSE]
+    shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
+
     names(dat) <- "species"
     if (length(shp.grids) == 0) {
         e <- extent(dat) + (2 * res)
@@ -110,9 +110,8 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
         m <- fishnet(mask, res = res)
     } else m <- shp.grids
     proj4string(dat) <- proj4string(m)
-    x <- mapply(cbind, sp::over(dat, m, returnList = TRUE),
-                dat@data$species, SIMPLIFY = FALSE)
-    y <- rbindlist(x)
+    y <- do.call("rbind", mapply(cbind, sp::over(dat, m, returnList = TRUE),
+                species = levels(dat@data$species), SIMPLIFY = FALSE))
     names(y) <- c("grids", "species")
     y <- y[complete.cases(y), ]
     y <- unique(y[, c("grids", "species")])
@@ -129,7 +128,6 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
 #' @importFrom sp coordinates<- CRS proj4string<- SpatialPolygonsDataFrame
 #' @importFrom stats complete.cases
 #' @importFrom raster extent
-#' @importFrom data.table as.data.table
 #' @examples
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package = "phyloregion"))
 #'
@@ -163,8 +161,8 @@ points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
     } else m <- shp.grids
     proj4string(dat) <- proj4string(m)
     x <- over(dat, m)
-    #y <- cbind(as.data.frame(dat), x)
-    y <- cbind(data.table::as.data.table(dat), x)
+    y <- cbind(as.data.frame(dat), x)
+    #y <- cbind(data.table::as.data.table(dat), x)
     y <- y[complete.cases(y), ]
     if (index == "abundance") {
         y <- y[, c("grids", "species")]
