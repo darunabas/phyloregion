@@ -106,8 +106,10 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
         lu <- as.data.frame(1L)
         mask <- sp::SpatialPolygonsDataFrame(mask, lu)
         m <- fishnet(mask, res = res)
-    } else {shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
-    m <- shp.grids}
+    } else {
+        shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
+        m <- shp.grids
+    }
 
     proj4string(dat) <- proj4string(m)
 
