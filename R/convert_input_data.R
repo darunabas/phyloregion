@@ -97,11 +97,7 @@ raster2comm <- function(files) {
 #' @export
 polys2comm <- function(dat, res=1, shp.grids = NULL,
                        species = "species", ...) {
-
     dat <- dat[, species, drop = FALSE]
-    nam <- dat@data$species
-    #nam <- levels(z)
-
     names(dat) <- "species"
     if (length(shp.grids) == 0) {
         e <- extent(dat) + (2 * res)
@@ -115,14 +111,12 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
 
     proj4string(dat) <- proj4string(m)
 
-    x <- sp::over(dat, m, returnList = TRUE)
-    x <- lapply(x, function(x) unlist(x))
-    x <- lapply(x, unique)
+    y <- do.call("rbind", mapply(cbind, sp::over(dat, m, returnList = TRUE),
+                                 species = dat@data$species, SIMPLIFY = FALSE))
 
-    l <- lengths(x)
-    y <- data.frame(grids = unlist(x), species= factor(rep(nam, l)))
-
+    names(y) <- c("grids", "species")
     y <- y[complete.cases(y), ]
+    y <- unique(y[, c("grids", "species")])
     res <- data.frame(table(y$grids))
     names(res) <- c("grids", "richness")
     z <- sp::merge(m, res, by = "grids")
