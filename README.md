@@ -18,7 +18,7 @@ Daru B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion: R package for biog
 
 It is based on the method described in:
 
-Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism patterns are scale dependent. **_Nature Communications_**. 
+Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism patterns are scale dependent. **_Coming soon_**. 
 
 The original conceptual is described in:
 
