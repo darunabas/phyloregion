@@ -21,8 +21,8 @@ mean_dist <- function(files, tips, verbose = TRUE, ...){
   res <- matrix(0, ntips, ntips, dimnames = list(tips, tips))
   tmp <- matrix(0L, ntips, ntips, dimnames = list(tips, tips))
   for(i in seq_along(files)){
-    d <-  read.csv(files[i], row.names = 1)
-    d <- as.matrix(d)
+    #d <-  read.csv(files[i], row.names = 1)
+    d <- as.matrix(files[[i]])
     dnam <- colnames(d)
     res[dnam,dnam] <- res[dnam,dnam] + d
     tmp[dnam,dnam] <- tmp[dnam,dnam] + 1L
