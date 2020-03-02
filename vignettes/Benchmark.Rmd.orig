@@ -1,0 +1,131 @@
+---
+title: "Benchmark"
+author: "Klaus Schliep"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: rmarkdown::html_vignette
+bibliography: phyloregion.bib
+vignette: >
+   %\VignetteIndexEntry{phylorregion-intro}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\usepackage[utf8]{inputenc}
+---
+
+## A small benchmark study
+
+In this vignette we will benchmark the functions for phylogenetic diversity
+(Faith 1992), beta diversity and phylogenetic beta diversity for several R
+packages.
+
+Lets load first a all the packages we are going to use.
+```{r, echo=FALSE}
+library(ape)
+library(Matrix)
+library(bench)
+suppressPackageStartupMessages( library(ggplot2) )
+# packages we benchmark
+suppressPackageStartupMessages( library(phyloregion) )
+suppressPackageStartupMessages( library(betapart) )
+suppressPackageStartupMessages( library(picante) )
+suppressPackageStartupMessages( library(vegan) )
+suppressPackageStartupMessages( library(hilldiv) )
+suppressPackageStartupMessages( library(BAT) )
+```
+```{r}
+library(ape)
+library(Matrix)
+library(bench)
+library(ggplot2)
+# packages we benchmark
+library(phyloregion)
+library(betapart)
+library(picante)
+library(vegan)
+library(hilldiv)
+library(BAT)
+```
+We will use a small data set which comes with `phyloregion`.
+```{r}
+data(africa)
+# subset matrix
+X_sparse <- africa$comm[1:30, ]
+X_sparse <- X_sparse[, colSums(X_sparse)>0]
+X_dense <- as.matrix(X_sparse)
+Xt_dense <- t(X_dense)
+
+object.size(X_sparse)
+object.size(X_dense)
+dim(X_sparse)
+```
+To compare results and start the analysis often we need to reformat the input or
+results. E.g. for the `hilldiv` package the community matrix needs to be
+transposed. These transformations influence the timings usually only marginal.
+For the benchmarking we use the package bench as it returns timings and provides
+some information about memory allocations.
+
+
+### Beta diversity
+
+For beta diversity there is only a small advantage:
+```{r, beta_diversity}
+chk_fun <- function(target, current)
+    all.equal(target, current, check.attributes = FALSE)
+
+fun_phyloregion <- function(x) as.matrix(phyloregion::beta_diss(x)[[3]])
+fun_betapart <- function(x) as.matrix(betapart::beta.pair(x)[[3]])
+fun_vegan  <- function(x) as.matrix(vegan::vegdist(x, binary=TRUE))
+fun_BAT <- function(x) as.matrix(BAT::beta(x, func = "Soerensen")[[1]])
+results <- bench::mark(fun_phyloregion(X_sparse), fun_betapart(X_dense),
+                       fun_vegan(X_dense), fun_BAT(X_dense), check=chk_fun)
+summary(results)
+autoplot(results)
+```
+
+### Phylogenetic diversity (Faith 1992)
+The is a large difference in memory allocations and running time for Faith's
+phylogenetic diversity.
+```{r, phylo_diversity}
+tree <- africa$phylo
+tree <- keep.tip(tree, colnames(X_sparse))
+
+pd_picante <- function(x, tree){
+    res <- picante::pd(x, tree)[,1]
+    names(res) <- row.names(x)
+    res
+}
+pd_hilldiv <- function(x, tree) hilldiv::index_div(x, tree, index="faith")
+pd_phyloregion <- function(x, tree) phyloregion::PD(x, tree)
+
+results <- bench::mark(pd_picante(X_dense, tree),
+          pd_hilldiv(Xt_dense,tree=tree),
+          pd_phyloregion(X_sparse, tree))
+summary(results)
+autoplot(results)
+```
+
+### Phylogenetic beta diversity
+Again there is a large difference in memory allocations and running time for the
+phylogenetic beta diversity.
+```{r, phylobeta}
+fun_phyloregion <- function(x, tree) phyloregion::phylobeta(x, tree)[[3]]
+fun_betapart <- function(x, tree) betapart::phylo.beta.pair(x, tree)[[3]]
+fun_picante <- function(x, tree) 1 - picante::phylosor(x, tree)
+fun_BAT <- function(x, tree) BAT::beta(x, tree, func = "Soerensen")[[1]]
+
+chk_fun <- function(target, current)
+    all.equal(target, current, check.attributes = FALSE)
+
+results <- bench::mark(fun_picante(X_dense, tree),
+                       fun_betapart(X_dense, tree),
+                       fun_BAT(X_dense, tree),
+                       fun_phyloregion(X_sparse, tree), check=chk_fun)
+summary(results)
+autoplot(results)
+```
+Note that the picante function returns a similarity matrix while the function in
+betapart and phyloregion return a dissimilarity matrix.
+
+## Session Infomation
+```{r, eval=TRUE}
+sessionInfo()
+```
+
