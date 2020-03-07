@@ -46,6 +46,8 @@ make_poly <- function(file){
 #' \dQuote{abundance}.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname raster2comm
+#' @seealso \code{\link[mapproj]{mapproject}} for conversion of
+#' latitude and longitude into projected coordinates system.
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
 #' @importFrom raster values
 #' @importFrom sp CRS proj4string<-
