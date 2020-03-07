@@ -39,6 +39,7 @@ We will use a small data set which comes with `phyloregion`.
 
 ```{r, message=FALSE, warning=FALSE}
 data(africa)
+tree <- africa$phylo
 # subset matrix
 X_sparse <- africa$comm[1:30, ]
 X_sparse <- X_sparse[, colSums(X_sparse)>0]

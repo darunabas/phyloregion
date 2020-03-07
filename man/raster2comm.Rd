@@ -92,3 +92,7 @@ m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
             species = "taxon")
 }
+\seealso{
+\code{\link[mapproj]{mapproject}} for conversion of
+latitude and longitude into projected coordinates system.
+}
