@@ -1,6 +1,6 @@
 ---
 title: "Benchmark"
-author: "Klaus Schliep"
+author: "Barnabas H. Daru, Piyal Karunarathne & Klaus Schliep"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
@@ -10,13 +10,16 @@ vignette: >
    %\usepackage[utf8]{inputenc}
 ---
 
-## A small benchmark study
+## Benchmarking `phyloregion`
 
-In this vignette we will benchmark the functions for phylogenetic diversity
-(Faith 1992), beta diversity and phylogenetic beta diversity for several R
-packages.
+In this vignette, we benchmark `phyloregion` against other similar `R`
+packages in analyses of compositional turnover (beta diversity and
+phylogenetic beta diversity) and more standard conservation measures
+of alpha diversity such as phylogenetic diversity. Specifically, we
+compared `phyloregion`'s functions with available packages for memory
+efficiency and computation speed for various biogeographic analyses.
 
-Lets load first a all the packages we are going to use.
+First, load the packages for the benchmarking:
 ```{r, echo=FALSE}
 library(ape)
 library(Matrix)
@@ -56,16 +59,18 @@ object.size(X_sparse)
 object.size(X_dense)
 dim(X_sparse)
 ```
-To compare results and start the analysis often we need to reformat the input or
-results. E.g. for the `hilldiv` package the community matrix needs to be
-transposed. These transformations influence the timings usually only marginal.
-For the benchmarking we use the package bench as it returns timings and provides
-some information about memory allocations.
+To make results comparable, it is sometimes desirable to make sure
+that the taxa in different datasets match each other. For example,
+the community matrix in the `hilldiv` package needs to be transposed.
+These transformations can influence the execution times, often only marginally.
+To benchmark, we used the package `bench` because it returns execution times
+and provides some estimate on memory allocations for each computation.
 
+## 1. Analysis of compositional turnover (beta diversity)
+#### 1.1. Benchmarking `phyloregion` for analysis of taxonomic beta diversity
 
-### Beta diversity
-
-For beta diversity there is only a small advantage:
+For analysis of taxonomic beta diversity, `phyloregion` has marginal advantage
+over other packages:
 ```{r, beta_diversity}
 chk_fun <- function(target, current)
     all.equal(target, current, check.attributes = FALSE)
@@ -74,15 +79,41 @@ fun_phyloregion <- function(x) as.matrix(phyloregion::beta_diss(x)[[3]])
 fun_betapart <- function(x) as.matrix(betapart::beta.pair(x)[[3]])
 fun_vegan  <- function(x) as.matrix(vegan::vegdist(x, binary=TRUE))
 fun_BAT <- function(x) as.matrix(BAT::beta(x, func = "Soerensen")[[1]])
-results <- bench::mark(fun_phyloregion(X_sparse), fun_betapart(X_dense),
-                       fun_vegan(X_dense), fun_BAT(X_dense), check=chk_fun)
+results <- bench::mark(phyloregion=fun_phyloregion(X_sparse), betapart=fun_betapart(X_dense),
+                       vegan=fun_vegan(X_dense), BAT=fun_BAT(X_dense), check=chk_fun)
 summary(results)
 autoplot(results)
 ```
 
-### Phylogenetic diversity (Faith 1992)
-The is a large difference in memory allocations and running time for Faith's
-phylogenetic diversity.
+#### 1.2. Benchmarking `phyloregion` for analysis of phylogenetic beta diversity
+For analysis phylogenetic turnover (beta-diversity) among communities - the
+proportion of shared phylogenetic branch lengths between communities -
+`phyloregion` is 3-7 times faster and 100-600 times efficient in
+memory allocation!
+```{r, phylobeta}
+fun_phyloregion <- function(x, tree) phyloregion::phylobeta(x, tree)[[3]]
+fun_betapart <- function(x, tree) betapart::phylo.beta.pair(x, tree)[[3]]
+fun_picante <- function(x, tree) 1 - picante::phylosor(x, tree)
+fun_BAT <- function(x, tree) BAT::beta(x, tree, func = "Soerensen")[[1]]
+
+chk_fun <- function(target, current)
+    all.equal(target, current, check.attributes = FALSE)
+
+results <- bench::mark(picante=fun_picante(X_dense, tree),
+                       betapart=fun_betapart(X_dense, tree),
+                       BAT=fun_BAT(X_dense, tree),
+                       phyloregion=fun_phyloregion(X_sparse, tree), check=chk_fun)
+summary(results)
+autoplot(results)
+```
+Note that for this test, `picante` returns a similarity matrix while
+`betapart` and `phyloregion` return a dissimilarity matrix.
+
+## 2. Analysis of alpha diversity
+#### 2.1. Benchmarking `phyloregion` for analysis of phylogenetic diversity
+For analysis of more standard conservation measures such as phylogenetic
+diversity - the sum of all phylogenetic branch lengths within an area
+(Faith 1992) - phyloregion is 34 to 99 orders of magnitude memory efficient!
 ```{r, phylo_diversity}
 tree <- africa$phylo
 tree <- keep.tip(tree, colnames(X_sparse))
@@ -95,34 +126,13 @@ pd_picante <- function(x, tree){
 pd_hilldiv <- function(x, tree) hilldiv::index_div(x, tree, index="faith")
 pd_phyloregion <- function(x, tree) phyloregion::PD(x, tree)
 
-results <- bench::mark(pd_picante(X_dense, tree),
-          pd_hilldiv(Xt_dense,tree=tree),
-          pd_phyloregion(X_sparse, tree))
+results <- bench::mark(picante=pd_picante(X_dense, tree),
+          hilldiv=pd_hilldiv(Xt_dense,tree=tree),
+          phyloregion=pd_phyloregion(X_sparse, tree))
 summary(results)
 autoplot(results)
 ```
 
-### Phylogenetic beta diversity
-Again there is a large difference in memory allocations and running time for the
-phylogenetic beta diversity.
-```{r, phylobeta}
-fun_phyloregion <- function(x, tree) phyloregion::phylobeta(x, tree)[[3]]
-fun_betapart <- function(x, tree) betapart::phylo.beta.pair(x, tree)[[3]]
-fun_picante <- function(x, tree) 1 - picante::phylosor(x, tree)
-fun_BAT <- function(x, tree) BAT::beta(x, tree, func = "Soerensen")[[1]]
-
-chk_fun <- function(target, current)
-    all.equal(target, current, check.attributes = FALSE)
-
-results <- bench::mark(fun_picante(X_dense, tree),
-                       fun_betapart(X_dense, tree),
-                       fun_BAT(X_dense, tree),
-                       fun_phyloregion(X_sparse, tree), check=chk_fun)
-summary(results)
-autoplot(results)
-```
-Note that the picante function returns a similarity matrix while the function in
-betapart and phyloregion return a dissimilarity matrix.
 
 ## Session Infomation
 ```{r, eval=TRUE}

@@ -11,7 +11,7 @@ phylobuilder(species, tree, extract = TRUE)
 
 \item{tree}{a phylogenetic tree (object of class phylo)}
 
-\item{extract}{extract the species in the list after try ing to  add missing
+\item{extract}{extract the species in the list after trying to  add missing
 labels to the tree. If FALSE phylobuilder adds only the taxa in the list.}
 }
 \description{
