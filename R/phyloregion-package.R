@@ -1,13 +1,58 @@
-#' Africa
+#' Plants of southern Africa
 #'
-#' example data set.
+#' This dataset consists of a dated phylogeny of the woody plant
+#' species of southern Africa along with their geographical distributions.
+#' Specifically, the dataset has four components: \dQuote{comm},
+#' \dQuote{polys}, \dQuote{phylo}, \dQuote{mat}, \dQuote{IUCN}.
 #'
+#' @return
+#' \itemize{
+#'   \item comm: This a sparse community composition matrix of each species
+#'   presences/absences within 50 × 50 km grid cells. A sparse matrix is a
+#'   matrix with a high proportion of zero entries (Duff 1977), of which only
+#'   the non-zero entries are stored and used for downstream analysis.
+#'   \item polys: These are the grid cells covering the study area. These
+#'   can be created using the function \code{fishnet}. It is an object of
+#'   class \code{SpatialPolygonsDataFrame} and has a column \dQuote{grids} with
+#'   the grid identities.
+#'    \item phylo: This corresponds to the phylogenetic tree which was
+#'    estimated using Bayesian analysis of 1,400 species and 1,633 bp
+#'    of chloroplast DNA sequences derived from a combination of  \emph{matK}
+#'    and  \emph{rbcLa}, assuming an uncorrelated relaxed molecular clock model,
+#'    using the program BEAST v.1.7.5 (Drummond & Rambaut, 2007). Branch
+#'    lengths were calibrated in millions of years using a Bayesian MCMC
+#'    approach by enforcing topological constraints assuming APG III backbone
+#'    from Phylomatic v.3 (Webb & Donoghue, 2005) and 18 fossil calibration
+#'    points from Bell et al. (2010).
+#'    \item mat: This is a distance matrix of phylogenetic beta diversity between
+#'    all grid cells at the 50 × 50 km scale.
+#'    \item IUCN: This is a dataframe of IUCN conservation status of each woody
+#'    species (LC, NT, VU, EN, CR). This is useful for analysis of Evolutionary
+#'    Distinctiveness and Global Endangerment using the function \code{EDGE}.
+#' }
+#' @references
+#'
+#' Bell, C.D., Soltis, D.E., & Soltis, P.S. (2010). The age and diversification
+#' of the angiosperms re-revisited. \emph{American Journal of Botany} \strong{97},
+#' 1296–1303.
+#'
+#' Drummond, A.J., & Rambaut, A. (2007). BEAST: Bayesian evolutionary analysis
+#' by sampling trees. \emph{BMC Evolutionary Biology} \strong{7}, 214.
+#'
+#' Duff, I.S. (1977). A survey of sparse matrix research. \emph{Proceedings
+#' of the IEEE} \strong{65}, 500–535.
+#'
+#' Webb, C.O., & Donoghue, M.J. (2005). Phylomatic: Tree assembly for applied
+#' phylogenetics. \emph{Molecular Ecology Notes} \strong{5}, 181–183.
+#'
+
 #' @name africa
 #' @docType data
 #' @keywords datasets
 #' @examples
-#'
+#' library(raster)
 #' data(africa)
+#' plot(africa$polys)
 #' plot(africa$phylo)
 #'
 NULL
