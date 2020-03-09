@@ -4,12 +4,15 @@ author: "Barnabas H. Daru, Piyal Karunarathne & Klaus Schliep"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
-nocite: '@Daru2017'
 vignette: >
    %\VignetteIndexEntry{phyloregion-intro}
    %\VignetteEngine{knitr::knitr}
    %\usepackage[utf8]{inputenc}   
 ---
+---
+nocite: | 
+   @Daru2020, @Daru2017
+...
 
 
 ## 1. Installation
@@ -30,7 +33,7 @@ library(phyloregion)
 
 ### Phylogenies
 In R, phylogenetic relationships among species / taxa are often represented as a phylo 
-object implemented in the `ape` package (Paradis & Schliep 2018). Phylogenies (often in the Newick 
+object implemented in the `ape` package [@Paradis2018]. Phylogenies (often in the Newick 
 or Nexus formats) can be imported into R with the `read.tree` or `read.nexus` 
 functions of the `ape` package.
 
@@ -40,13 +43,10 @@ functions of the `ape` package.
 Community data are commonly stored in a matrix with the sites as 
 rows and species / operational taxonomic units (OTUs) as columns. The 
 elements of the matrix are numeric values indicating the abundance/observations 
-or presence/absence (0/1) of OTUs in different sites. In practice, such a matrix can contain many zero values because species are known to generally have unimodal distributions along environmental gradients (ter Braak & Prentice, 1988), and storing and analyzing every single element of that matrix can be computationally challenging and expensive. 
+or presence/absence (0/1) of OTUs in different sites. In practice, such a matrix can contain many zero values because species are known to generally have unimodal distributions along environmental gradients [@TerBraak2004], and storing and analyzing every single element of that matrix can be computationally challenging and expensive. 
 
-`phyloregion` differs from other R packages (e.g. vegan (Oksanen et al. 2019), picante 
-(Kembel et al. 2010) or betapart (Baselga et al. 2012)) in that the data are not stored in a 
-(dense) `matrix` or `data.frame` but as a sparse matrix making use of the 
-infrastructure provided by the Matrix package (Bates & Maechler 2019). A sparse matrix is a matrix with a high proportion of zero entries (Duff 1977), of which only the non-zero entries
-are stored and utlized for downstream analysis.
+`phyloregion` differs from other R packages (e.g. vegan [@vegan], picante [@Kembel2010]
+or betapart [@Baselga2012]) in that the data are not stored in a (dense) `matrix` or `data.frame` but as a sparse matrix making use of the infrastructure provided by the Matrix package [@Matrix]. A sparse matrix is a matrix with a high proportion of zero entries [@Duff1977], of which only the non-zero entries are stored and utlized for downstream analysis.
 
 A sparse matrix representation has two advantages. First the community matrix 
 can be stored in a much memory efficient manner, allowing analysis of larger 
@@ -70,7 +70,7 @@ more memory than the sparse representation.
 ### Phylogenetic beta diversity
 
 `phyloregion` offers a fast means of computing phylogenetic beta diversity, the turnover 
-of branch lengths among sites, making use of and improving on the infrastructure provided by the `betapart` package (Baselga et al. 2012).  
+of branch lengths among sites, making use of and improving on the infrastructure provided by the `betapart` package [@Baselga2012].  
 ```{r}
 tree <- africa$phylo
 tree <- ape::keep.tip(tree, colnames(sparse_comm))
@@ -82,27 +82,5 @@ pb <- phylobeta(sparse_comm, tree)
 sessionInfo()
 ```
 
-# REFERENCES
+## REFERENCES
 
-\begingroup
-\setlength{\parindent}{-0.5in}
-\setlength{\leftskip}{0.5in}
-\setlength{\parskip}{8pt}
-\indent
-Baselga, A., & Orme, C. D. L. (2012). betapart: an R package for the study of beta diversity. \emph{Methods in Ecology and Evolution}, \strong{3}(5), 808–812. 
-
-Bates, D., & Maechler, M. (2019). \emph{Matrix: sparse and dense matrix classes and methods}. R Package Version 1.2-17. Retrieved from https://cran.r-project.org/package=Matrix
-
-Daru, B. H., Elliott, T. L., Park, D. S., & Davies, T. J. (2017). Understanding the processes underpinning patterns of phylogenetic regionalization. \emph{Trends in Ecology and Evolution}, \strong{32}(11), 845–860.
-
-Daru, B. H., Karunarathne, P., & Schliep, K. (2019). phyloregion: R package for biogeographic regionalization and spatial conservation.  \emph{Dryad, Dataset} DOI https://doi.org/10.5061/dryad.tdz08kpw6.
-
-Duff, I. S. (1977). A survey of sparse matrix research. \emph{Proceedings of the IEEE}, \strong{65}(4), 500–535.
-
-Kembel, S. W., Cowan, P. D., Helmus, M. R., Cornwell, W. K., Morlon, H., Ackerly, D. D., … Webb, C. O. (2010). Picante: R tools for integrating phylogenies and ecology. \emph{Bioinformatics},  \strong{26}(11), 1463–1464.
-
-Oksanen, J., Blanchet, F. G., Friendly, M., Kindt, R., Legendre, P., McGlinn, D., … Solymos, P. (2019). \emph{vegan: community ecology package}. R package version 2.5.6. Retrieved from https://cran.r-project.org/package=vegan
-
-Paradis, E., & Schliep, K. (2019). Ape 5.0: An environment for modern phylogenetics and evolutionary analyses in R. \emph{Bioinformatics}, \strong{35}(3), 526–528. 
-
-Ter Braak, C. J. F., & Prentice, I. C. (1988). A theory of gradient analysis. \emph{Advances in Ecological Research}, \strong{18}(C), 271–317.
