@@ -80,7 +80,7 @@ correlation coefficient." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@ correlation coefficient." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Benchmark.html">Benchmark</a>
+      <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
@@ -193,7 +193,7 @@ objective methods. <em>Taxon</em> <strong>11</strong>: 33–40.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
 <span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='no'>africa</span>$<span class='no'>phylo</span>
 <span class='no'>bc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='beta_diss.html'>beta_diss</a></span>(<span class='no'>africa</span>$<span class='no'>comm</span>)
-<span class='fu'>select_linkage</span>(<span class='no'>bc</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: "plot" is not a graphical parameter</span></div><div class='img'><img src='select_linkage-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+<span class='fu'>select_linkage</span>(<span class='no'>bc</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: "plot" ist kein Grafikparameter</span></div><div class='img'><img src='select_linkage-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; A good clustering algorithm for the distance matrix is:
 #&gt;  UPGMC with cophenetic correlation = 0.6561082 
 #&gt; </div><div class='output co'>#&gt;     UPGMA    Single  Complete    ward.D   ward.D2     WPGMA     WPGMC     UPGMC 

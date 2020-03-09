@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Phylogenetic Endemism — phylo_endemism • phyloregion</title>
+<title>Darwin's naturalization conundrum — darwinize • phyloregion</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,9 @@
 
 
 
-<meta property="og:title" content="Phylogenetic Endemism — phylo_endemism" />
-<meta property="og:description" content="Calculates phylogenetic endemism (sum of 'unique' branch lengths) of multiple
-ecological samples." />
+<meta property="og:title" content="Darwin's naturalization conundrum — darwinize" />
+<meta property="og:description" content="darwinize computes standard effective size of
+mean phylogenetic distance between nearest neighbors." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -132,77 +132,57 @@ ecological samples." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Phylogenetic Endemism</h1>
-    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/phylo_endemism.R'><code>R/phylo_endemism.R</code></a></small>
-    <div class="hidden name"><code>phylo_endemism.Rd</code></div>
+    <h1>Darwin's naturalization conundrum</h1>
+    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/darwinize.R'><code>R/darwinize.R</code></a></small>
+    <div class="hidden name"><code>darwinize.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates phylogenetic endemism (sum of 'unique' branch lengths) of multiple
-ecological samples.</p>
+    <p><code>darwinize</code> computes standard effective size of
+mean phylogenetic distance between nearest neighbors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>phylo_endemism</span>(<span class='no'>x</span>, <span class='no'>phy</span>, <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>darwinize</span>(<span class='no'>x</span>, <span class='no'>phy</span>, <span class='no'>iter</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>is the community data given as a data.frame or matrix with
-species/OTUs as columns and samples/sites as rows (like in the vegan
-package). Columns are labelled with the names of the species/OTUs. Rows are
-labelled with the names of the samples/sites. Data can be either abundance or
-incidence (0/1). Column labels must match tip labels in the phylogenetic tree
-exactly!</p></td>
+      <td><p>A data frame or vector containing a species list</p></td>
     </tr>
     <tr>
       <th>phy</th>
-      <td><p>a (rooted) phylogenetic tree (phylo) with branch lengths</p></td>
+      <td><p>A phylogenetic tree</p></td>
     </tr>
     <tr>
-      <th>weighted</th>
-      <td><p>is a logical indicating whether weighted endemism (default)
-or strict endemism should be calculated.</p></td>
+      <th>iter</th>
+      <td><p>Numeric, the number of permutations</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Takes a community data table and a (rooted) phylogenetic tree (with branch
-lengths) and calculates either strict or weighted endemism in Phylogenetic
-Diversity (PD). Strict endemism equates to the total amount of branch length
-found only in the sample/s and is described by Faith et al. (2004) as
-PD-endemism. Weighted endemism calculates the "spatial uniqueness" of each
-branch in the tree by taking the reciprocal of its range, multiplying by
-branch length and summing for all branch lengths present at a sample/site.
-Range is calculated simply as the total number of samples/sites at which the
-branch is present. This latter approach is described by Rosauer et al. (2009)
-as Phylogenetic endemism.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Faith, D.P., Reid, C.A.M. &amp; Hunter, J. (2004) Integrating phylogenetic
-diversity, complementarity, and endemism for conservation assessment.
-<em>Conservation Biology</em> <strong>18</strong>(1): 255-261.</p>
-<p>Rosauer, D., Laffan, S.W., Crisp, M.D., Donnellan, C. &amp; Cook, L.G. (2009).
-Phylogenetic endemism: a new approach for identifying geographical
-concentrations of evolutionary history. <em>Molecular Ecology</em>
-<strong>18</strong>(19): 4061-4072.</p>
+    <p>a vector with the mean distance between species</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='no'>pe</span> <span class='kw'>&lt;-</span> <span class='fu'>phylo_endemism</span>(<span class='no'>africa</span>$<span class='no'>comm</span>, <span class='no'>africa</span>$<span class='no'>phylo</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>pe</span>))</div><div class='img'><img src='phylo_endemism-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='no'>africa</span>$<span class='no'>phylo</span>
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>tree</span>$<span class='no'>tip.label</span>, <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>darwinize</span>(<span class='no'>y</span>, <span class='no'>tree</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt; [1] -0.4258438</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Barnabas H. Daru <a href='mailto:darunabas@gmail.com'>darunabas@gmail.com</a></p>
   </div>
 </div>
 

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -61,7 +61,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/Benchmark.html">Benchmark</a>
+      <a href="articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
       <a href="articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
@@ -98,18 +98,27 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#phyloregion" class="anchor"></a>phyloregion <img src="logo.png" align="right" width="120">
 </h1></div>
-<p>This R package is for analysis of biogeographic regionalization (the classification of geographical areas in terms of their biotas) and spatial conservation in the R scientific computing environment. Previously it was only possible to perform analysis of biogeographic regionalization on small datasets, often using tools that are difficult to replicate. With macroecological datasets of ever increasing size and complexity, <code>phyloregion</code> offers the possibility of clustering large-scale datasets of species distributions combined with phylogenetic information using sparse matrix, determining optimal number of clusters, quantifying evolutionary distinctiveness of regions, and visualizing patterns and underlying processes. It is simple, fast, and particularly tailored for handling large datasets.</p>
+<p>This is a computational infrastructure for biogeographic regionalization (the classification of geographical areas in terms of their biotas) and spatial conservation in the R scientific computing environment. Previously it was only possible to perform analysis of biogeographic regionalization on small datasets, often using tools that are difficult to replicate. With macroecological datasets of ever increasing size and complexity, <code>phyloregion</code> offers the possibility of handling and executing large scale biogeographic regionalization efficiently and with extreme speed. It also allows fast and efficient analysis of more standard conservation measures such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness and global endangerment. <code>phyloregion</code> can run on any operating system (Mac, Linux, Windows or even high performance computing cluster) with <code>R</code> 3.6.0 (or higher) installed.</p>
 <div id="authors" class="section level3">
 <h3 class="hasAnchor">
 <a href="#authors" class="anchor"></a>Authors</h3>
 <p><a href="https://barnabasdaru.com/">Barnabas Daru</a></p>
 <p><a href="https://kschliep.netlify.com/">Klaus Schliep</a></p>
 </div>
-<div id="citation" class="section level3">
+<div id="how-to-cite" class="section level3">
 <h3 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h3>
-<p>If you find <code>phyloregion</code> helpful, please cite as:</p>
-<p>Daru B. H., Karunarathne, P. &amp; Schliep, K. phyloregion: R package for biogeographic regionalization and spatial conservation (R package version 0.1.0. <a href="https://github.com/darunabas/phyloregion" class="uri">https://github.com/darunabas/phyloregion</a>, 2019).</p>
+<a href="#how-to-cite" class="anchor"></a>How to cite</h3>
+<p>The original implementation of <code>phyloregion</code> is described in:</p>
+<p>Daru B.H., Karunarathne, P. &amp; Schliep, K. (2020) phyloregion: R package for biogeographic regionalization and spatial conservation. <strong><em>bioRxiv</em></strong> 2020.02.12.945691 doi: 10.1101/2020.02.12.945691</p>
+<p>It is based on the method described in:</p>
+<p>Daru, B.H., Farooq, H., Antonelli, A. &amp; Faurby, S. (2020) Endemism patterns are scale dependent. <strong><em>Coming soon</em></strong>.</p>
+<p>The original conceptual is described in:</p>
+<p>Daru, B. H., Elliott, T. L., Park, D. S. &amp; Davies, T. J. (2017), Understanding the processes underpinning patterns of phylogenetic pegionalization. <strong><em>Trends in Ecology and Evolution</em></strong> <strong>32</strong>: 845-860. doi: 10.1016/j.tree.2017.08.013</p>
+</div>
+<div id="feedback" class="section level3">
+<h3 class="hasAnchor">
+<a href="#feedback" class="anchor"></a>Feedback</h3>
+<p>If you have any questions, suggestions or issues regarding the package, please add them to <a href="https://github.com/darunabas/phyloregion/issues">GitHub issues</a></p>
 </div>
 </div>
 <div id="installation" class="section level1">
@@ -119,7 +128,7 @@
 <pre><code>if (!requireNamespace("devtools", quietly = TRUE)) 
     install.packages("devtools") </code></pre>
 <p>Then:</p>
-<pre><code><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">devtools::install_github("darunabas/phyloregion")</a></code></pre>
+<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("darunabas/phyloregion")</a></code></pre>
 <p>Load the <code>phyloregion</code> package:</p>
 <pre><code><a href="https://rdrr.io/r/base/library.html">library(phyloregion)</a></code></pre>
 </div>
