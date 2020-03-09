@@ -15,7 +15,7 @@ datasets or slower particularly when the number of species or geographic scale
 is very large. With macroecological datasets of ever increasing size and complexity,
 \code{phyloregion} offers the possibility of handling and executing large scale
 biogeographic regionalization efficiently and with extreme speed. It also
-allows fast and efficient analysis of more standard conservation measures
+allows fast and efficient for analysis of more standard conservation measures
 such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
 and global endangerment. \code{phyloregion} can run on any operating system
 (Mac, Linux, Windows or even high performance computing cluster) with
