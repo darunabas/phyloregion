@@ -6,20 +6,82 @@
 \alias{phyloregion}
 \title{Biogeographic regionalization and spatial conservation}
 \description{
-This R package is for analysis of biogeographic regionalization (the
-classification of geographical areas in terms of their biotas) and spatial
-conservation in the R scientific computing environment. Previously it was
-only possible to perform analysis of biogeographic regionalization on small
-datasets, often using tools that are difficult to replicate. With
-macroecological datasets of ever increasing size and complexity,
-`phyloregion` now offers the possibility of clustering large-scale species
-distributions combined with phylogenetic information using sparse matrix,
-determining optimal number of clusters, quantifying evolutionary
-distinctiveness of bioregions, and visualizing patterns and underlying
-processes. It is simple, fast, and particularly tailored for handling large
-datasets.
+This document describes the \code{phyloregion} package for the R software.
+\code{phyloregion} is a computational infrastructure for biogeographic regionalization
+(the classification of geographical areas in terms of their biotas) and
+spatial conservation in the R scientific computing environment. Previous
+analyses of biogeographical regionalization were either focused on smaller
+datasets or slower particularly when the number of species or geographic scale
+is very large. With macroecological datasets of ever increasing size and complexity,
+\code{phyloregion} offers the possibility of handling and executing large scale
+biogeographic regionalization efficiently and with extreme speed. It also
+allows fast and efficient analysis of more standard conservation measures
+such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
+and global endangerment. \code{phyloregion} can run on any operating system
+(Mac, Linux, Windows or even high performance computing cluster) with
+R 3.6.0 (or higher) installed.
 }
+\section{How to cite \code{phyloregion}}{
+
+
+The original implementation of phyloregion is described in:
+
+\itemize{
+  \item Daru B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion:
+  R package for biogeographic regionalization and spatial
+  conservation. \emph{bioRxiv} 2020.02.12.945691 doi: 10.1101/2020.02.12.945691
+}
+
+It is based on the method described in:
+
+\itemize{
+  \item Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism
+  patterns are scale dependent. \emph{Coming soon}.
+}
+
+The original conceptual is described in:
+
+\itemize{
+  \item Daru, B.H., Elliott, T.L., Park, D.S. & Davies, T.J. (2017)
+  Understanding the processes underpinning patterns of phylogenetic
+  regionalization. \emph{Trends in Ecology and Evolution} \strong{32}: 845-860.
+}
+}
+
+\section{Feedback}{
+
+
+If you have any questions, suggestions or issues regarding the package,
+please add them to \href{https://github.com/darunabas/phyloregion/issues}{GitHub issues}
+}
+
+\section{Installation}{
+
+
+\code{phyloregion} is an open-source and free package hosted on
+\href{https://github.com/darunabas/phyloregion}{GitHub}.
+You will need to install the \code{devtools} package. In \code{R}, type:
+
+\code{if (!requireNamespace("devtools", quietly = TRUE))
+    install.packages("devtools")}
+
+Then:
+
+\code{devtools::install_github("darunabas/phyloregion")}
+
+Load the phyloregion package:
+
+\code{library(phyloregion)}
+}
+
+\section{Acknowledgements}{
+
+Barnabas Daru thanks Texas A&M University-Corpus Christi for financial
+and logistic support.
+}
+
 \author{
-Barnabas Daru, Piyal Karunarathne, Klaus Schliep
+\href{https://barnabasdaru.com/}{Barnabas H. Daru}, Piyal Karunarathne,
+\href{https://kschliep.netlify.com/}{Klaus Schliep}
 }
 \keyword{package}
