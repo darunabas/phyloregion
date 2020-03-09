@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Africa — africa • phyloregion</title>
+<title>Plants of southern Africa — africa • phyloregion</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,11 @@
 
 
 
-<meta property="og:title" content="Africa — africa" />
-<meta property="og:description" content="example data set." />
+<meta property="og:title" content="Plants of southern Africa — africa" />
+<meta property="og:description" content="This dataset consists of a dated phylogeny of the woody plant
+species of southern Africa along with their geographical distributions.
+Specifically, the dataset has four components: &amp;#8220;comm&amp;#8221;,
+&amp;#8220;polys&amp;#8221;, &amp;#8220;phylo&amp;#8221;, &amp;#8220;mat&amp;#8221;, &amp;#8220;IUCN&amp;#8221;." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -77,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -100,7 +103,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Benchmark.html">Benchmark</a>
+      <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
@@ -131,27 +134,73 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Africa</h1>
+    <h1>Plants of southern Africa</h1>
     <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/phyloregion-package.R'><code>R/phyloregion-package.R</code></a></small>
     <div class="hidden name"><code>africa.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>example data set.</p>
+    <p>This dataset consists of a dated phylogeny of the woody plant
+species of southern Africa along with their geographical distributions.
+Specifically, the dataset has four components: &#8220;comm&#8221;,
+&#8220;polys&#8221;, &#8220;phylo&#8221;, &#8220;mat&#8221;, &#8220;IUCN&#8221;.</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    
+<ul>
+<li><p>comm: This a sparse community composition matrix of each species
+  presences/absences within 50 × 50 km grid cells. A sparse matrix is a
+  matrix with a high proportion of zero entries (Duff 1977), of which only
+  the non-zero entries are stored and used for downstream analysis.</p></li>
+<li><p>polys: These are the grid cells covering the study area. These
+  can be created using the function <code>fishnet</code>. It is an object of
+  class <code>SpatialPolygonsDataFrame</code> and has a column &#8220;grids&#8221; with
+  the grid identities.</p></li>
+<li><p>phylo: This corresponds to the phylogenetic tree which was
+   estimated using Bayesian analysis of 1,400 species and 1,633 bp
+   of chloroplast DNA sequences derived from a combination of  <em>matK</em>
+   and  <em>rbcLa</em>, assuming an uncorrelated relaxed molecular clock model,
+   using the program BEAST v.1.7.5 (Drummond &amp; Rambaut, 2007). Branch
+   lengths were calibrated in millions of years using a Bayesian MCMC
+   approach by enforcing topological constraints assuming APG III backbone
+   from Phylomatic v.3 (Webb &amp; Donoghue, 2005) and 18 fossil calibration
+   points from Bell et al. (2010).</p></li>
+<li><p>mat: This is a distance matrix of phylogenetic beta diversity between
+   all grid cells at the 50 × 50 km scale.</p></li>
+<li><p>IUCN: This is a dataframe of IUCN conservation status of each woody
+   species (LC, NT, VU, EN, CR). This is useful for analysis of Evolutionary
+   Distinctiveness and Global Endangerment using the function <code>EDGE</code>.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Bell, C.D., Soltis, D.E., &amp; Soltis, P.S. (2010). The age and diversification
+of the angiosperms re-revisited. <em>American Journal of Botany</em> <strong>97</strong>,
+1296–1303.</p>
+<p>Drummond, A.J., &amp; Rambaut, A. (2007). BEAST: Bayesian evolutionary analysis
+by sampling trees. <em>BMC Evolutionary Biology</em> <strong>7</strong>, 214.</p>
+<p>Duff, I.S. (1977). A survey of sparse matrix research. <em>Proceedings
+of the IEEE</em> <strong>65</strong>, 500–535.</p>
+<p>Webb, C.O., &amp; Donoghue, M.J. (2005). Phylomatic: Tree assembly for applied
+phylogenetics. <em>Molecular Ecology Notes</em> <strong>5</strong>, 181–183.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>africa</span>$<span class='no'>phylo</span>)</div><div class='img'><img src='africa-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)</div><div class='output co'>#&gt; <span class='message'>Lade nötiges Paket: sp</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attache Paket: ‘raster’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:ape’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    rotate, zoom</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span>(<span class='no'>africa</span>$<span class='no'>polys</span>)</div><div class='img'><img src='africa-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span>(<span class='no'>africa</span>$<span class='no'>phylo</span>)</div><div class='img'><img src='africa-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#value">Value</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

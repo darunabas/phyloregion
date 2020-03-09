@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Benchmark.html">Benchmark</a>
+      <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
@@ -171,10 +171,8 @@
     <div class='dont-index'><p><code><a href='coldspots.html'>coldspots</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>raster</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: raster</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘raster’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:ape’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    rotate, zoom</span></div><div class='input'><span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nigeria/SR_Naija.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"phyloregion"</span>))
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>raster</span>)
+<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nigeria/SR_Naija.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"phyloregion"</span>))
 <span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
 <span class='no'>COLOUR</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>hcl.colors</a></span>(<span class='no'>k</span>, <span class='st'>"RdYlBu"</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>choropleth</span>(<span class='no'>s</span>$<span class='no'>SR</span>, <span class='no'>k</span>)
