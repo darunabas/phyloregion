@@ -6,7 +6,6 @@
 ^docs$
 ^_pkgdown\.yml$
 ^inst/extdata$
-^vignettes/Benchmark.Rmd$
 ^vignettes/Benchmark_cache$
 ^pkgdown$
 .DS_Store
