@@ -1,4 +1,4 @@
-# phyloregion 1.0.0 2020-3-9
+# phyloregion 1.0.0 March 9, 2020
 
 * Some improvements including vignettes for usage and benchmarking
 

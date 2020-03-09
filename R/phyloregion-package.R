@@ -2,18 +2,27 @@
 #'
 #' This dataset consists of a dated phylogeny of the woody plant
 #' species of southern Africa along with their geographical distributions.
-#' Specifically, the dataset has four components: \dQuote{comm},
-#' \dQuote{polys}, \dQuote{phylo}, \dQuote{mat}, \dQuote{IUCN}.
+#' The dataset comes from a study that maps tree diversity hotspots in southern Africa
+#' (Daru et al. 2015). The study mapped five types of diversity hotspots including
+#' species richness (SR), phylogenetic diversity (PD), phylogenetic endemism
+#' (PE), species weighted endemism (CWE), and evolutionary distinctiveness and
+#' global endangerment (EDGE). The results revealed large spatial incongruence
+#' between biodiversity indices, resulting in unequal representation of PD,
+#' SR, PE, CWE and EDGE in hotspots and currently protected areas, suggesting
+#' that an integrative approach which considers multiple facets of biodiversity
+#' is needed to maximise the conservation of tree diversity in southern Africa.
+#' Specifically for this package, we arranged the dataset into four components:
+#' \dQuote{comm}, \dQuote{polys}, \dQuote{phylo}, \dQuote{mat}, \dQuote{IUCN}.
 #'
-#' @return
+#' @section Details:
 #' \itemize{
 #'   \item comm: This a sparse community composition matrix of each species
 #'   presences/absences within 50 × 50 km grid cells. A sparse matrix is a
 #'   matrix with a high proportion of zero entries (Duff 1977), of which only
 #'   the non-zero entries are stored and used for downstream analysis.
-#'   \item polys: These are the grid cells covering the study area. These
-#'   can be created using the function \code{fishnet}. It is an object of
-#'   class \code{SpatialPolygonsDataFrame} and has a column \dQuote{grids} with
+#'   \item polys: These are the grid cells covering the geographic extent of study area.
+#'   These can be created using the function \code{\link{fishnet}}. The polys object is
+#'   of class \code{SpatialPolygonsDataFrame} and has a column labeled \dQuote{grids}, with
 #'   the grid identities.
 #'    \item phylo: This corresponds to the phylogenetic tree which was
 #'    estimated using Bayesian analysis of 1,400 species and 1,633 bp
@@ -28,13 +37,17 @@
 #'    all grid cells at the 50 × 50 km scale.
 #'    \item IUCN: This is a dataframe of IUCN conservation status of each woody
 #'    species (LC, NT, VU, EN, CR). This is useful for analysis of Evolutionary
-#'    Distinctiveness and Global Endangerment using the function \code{EDGE}.
+#'    Distinctiveness and Global Endangerment using the function \code{\link{EDGE}}.
 #' }
 #' @references
 #'
 #' Bell, C.D., Soltis, D.E., & Soltis, P.S. (2010). The age and diversification
 #' of the angiosperms re-revisited. \emph{American Journal of Botany} \strong{97},
 #' 1296–1303.
+#'
+#' Daru, B.H., Van der Bank, M. & Davies, T.J. (2015) Spatial incongruence
+#' among hotspots and complementary areas of tree diversity in southern Africa.
+#' \emph{Diversity and Distributions} \strong{21}, 769-780.
 #'
 #' Drummond, A.J., & Rambaut, A. (2007). BEAST: Bayesian evolutionary analysis
 #' by sampling trees. \emph{BMC Evolutionary Biology} \strong{7}, 214.
@@ -69,7 +82,7 @@ NULL
 #' is very large. With macroecological datasets of ever increasing size and complexity,
 #' \code{phyloregion} offers the possibility of handling and executing large scale
 #' biogeographic regionalization efficiently and with extreme speed. It also
-#' allows fast and efficient analysis of more standard conservation measures
+#' allows fast and efficient for analysis of more standard conservation measures
 #' such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
 #' and global endangerment. \code{phyloregion} can run on any operating system
 #' (Mac, Linux, Windows or even high performance computing cluster) with
