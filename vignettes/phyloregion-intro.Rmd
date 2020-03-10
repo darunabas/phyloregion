@@ -12,7 +12,7 @@ vignette: >
 ---
 nocite: | 
    @Daru2020, @Daru2017
-...
+---
 
 
 ## 1. Installation
