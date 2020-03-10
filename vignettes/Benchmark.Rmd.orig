@@ -5,7 +5,7 @@ date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
 vignette: >
-   %\VignetteIndexEntry{phyloregion-intro}
+   %\VignetteIndexEntry{phyloregion-benchmark}
    %\VignetteEngine{knitr::rmarkdown}
    %\usepackage[utf8]{inputenc}
 ---
