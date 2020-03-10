@@ -48,11 +48,14 @@ Specifically for this package, we arranged the dataset into four components:
 }
 
 \examples{
-library(raster)
 data(africa)
+names(africa)
+\dontrun{
+library(raster)
+library(ape)
 plot(africa$polys)
 plot(africa$phylo)
-
+}
 }
 \references{
 Bell, C.D., Soltis, D.E., & Soltis, P.S. (2010). The age and diversification

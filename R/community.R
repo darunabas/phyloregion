@@ -14,6 +14,7 @@
 #' @importFrom methods is
 #' @importFrom utils read.csv
 #' @examples
+#' \dontrun{
 #' df <- data.frame(grids=paste0("g", c(1,1,2,3,3)),
 #'                  species = paste0("sp", c(1,3,2,1,4)))
 #' df
@@ -22,6 +23,7 @@
 #' (M <- read.community(tmp) )
 #' sparse2long(M)
 #' unlink(tmp)
+#' }
 #' @export
 read.community <- function(file, grids="grids", species="species", ...){
   d <- read.csv(file, ...)

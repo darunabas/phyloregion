@@ -63,11 +63,14 @@
 #' @docType data
 #' @keywords datasets
 #' @examples
-#' library(raster)
 #' data(africa)
+#' names(africa)
+#' \dontrun{
+#' library(raster)
+#' library(ape)
 #' plot(africa$polys)
 #' plot(africa$phylo)
-#'
+#' }
 NULL
 
 
