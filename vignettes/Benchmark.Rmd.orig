@@ -9,6 +9,13 @@ vignette: >
    %\VignetteEngine{knitr::rmarkdown}
    %\usepackage[utf8]{inputenc}
 ---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  dpi = 150, fig.path = "intro-",
+  message = FALSE, warning = FALSE, error = FALSE
+)
+```
+
 
 ## Benchmarking `phyloregion` against other packages
 
