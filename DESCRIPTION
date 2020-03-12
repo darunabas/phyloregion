@@ -10,7 +10,7 @@ Authors@R: c(person("Barnabas H.", "Daru", email= "darunabas@gmail.com", role = 
 Description: R package for biogeographic regionalization and spatial conservation.
 Imports: ape, phangorn, Matrix, betapart, fastmatch, parallel, methods, raster, 
          data.table, colorspace, cluster, rgeos, vegan, sp
-Suggests: tinytest, knitr
+Suggests: tinytest, knitr, mapproj
 VignetteBuilder: knitr
 URL: https://github.com/darunabas/phyloregion, https://darunabas.github.io/phyloregion/index.html
 BugReports: https://github.com/darunabas/phyloregion/issues
