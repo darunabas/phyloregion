@@ -6,14 +6,13 @@ output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
 vignette: >
    %\VignetteIndexEntry{phyloregion-intro}
-   %\VignetteEngine{knitr::knitr}
+   %\VignetteEngine{knitr::rmarkdown}
    %\usepackage[utf8]{inputenc}   
 ---
 ---
 nocite: | 
    @Daru2020, @Daru2017
 ---
-
 
 ## 1. Installation
 
