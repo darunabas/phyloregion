@@ -22,14 +22,14 @@ a vector with the discretized values.
 \code{choropleth} discretizes the values of a quantity for mapping.
 }
 \examples{
-require(raster)
+library(raster)
 s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 k <- 10
 COLOUR <- hcl.colors(k, "RdYlBu")
 y <- choropleth(s$SR, k)
 
 ## To plot and color according to some metric:
-plot(y, col = COLOUR[y])
+plot(s, col = COLOUR[y])
 }
 \seealso{
 \code{\link{coldspots}}

@@ -14,7 +14,7 @@
 #' Australian flora. \emph{Journal of Biogeography} \strong{28}: 183–198.
 #'
 #' @examples
-#' require(raster)
+#' library(raster)
 #' data(africa)
 #' Endm <- weighted_endemism(africa$comm)
 #' m <- merge(africa$polys, data.frame(grids=names(Endm), WE=Endm), by="grids")

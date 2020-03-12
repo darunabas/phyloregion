@@ -17,7 +17,7 @@ A data frame of species traits by site.
 by species ranges.
 }
 \examples{
-require(raster)
+library(raster)
 data(africa)
 Endm <- weighted_endemism(africa$comm)
 m <- merge(africa$polys, data.frame(grids=names(Endm), WE=Endm), by="grids")

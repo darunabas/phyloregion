@@ -21,7 +21,7 @@ The \code{selectbylocation} function selects features based on
 their location relative to features in another layer.
 }
 \examples{
-require(raster)
+library(raster)
 file <- system.file("nigeria/nigeria.rds", package = "phyloregion")
 d <- readRDS(file)
 e <- extent(d)

@@ -15,7 +15,7 @@
 #' of the target layer.
 #'
 #' @examples
-#' require(raster)
+#' library(raster)
 #' file <- system.file("nigeria/nigeria.rds", package = "phyloregion")
 #' d <- readRDS(file)
 #' e <- extent(d)

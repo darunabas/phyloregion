@@ -89,8 +89,9 @@ names(m) <- c("lon", "lat")
 species <- paste0("sp", sample(1:1000))
 m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 
-points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
+pt <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
             species = "taxon")
+head(pt[[1]])
 }
 \seealso{
 \code{\link[mapproj]{mapproject}} for conversion of

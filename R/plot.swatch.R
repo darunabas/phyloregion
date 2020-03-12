@@ -30,7 +30,7 @@
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #'
 #' @examples
-#' require(raster)
+#' library(raster)
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 #' plot_swatch(s, values = s$SR, k = 20)
 #' @export
@@ -40,7 +40,7 @@ plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
   x$values <- values
   colrs <- hcl.colors(k, palette = palette, ...)
   y <- choropleth(values, k, ...) # , style = style
-  plot(x, col = colrs[y], border = NA, ...)
+  raster::plot(x, col = colrs[y], border = NA, ...)
   if (legend) {
     color_key(x, colrs, vals = values, lab = key_label, pos = pos, leg = leg,
               lwd = lwd)

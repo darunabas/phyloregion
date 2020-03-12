@@ -143,8 +143,9 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
 #' species <- paste0("sp", sample(1:1000))
 #' m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 #'
-#' points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
+#' pt <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
 #'             species = "taxon")
+#' head(pt[[1]])
 #' @export
 points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
                         lat = "decimallatitude", species = "species",

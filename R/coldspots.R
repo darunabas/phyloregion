@@ -35,7 +35,7 @@
 #' @seealso \code{\link{choropleth}}
 #'
 #' @examples
-#' require(raster)
+#' library(raster)
 #' data(africa)
 #' names(africa)
 #'

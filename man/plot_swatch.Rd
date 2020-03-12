@@ -50,7 +50,7 @@ Returns no value, just map swatch of colors in geographic space!
 quantiles.
 }
 \examples{
-require(raster)
+library(raster)
 s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 plot_swatch(s, values = s$SR, k = 20)
 }
