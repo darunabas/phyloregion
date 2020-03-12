@@ -11,7 +11,8 @@ optimal_phyloregion(x, method = "average", k = 20, verbose = TRUE)
 
 \item{method}{the agglomeration method to be used. This should
 be (an unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2},
-\dQuote{single}, \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA),
+\dQuote{single}, \dQuote{complete}, \dQuote{average} (= UPGMA),
+\dQuote{mcquitty} (= WPGMA),
 \dQuote{median} (= WPGMC) or \dQuote{centroid} (= UPGMC).}
 
 \item{k}{numeric, the upper bound of the number of clusters to

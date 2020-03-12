@@ -4,19 +4,10 @@
 \alias{select_linkage}
 \title{Cluster algorithm selection and validation}
 \usage{
-select_linkage(x, rot_angle = 45, cex = 0.7, col = "grey", ...)
+select_linkage(x)
 }
 \arguments{
 \item{x}{a numeric matrix, data frame or "dist" object.}
-
-\item{rot_angle}{rotation angle of the barplot x-axis labels.}
-
-\item{cex}{character (or symbol) expansion: a numerical vector for
-the size of the x-axis labels}
-
-\item{col}{color of the plot.}
-
-\item{\dots}{arguments passed among methods.}
 }
 \value{
 \itemize{
@@ -36,7 +27,9 @@ correlation coefficient.
 data(africa)
 tree <- africa$phylo
 bc <- beta_diss(africa$comm)
-select_linkage(bc[[1]], plot = TRUE)
+y <- select_linkage(bc[[1]])
+barplot(y, horiz = TRUE, las = 1)
+
 }
 \references{
 Sokal, R.R. & Rohlf, F.J. (1962) The comparison of dendrograms by

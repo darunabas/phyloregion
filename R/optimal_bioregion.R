@@ -231,7 +231,8 @@ elbow.batch <- function(x, inc.thres = c(0.01, 0.05, 0.1),
 #' @param x a numeric matrix, data frame or \dQuote{dist} object.
 #' @param method the agglomeration method to be used. This should
 #' be (an unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2},
-#' \dQuote{single}, \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA),
+#' \dQuote{single}, \dQuote{complete}, \dQuote{average} (= UPGMA),
+#' \dQuote{mcquitty} (= WPGMA),
 #' \dQuote{median} (= WPGMC) or \dQuote{centroid} (= UPGMC).
 #' @param k numeric, the upper bound of the number of clusters to
 #' compute. DEFAULT: 20 or the number of observations (if less than 20).

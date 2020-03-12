@@ -6,16 +6,10 @@
 #' correlation coefficient.
 #'
 #' @param x a numeric matrix, data frame or "dist" object.
-#' @param rot_angle rotation angle of the barplot x-axis labels.
-#' @param cex character (or symbol) expansion: a numerical vector for
-#' the size of the x-axis labels
-#' @param col color of the plot.
-#' @param \dots arguments passed among methods.
 #' @rdname select_linkage
 #' @keywords bioregion
 #' @importFrom stats hclust as.dist cor cophenetic
 #' @importFrom cluster diana
-#' @importFrom graphics barplot
 #'
 #' @references
 #' Sokal, R.R. & Rohlf, F.J. (1962) The comparison of dendrograms by
@@ -33,9 +27,11 @@
 #' data(africa)
 #' tree <- africa$phylo
 #' bc <- beta_diss(africa$comm)
-#' select_linkage(bc[[1]], plot = TRUE)
+#' y <- select_linkage(bc[[1]])
+#' barplot(y, horiz = TRUE, las = 1)
+#'
 #' @export select_linkage
-select_linkage <- function(x, rot_angle=45, cex=0.7, col="grey", ...){
+select_linkage <- function(x){
   hc1 <- hclust(as.dist(x), method="average")
   hc2 <- hclust(as.dist(x), method="single")
   hc3 <- hclust(as.dist(x), method="complete")
@@ -46,7 +42,6 @@ select_linkage <- function(x, rot_angle=45, cex=0.7, col="grey", ...){
   hc8 <- hclust(as.dist(x), method="centroid")
   hc9 <- diana(as.dist(x))
 
-
   z <- c(UPGMA=cor(as.dist(x), cophenetic(hc1), use="complete.obs"),
     Single=cor(as.dist(x), cophenetic(hc2), use="complete.obs"),
     Complete=cor(as.dist(x), cophenetic(hc3), use="complete.obs"),
@@ -56,15 +51,6 @@ select_linkage <- function(x, rot_angle=45, cex=0.7, col="grey", ...){
     WPGMC=cor(as.dist(x), cophenetic(hc7), use="complete.obs"),
     UPGMC=cor(as.dist(x), cophenetic(hc8), use="complete.obs"),
     DIANA=cor(as.dist(x), cophenetic(hc9), use="complete.obs"))
-  plt <- barplot(z, las=1,
-                 ylab = "Cophenetic correlation",
-                 xaxt="n", col = col,
-                 ylim=c(0,0.1+max(z)), ...)
-  text(plt, par("usr")[3],
-       labels = names(z),
-       srt = rot_angle,
-       adj = c(1.1,1.1),
-       xpd = TRUE, cex=cex, ...)
 
   cat("\nA good clustering algorithm for the distance matrix is:\n",
       names(z[which.max(z)]),
