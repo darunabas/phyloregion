@@ -22,7 +22,7 @@ with the help from the `remotes` package, type the following commands in R:
 ```
 if (!requireNamespace("remotes", quietly = TRUE)) 
     install.packages("remotes") 
-devtools::install_github("darunabas/phyloregion")
+remotes::install_github("darunabas/phyloregion")
 ```
 When installed, load the package in R:
 ```{r}

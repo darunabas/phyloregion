@@ -5,8 +5,6 @@
 \alias{reexports}
 \alias{Matrix}
 \alias{sparseMatrix}
-\alias{colSums}
-\alias{rowSums}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -14,6 +12,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{Matrix}{\code{\link[Matrix]{colSums}}, \code{\link[Matrix]{Matrix}}, \code{\link[Matrix]{rowSums}}, \code{\link[Matrix]{sparseMatrix}}}
+  \item{Matrix}{\code{\link[Matrix]{Matrix}}, \code{\link[Matrix]{sparseMatrix}}}
 }}
 
