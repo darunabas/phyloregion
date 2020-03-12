@@ -29,7 +29,7 @@ COLOUR <- hcl.colors(k, "RdYlBu")
 y <- choropleth(s$SR, k)
 
 ## To plot and color according to some metric:
-plot(s, col = COLOUR[y])
+raster::plot(s, col = COLOUR[y])
 }
 \seealso{
 \code{\link{coldspots}}
