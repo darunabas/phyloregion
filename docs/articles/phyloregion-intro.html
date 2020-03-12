@@ -95,7 +95,7 @@
       <h1>An introduction to the phyloregion package</h1>
                         <h4 class="author">Barnabas H. Daru, Piyal Karunarathne &amp; Klaus Schliep</h4>
             
-            <h4 class="date">März 09, 2020</h4>
+            <h4 class="date">March 12, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/darunabas/phyloregion/blob/master/vignettes/phyloregion-intro.Rmd"><code>vignettes/phyloregion-intro.Rmd</code></a></small>
       <div class="hidden name"><code>phyloregion-intro.Rmd</code></div>
@@ -110,14 +110,9 @@
 <p><code>phyloregion</code> is a free R package hosted on <a href="https://github.com/darunabas/phyloregion">GitHub</a>. To install <code>phyloregion</code>, with the help from the <code>remotes</code> package, type the following commands in R:</p>
 <pre><code>if (!requireNamespace("remotes", quietly = TRUE)) 
     install.packages("remotes") 
-devtools::install_github("darunabas/phyloregion")</code></pre>
+remotes::install_github("darunabas/phyloregion")</code></pre>
 <p>When installed, load the package in R:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(phyloregion)</a></code></pre></div>
-<pre><code>## 
-## Attache Paket: 'phyloregion'</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     colSums, rowSums</code></pre>
 </div>
 <div id="input-data" class="section level2">
 <h2 class="hasAnchor">
@@ -134,13 +129,13 @@ devtools::install_github("darunabas/phyloregion")</code></pre>
 <p><code>phyloregion</code> differs from other R packages (e.g. vegan <span class="citation">(Oksanen et al. 2019)</span>, picante <span class="citation">(Kembel et al. 2010)</span> or betapart <span class="citation">(Baselga and Orme 2012)</span>) in that the data are not stored in a (dense) <code>matrix</code> or <code>data.frame</code> but as a sparse matrix making use of the infrastructure provided by the Matrix package <span class="citation">(Bates and Maechler 2019)</span>. A sparse matrix is a matrix with a high proportion of zero entries <span class="citation">(Duff 1977)</span>, of which only the non-zero entries are stored and utlized for downstream analysis.</p>
 <p>A sparse matrix representation has two advantages. First the community matrix can be stored in a much memory efficient manner, allowing analysis of larger datasets. Second, for very large datasets spanning thousands of taxa and spatial scales, computations with a sparse matrix are often much faster.<br>
 The <code>phyloregion</code> package contains functions to conveniently change between data formats.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Matrix) </a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(africa)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">sparse_comm &lt;-<span class="st"> </span>africa<span class="op">$</span>comm</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">dense_comm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(sparse_comm) </a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(dense_comm)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Matrix) </a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(africa)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">sparse_comm &lt;-<span class="st"> </span>africa<span class="op">$</span>comm</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">dense_comm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(sparse_comm) </a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(dense_comm)</a></code></pre></div>
 <pre><code>## 4216952 bytes</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(sparse_comm)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(sparse_comm)</a></code></pre></div>
 <pre><code>## 885952 bytes</code></pre>
 <p>Here, the data set in the dense matrix representation consumes roughly five times more memory than the sparse representation.</p>
 </div>
@@ -152,30 +147,25 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <h3 class="hasAnchor">
 <a href="#phylogenetic-beta-diversity" class="anchor"></a>Phylogenetic beta diversity</h3>
 <p><code>phyloregion</code> offers a fast means of computing phylogenetic beta diversity, the turnover of branch lengths among sites, making use of and improving on the infrastructure provided by the <code>betapart</code> package <span class="citation">(Baselga and Orme 2012)</span>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">tree &lt;-<span class="st"> </span>africa<span class="op">$</span>phylo</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(tree, <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(sparse_comm))</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">pb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/phylobeta.html">phylobeta</a></span>(sparse_comm, tree)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">tree &lt;-<span class="st"> </span>africa<span class="op">$</span>phylo</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(tree, <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(sparse_comm))</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">pb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/phylobeta.html">phylobeta</a></span>(sparse_comm, tree)</a></code></pre></div>
 </div>
 </div>
 <div id="session-infomation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#session-infomation" class="anchor"></a>Session Infomation</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a></code></pre></div>
-<pre><code>## R version 3.6.3 (2020-02-29)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 19.10
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
 ## 
 ## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.8.0
-## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.8.0
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
-##  [1] LC_CTYPE=de_AT.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=de_AT.UTF-8        LC_COLLATE=de_AT.UTF-8    
-##  [5] LC_MONETARY=de_AT.UTF-8    LC_MESSAGES=de_AT.UTF-8   
-##  [7] LC_PAPER=de_AT.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=de_AT.UTF-8 LC_IDENTIFICATION=C       
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -184,16 +174,16 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 ## [1] Matrix_1.2-18     phyloregion_1.0.0
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.3        compiler_3.6.3    tools_3.6.3       magic_1.5-9      
+##  [1] Rcpp_1.0.3        compiler_3.6.1    tools_3.6.1       magic_1.5-9      
 ##  [5] digest_0.6.25     betapart_1.5.1    evaluate_0.14     memoise_1.1.0    
-##  [9] nlme_3.1-144      lattice_0.20-40   mgcv_1.8-31       pkgconfig_2.0.3  
+##  [9] nlme_3.1-145      lattice_0.20-40   mgcv_1.8-31       pkgconfig_2.0.3  
 ## [13] rlang_0.4.5       igraph_1.2.4.2    fastmatch_1.1-0   rstudioapi_0.11  
-## [17] yaml_2.2.1        parallel_3.6.3    pkgdown_1.4.1     xfun_0.12        
+## [17] yaml_2.2.1        parallel_3.6.1    pkgdown_1.4.1     xfun_0.12        
 ## [21] raster_3.0-12     stringr_1.4.0     knitr_1.28        cluster_2.1.0    
-## [25] rgeos_0.5-2       desc_1.2.0        fs_1.3.1          rcdd_1.2-2       
-## [29] rprojroot_1.3-2   grid_3.6.3        data.table_1.12.8 R6_2.4.1         
+## [25] rgeos_0.5-2       desc_1.2.0        fs_1.3.2          rcdd_1.2-2       
+## [29] rprojroot_1.3-2   grid_3.6.1        data.table_1.12.8 R6_2.4.1         
 ## [33] phangorn_2.5.5    rmarkdown_2.1     sp_1.4-1          magrittr_1.5     
-## [37] codetools_0.2-16  splines_3.6.3     backports_1.1.5   htmltools_0.4.0  
+## [37] codetools_0.2-16  splines_3.6.1     backports_1.1.5   htmltools_0.4.0  
 ## [41] MASS_7.3-51.5     assertthat_0.2.1  abind_1.4-5       colorspace_1.4-1 
 ## [45] picante_1.8.1     permute_0.9-5     ape_5.3           quadprog_1.5-8   
 ## [49] stringi_1.4.6     geometry_0.4.5    crayon_1.3.4      vegan_2.5-6</code></pre>

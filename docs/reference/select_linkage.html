@@ -146,7 +146,7 @@ data distortion using Sokal &amp; Rohlf’s (1962) cophenetic
 correlation coefficient.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_linkage</span>(<span class='no'>x</span>, <span class='kw'>rot_angle</span> <span class='kw'>=</span> <span class='fl'>45</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"grey"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>select_linkage</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,23 +154,6 @@ correlation coefficient.</p>
     <tr>
       <th>x</th>
       <td><p>a numeric matrix, data frame or "dist" object.</p></td>
-    </tr>
-    <tr>
-      <th>rot_angle</th>
-      <td><p>rotation angle of the barplot x-axis labels.</p></td>
-    </tr>
-    <tr>
-      <th>cex</th>
-      <td><p>character (or symbol) expansion: a numerical vector for
-the size of the x-axis labels</p></td>
-    </tr>
-    <tr>
-      <th>col</th>
-      <td><p>color of the plot.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>arguments passed among methods.</p></td>
     </tr>
     </table>
 
@@ -193,13 +176,11 @@ objective methods. <em>Taxon</em> <strong>11</strong>: 33–40.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
 <span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='no'>africa</span>$<span class='no'>phylo</span>
 <span class='no'>bc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='beta_diss.html'>beta_diss</a></span>(<span class='no'>africa</span>$<span class='no'>comm</span>)
-<span class='fu'>select_linkage</span>(<span class='no'>bc</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: "plot" ist kein Grafikparameter</span></div><div class='img'><img src='select_linkage-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>select_linkage</span>(<span class='no'>bc</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 
 #&gt; A good clustering algorithm for the distance matrix is:
 #&gt;  UPGMC with cophenetic correlation = 0.6561082 
-#&gt; </div><div class='output co'>#&gt;     UPGMA    Single  Complete    ward.D   ward.D2     WPGMA     WPGMC     UPGMC 
-#&gt; 0.6512411 0.4308994 0.5197439 0.6148267 0.6472949 0.6254182 0.5286548 0.6561082 
-#&gt;     DIANA 
-#&gt; 0.5226945 </div></pre>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='no'>y</span>, <span class='kw'>horiz</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>las</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='select_linkage-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

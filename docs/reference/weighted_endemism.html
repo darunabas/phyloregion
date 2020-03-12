@@ -162,7 +162,7 @@ by species ranges.</p>
 Australian flora. <em>Journal of Biogeography</em> <strong>28</strong>: 183–198.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>raster</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
 <span class='no'>Endm</span> <span class='kw'>&lt;-</span> <span class='fu'>weighted_endemism</span>(<span class='no'>africa</span>$<span class='no'>comm</span>)
 <span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/merge.html'>merge</a></span>(<span class='no'>africa</span>$<span class='no'>polys</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>grids</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/names.html'>names</a></span>(<span class='no'>Endm</span>), <span class='kw'>WE</span><span class='kw'>=</span><span class='no'>Endm</span>), <span class='kw'>by</span><span class='kw'>=</span><span class='st'>"grids"</span>)
