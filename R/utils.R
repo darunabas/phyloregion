@@ -7,9 +7,4 @@ Matrix::Matrix
 Matrix::sparseMatrix
 
 #' @importFrom Matrix colSums
-#' @export
-Matrix::colSums
-
 #' @importFrom Matrix rowSums
-#' @export
-Matrix::rowSums
