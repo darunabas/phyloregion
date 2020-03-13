@@ -21,7 +21,7 @@
 #' y <- choropleth(s$SR, k)
 #'
 #' ## To plot and color according to some metric:
-#' raster::plot(s, col = COLOUR[y])
+#' plot(s, col = COLOUR[y])
 #' @export
 choropleth <- function(x, k = 10, style="quantile", ...) {
   quants <- switch(style,
