@@ -4,15 +4,13 @@
 \alias{mean_dist}
 \title{Mean distance matrix from a set of distance matrices}
 \usage{
-mean_dist(files, tips, verbose = TRUE, ...)
+mean_dist(files, tips, ...)
 }
 \arguments{
 \item{files}{list of pairwise distance matrices stored as CSVs or .rds
 with the same dimensions.}
 
 \item{tips}{list of site or grid names}
-
-\item{verbose}{logical; if TRUE, show even more when running example code.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }

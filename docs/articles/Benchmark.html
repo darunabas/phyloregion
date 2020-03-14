@@ -95,7 +95,7 @@
       <h1>Benchmarking phyloregion</h1>
                         <h4 class="author">Barnabas H. Daru, Piyal Karunarathne &amp; Klaus Schliep</h4>
             
-            <h4 class="date">March 12, 2020</h4>
+            <h4 class="date">March 14, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/darunabas/phyloregion/blob/master/vignettes/Benchmark.Rmd"><code>vignettes/Benchmark.Rmd</code></a></small>
       <div class="hidden name"><code>Benchmark.Rmd</code></div>
@@ -144,7 +144,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-diversity" class="anchor"></a>1.1. Benchmarking <code>phyloregion</code> for analysis of phylogenetic diversity</h4>
-<p>For analysis of alpha diversity commonly used in conservation such as phylogenetic diversity - the sum of all phylogenetic branch lengths within an area <span class="citation">(Faith 1992)</span> (Faith 1992) - <code>phyloregion</code> is 31 to 284 times faster and 67 to 192 times memory efficient, compared to other packages!</p>
+<p>For analysis of alpha diversity commonly used in conservation such as phylogenetic diversity - the sum of all phylogenetic branch lengths within an area <span class="citation">(Faith, 1992)</span> (Faith 1992) - <code>phyloregion</code> is 31 to 284 times faster and 67 to 192 times memory efficient, compared to other packages!</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">tree &lt;-<span class="st"> </span>africa<span class="op">$</span>phylo</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">tree &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(tree, <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(X_sparse))</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"></a>
@@ -172,10 +172,10 @@
 <pre><code>## # A tibble: 4 x 6
 ##   expression       min   median `itr/sec` mem_alloc `gc/sec`
 ##   &lt;bch:expr&gt;  &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-## 1 picante     124.09ms 127.21ms     7.73     59.5MB    15.5 
-## 2 hilldiv        1.09s    1.09s     0.914  170.22MB     5.49
-## 3 pez         127.39ms 135.74ms     7.44    60.79MB    13.0 
-## 4 phyloregion   2.87ms   3.31ms   254.       1.83MB     7.94</code></pre>
+## 1 picante      99.95ms 115.45ms      8.89    59.5MB    16.0 
+## 2 hilldiv     913.33ms 913.33ms      1.09  170.22MB     6.57
+## 3 pez         103.53ms 108.35ms      9.22   60.79MB    16.6 
+## 4 phyloregion   2.55ms   2.73ms    319.      1.86MB    12.0</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(res1)</a></code></pre></div>
 <div class="figure">
 <img src="benchmark-phylo_diversity-1.png" alt="plot of chunk phylo_diversity"><p class="caption">plot of chunk phylo_diversity</p>
@@ -184,7 +184,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-endemism" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-endemism" class="anchor"></a>1.2. Benchmarking <code>phyloregion</code> for analysis of phylogenetic endemism</h4>
-<p>Another benchmark for <code>phyloregion</code> is in analysis of phylogenetic endemism, the degree to which phylogenetic diversity is restricted to any given area <span class="citation">(Rosauer et al. 2009)</span>. Here, we found that <code>phyloregion</code> is 160 times faster and 489 times efficient in memory allocation.</p>
+<p>Another benchmark for <code>phyloregion</code> is in analysis of phylogenetic endemism, the degree to which phylogenetic diversity is restricted to any given area <span class="citation">(Rosauer <em>et al.</em>, 2009)</span>. Here, we found that <code>phyloregion</code> is 160 times faster and 489 times efficient in memory allocation.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">tree &lt;-<span class="st"> </span>africa<span class="op">$</span>phylo</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">tree &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(tree, <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(X_sparse))</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"></a>
@@ -203,8 +203,8 @@
 <pre><code>## # A tibble: 2 x 6
 ##   expression       min   median `itr/sec` mem_alloc `gc/sec`
 ##   &lt;bch:expr&gt;  &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-## 1 pez            1.89s    1.89s     0.529  498.93MB     3.70
-## 2 phyloregion   3.57ms   5.03ms   121.       1.06MB     1.98</code></pre>
+## 1 pez          584.3ms 584.26ms      1.71  498.93MB    15.4 
+## 2 phyloregion    3.1ms   3.31ms    264.      1.08MB     6.00</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(res2)</a></code></pre></div>
 <div class="figure">
 <img src="benchmark-phylo_endemism-1.png" alt="plot of chunk phylo_endemism"><p class="caption">plot of chunk phylo_endemism</p>
@@ -217,7 +217,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-taxonomic-beta-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-taxonomic-beta-diversity" class="anchor"></a>2.1. Benchmarking <code>phyloregion</code> for analysis of taxonomic beta diversity</h4>
-<p>For analysis of taxonomic beta diversity, which compares diversity between communities <span class="citation">(Koleff, Gaston, and Lennon 2003)</span>, <code>phyloregion</code> has marginal advantage over other packages. Nonetheless, it is 1-39 times faster and allocates 2 to 110 times less memory than other packages.</p>
+<p>For analysis of taxonomic beta diversity, which compares diversity between communities <span class="citation">(Koleff <em>et al.</em>, 2003)</span>, <code>phyloregion</code> has marginal advantage over other packages. Nonetheless, it is 1-39 times faster and allocates 2 to 110 times less memory than other packages.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">chk_fun &lt;-<span class="st"> </span><span class="cf">function</span>(target, current)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">    <span class="kw"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(target, current, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"></a>
@@ -233,10 +233,10 @@
 <pre><code>## # A tibble: 4 x 6
 ##   expression       min   median `itr/sec` mem_alloc `gc/sec`
 ##   &lt;bch:expr&gt;  &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-## 1 phyloregion 779.13µs   1.03ms     873.   395.65KB     2.01
-## 2 betapart    914.43µs   1.12ms     821.   601.23KB     2.11
-## 3 vegan         1.08ms   1.26ms     707.     1.02MB     4.59
-## 4 BAT             41ms  43.95ms      22.5   31.76MB     9.63</code></pre>
+## 1 phyloregion 730.31µs 819.97µs    1122.   418.77KB     5.16
+## 2 betapart    877.58µs 961.12µs     974.   601.23KB     9.17
+## 3 vegan         1.04ms   1.12ms     842.     1.02MB    20.3 
+## 4 BAT          34.96ms  38.02ms      25.4   31.76MB    12.7</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(res3)</a></code></pre></div>
 <div class="figure">
 <img src="benchmark-beta_diversity-1.png" alt="plot of chunk beta_diversity"><p class="caption">plot of chunk beta_diversity</p>
@@ -245,7 +245,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-beta-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-beta-diversity" class="anchor"></a>2.2. Benchmarking <code>phyloregion</code> for analysis of phylogenetic beta diversity</h4>
-<p>For analysis phylogenetic turnover (beta-diversity) among communities - the proportion of shared phylogenetic branch lengths between communities <span class="citation">(Graham and Fine 2008)</span> - <code>phyloregion</code> is 300-400 times faster and allocates 100-600 times less memory!</p>
+<p>For analysis phylogenetic turnover (beta-diversity) among communities - the proportion of shared phylogenetic branch lengths between communities <span class="citation">(Graham &amp; Fine, 2008)</span> - <code>phyloregion</code> is 300-400 times faster and allocates 100-600 times less memory!</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">fun_phyloregion &lt;-<span class="st"> </span><span class="cf">function</span>(x, tree) phyloregion<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/phyloregion/man/phylobeta.html">phylobeta</a></span>(x, tree)[[<span class="dv">3</span>]]</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2">fun_betapart &lt;-<span class="st"> </span><span class="cf">function</span>(x, tree) betapart<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/betapart/man/phylo.beta.pair.html">phylo.beta.pair</a></span>(x, tree)[[<span class="dv">3</span>]]</a>
 <a class="sourceLine" id="cb17-3" data-line-number="3">fun_picante &lt;-<span class="st"> </span><span class="cf">function</span>(x, tree) <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>picante<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/picante/man/phylosor.html">phylosor</a></span>(x, tree)</a>
@@ -262,10 +262,10 @@
 <pre><code>## # A tibble: 4 x 6
 ##   expression       min   median `itr/sec` mem_alloc `gc/sec`
 ##   &lt;bch:expr&gt;  &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-## 1 picante        4.38s    4.38s     0.228    1.24GB    1.14 
-## 2 betapart       2.14s    2.14s     0.467    1.24GB    1.40 
-## 3 BAT            1.61s    1.61s     0.622  207.39MB    0.622
-## 4 phyloregion    4.5ms   5.13ms   190.       1.07MB    0</code></pre>
+## 1 picante        2.06s    2.06s     0.484    1.24GB    3.88 
+## 2 betapart       3.62s    3.62s     0.277    1.24GB    1.38 
+## 3 BAT            1.42s    1.42s     0.704  207.39MB    0.704
+## 4 phyloregion    4.2ms   4.47ms   213.        1.1MB    0</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(res4)</a></code></pre></div>
 <div class="figure">
 <img src="benchmark-phylobeta-1.png" alt="plot of chunk phylobeta"><p class="caption">plot of chunk phylobeta</p>
@@ -292,66 +292,79 @@
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] pez_1.2-0         BAT_2.0.0         hilldiv_1.5.1     picante_1.8.1     nlme_3.1-145     
-##  [6] vegan_2.5-6       lattice_0.20-40   permute_0.9-5     betapart_1.5.1    phyloregion_1.0.0
-## [11] ggplot2_3.3.0     bench_1.1.1       Matrix_1.2-18     ape_5.3           knitr_1.28       
-## [16] rgl_0.100.50     
+##  [1] pez_1.2-0         BAT_2.0.0         hilldiv_1.5.1     picante_1.8.1    
+##  [5] nlme_3.1-145      vegan_2.5-6       lattice_0.20-40   permute_0.9-5    
+##  [9] betapart_1.5.1    phyloregion_1.0.0 ggplot2_3.3.0     bench_1.1.1      
+## [13] Matrix_1.2-18     ape_5.3           knitr_1.28       
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] utf8_1.1.4              ks_1.11.7               tidyselect_1.0.0        htmlwidgets_1.5.1      
-##   [5] grid_3.6.1              combinat_0.0-8          munsell_0.5.0           animation_2.6          
-##   [9] codetools_0.2-16        miniUI_0.1.1.1          withr_2.1.2             profmem_0.5.0          
-##  [13] colorspace_1.4-1        highr_0.8               rstudioapi_0.11         geometry_0.4.5         
-##  [17] stats4_3.6.1            ggsignif_0.6.0          tensor_1.5              huge_1.3.4             
-##  [21] nls2_0.2                FD_1.0-12               mnormt_1.5-6            polyclip_1.10-0        
-##  [25] farver_2.0.3            coda_0.19-3             vctrs_0.2.4             clusterGeneration_1.3.4
-##  [29] xfun_0.12               fastcluster_1.1.25      R6_2.4.1                ggbeeswarm_0.6.0       
-##  [33] pdist_1.2               manipulateWidget_0.10.1 spatstat.utils_1.17-0   assertthat_0.2.1       
-##  [37] promises_1.1.0          scales_1.1.0            nnet_7.3-13             rgeos_0.5-2            
-##  [41] beeswarm_0.2.3          gtable_0.3.0            caper_1.0.1             goftest_1.2-2          
-##  [45] phangorn_2.5.5          rlang_0.4.5             MatrixModels_0.4-1      FSA_0.8.30             
-##  [49] scatterplot3d_0.3-41    splines_3.6.1           acepack_1.4.1           checkmate_2.0.0        
-##  [53] reshape2_1.4.3          abind_1.4-5             d3Network_0.5.2.1       crosstalk_1.0.0        
-##  [57] backports_1.1.5         httpuv_1.5.2            Hmisc_4.3-1             tools_3.6.1            
-##  [61] psych_1.9.12.31         lavaan_0.6-5            cubature_2.0.4          raster_3.0-12          
-##  [65] RColorBrewer_1.1-2      Rcpp_1.0.3              plyr_1.8.6              base64enc_0.1-3        
-##  [69] progress_1.2.2          purrr_0.3.3             prettyunits_1.1.1       ggpubr_0.2.5           
-##  [73] rpart_4.1-15            deldir_0.1-25           pbapply_1.4-2           deSolve_1.28           
-##  [77] qgraph_1.6.5            cluster_2.1.0           fs_1.3.2                magrittr_1.5           
-##  [81] data.table_1.12.8       SparseM_1.78            mvtnorm_1.1-0           whisker_0.4            
-##  [85] hms_0.5.3               mime_0.9                evaluate_0.14           xtable_1.8-4           
-##  [89] jpeg_0.1-8.1            mclust_5.4.5            gridExtra_2.3           compiler_3.6.1         
-##  [93] tibble_2.1.3            maps_3.3.0              KernSmooth_2.23-16      crayon_1.3.4           
-##  [97] hypervolume_2.0.12      htmltools_0.4.0         mgcv_1.8-31             corpcor_1.6.9          
-## [101] later_1.0.0             Formula_1.2-3           tidyr_1.0.2             expm_0.999-4           
-## [105] magic_1.5-9             apTreeshape_1.5-0       subplex_1.6             MASS_7.3-51.5          
-## [109] ade4_1.7-15             cli_2.0.2               quadprog_1.5-8          parallel_3.6.1         
-## [113] igraph_1.2.4.2          BDgraph_2.62            pkgconfig_2.0.3         pkgdown_1.4.1          
-## [117] numDeriv_2016.8-1.1     foreign_0.8-76          sp_1.4-1                pbivnorm_0.6.0         
-## [121] vipor_0.4.5             webshot_0.5.2           stringr_1.4.0           digest_0.6.25          
-## [125] phytools_0.6-99         rcdd_1.2-2              spatstat.data_1.4-3     fastmatch_1.1-0        
-## [129] htmlTable_1.13.3        shiny_1.4.0.1           gtools_3.8.1            quantreg_5.54          
-## [133] rjson_0.2.20            geiger_2.0.6.4          lifecycle_0.2.0         glasso_1.11            
-## [137] jsonlite_1.6.1          fansi_0.4.1             pillar_1.4.3            fastmap_1.0.1          
-## [141] plotrix_3.7-7           survival_3.1-11         glue_1.3.2              fdrtool_1.2.15         
-## [145] spatstat_1.63-3         png_0.1-7               class_7.3-15            stringi_1.4.6          
-## [149] memoise_1.1.0           latticeExtra_0.6-29     dplyr_0.8.5             e1071_1.7-3</code></pre>
+##   [1] backports_1.1.5         Hmisc_4.3-1             BDgraph_2.62           
+##   [4] fastmatch_1.1-0         plyr_1.8.6              igraph_1.2.4.2         
+##   [7] sp_1.4-1                splines_3.6.1           crosstalk_1.0.0        
+##  [10] digest_0.6.25           htmltools_0.4.0         fansi_0.4.1            
+##  [13] phytools_0.6-99         magrittr_1.5            checkmate_2.0.0        
+##  [16] tensor_1.5              cluster_2.1.0           ks_1.11.7              
+##  [19] fastcluster_1.1.25      pdist_1.2               prettyunits_1.1.1      
+##  [22] jpeg_0.1-8.1            colorspace_1.4-1        xfun_0.12              
+##  [25] dplyr_0.8.5             crayon_1.3.4            jsonlite_1.6.1         
+##  [28] spatstat.data_1.4-3     spatstat_1.63-3         survival_3.1-11        
+##  [31] phangorn_2.5.5          glue_1.3.2              apTreeshape_1.5-0      
+##  [34] polyclip_1.10-0         gtable_0.3.0            geiger_2.0.6.4         
+##  [37] MatrixModels_0.4-1      webshot_0.5.2           maps_3.3.0             
+##  [40] SparseM_1.78            abind_1.4-5             scales_1.1.0           
+##  [43] mvtnorm_1.1-0           miniUI_0.1.1.1          Rcpp_1.0.3             
+##  [46] plotrix_3.7-7           xtable_1.8-4            progress_1.2.2         
+##  [49] htmlTable_1.13.3        magic_1.5-9             foreign_0.8-76         
+##  [52] subplex_1.6             mclust_5.4.5            deSolve_1.28           
+##  [55] Formula_1.2-3           stats4_3.6.1            animation_2.6          
+##  [58] htmlwidgets_1.5.1       RColorBrewer_1.1-2      lavaan_0.6-5           
+##  [61] acepack_1.4.1           farver_2.0.3            pkgconfig_2.0.3        
+##  [64] deldir_0.1-25           nnet_7.3-13             utf8_1.1.4             
+##  [67] tidyselect_1.0.0        rlang_0.4.5             manipulateWidget_0.10.1
+##  [70] reshape2_1.4.3          later_1.0.0             munsell_0.5.0          
+##  [73] tools_3.6.1             cli_2.0.2               ade4_1.7-15            
+##  [76] FD_1.0-12               fdrtool_1.2.15          evaluate_0.14          
+##  [79] geometry_0.4.5          stringr_1.4.0           fastmap_1.0.1          
+##  [82] goftest_1.2-2           yaml_2.2.1              rgl_0.100.50           
+##  [85] purrr_0.3.3             glasso_1.11             pbapply_1.4-2          
+##  [88] quantreg_5.54           whisker_0.4             mime_0.9               
+##  [91] profmem_0.5.0           compiler_3.6.1          rstudioapi_0.11        
+##  [94] beeswarm_0.2.3          png_0.1-7               e1071_1.7-3            
+##  [97] ggsignif_0.6.0          spatstat.utils_1.17-0   clusterGeneration_1.3.4
+## [100] huge_1.3.4              tibble_2.1.3            pbivnorm_0.6.0         
+## [103] stringi_1.4.6           highr_0.8               qgraph_1.6.5           
+## [106] cubature_2.0.4          rgeos_0.5-2             psych_1.9.12.31        
+## [109] vctrs_0.2.4             pillar_1.4.3            lifecycle_0.2.0        
+## [112] combinat_0.0-8          caper_1.0.1             data.table_1.12.8      
+## [115] corpcor_1.6.9           raster_3.0-12           httpuv_1.5.2           
+## [118] R6_2.4.1                latticeExtra_0.6-29     promises_1.1.0         
+## [121] KernSmooth_2.23-16      gridExtra_2.3           vipor_0.4.5            
+## [124] codetools_0.2-16        rcdd_1.2-2              MASS_7.3-51.5          
+## [127] gtools_3.8.1            assertthat_0.2.1        rjson_0.2.20           
+## [130] withr_2.1.2             mnormt_1.5-6            expm_0.999-4           
+## [133] mgcv_1.8-31             parallel_3.6.1          hms_0.5.3              
+## [136] quadprog_1.5-8          grid_3.6.1              rpart_4.1-15           
+## [139] tidyr_1.0.2             coda_0.19-3             class_7.3-15           
+## [142] rmarkdown_2.1           nls2_0.2                FSA_0.8.30             
+## [145] hypervolume_2.0.12      d3Network_0.5.2.1       ggpubr_0.2.5           
+## [148] scatterplot3d_0.3-41    numDeriv_2016.8-1.1     shiny_1.4.0.1          
+## [151] base64enc_0.1-3         ggbeeswarm_0.6.0</code></pre>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>REFERENCES</h2>
 <div id="refs" class="references">
 <div id="ref-Faith1992">
-<p>Faith, Daniel P. 1992. “Conservation Evaluation and Phylogenetic Diversity.” <em>Biological Conservation</em> 61 (1): 1–10. <a href="https://doi.org/https://doi.org/10.1016/0006-3207(92)91201-3">https://doi.org/https://doi.org/10.1016/0006-3207(92)91201-3</a>.</p>
+<p>Faith, D.P. (1992) Conservation evaluation and phylogenetic diversity. <em>Biological Conservation</em>, <strong>61</strong>, 1–10.</p>
 </div>
 <div id="ref-Graham2008">
-<p>Graham, Catherine H., and Paul V. A. Fine. 2008. “Phylogenetic Beta Diversity: Linking Ecological and Evolutionary Processes Across Space in Time.” <em>Ecology Letters</em> 11 (12): 1265–77. <a href="https://doi.org/10.1111/j.1461-0248.2008.01256.x">https://doi.org/10.1111/j.1461-0248.2008.01256.x</a>.</p>
+<p>Graham, C.H. &amp; Fine, P.V.A. (2008) Phylogenetic beta diversity: Linking ecological and evolutionary processes across space in time. <em>Ecology Letters</em>, <strong>11</strong>, 1265–1277.</p>
 </div>
 <div id="ref-Koleff2003">
-<p>Koleff, Patricia, Kevin J. Gaston, and Jack J. Lennon. 2003. “Measuring Beta Diversity for Presence–Absence Data.” <em>Journal of Animal Ecology</em> 72 (3): 367–82. <a href="https://doi.org/10.1046/j.1365-2656.2003.00710.x">https://doi.org/10.1046/j.1365-2656.2003.00710.x</a>.</p>
+<p>Koleff, P., Gaston, K.J. &amp; Lennon, J.J. (2003) Measuring beta diversity for presence–absence data. <em>Journal of Animal Ecology</em>, <strong>72</strong>, 367–382.</p>
 </div>
 <div id="ref-Rosauer2009">
-<p>Rosauer, Dan, Shawn W. Laffan, Michael D. Crisp, Stephen C. Donnellan, and Lyn G. Cook. 2009. “Phylogenetic Endemism: A New Approach for Identifying Geographical Concentrations of Evolutionary History.” <em>Molecular Ecology</em> 18 (19): 4061–72. <a href="https://doi.org/10.1111/j.1365-294X.2009.04311.x">https://doi.org/10.1111/j.1365-294X.2009.04311.x</a>.</p>
+<p>Rosauer, D., Laffan, S.W., Crisp, M.D., Donnellan, S.C. &amp; Cook, L.G. (2009) Phylogenetic endemism: A new approach for identifying geographical concentrations of evolutionary history. <em>Molecular Ecology</em>, <strong>18</strong>, 4061–4072.</p>
 </div>
 </div>
 </div>

@@ -236,7 +236,6 @@ elbow.batch <- function(x, inc.thres = c(0.01, 0.05, 0.1),
 #' \dQuote{median} (= WPGMC) or \dQuote{centroid} (= UPGMC).
 #' @param k numeric, the upper bound of the number of clusters to
 #' compute. DEFAULT: 20 or the number of observations (if less than 20).
-#' @param verbose logical; if TRUE, show even more when running example code.
 #' @keywords phyloregion
 #' @importFrom stats hclust as.dist
 #'
@@ -270,10 +269,7 @@ elbow.batch <- function(x, inc.thres = c(0.01, 0.05, 0.1),
 #' points(d$optimal$k, d$optimal$ev, pch = 21, bg = "red", cex = 3)
 #' points(d$optimal$k, d$optimal$ev, pch = 21, bg = "red", type = "h")
 #' @export
-optimal_phyloregion <- function(x, method = "average", k = 20, verbose = TRUE) {
-  if (verbose) {
-    message("Determining optimal number of phyloregions, please wait.")
-  }
+optimal_phyloregion <- function(x, method = "average", k = 20) {
   m <- hclust(as.dist(x), method = method)
   m <- css.hclust(as.dist(x), m, k = k)
   n <- elbow.batch(m)

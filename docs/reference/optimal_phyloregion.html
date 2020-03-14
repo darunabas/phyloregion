@@ -144,7 +144,7 @@ clusters ("phyloregions"), based on the ‘elbow’ or ‘knee’ of
 an evaluation graph that corresponds to the point of optimal curvature.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>optimal_phyloregion</span>(<span class='no'>x</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"average"</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>optimal_phyloregion</span>(<span class='no'>x</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"average"</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,10 +165,6 @@ be (an unambiguous abbreviation of) one of &#8220;ward.D&#8221;, &#8220;ward.D2&
       <th>k</th>
       <td><p>numeric, the upper bound of the number of clusters to
 compute. DEFAULT: 20 or the number of observations (if less than 20).</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>logical; if TRUE, show even more when running example code.</p></td>
     </tr>
     </table>
 
@@ -197,7 +193,7 @@ clustering of transcription start site landscapes.
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
 <span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='no'>africa</span>$<span class='no'>phylo</span>
 <span class='no'>bc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='beta_diss.html'>beta_diss</a></span>(<span class='no'>africa</span>$<span class='no'>comm</span>)
-(<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>optimal_phyloregion</span>(<span class='no'>bc</span><span class='kw'>[[</span><span class='fl'>1</span>]]))</div><div class='output co'>#&gt; <span class='message'>Determining optimal number of phyloregions, please wait.</span></div><div class='output co'>#&gt; $df
+(<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>optimal_phyloregion</span>(<span class='no'>bc</span><span class='kw'>[[</span><span class='fl'>1</span>]]))</div><div class='output co'>#&gt; $df
 #&gt;     k        ev   totbss      tss
 #&gt; 1   1 0.0000000  0.00000 73.51413
 #&gt; 2   2 0.3439631 25.28615 73.51413

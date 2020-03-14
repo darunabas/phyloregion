@@ -6,17 +6,13 @@
 #' @param files list of pairwise distance matrices stored as CSVs or .rds
 #' with the same dimensions.
 #' @param tips list of site or grid names
-#' @param verbose logical; if TRUE, show even more when running example code.
 #' @param ... Further arguments passed to or from other methods.
 #' @rdname mean_dist
 #' @return average distance matrix
 #' @importFrom utils read.csv
 #'
 #' @export
-mean_dist <- function(files, tips, verbose = TRUE, ...){
-  if (verbose) {
-    message("Generating average pairwise matrix from several matrices")
-  }
+mean_dist <- function(files, tips, ...){
   ntips <- length(tips)
   res <- matrix(0, ntips, ntips, dimnames = list(tips, tips))
   tmp <- matrix(0L, ntips, ntips, dimnames = list(tips, tips))

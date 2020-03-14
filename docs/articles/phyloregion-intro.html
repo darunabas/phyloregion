@@ -95,7 +95,7 @@
       <h1>An introduction to the phyloregion package</h1>
                         <h4 class="author">Barnabas H. Daru, Piyal Karunarathne &amp; Klaus Schliep</h4>
             
-            <h4 class="date">March 12, 2020</h4>
+            <h4 class="date">March 14, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/darunabas/phyloregion/blob/master/vignettes/phyloregion-intro.Rmd"><code>vignettes/phyloregion-intro.Rmd</code></a></small>
       <div class="hidden name"><code>phyloregion-intro.Rmd</code></div>
@@ -120,13 +120,13 @@ remotes::install_github("darunabas/phyloregion")</code></pre>
 <div id="phylogenies" class="section level3">
 <h3 class="hasAnchor">
 <a href="#phylogenies" class="anchor"></a>Phylogenies</h3>
-<p>In R, phylogenetic relationships among species / taxa are often represented as a phylo object implemented in the <code>ape</code> package <span class="citation">(Paradis and Schliep 2018)</span>. Phylogenies (often in the Newick or Nexus formats) can be imported into R with the <code>read.tree</code> or <code>read.nexus</code> functions of the <code>ape</code> package.</p>
+<p>In R, phylogenetic relationships among species / taxa are often represented as a phylo object implemented in the <code>ape</code> package <span class="citation">(Paradis &amp; Schliep, 2018)</span>. Phylogenies (often in the Newick or Nexus formats) can be imported into R with the <code>read.tree</code> or <code>read.nexus</code> functions of the <code>ape</code> package.</p>
 </div>
 <div id="community-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#community-data" class="anchor"></a>Community data</h3>
-<p>Community data are commonly stored in a matrix with the sites as rows and species / operational taxonomic units (OTUs) as columns. The elements of the matrix are numeric values indicating the abundance/observations or presence/absence (0/1) of OTUs in different sites. In practice, such a matrix can contain many zero values because species are known to generally have unimodal distributions along environmental gradients <span class="citation">(Ter Braak and Prentice 2004)</span>, and storing and analyzing every single element of that matrix can be computationally challenging and expensive.</p>
-<p><code>phyloregion</code> differs from other R packages (e.g. vegan <span class="citation">(Oksanen et al. 2019)</span>, picante <span class="citation">(Kembel et al. 2010)</span> or betapart <span class="citation">(Baselga and Orme 2012)</span>) in that the data are not stored in a (dense) <code>matrix</code> or <code>data.frame</code> but as a sparse matrix making use of the infrastructure provided by the Matrix package <span class="citation">(Bates and Maechler 2019)</span>. A sparse matrix is a matrix with a high proportion of zero entries <span class="citation">(Duff 1977)</span>, of which only the non-zero entries are stored and utlized for downstream analysis.</p>
+<p>Community data are commonly stored in a matrix with the sites as rows and species / operational taxonomic units (OTUs) as columns. The elements of the matrix are numeric values indicating the abundance/observations or presence/absence (0/1) of OTUs in different sites. In practice, such a matrix can contain many zero values because species are known to generally have unimodal distributions along environmental gradients <span class="citation">(Ter Braak &amp; Prentice, 2004)</span>, and storing and analyzing every single element of that matrix can be computationally challenging and expensive.</p>
+<p><code>phyloregion</code> differs from other R packages (e.g. vegan <span class="citation">(Oksanen <em>et al.</em>, 2019)</span>, picante <span class="citation">(Kembel <em>et al.</em>, 2010)</span> or betapart <span class="citation">(Baselga &amp; Orme, 2012)</span>) in that the data are not stored in a (dense) <code>matrix</code> or <code>data.frame</code> but as a sparse matrix making use of the infrastructure provided by the Matrix package <span class="citation">(Bates &amp; Maechler, 2019)</span>. A sparse matrix is a matrix with a high proportion of zero entries <span class="citation">(Duff, 1977)</span>, of which only the non-zero entries are stored and utlized for downstream analysis.</p>
 <p>A sparse matrix representation has two advantages. First the community matrix can be stored in a much memory efficient manner, allowing analysis of larger datasets. Second, for very large datasets spanning thousands of taxa and spatial scales, computations with a sparse matrix are often much faster.<br>
 The <code>phyloregion</code> package contains functions to conveniently change between data formats.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Matrix) </a>
@@ -146,7 +146,7 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <div id="phylogenetic-beta-diversity" class="section level3">
 <h3 class="hasAnchor">
 <a href="#phylogenetic-beta-diversity" class="anchor"></a>Phylogenetic beta diversity</h3>
-<p><code>phyloregion</code> offers a fast means of computing phylogenetic beta diversity, the turnover of branch lengths among sites, making use of and improving on the infrastructure provided by the <code>betapart</code> package <span class="citation">(Baselga and Orme 2012)</span>.</p>
+<p><code>phyloregion</code> offers a fast means of computing phylogenetic beta diversity, the turnover of branch lengths among sites, making use of and improving on the infrastructure provided by the <code>betapart</code> package <span class="citation">(Baselga &amp; Orme, 2012)</span>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">tree &lt;-<span class="st"> </span>africa<span class="op">$</span>phylo</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(tree, <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(sparse_comm))</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">pb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/phylobeta.html">phylobeta</a></span>(sparse_comm, tree)</a></code></pre></div>
@@ -193,31 +193,31 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <a href="#references" class="anchor"></a>REFERENCES</h2>
 <div id="refs" class="references">
 <div id="ref-Baselga2012">
-<p>Baselga, Andrés, and C David L Orme. 2012. “Betapart: An R Package for the Study of Beta Diversity.” <em>Methods in Ecology and Evolution</em> 3 (5). Wiley Online Library: 808–12.</p>
+<p>Baselga, A. &amp; Orme, C.D.L. (2012) Betapart: An r package for the study of beta diversity. <em>Methods in Ecology and Evolution</em>, <strong>3</strong>, 808–812.</p>
 </div>
 <div id="ref-Matrix">
-<p>Bates, Douglas, and Martin Maechler. 2019. <em>Matrix: Sparse and Dense Matrix Classes and Methods</em>. <a href="https://CRAN.R-project.org/package=Matrix">https://CRAN.R-project.org/package=Matrix</a>.</p>
+<p>Bates, D. &amp; Maechler, M. (2019) <em>Matrix: Sparse and dense matrix classes and methods</em>,</p>
 </div>
 <div id="ref-Daru2017">
-<p>Daru, Barnabas H, Tammy L Elliott, Daniel S Park, and T Jonathan Davies. 2017. “Understanding the Processes Underpinning Patterns of Phylogenetic Regionalization.” <em>Trends in Ecology &amp; Evolution</em> 32 (11). Elsevier: 845–60.</p>
+<p>Daru, B.H., Elliott, T.L., Park, D.S. &amp; Davies, T.J. (2017) Understanding the processes underpinning patterns of phylogenetic regionalization. <em>Trends in ecology &amp; evolution</em>, <strong>32</strong>, 845–860.</p>
 </div>
 <div id="ref-Daru2020">
-<p>Daru, Barnabas H., Piyal Karunarathne, and Klaus Schliep. 2020. “Phyloregion: R Package for Biogeographic Regionalization and Spatial Conservation.” <em>bioRxiv</em>. Cold Spring Harbor Laboratory. <a href="https://doi.org/10.1101/2020.02.12.945691">https://doi.org/10.1101/2020.02.12.945691</a>.</p>
+<p>Daru, B.H., Karunarathne, P. &amp; Schliep, K. (2020) Phyloregion: R package for biogeographic regionalization and spatial conservation. <em>bioRxiv</em>.</p>
 </div>
 <div id="ref-Duff1977">
-<p>Duff, I. S. 1977. “A Survey of Sparse Matrix Research.” <em>Proceedings of the IEEE</em> 65 (4): 500–535. <a href="https://doi.org/10.1109/PROC.1977.10514">https://doi.org/10.1109/PROC.1977.10514</a>.</p>
+<p>Duff, I.S. (1977) A survey of sparse matrix research. <em>Proceedings of the IEEE</em>, <strong>65</strong>, 500–535.</p>
 </div>
 <div id="ref-Kembel2010">
-<p>Kembel, S.W., P.D. Cowan, M.R. Helmus, W.K. Cornwell, H. Morlon, D.D. Ackerly, S.P. Blomberg, and C.O. Webb. 2010. “Picante: R Tools for Integrating Phylogenies and Ecology.” <em>Bioinformatics</em> 26: 1463–4.</p>
+<p>Kembel, S., Cowan, P., Helmus, M., Cornwell, W., Morlon, H., Ackerly, D., Blomberg, S. &amp; Webb, C. (2010) Picante: R tools for integrating phylogenies and ecology. <em>Bioinformatics</em>, <strong>26</strong>, 1463–1464.</p>
 </div>
 <div id="ref-vegan">
-<p>Oksanen, Jari, F. Guillaume Blanchet, Michael Friendly, Roeland Kindt, Pierre Legendre, Dan McGlinn, Peter R. Minchin, et al. 2019. <em>Vegan: Community Ecology Package</em>. <a href="https://CRAN.R-project.org/package=vegan">https://CRAN.R-project.org/package=vegan</a>.</p>
+<p>Oksanen, J., Blanchet, F.G., Friendly, M., Kindt, R., Legendre, P., McGlinn, D., Minchin, P.R., O’Hara, R.B., Simpson, G.L., Solymos, P., Stevens, M.H.H., Szoecs, E. &amp; Wagner, H. (2019) <em>Vegan: Community ecology package</em>,</p>
 </div>
 <div id="ref-Paradis2018">
-<p>Paradis, E., and K. Schliep. 2018. “Ape 5.0: An Environment for Modern Phylogenetics and Evolutionary Analyses in R.” <em>Bioinformatics</em> 35: 526–28.</p>
+<p>Paradis, E. &amp; Schliep, K. (2018) Ape 5.0: An environment for modern phylogenetics and evolutionary analyses in R. <em>Bioinformatics</em>, <strong>35</strong>, 526–528.</p>
 </div>
 <div id="ref-TerBraak2004">
-<p>Ter Braak, Cajo J.F., and I.Colin Prentice. 2004. “A Theory of Gradient Analysis.” In <em>Advances in Ecological Research: Classic Papers</em>, 34:235–82. Advances in Ecological Research. Academic Press. <a href="https://doi.org/https://doi.org/10.1016/S0065-2504(03)34003-6">https://doi.org/https://doi.org/10.1016/S0065-2504(03)34003-6</a>.</p>
+<p>Ter Braak, C.J. &amp; Prentice, I. (2004) <em>A theory of gradient analysis</em>. <em>Advances in ecological research: Classic papers</em> Advances in ecological research., pp. 235–282. Academic Press.</p>
 </div>
 </div>
 </div>

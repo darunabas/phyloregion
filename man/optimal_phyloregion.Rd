@@ -4,7 +4,7 @@
 \alias{optimal_phyloregion}
 \title{Determine optimal number of clusters}
 \usage{
-optimal_phyloregion(x, method = "average", k = 20, verbose = TRUE)
+optimal_phyloregion(x, method = "average", k = 20)
 }
 \arguments{
 \item{x}{a numeric matrix, data frame or \dQuote{dist} object.}
@@ -17,8 +17,6 @@ be (an unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2},
 
 \item{k}{numeric, the upper bound of the number of clusters to
 compute. DEFAULT: 20 or the number of observations (if less than 20).}
-
-\item{verbose}{logical; if TRUE, show even more when running example code.}
 }
 \value{
 a list containing the following as returned from the GMD
