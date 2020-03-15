@@ -55,7 +55,8 @@ phylobeta_core <- function(x, phy) {
   m <- l - 1L
 
   SHARED <- tcrossprod(x$Matrix, x$Matrix %*% Diagonal(x=x$edge.length) )
-  SHARED <- tril(SHARED, k=-1)@x
+  SHARED <- as.dist(as.matrix(SHARED))
+#  SHARED <- tril(SHARED, k=-1)@x
 
   B <- pd_tmp[rep(1:m, m:1)] - SHARED
   C <- pd_tmp[sequence(m:1) + rep(1:m, m:1)] - SHARED
