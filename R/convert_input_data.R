@@ -115,11 +115,14 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
 
     proj4string(dat) <- proj4string(m)
 
-    y <- do.call("rbind", mapply(cbind, sp::over(dat, m, returnList = TRUE),
-                                 species = dat@data$species, SIMPLIFY = FALSE))
+#    y <- do.call("rbind", mapply(cbind, sp::over(dat, m, returnList = TRUE),
+#                                 species = dat@data$species, SIMPLIFY = FALSE))
+    spo <- sp::over(dat, m, returnList = TRUE)
+    ll <- lengths(spo)
+    y <- data.frame(grids=unlist(spo), species=rep(dat@data$species, ll))
 
-    names(y) <- c("grids", "species")
-    y <- y[complete.cases(y), ]
+#    names(y) <- c("grids", "species")
+#    y <- y[complete.cases(y), ]
     y <- unique(y[, c("grids", "species")])
     res <- data.frame(table(y$grids))
     names(res) <- c("grids", "richness")
