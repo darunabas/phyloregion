@@ -118,6 +118,7 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
 #    y <- do.call("rbind", mapply(cbind, sp::over(dat, m, returnList = TRUE),
 #                                 species = dat@data$species, SIMPLIFY = FALSE))
     spo <- sp::over(dat, m, returnList = TRUE)
+    spo <- lapply(spo, unlist)
     ll <- lengths(spo)
     y <- data.frame(grids=unlist(spo), species=rep(dat@data$species, ll))
 

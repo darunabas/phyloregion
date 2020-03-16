@@ -5,4 +5,6 @@
 library(knitr)
 knit("vignettes/Benchmark.Rmd.orig", "vignettes/Benchmark.Rmd")
 
+knit("vignettes/scalability.Rmd.orig", "vignettes/scalability.Rmd")
+
 # run pkgdown::build_site() afterwards
