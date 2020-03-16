@@ -4,12 +4,14 @@
 \alias{match_phylo_comm}
 \title{Match taxa and in phylogeny and community matrix}
 \usage{
-match_phylo_comm(phy, comm)
+match_phylo_comm(phy, comm, delete_empty_rows = TRUE)
 }
 \arguments{
 \item{phy}{A phylogeny}
 
 \item{comm}{A (sparse) community data matrix}
+
+\item{delete_empty_rows}{delete rows with no observation}
 }
 \description{
 match_phylo_comm compares taxa (species, labels, tips) present in a phylogeny

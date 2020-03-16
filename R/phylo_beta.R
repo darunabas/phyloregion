@@ -107,6 +107,7 @@ phylobeta <- function(x, phy, index.family = "sorensen") {
 #'
 #' @param phy A phylogeny
 #' @param comm A (sparse) community data matrix
+#' @param delete_empty_rows delete rows with no observation
 #' @keywords bioregion
 #' @examples
 #' data(africa)
@@ -117,7 +118,7 @@ phylobeta <- function(x, phy, index.family = "sorensen") {
 #' submat <- match_phylo_comm(tree, x)$com
 #' @importFrom ape keep.tip
 #' @export
-match_phylo_comm <- function(phy, comm) {
+match_phylo_comm <- function(phy, comm, delete_empty_rows=TRUE) {
   if (!(is.data.frame(comm) | is.matrix(comm) | inherits(comm, "Matrix"))) {
     stop("Community data should be a data.frame or matrix with samples in rows
          and taxa in columns")
@@ -130,9 +131,12 @@ match_phylo_comm <- function(phy, comm) {
   }
   phytaxa <- phy$tip.label
   index <- intersect(commtaxa, phytaxa)
-  res$comm <- comm[, index]
-  res$phy <- keep.tip(phy, index)
-  return(res)
+  comm <- comm[, index]
+  if(delete_empty_rows){
+    comm[rowSums(comm)>0, , drop=FALSE]
+  }
+  phy <- keep.tip(phy, index)
+  list(comm=comm, phy=phy)
 }
 
 #' Taxonomic (non-phylogenetic) beta diversity
