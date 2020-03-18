@@ -7,4 +7,6 @@ knit("vignettes/Benchmark.Rmd.orig", "vignettes/Benchmark.Rmd")
 
 knit("vignettes/scalability.Rmd.orig", "vignettes/scalability.Rmd")
 
+knit("vignettes/heterogeneity.Rmd.orig", "vignettes/heterogeneity.Rmd")
+
 # run pkgdown::build_site() afterwards

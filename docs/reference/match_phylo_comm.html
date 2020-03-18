@@ -105,7 +105,13 @@ on genus level if possible to match in subsequent analysis." />
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/heterogeneity.html">Endemism is sensitive to variation in environmental heterogeneity</a>
+    </li>
+    <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
+    </li>
+    <li>
+      <a href="../articles/scalability.html">Scalability of phyloregion</a>
     </li>
   </ul>
 </li>
@@ -144,7 +150,7 @@ with a community matrix. Pruning, sorting and trying to add missing species
 on genus level if possible to match in subsequent analysis.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>match_phylo_comm</span>(<span class='no'>phy</span>, <span class='no'>comm</span>)</pre>
+    <pre class="usage"><span class='fu'>match_phylo_comm</span>(<span class='no'>phy</span>, <span class='no'>comm</span>, <span class='kw'>delete_empty_rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +162,10 @@ on genus level if possible to match in subsequent analysis.</p>
     <tr>
       <th>comm</th>
       <td><p>A (sparse) community data matrix</p></td>
+    </tr>
+    <tr>
+      <th>delete_empty_rows</th>
+      <td><p>delete rows with no observation</p></td>
     </tr>
     </table>
 

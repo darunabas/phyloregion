@@ -3,5 +3,7 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   Benchmark: Benchmark.html
+  heterogeneity: heterogeneity.html
   phyloregion-intro: phyloregion-intro.html
+  scalability: scalability.html
 

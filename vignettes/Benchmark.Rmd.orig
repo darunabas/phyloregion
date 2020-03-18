@@ -84,7 +84,7 @@ allocations for each computation.
 
 For analysis of alpha diversity commonly used in conservation such as phylogenetic
 diversity - the sum of all phylogenetic branch lengths within an area [@Faith1992]
-(Faith 1992) - `phyloregion` is 31 to 284 times faster and 67 to 192 times
+- `phyloregion` is 31 to 284 times faster and 67 to 192 times
 memory efficient, compared to other packages!
 ```{r, phylo_diversity}
 tree <- africa$phylo
