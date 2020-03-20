@@ -23,7 +23,6 @@
 #' @importFrom stats quantile
 #' @importFrom graphics legend par points rect segments strheight strwidth text
 #' @importFrom graphics xinch yinch
-#' @importFrom sp plot
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
 #' @importFrom stats median
 #' @return Returns no value, just map swatch of colors in geographic space!

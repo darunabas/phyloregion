@@ -77,7 +77,7 @@ plot_NMDS <- function(x, ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
   c1 <- x$NMDS
-  plot(c1$points, bg = hexcols(c1), pch = 21, ...)
+  raster::plot(c1$points, bg = hexcols(c1), pch = 21, ...)
 }
 
 #' @rdname plot_evoldistinct
