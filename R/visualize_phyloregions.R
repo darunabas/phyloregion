@@ -51,8 +51,8 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
   k <- nrow(m1)
   COLRS <- hcl.colors(k, palette, rev = TRUE, ...)
   y <- choropleth(m1$ED, k) # , style = style
-  raster::plot(m1, col = COLRS[y], ...)
-  raster::text(m1, labels = as.character(m1@data$cluster), ...)
+  plot(m1, col = COLRS[y], ...)
+  text(m1, labels = as.character(m1@data$cluster), ...)
   if (legend) {
     color_key(m1, COLRS, vals = m1$ED, leg = leg, lwd = lwd, pos = pos,
       lab = key_label)
@@ -61,14 +61,14 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
 
 
 #' @rdname plot_evoldistinct
-#' @importFrom raster text
+#' @importMethodsFrom raster text plot
 #' @export
 plot_phyloregion <- function(x, ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
   y <- x$evol_distinct
-  raster::plot(y, col = y$COLOURS, ...)
-  raster::text(y, labels = as.character(y@data$cluster), ...)
+  plot(y, col = y$COLOURS, ...)
+  text(y, labels = as.character(y@data$cluster), ...)
 }
 
 #' @rdname plot_evoldistinct
@@ -77,7 +77,7 @@ plot_NMDS <- function(x, ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
   c1 <- x$NMDS
-  raster::plot(c1$points, bg = hexcols(c1), pch = 21, ...)
+  plot(c1$points, bg = hexcols(c1), pch = 21, ...)
 }
 
 #' @rdname plot_evoldistinct

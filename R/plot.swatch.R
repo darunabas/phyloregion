@@ -39,7 +39,7 @@ plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
   x$values <- values
   colrs <- hcl.colors(k, palette = palette, ...)
   y <- choropleth(values, k, ...) # , style = style
-  raster::plot(x, col = colrs[y], border = NA, ...)
+  plot(x, col = colrs[y], border = NA, ...)
   if (legend) {
     color_key(x, colrs, vals = values, lab = key_label, pos = pos, leg = leg,
               lwd = lwd)
