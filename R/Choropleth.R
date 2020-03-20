@@ -14,14 +14,15 @@
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #' @seealso \code{\link{coldspots}}
 #' @examples
-#' library(raster)
+#' library(sp)
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 #' k <- 10
 #' COLOUR <- hcl.colors(k, "RdYlBu")
 #' y <- choropleth(s$SR, k)
 #'
+#' plot(s$SR, y)
 #' ## To plot and color according to some metric:
-#' plot(s, col = COLOUR[y])
+#' # plot(s, col = COLOUR[y])
 #' @export
 choropleth <- function(x, k = 10, style="quantile", ...) {
   quants <- switch(style,

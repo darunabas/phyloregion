@@ -29,6 +29,7 @@ species richness, species endemism or degree of threat.
 }
 \examples{
 library(raster)
+library(sp)
 data(africa)
 names(africa)
 

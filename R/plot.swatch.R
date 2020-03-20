@@ -29,7 +29,7 @@
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #'
 #' @examples
-#' library(raster)
+#' library(sp)
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 #' plot_swatch(s, values = s$SR, k = 20)
 #' @export

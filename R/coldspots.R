@@ -36,6 +36,7 @@
 #'
 #' @examples
 #' library(raster)
+#' library(sp)
 #' data(africa)
 #' names(africa)
 #'

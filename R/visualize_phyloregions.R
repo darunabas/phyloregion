@@ -61,7 +61,8 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
 
 
 #' @rdname plot_evoldistinct
-#' @importMethodsFrom raster text plot
+#' @importMethodsFrom sp plot
+#' @importMethodsFrom raster text
 #' @export
 plot_phyloregion <- function(x, ...) {
   if (!inherits(x, "phyloregion"))
