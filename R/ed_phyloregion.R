@@ -133,7 +133,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
     z <- cbind(dx, ED = y$ED[index], COLOURS = y$COLOURS[index])
     r <- list(evol_distinct = y, region.dist = region.dist, region.df = z,
               NMDS = c1)
-    class(r) <- c("list", "phyloregion")
+    class(r) <- c("phyloregion")
     r
   }
   # return(list(evol_distinct=y, region.dist=region.dist, region.df=z, NMDS=c1))

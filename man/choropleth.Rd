@@ -30,7 +30,7 @@ y <- choropleth(s$SR, k)
 
 plot(s$SR, y)
 ## To plot and color according to some metric:
-# plot(s, col = COLOUR[y])
+plot(s, col = COLOUR[y])
 }
 \seealso{
 \code{\link{coldspots}}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/visualize_phyloregions.R
 \name{plot_evoldistinct}
 \alias{plot_evoldistinct}
-\alias{plot_phyloregion}
+\alias{plot.phyloregion}
 \alias{plot_NMDS}
 \alias{text_NMDS}
 \title{Visualize biogeographic patterns}
@@ -18,7 +18,7 @@ plot_evoldistinct(
   ...
 )
 
-plot_phyloregion(x, ...)
+\method{plot}{phyloregion}(x, ...)
 
 plot_NMDS(x, ...)
 
@@ -60,6 +60,6 @@ y <- phyloregion(pbc[[1]], shp=africa$polys)
 
 plot_NMDS(y, cex=6)
 text_NMDS(y, cex=2)
-plot_phyloregion(y, cex=1)
+plot(y, cex=1)
 plot_evoldistinct(y)
 }

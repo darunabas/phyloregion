@@ -63,8 +63,10 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
 #' @rdname plot_evoldistinct
 #' @importMethodsFrom sp plot
 #' @importMethodsFrom raster text
+#' @method plot phyloregion
+#' @importFrom graphics plot plot.default
 #' @export
-plot_phyloregion <- function(x, ...) {
+plot.phyloregion <- function(x, ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
   y <- x$evol_distinct
@@ -95,7 +97,7 @@ plot_NMDS <- function(x, ...) {
 #'
 #' plot_NMDS(y, cex=6)
 #' text_NMDS(y, cex=2)
-#' plot_phyloregion(y, cex=1)
+#' plot(y, cex=1)
 #' plot_evoldistinct(y)
 #' @export
 text_NMDS <- function(x, ...) {

@@ -22,7 +22,7 @@
 #'
 #' plot(s$SR, y)
 #' ## To plot and color according to some metric:
-#' # plot(s, col = COLOUR[y])
+#' plot(s, col = COLOUR[y])
 #' @export
 choropleth <- function(x, k = 10, style="quantile", ...) {
   quants <- switch(style,
