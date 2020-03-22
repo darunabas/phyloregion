@@ -10,3 +10,5 @@
 ^pkgdown$
 .DS_Store
 ^logo\.png
+^vignettes/heterogeneity.*
+^vignettes/scalability.*
