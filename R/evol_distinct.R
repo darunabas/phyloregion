@@ -34,7 +34,7 @@ sons <- function(x){
 #' lengths are changed to 1.
 #' @param \dots Further arguments passed to or from other methods.
 #'
-#' @seealso \code{\link[picante]{evol.distinct}}, \code{\link{ed_phyloregion}}
+#' @seealso \code{\link[picante]{evol.distinct}}, \code{\link{phyloregion}}
 #' @return a named vector with species scores.
 #' @author Klaus Schliep
 #' @references

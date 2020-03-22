@@ -144,7 +144,7 @@ NULL
 #'
 #'
 #' @name phyloregion-package
-#' @aliases phyloregion
+#' @aliases phyloregion-package
 #' @docType package
 #' @author \href{https://barnabasdaru.com/}{Barnabas H. Daru}, Piyal Karunarathne,
 #' \href{https://kschliep.netlify.com/}{Klaus Schliep}

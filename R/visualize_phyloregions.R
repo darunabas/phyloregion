@@ -29,7 +29,7 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 
 #' Visualize biogeographic patterns
 #'
-#' @param x an object of class phyloregion from \code{ed_phyloregion}
+#' @param x an object of class phyloregion from \code{phyloregion}
 #' @param palette name of the palette to generate colors from.
 #' The name is matched to the list of available color palettes from
 #' the \code{hcl.colors} function in the \code{grDevices} package.
@@ -91,7 +91,7 @@ plot_NMDS <- function(x, ...) {
 #' submat <- match_phylo_comm(tree, x)$com
 #'
 #' pbc <- phylobeta(submat, subphy)
-#' y <- ed_phyloregion(pbc[[1]], shp=africa$polys)
+#' y <- phyloregion(pbc[[1]], shp=africa$polys)
 #'
 #' plot_NMDS(y, cex=6)
 #' text_NMDS(y, cex=2)

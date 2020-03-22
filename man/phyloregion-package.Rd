@@ -3,7 +3,6 @@
 \docType{package}
 \name{phyloregion-package}
 \alias{phyloregion-package}
-\alias{phyloregion}
 \title{Biogeographic regionalization and spatial conservation}
 \description{
 This document describes the \code{phyloregion} package for the R software.

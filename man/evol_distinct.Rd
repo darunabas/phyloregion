@@ -52,7 +52,7 @@ Isaac, N.J.B., Turvey, S.T., Collen, B., Waterman, C. and Baillie, J.E.M.
 phylogeny. \emph{PLoS ONE}, \strong{2}, e296.
 }
 \seealso{
-\code{\link[picante]{evol.distinct}}, \code{\link{ed_phyloregion}}
+\code{\link[picante]{evol.distinct}}, \code{\link{phyloregion}}
 }
 \author{
 Klaus Schliep

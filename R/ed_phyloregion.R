@@ -13,7 +13,7 @@
 #' (= WPGMC) or \dQuote{centroid} (= UPGMC).
 #' @param shp a polygon shapefile of grid cells.
 #' @param ... Further arguments passed to or from other methods.
-#' @rdname ed_phyloregion
+#' @rdname phyloregion
 #' @keywords phyloregion
 #' @importFrom stats as.dist hclust cutree
 #' @importFrom rgeos gUnaryUnion
@@ -56,9 +56,9 @@
 #'   c(1,1,1,2,2,2,3,3,3,3,3,3,4,4,4),x=1,
 #'   dimnames = list(paste0("g", 1:6), tree$tip.label))
 #' pbc <- phylobeta(com, tree)
-#' ed_phyloregion(pbc[[1]], k = 3)
+#' phyloregion(pbc[[1]], k = 3)
 #' @export
-ed_phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
+phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
 
   Q <- as.dist(x)
   P1 <- hclust(Q, method = method)
@@ -90,7 +90,7 @@ ed_phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
   if (length(shp) == 0) {
     r <- list(evol_distinct = evol_distinct, region.dist = region.dist,
       region.df = dx)
-    class(r) <- c("list", "phyloregion")
+    class(r) <- c("phyloregion")
     r
   } else {
 

@@ -103,7 +103,7 @@ m <- read.csv("/Users/barnabasdaru/Dropbox/Projects/phyloregion_MS/data/reptiles
 
 # Determine optimal clusters
 (d <- optimal_phyloregion(m))
-z <- ed_phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
+z <- phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
 
 par(mar=rep(0,4))
 plot(wmap0, col="grey", border = "grey", density = 37, lwd=0.25)
@@ -137,7 +137,7 @@ for (i in seq_along(S)) {
 
   # Determine optimal clusters
   (d <- optimal_phyloregion(m))
-  z <- ed_phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
+  z <- phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
   z$region <- S[i]
 
   }, error = function(e){})
@@ -178,7 +178,7 @@ for (i in seq_along(S)) {
 
     # Determine optimal clusters
     (d <- optimal_phyloregion(m))
-    z <- ed_phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
+    z <- phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
     z$region <- S[i]
 
   }, error = function(e){})
