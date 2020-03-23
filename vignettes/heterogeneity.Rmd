@@ -311,7 +311,7 @@ ggplot(z1, aes(x=scale, y=est., group=clim, color=clim)) +
 ![Plot of environmental heterogeneity on amphibian phylogenetic endemism](amphibian_PE.png)
 
 
-## Session Infomation
+## Session Information
 
 ```r
 sessionInfo()

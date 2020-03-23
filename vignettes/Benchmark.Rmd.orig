@@ -184,7 +184,7 @@ autoplot(res4)
 Note that for this test, `picante` returns a similarity matrix while
 `betapart`, and `phyloregion` return a dissimilarity matrix.
 
-## Session Infomation
+## Session Information
 ```{r, eval=TRUE}
 sessionInfo()
 ```

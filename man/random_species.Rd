@@ -18,7 +18,7 @@ species distributions}
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
-A polygon shapefile of species' extent of occurence ranges.
+A polygon shapefile of species' extent of occurrence ranges.
 }
 \description{
 This function generates random species distributions in geographic space as

@@ -46,7 +46,7 @@ elements of the matrix are numeric values indicating the abundance/observations
 or presence/absence (0/1) of OTUs in different sites. In practice, such a matrix can contain many zero values because species are known to generally have unimodal distributions along environmental gradients [@TerBraak2004], and storing and analyzing every single element of that matrix can be computationally challenging and expensive. 
 
 `phyloregion` differs from other R packages (e.g. vegan [@vegan], picante [@Kembel2010]
-or betapart [@Baselga2012]) in that the data are not stored in a (dense) `matrix` or `data.frame` but as a sparse matrix making use of the infrastructure provided by the Matrix package [@Matrix]. A sparse matrix is a matrix with a high proportion of zero entries [@Duff1977], of which only the non-zero entries are stored and utlized for downstream analysis.
+or betapart [@Baselga2012]) in that the data are not stored in a (dense) `matrix` or `data.frame` but as a sparse matrix making use of the infrastructure provided by the Matrix package [@Matrix]. A sparse matrix is a matrix with a high proportion of zero entries [@Duff1977], of which only the non-zero entries are stored and used for downstream analysis.
 
 A sparse matrix representation has two advantages. First the community matrix 
 can be stored in a much memory efficient manner, allowing analysis of larger 
@@ -77,7 +77,7 @@ tree <- ape::keep.tip(tree, colnames(sparse_comm))
 pb <- phylobeta(sparse_comm, tree)
 ```
 
-## Session Infomation
+## Session Information
 ```{r, eval=TRUE}
 sessionInfo()
 ```

@@ -138,7 +138,7 @@ NULL
 #'
 #' \code{library(phyloregion)}
 #'
-#' @section Acknowledgements:
+#' @section Acknowledgments:
 #' Barnabas Daru thanks Texas A&M University-Corpus Christi for financial
 #' and logistic support.
 #'

@@ -1,6 +1,6 @@
 #' Read in sparse community matrices
 #'
-#' \code{read.community} reads in file containing occurence data and returns a
+#' \code{read.community} reads in file containing occurrence data and returns a
 #' sparse matrix.
 #'
 #' @param file A file name.

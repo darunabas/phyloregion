@@ -16,7 +16,7 @@
 #' @importFrom sp spsample SpatialPolygonsDataFrame
 #' @importFrom raster bind
 #'
-#' @return A polygon shapefile of species' extent of occurence ranges.
+#' @return A polygon shapefile of species' extent of occurrence ranges.
 #'
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #'

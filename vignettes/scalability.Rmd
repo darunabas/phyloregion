@@ -136,7 +136,7 @@ plot_swatch(shp, shp$richness, k = 30, leg = 30, lwd = 5)
 ![plot of chunk unnamed-chunk-5](scalability-unnamed-chunk-5-1.png)
 
 ### 2.1. Scale dependence at global extent
-Here, we generate phyloregions at a global scales. We accounmted for
+Here, we generate phyloregions at a global scales. We accounted for
 phylogenetic uncertainty in our analyses by drawing 10 trees at random
 from a posterior distribution of 10,000 possible tree topologies.
 

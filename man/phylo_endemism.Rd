@@ -9,7 +9,7 @@ phylo_endemism(x, phy, weighted = TRUE)
 \arguments{
 \item{x}{is the community data given as a data.frame or matrix with
 species/OTUs as columns and samples/sites as rows (like in the vegan
-package). Columns are labelled with the names of the species/OTUs. Rows are
+package). Columns are labeled with the names of the species/OTUs. Rows are
 labelled with the names of the samples/sites. Data can be either abundance or
 incidence (0/1). Column labels must match tip labels in the phylogenetic tree
 exactly!}

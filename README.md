@@ -22,7 +22,7 @@ Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism patterns are 
 
 The original conceptual is described in:
 
-Daru, B. H., Elliott, T. L., Park, D. S. & Davies, T. J. (2017), Understanding the processes underpinning patterns of phylogenetic pegionalization. **_Trends in Ecology and Evolution_** __32__: 845-860. doi: 10.1016/j.tree.2017.08.013
+Daru, B. H., Elliott, T. L., Park, D. S. & Davies, T. J. (2017), Understanding the processes underpinning patterns of phylogenetic regionalization. **_Trends in Ecology and Evolution_** __32__: 845-860. doi: 10.1016/j.tree.2017.08.013
 
 ### Feedback
 If you have any questions, suggestions or issues regarding the package, please add them to [GitHub issues](https://github.com/darunabas/phyloregion/issues)

@@ -16,7 +16,7 @@ read.community(file, grids = "grids", species = "species", ...)
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-\code{read.community} reads in file containing occurence data and returns a
+\code{read.community} reads in file containing occurrence data and returns a
 sparse matrix.
 }
 \examples{
