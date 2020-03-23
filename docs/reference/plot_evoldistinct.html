@@ -103,7 +103,7 @@
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
-      <a href="../articles/heterogeneity.html">Endemism is sensitive to variation in environmental heterogeneity</a>
+      <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
@@ -157,7 +157,8 @@
   <span class='no'>...</span>
 )
 
-<span class='fu'>plot_phyloregion</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='co'># S3 method for phyloregion</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='fu'>plot_NMDS</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
@@ -168,7 +169,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>an object of class phyloregion from <code>ed_phyloregion</code></p></td>
+      <td><p>an object of class phyloregion from <code>phyloregion</code></p></td>
     </tr>
     <tr>
       <th>palette</th>
@@ -213,9 +214,9 @@ the <code>hcl.colors</code> function in the <code>grDevices</code> package.</p><
 <span class='no'>submat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='match_phylo_comm.html'>match_phylo_comm</a></span>(<span class='no'>tree</span>, <span class='no'>x</span>)$<span class='no'>com</span>
 
 <span class='no'>pbc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='phylobeta.html'>phylobeta</a></span>(<span class='no'>submat</span>, <span class='no'>subphy</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ed_phyloregion.html'>ed_phyloregion</a></span>(<span class='no'>pbc</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>shp</span><span class='kw'>=</span><span class='no'>africa</span>$<span class='no'>polys</span>)
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='phyloregion.html'>phyloregion</a></span>(<span class='no'>pbc</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>shp</span><span class='kw'>=</span><span class='no'>africa</span>$<span class='no'>polys</span>)
 
-<span class='fu'>plot_NMDS</span>(<span class='no'>y</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>6</span>)</div><div class='input'><span class='fu'>text_NMDS</span>(<span class='no'>y</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='img'><img src='plot_evoldistinct-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot_phyloregion</span>(<span class='no'>y</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>1</span>)</div><div class='img'><img src='plot_evoldistinct-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot_evoldistinct</span>(<span class='no'>y</span>)</div><div class='img'><img src='plot_evoldistinct-3.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot_NMDS</span>(<span class='no'>y</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>6</span>)</div><div class='input'><span class='fu'>text_NMDS</span>(<span class='no'>y</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='img'><img src='plot_evoldistinct-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>y</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>1</span>)</div><div class='img'><img src='plot_evoldistinct-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot_evoldistinct</span>(<span class='no'>y</span>)</div><div class='img'><img src='plot_evoldistinct-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

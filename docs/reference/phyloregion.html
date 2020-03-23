@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Phylogenetic diversity — PD • phyloregion</title>
+<title>Calculate evolutionary distinctiveness of phyloregions — phyloregion • phyloregion</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,10 @@
 
 
 
-<meta property="og:title" content="Phylogenetic diversity — PD" />
-<meta property="og:description" content="PD calculates Faith's (1992) phylogenetic diversity." />
+<meta property="og:title" content="Calculate evolutionary distinctiveness of phyloregions — phyloregion" />
+<meta property="og:description" content="This function estimates evolutionary distinctiveness of each phyloregion by
+computing the mean value of phylogenetic beta diversity between a focal
+phyloregion and all other phyloregions in the study area." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -137,51 +139,103 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Phylogenetic diversity</h1>
-    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/pd.R'><code>R/pd.R</code></a></small>
-    <div class="hidden name"><code>PD.Rd</code></div>
+    <h1>Calculate evolutionary distinctiveness of phyloregions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/ed_phyloregion.R'><code>R/ed_phyloregion.R</code></a></small>
+    <div class="hidden name"><code>phyloregion.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>PD</code> calculates Faith's (1992) phylogenetic diversity.</p>
+    <p>This function estimates evolutionary distinctiveness of each phyloregion by
+computing the mean value of phylogenetic beta diversity between a focal
+phyloregion and all other phyloregions in the study area.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>PD</span>(<span class='no'>x</span>, <span class='no'>phy</span>)</pre>
+    <pre class="usage"><span class='fu'>phyloregion</span>(<span class='no'>x</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"average"</span>, <span class='kw'>shp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a community matrix, i.e. an object of class matrix or Matrix.</p></td>
+      <td><p>A distance matrix</p></td>
     </tr>
     <tr>
-      <th>phy</th>
-      <td><p>a phylogenetic tree (object of class phylo).</p></td>
+      <th>k</th>
+      <td><p>The desired number of phyloregions, often as determined by
+<code>optimal_phyloregion</code>.</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>the agglomeration method to be used. This should be (an
+unambiguous abbreviation of) one of &#8220;ward.D&#8221;, &#8220;ward.D2&#8221;, &#8220;single&#8221;,
+&#8220;complete&#8221;, &#8220;average&#8221; (= UPGMA), &#8220;mcquitty&#8221; (= WPGMA), &#8220;median&#8221;
+(= WPGMC) or &#8220;centroid&#8221; (= UPGMC).</p></td>
+    </tr>
+    <tr>
+      <th>shp</th>
+      <td><p>a polygon shapefile of grid cells.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vector with the PD for all samples.</p>
+    
+<ul>
+<li><p>A data frame of mean evolutionary distinctiveness for each phyloregion.</p></li>
+<li><p>A phyloregion × phyloregion phylogenetic beta diversity distance matrix.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Faith, D.P. (1992) Conservation evaluation and phylogenetic diversity.
-<em>Biological Conservation</em> <strong>61</strong>: 1–10.</p>
+    <p>Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H.,
+Slingsby, J.A. &amp; Davies, T.J. (2016) A novel phylogenetic regionalization of
+the phytogeographic zones of southern Africa reveals their hidden
+evolutionary affinities. <em>Journal of Biogeography</em> <strong>43</strong>: 155-166.</p>
+<p>Daru, B.H., Elliott, T.L., Park, D.S. &amp; Davies, T.J. (2017) Understanding the
+processes underpinning patterns of phylogenetic regionalization.
+<em>Trends in Ecology and Evolution</em> <strong>32</strong>: 845-860.</p>
+<p>Daru, B.H., Holt, B.G., Lessard, J.P., Yessoufou, K. &amp; Davies, T.J. (2017)
+Phylogenetic regionalization of marine plants reveals close evolutionary
+affinities among disjunct temperate assemblages.
+<em>Biological Conservation</em> <strong>213</strong>: 351-356.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>read.community read.tree phylobeta_core</p></div>
+    <div class='dont-index'><p><code><a href='evol_distinct.html'>evol_distinct</a></code>, <code><a href='optimal_phyloregion.html'>optimal_phyloregion</a></code>,
+<code><a href='https://rdrr.io/pkg/picante/man/evol.distinct.html'>evol.distinct</a></code> for a different approach.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ape</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>Matrix</span>)
-<span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>read.tree</a></span>(<span class='kw'>text</span> <span class='kw'>=</span><span class='st'>"((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;"</span>)
+<span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>read.tree</a></span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='st'>"((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;"</span>)
 <span class='no'>com</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/sparseMatrix.html'>sparseMatrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>1</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>6</span>),
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>),<span class='kw'>x</span><span class='kw'>=</span><span class='fl'>1</span>,
   <span class='kw'>dimnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"g"</span>, <span class='fl'>1</span>:<span class='fl'>6</span>), <span class='no'>tree</span>$<span class='no'>tip.label</span>))
-
-<span class='fu'>PD</span>(<span class='no'>com</span>, <span class='no'>tree</span>)</div><div class='output co'>#&gt; g1 g2 g3 g4 g5 g6 
-#&gt;  5  2  5  6  4  3 </div></pre>
+<span class='no'>pbc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='phylobeta.html'>phylobeta</a></span>(<span class='no'>com</span>, <span class='no'>tree</span>)
+<span class='fu'>phyloregion</span>(<span class='no'>pbc</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; $evol_distinct
+#&gt;   cluster         ED
+#&gt; 1       1 0.13958333
+#&gt; 2       2 0.05625000
+#&gt; 3       3 0.08333333
+#&gt; 
+#&gt; $region.dist
+#&gt;           1         2
+#&gt; 2 0.1125000          
+#&gt; 3 0.1666667 0.0000000
+#&gt; 
+#&gt; $region.df
+#&gt;    grids cluster
+#&gt; g1    g1       1
+#&gt; g2    g2       1
+#&gt; g3    g3       2
+#&gt; g4    g4       1
+#&gt; g5    g5       1
+#&gt; g6    g6       3
+#&gt; 
+#&gt; attr(,"class")
+#&gt; [1] "phyloregion"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -193,6 +247,8 @@
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Barnabas H. Daru <a href='mailto:darunabas@gmail.com'>darunabas@gmail.com</a></p>
   </div>
 </div>
 

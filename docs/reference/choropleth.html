@@ -103,7 +103,7 @@
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
-      <a href="../articles/heterogeneity.html">Endemism is sensitive to variation in environmental heterogeneity</a>
+      <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
@@ -177,16 +177,14 @@
     <div class='dont-index'><p><code><a href='coldspots.html'>coldspots</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘raster’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:ape’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    rotate, zoom</span></div><div class='input'><span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nigeria/SR_Naija.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"phyloregion"</span>))
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sp</span>)
+<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nigeria/SR_Naija.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"phyloregion"</span>))
 <span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
 <span class='no'>COLOUR</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>hcl.colors</a></span>(<span class='no'>k</span>, <span class='st'>"RdYlBu"</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>choropleth</span>(<span class='no'>s</span>$<span class='no'>SR</span>, <span class='no'>k</span>)
 
-<span class='co'>## To plot and color according to some metric:</span>
-<span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span>(<span class='no'>s</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>COLOUR</span>[<span class='no'>y</span>])</div><div class='img'><img src='choropleth-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>s</span>$<span class='no'>SR</span>, <span class='no'>y</span>)</div><div class='img'><img src='choropleth-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## To plot and color according to some metric:</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>s</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>COLOUR</span>[<span class='no'>y</span>])</div><div class='img'><img src='choropleth-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

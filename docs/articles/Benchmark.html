@@ -64,7 +64,7 @@
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
-      <a href="../articles/heterogeneity.html">Endemism is sensitive to variation in environmental heterogeneity</a>
+      <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
@@ -150,7 +150,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-diversity" class="anchor"></a>1.1. Benchmarking <code>phyloregion</code> for analysis of phylogenetic diversity</h4>
-<p>For analysis of alpha diversity commonly used in conservation such as phylogenetic diversity - the sum of all phylogenetic branch lengths within an area <span class="citation">(Faith, 1992)</span> (Faith 1992) - <code>phyloregion</code> is 31 to 284 times faster and 67 to 192 times memory efficient, compared to other packages!</p>
+<p>For analysis of alpha diversity commonly used in conservation such as phylogenetic diversity - the sum of all phylogenetic branch lengths within an area <span class="citation">(Faith 1992)</span> (Faith 1992) - <code>phyloregion</code> is 31 to 284 times faster and 67 to 192 times memory efficient, compared to other packages!</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">tree &lt;-<span class="st"> </span>africa<span class="op">$</span>phylo</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">tree &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(tree, <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(X_sparse))</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"></a>
@@ -190,7 +190,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-endemism" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-endemism" class="anchor"></a>1.2. Benchmarking <code>phyloregion</code> for analysis of phylogenetic endemism</h4>
-<p>Another benchmark for <code>phyloregion</code> is in analysis of phylogenetic endemism, the degree to which phylogenetic diversity is restricted to any given area <span class="citation">(Rosauer <em>et al.</em>, 2009)</span>. Here, we found that <code>phyloregion</code> is 160 times faster and 489 times efficient in memory allocation.</p>
+<p>Another benchmark for <code>phyloregion</code> is in analysis of phylogenetic endemism, the degree to which phylogenetic diversity is restricted to any given area <span class="citation">(Rosauer et al. 2009)</span>. Here, we found that <code>phyloregion</code> is 160 times faster and 489 times efficient in memory allocation.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">tree &lt;-<span class="st"> </span>africa<span class="op">$</span>phylo</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">tree &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(tree, <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(X_sparse))</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"></a>
@@ -223,7 +223,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-taxonomic-beta-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-taxonomic-beta-diversity" class="anchor"></a>2.1. Benchmarking <code>phyloregion</code> for analysis of taxonomic beta diversity</h4>
-<p>For analysis of taxonomic beta diversity, which compares diversity between communities <span class="citation">(Koleff <em>et al.</em>, 2003)</span>, <code>phyloregion</code> has marginal advantage over other packages. Nonetheless, it is 1-39 times faster and allocates 2 to 110 times less memory than other packages.</p>
+<p>For analysis of taxonomic beta diversity, which compares diversity between communities <span class="citation">(Koleff, Gaston, and Lennon 2003)</span>, <code>phyloregion</code> has marginal advantage over other packages. Nonetheless, it is 1-39 times faster and allocates 2 to 110 times less memory than other packages.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">chk_fun &lt;-<span class="st"> </span><span class="cf">function</span>(target, current)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">    <span class="kw"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(target, current, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"></a>
@@ -251,7 +251,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-beta-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-beta-diversity" class="anchor"></a>2.2. Benchmarking <code>phyloregion</code> for analysis of phylogenetic beta diversity</h4>
-<p>For analysis phylogenetic turnover (beta-diversity) among communities - the proportion of shared phylogenetic branch lengths between communities <span class="citation">(Graham &amp; Fine, 2008)</span> - <code>phyloregion</code> is 300-400 times faster and allocates 100-600 times less memory!</p>
+<p>For analysis phylogenetic turnover (beta-diversity) among communities - the proportion of shared phylogenetic branch lengths between communities <span class="citation">(Graham and Fine 2008)</span> - <code>phyloregion</code> is 300-400 times faster and allocates 100-600 times less memory!</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">fun_phyloregion &lt;-<span class="st"> </span><span class="cf">function</span>(x, tree) phyloregion<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/phyloregion/man/phylobeta.html">phylobeta</a></span>(x, tree)[[<span class="dv">3</span>]]</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2">fun_betapart &lt;-<span class="st"> </span><span class="cf">function</span>(x, tree) betapart<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/betapart/man/phylo.beta.pair.html">phylo.beta.pair</a></span>(x, tree)[[<span class="dv">3</span>]]</a>
 <a class="sourceLine" id="cb17-3" data-line-number="3">fun_picante &lt;-<span class="st"> </span><span class="cf">function</span>(x, tree) <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>picante<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/picante/man/phylosor.html">phylosor</a></span>(x, tree)</a>
@@ -361,16 +361,16 @@
 <a href="#references" class="anchor"></a>REFERENCES</h2>
 <div id="refs" class="references">
 <div id="ref-Faith1992">
-<p>Faith, D.P. (1992) Conservation evaluation and phylogenetic diversity. <em>Biological Conservation</em>, <strong>61</strong>, 1–10.</p>
+<p>Faith, Daniel P. 1992. “Conservation Evaluation and Phylogenetic Diversity.” <em>Biological Conservation</em> 61 (1): 1–10. <a href="https://doi.org/https://doi.org/10.1016/0006-3207(92)91201-3">https://doi.org/https://doi.org/10.1016/0006-3207(92)91201-3</a>.</p>
 </div>
 <div id="ref-Graham2008">
-<p>Graham, C.H. &amp; Fine, P.V.A. (2008) Phylogenetic beta diversity: Linking ecological and evolutionary processes across space in time. <em>Ecology Letters</em>, <strong>11</strong>, 1265–1277.</p>
+<p>Graham, Catherine H., and Paul V. A. Fine. 2008. “Phylogenetic Beta Diversity: Linking Ecological and Evolutionary Processes Across Space in Time.” <em>Ecology Letters</em> 11 (12): 1265–77. <a href="https://doi.org/10.1111/j.1461-0248.2008.01256.x">https://doi.org/10.1111/j.1461-0248.2008.01256.x</a>.</p>
 </div>
 <div id="ref-Koleff2003">
-<p>Koleff, P., Gaston, K.J. &amp; Lennon, J.J. (2003) Measuring beta diversity for presence–absence data. <em>Journal of Animal Ecology</em>, <strong>72</strong>, 367–382.</p>
+<p>Koleff, Patricia, Kevin J. Gaston, and Jack J. Lennon. 2003. “Measuring Beta Diversity for Presence–Absence Data.” <em>Journal of Animal Ecology</em> 72 (3): 367–82. <a href="https://doi.org/10.1046/j.1365-2656.2003.00710.x">https://doi.org/10.1046/j.1365-2656.2003.00710.x</a>.</p>
 </div>
 <div id="ref-Rosauer2009">
-<p>Rosauer, D., Laffan, S.W., Crisp, M.D., Donnellan, S.C. &amp; Cook, L.G. (2009) Phylogenetic endemism: A new approach for identifying geographical concentrations of evolutionary history. <em>Molecular Ecology</em>, <strong>18</strong>, 4061–4072.</p>
+<p>Rosauer, Dan, Shawn W. Laffan, Michael D. Crisp, Stephen C. Donnellan, and Lyn G. Cook. 2009. “Phylogenetic Endemism: A New Approach for Identifying Geographical Concentrations of Evolutionary History.” <em>Molecular Ecology</em> 18 (19): 4061–72. <a href="https://doi.org/10.1111/j.1365-294X.2009.04311.x">https://doi.org/10.1111/j.1365-294X.2009.04311.x</a>.</p>
 </div>
 </div>
 </div>
