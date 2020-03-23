@@ -31,10 +31,10 @@
 #' points(z, col = "red", pch = "+")
 selectbylocation <- function(x, y) {
   proj4string(x) <- proj4string(y)
-  if (class(x) == "SpatialPolygonsDataFrame") {
+  if (inherits(x, "SpatialPolygonsDataFrame")) {
     p <- x[subset(y), ]
   }
-  else if (class(x) == "SpatialPointsDataFrame") {
+  else if (inherits(x, "SpatialPointsDataFrame")) {
     p <- x[y, ]
   }
   p
