@@ -22,6 +22,7 @@ unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{s
 \item{...}{Further arguments passed to or from other methods.}
 }
 \value{
+An object of class \code{phyloregion}
 \itemize{
   \item A data frame of mean evolutionary distinctiveness for each phyloregion.
   \item A phyloregion × phyloregion phylogenetic beta diversity distance matrix.

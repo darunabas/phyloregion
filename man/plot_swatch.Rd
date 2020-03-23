@@ -14,6 +14,7 @@ plot_swatch(
   lwd = 15,
   pos = "bottomleft",
   legend = TRUE,
+  border = par("fg"),
   ...
 )
 }
@@ -53,6 +54,9 @@ quantiles.
 library(sp)
 s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 plot_swatch(s, values = s$SR, k = 20)
+}
+\seealso{
+\code{\link[sp]{SpatialPolygons-class}}
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

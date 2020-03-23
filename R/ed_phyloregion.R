@@ -25,6 +25,7 @@
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
 #'
 #' @return
+#' An object of class \code{phyloregion}
 #' \itemize{
 #'   \item A data frame of mean evolutionary distinctiveness for each phyloregion.
 #'   \item A phyloregion × phyloregion phylogenetic beta diversity distance matrix.
@@ -136,5 +137,4 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
     class(r) <- c("phyloregion")
     r
   }
-  # return(list(evol_distinct=y, region.dist=region.dist, region.df=z, NMDS=c1))
 }
