@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Endemism is sensitive to variation in environmental heterogeneity • phyloregion</title>
+<title>Endemism patterns are scale dependent • phyloregion</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Endemism is sensitive to variation in environmental heterogeneity">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Endemism patterns are scale dependent">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
@@ -64,7 +64,7 @@
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
-      <a href="../articles/heterogeneity.html">Endemism is sensitive to variation in environmental heterogeneity</a>
+      <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
@@ -98,10 +98,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Endemism is sensitive to variation in environmental heterogeneity</h1>
+      <h1>Endemism patterns are scale dependent</h1>
                         <h4 class="author">Barnabas H. Daru, Harith Farooq, Alexandre Antonelli &amp; Søren Faurby</h4>
             
-            <h4 class="date">March 17, 2020</h4>
+            <h4 class="date">March 23, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/darunabas/phyloregion/blob/master/vignettes/heterogeneity.Rmd"><code>vignettes/heterogeneity.Rmd</code></a></small>
       <div class="hidden name"><code>heterogeneity.Rmd</code></div>
@@ -110,16 +110,16 @@
 
     
     
-<div id="environmental-data" class="section level2">
+<div id="environmental-data-and-heterogeneity" class="section level2">
 <h2 class="hasAnchor">
-<a href="#environmental-data" class="anchor"></a>1. Environmental data</h2>
-<p>We selected key environmental factors that are commonly used to examine biodiversity-environment associations. These variables included mean annual temperature (temperature henceforth), mean annual precipitation (precipitation henceforth), annual net primary productivity (productivity henceforth) and elevation.</p>
-<p>Temperature, precipitation and elevation were downloaded as raster layers from the WorldClim database<span class="citation"><sup>1</sup></span> at a resolution of 2.5’. Productivity was downloaded from NASA Moderate Resolution Imaging Spectroradiometer (MODIS) at a resolution of 1 km and calculated using the MOD17 algorithm. These variables were converted to Behrmann equal-area projection using the function <code>projectRaster</code> in the R package <code>raster</code><span class="citation"><sup>2</sup></span>.</p>
+<a href="#environmental-data-and-heterogeneity" class="anchor"></a>1. Environmental data and heterogeneity</h2>
+<p>We selected key environmental factors that are commonly used to examine biodiversity-environment associations. These variables included mean annual temperature, mean annual precipitation, annual net primary productivity and elevation. Mean annual temperature, mean annual precipitation and elevation were downloaded as raster layers from the WorldClim database<span class="citation"><sup>1</sup></span> at a resolution of 2.5’. Annual net primary productivity was downloaded from NASA Moderate Resolution Imaging Spectroradiometer (MODIS) at a resolution of 1 km and calculated using the MOD17 algorithm. These variables were converted to Behrmann equal-area projection using the function <code>projectRaster</code> in the <code>R</code> package <code>raster</code><span class="citation"><sup>2</sup></span>.</p>
+<p>We defined ‘environmental heterogeneity’ as the variation of environmental factors in each cell, obtained by taking the standard deviation of the environmental variables (temperature, precipitation, elevation and productivity) in each cell and across grain sizes (50, 100, 200, 400 and 800 km). Henceforth, we refer to the standard deviation of these four environmental variables i.e., mean annual temperature, mean annual precipitation, annual net primary productivity and elevation, as temperature variation, precipitation variation, productivity variation and elevation variation, respectively.</p>
 </div>
 <div id="environmental-heterogeneity" class="section level2">
 <h2 class="hasAnchor">
 <a href="#environmental-heterogeneity" class="anchor"></a>2. Environmental heterogeneity</h2>
-<p>To measure environmental heterogeneity, for each cell and across grain sizes (50 km, 100 km, 200 km, 400 km and 800 km), we extracted the standard deviation of the four environmental variables (temperature, precipitation, elevation and productivity) using the function <code>extract_climate</code> in the R package <code>phyloregionExtras</code><span class="citation"><sup>3</sup></span>:</p>
+<p>To measure environmental heterogeneity, for each cell and across grain sizes (50, 100, 200, 400 and 800 km), we extracted the standard deviation of the four environmental variables (temperature, precipitation, elevation and productivity) using the function <code>extract_climate</code> in the R package <code>phyloregionExtras</code><span class="citation"><sup>3</sup></span>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">extract_climate &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, <span class="dt">val =</span> <span class="st">"val"</span>, <span class="dt">FUN =</span> sd, ...){</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">  x &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/projectRaster.html">projectRaster</a></span>(x, <span class="dt">crs =</span> (<span class="st">'+proj=longlat'</span>))</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">  ras &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/projectRaster.html">projectRaster</a></span>(x, <span class="dt">crs =</span> <span class="kw">proj4string</span>(y), <span class="dt">over =</span> <span class="ot">TRUE</span>)</a>
@@ -136,83 +136,85 @@
 <a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># val: String to rename the column with the extracted variable.</span></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co"># FUN: The function to summarize the values (e.g. sd, mean)</span></a></code></pre></div>
 </div>
-<div id="mixed-effects-models-analysis" class="section level2">
+<div id="linear-mixed-effects-model" class="section level2">
 <h2 class="hasAnchor">
-<a href="#mixed-effects-models-analysis" class="anchor"></a>3. Mixed effects models analysis</h2>
-<p>We compared the performance of two models: standard linear models, and linear mixed effects model. The goodness of fit of the models was selected by the Akaike Information Criterion (AIC)<span class="citation"><sup>4</sup></span> using our R function <code>clim_heterogeneity</code> with <code>aic</code> set to <code>TRUE</code>.</p>
-<p>The linear mixed effects model outperforms the standard linear model as suggested by the values of AIC and was used for the next analyses.</p>
-<p>We performed a linear mixed-effects models at each scale to analyse the relationship between endemism (PE or WE) and environmental variables, taking into account the spatial structure of the patterns.</p>
-<p>A linear mixed effects model allows the modeling of data as an additive combination of fixed effects (unknown mean and coefficients of a model), random effects (the spatially dependent random variation in the geostatistical context) and independent random error (variation in geostatistics)<span class="citation"><sup>5</sup></span>. The form of a mixed effect model is expressed as: <span class="math display">\[Y_i = x_i\beta + s_i + Ɛ_i\]</span> where <span class="math inline">\(Y_i\)</span> represents the response variable at grid cell or location <span class="math inline">\(i\)</span>, <span class="math inline">\(x_i\)</span> is a vector containing spatially referenced nonrandom predictors, and <span class="math inline">\(\beta\)</span> is a vector of the fixed effect parameters, <span class="math inline">\(s_i\)</span> is a spatially correlated random effect and <span class="math inline">\(Ɛ_i\)</span> is the random measurement error.</p>
-<p>Endemism (phylogenetic endemism or weighted endemism) was used as the primary (response) variable in the spatial models, whereas the standard deviation of the four environmental variables (temperature, precipitation, elevation and productivity) were used as covariates, including geographical Cartesian <span class="math inline">\(x/y-\)</span> coordinates (longitude and latitude). This spatial structure was created as a matrix of coordinates of each cell’s centroid, and we computed Euclidean distances and weights of neighbouring points (function <code>dnearneigh</code> in R package <code>spdep</code><span class="citation"><sup>6</sup></span>) for the spatial autocorrelation analysis. Thus, the autocovariate was included as an additional variable along with the standard deviation of temperature, precipitation, elevation, and productivity whereas grid cell identity was included as a random covariate. The linear mixed effects modeling was done with the function <code>lme</code> in R package <code>nlme</code><span class="citation"><sup>7</sup></span>.</p>
+<a href="#linear-mixed-effects-model" class="anchor"></a>3. Linear mixed-effects model</h2>
+<p>We fit a single linear mixed-effects model to analyse the effect of environmental heterogeneity on patterns of endemism (PE or WE) across grain sizes. A linear mixed-effects model allows the modeling of data as a combination of fixed effects, random effects and independent random error, and are especially useful when there is non-independence in the data<span class="citation"><sup>4</sup></span>. The standard form of a linear mixed-effects model is expressed as: <span class="math display">\[Y_i = x_i\beta + s_i + Ɛ_i\]</span> where <span class="math inline">\(Y_i\)</span> represents the response variable at grid cell or location <span class="math inline">\(i\)</span>, <span class="math inline">\(x_i\)</span> is a vector containing spatially referenced nonrandom predictors, and <span class="math inline">\(\beta\)</span> is a vector of the fixed effect parameters, <span class="math inline">\(s_i\)</span> is a spatially correlated random effect and <span class="math inline">\(Ɛ_i\)</span> is the random measurement error. All explanatory variables were standardised prior to statistical analyses so that all variables had a standard deviation of 1 and a mean of 0. This ensures that the estimated coefficients are all on the same scale and for easier comparison of effect sizes.</p>
+<p>The linear mixed-effects model was fit as a single model with all the variables in one model predicting endemism (PE or WE) as a function of the four environmental variables (temperature variation, precipitation variation, elevation variation and productivity variation), with continent identity of grid cells as a random effect, allowing us to include any idiosyncratic differences between continents. The model also includes a spatial covariate of geographical coordinates as an additional predictor variable to account for spatial autocorrelation. The spatial covariate was created as a matrix of the coordinates of each cell’s centroid corresponding to the geographical Cartesian <span class="math inline">\(x/y-\)</span> coordinates (longitude and latitude)and was calculated with the function <code>autocov_dist</code> in the <code>R</code> package <code>spdep</code><span class="citation"><sup>5</sup></span>. For each focal cell, we varied the weighting function and neighbourhood sizes using the next one to two cell neighbours to remove spatial autocorrelation (function <code>nb2listw</code> in spdep<span class="citation"><sup>5</sup></span>). We used the maximum likelihood optimization criterion over restricted maximum likelihood, to allow significance testing via model comparison.</p>
+<p>The linear mixed-effects model was fit in <code>R</code> v.3.6.3 with the <code>lme</code> function in the R package <code>nlme</code><span class="citation"><sup>6</sup></span>. The variations of environmental variables on endemism are presented as estimated coefficients of the fixed effects and their 95% confidence intervals in the <code>R</code> package <code>nlme</code><span class="citation"><sup>6</sup></span>.</p>
 <p>In order to illustrate the process we have added all codes below for the analyses:</p>
 <p>First, load the packages for the analysis:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(spdep)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nlme)</a></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Function for computing environmental heterogeneity</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">clim_heterogeneity &lt;-<span class="st"> </span><span class="cf">function</span> (x, <span class="dt">y =</span> <span class="st">"y"</span>, <span class="dt">nbs =</span> <span class="fl">2e+07</span>, <span class="dt">x1 =</span> <span class="st">"x1"</span>, <span class="dt">x2 =</span> <span class="st">"x2"</span>,</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">                                <span class="dt">x3 =</span> <span class="st">"x3"</span>, <span class="dt">x4 =</span> <span class="st">"x4"</span>, <span class="dt">lon =</span> <span class="st">"lon"</span>, <span class="dt">lat =</span> <span class="st">"lat"</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">                                <span class="dt">grids =</span> <span class="st">"grids"</span>, <span class="dt">aic =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">{</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">    x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(x)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">    x &lt;-<span class="st"> </span>x[<span class="kw"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span>(x), ]</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">    x &lt;-<span class="st"> </span>x[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(y, x1, x2, x3, x4, lon, lat, grids)]</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(x) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"y"</span>, <span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span>, <span class="st">"x4"</span>, <span class="st">"lon"</span>, <span class="st">"lat"</span>, <span class="st">"grids"</span>)</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">    x<span class="op">$</span>y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(x<span class="op">$</span>y <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">    x<span class="op">$</span>x1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(x<span class="op">$</span>x1 <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">    x<span class="op">$</span>x2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(x<span class="op">$</span>x2 <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">    x<span class="op">$</span>x3 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(x<span class="op">$</span>x3 <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14">    x<span class="op">$</span>x4 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(x<span class="op">$</span>x4 <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-15" data-line-number="15">    m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(x[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(lon, lat)])</a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">    x<span class="op">$</span>ac &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/spdep/man/autocov_dist.html">autocov_dist</a></span>(x<span class="op">$</span>y, m, <span class="dt">nbs =</span> nbs, <span class="dt">type =</span> <span class="st">"inverse.squared"</span>, <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">    mod_lme &lt;-<span class="st"> </span>nlme<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4 <span class="op">+</span><span class="st"> </span>ac, <span class="dt">random =</span> <span class="op">~</span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>grids, <span class="dt">data =</span> x)</a>
-<a class="sourceLine" id="cb3-18" data-line-number="18">    mod_lm &lt;-<span class="st"> </span>stats<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4 <span class="op">+</span><span class="st"> </span>ac, <span class="dt">data =</span> x)</a>
-<a class="sourceLine" id="cb3-19" data-line-number="19">    aic.out =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span>(mod_lme, mod_lm)</a>
-<a class="sourceLine" id="cb3-20" data-line-number="20">    df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(nlme<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/nlme/man/intervals.html">intervals</a></span>(mod_lme)<span class="op">$</span>fixed)</a>
-<a class="sourceLine" id="cb3-21" data-line-number="21">    fm &lt;-<span class="st"> </span>nlme<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/nlme/man/anova.lme.html">anova.lme</a></span>(mod_lme, <span class="dt">type =</span> <span class="st">"marginal"</span>)<span class="op">$</span><span class="st">"p-value"</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22">    res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(df, <span class="dt">p_val =</span> fm)</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23">    res &lt;-<span class="st"> </span>res[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(res) <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"(Intercept)"</span>, <span class="st">"ac"</span>), ]</a>
-<a class="sourceLine" id="cb3-24" data-line-number="24">    <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(res) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x1, x2, x3, x4)</a>
-<a class="sourceLine" id="cb3-25" data-line-number="25">    res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">clim =</span> <span class="kw"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span>(res), res, <span class="dt">row.names =</span> <span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb3-26" data-line-number="26">    <span class="cf">if</span> (aic <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>) {</a>
-<a class="sourceLine" id="cb3-27" data-line-number="27">        <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">random_est=</span>res, <span class="dt">AIC=</span>aic.out, <span class="dt">mod_lm=</span>mod_lm, <span class="dt">mod_lme=</span>mod_lme))</a>
-<a class="sourceLine" id="cb3-28" data-line-number="28">    }</a>
-<a class="sourceLine" id="cb3-29" data-line-number="29">    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(res)</a>
-<a class="sourceLine" id="cb3-30" data-line-number="30">}</a>
-<a class="sourceLine" id="cb3-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">clim_heterogeneity &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">y =</span><span class="st">"y"</span>, <span class="dt">nbs =</span> <span class="dv">2000000</span>,</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">                          <span class="dt">x1 =</span> <span class="st">"x1"</span>, <span class="dt">x2 =</span> <span class="st">"x2"</span>, <span class="dt">x3 =</span> <span class="st">"x3"</span>, <span class="dt">x4 =</span> <span class="st">"x4"</span>,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">                          <span class="dt">lon=</span><span class="st">"lon"</span>, <span class="dt">lat=</span><span class="st">"lat"</span>, <span class="dt">continent =</span> <span class="st">"continent"</span>) {</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(x)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">  x &lt;-<span class="st"> </span>x[<span class="kw"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span>(x),]</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">  x &lt;-<span class="st"> </span>x[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(y, x1, x2, x3, x4, lon, lat, continent)]</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">  <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(x) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"y"</span>, <span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span>, <span class="st">"x4"</span>, <span class="st">"lon"</span>, <span class="st">"lat"</span>, <span class="st">"continent"</span>)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">  </a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">  x<span class="op">$</span>y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(x<span class="op">$</span>y, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">  x<span class="op">$</span>x1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(x<span class="op">$</span>x1, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">  x<span class="op">$</span>x2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(x<span class="op">$</span>x2, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">  x<span class="op">$</span>x3 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(x<span class="op">$</span>x3, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">  x<span class="op">$</span>x4 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(x<span class="op">$</span>x4, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">  <span class="co"># 1. Autocovariate regression: make a matrix of coordinates</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">  coords.mtrx &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(x[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(lon, lat)])</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">  <span class="co"># 2. Compute the autocovariate based on distance and weight above</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">  x<span class="op">$</span>ac &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/spdep/man/autocov_dist.html">autocov_dist</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span>(x<span class="op">$</span>y), coords.mtrx, <span class="dt">nbs =</span> nbs,</a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">                     <span class="dt">type =</span> <span class="st">"inverse.squared"</span>, <span class="dt">zero.policy =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">  <span class="co"># 3. LME with autocovariate as additional predictor &amp; continent as random effects</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24">  mod1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4 <span class="op">+</span><span class="st"> </span>ac, <span class="dt">random =</span> <span class="op">~</span><span class="dv">1</span><span class="op">|</span>continent, <span class="dt">data =</span> x, <span class="dt">method=</span><span class="st">"ML"</span>)</a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26">  df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/nlme/man/intervals.html">intervals</a></span>(mod1, <span class="dt">which =</span> <span class="st">"fixed"</span>)<span class="op">$</span>fixed)</a>
+<a class="sourceLine" id="cb3-27" data-line-number="27">  fm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/nlme/man/anova.lme.html">anova.lme</a></span>(mod1, <span class="dt">type =</span> <span class="st">"marginal"</span>)<span class="op">$</span><span class="st">'p-value'</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29">  res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(df, <span class="dt">p_val =</span> fm)</a>
+<a class="sourceLine" id="cb3-30" data-line-number="30">  res &lt;-<span class="st"> </span>res[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(res) <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"(Intercept)"</span>, <span class="st">"ac"</span>), ]</a>
+<a class="sourceLine" id="cb3-31" data-line-number="31">  <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(res) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x1, x2, x3, x4)</a>
 <a class="sourceLine" id="cb3-32" data-line-number="32"></a>
-<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">################################ Arguments ####################################</span></a>
-<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co"># x: A data.frame</span></a>
-<a class="sourceLine" id="cb3-35" data-line-number="35"><span class="co"># y: A response variable</span></a>
-<a class="sourceLine" id="cb3-36" data-line-number="36"><span class="co"># nbs: Neighbourhood distance</span></a>
-<a class="sourceLine" id="cb3-37" data-line-number="37"><span class="co"># x1..x4 An explanatory variables corresponding to environmental variables</span></a>
-<a class="sourceLine" id="cb3-38" data-line-number="38"><span class="co"># lon: Column name of the longitude.</span></a>
-<a class="sourceLine" id="cb3-39" data-line-number="39"><span class="co"># lat: Column name of the latitude.</span></a>
-<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="co"># grids: Column name of the column containing grid cells</span></a>
-<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co"># aic: Show full models both lme and lm including their AICs.</span></a>
-<a class="sourceLine" id="cb3-42" data-line-number="42"></a>
-<a class="sourceLine" id="cb3-43" data-line-number="43">fun1 &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb3-44" data-line-number="44">    res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(x, <span class="st">"</span><span class="ch">\\</span><span class="st">/"</span>)[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb3-45" data-line-number="45">    res &lt;-<span class="st"> </span>res[[<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(res)]]</a>
-<a class="sourceLine" id="cb3-46" data-line-number="46">    res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(res, <span class="st">"</span><span class="ch">\\</span><span class="st">_"</span>)[[<span class="dv">1</span>]][<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb3-47" data-line-number="47">    res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">".csv"</span>, <span class="st">""</span>, res)</a>
-<a class="sourceLine" id="cb3-48" data-line-number="48">    res</a>
-<a class="sourceLine" id="cb3-49" data-line-number="49">}</a>
-<a class="sourceLine" id="cb3-50" data-line-number="50"></a>
-<a class="sourceLine" id="cb3-51" data-line-number="51"></a>
-<a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co"># Download the data frames from Dropbox and save in temporary folder</span></a>
-<a class="sourceLine" id="cb3-53" data-line-number="53">dir =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()</a>
-<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(dir)</a>
-<a class="sourceLine" id="cb3-55" data-line-number="55"><span class="kw"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span>(<span class="dt">url =</span> <span class="st">"https://github.com/darunabas/extras/archive/master.zip"</span>,</a>
-<a class="sourceLine" id="cb3-56" data-line-number="56">              <span class="dt">destfile =</span> <span class="st">"extras-master.zip"</span>)</a>
-<a class="sourceLine" id="cb3-57" data-line-number="57"><span class="kw"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span>(<span class="dt">zipfile =</span> <span class="st">"extras-master.zip"</span>)</a>
-<a class="sourceLine" id="cb3-58" data-line-number="58"><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="dt">dir =</span> <span class="st">"extras-master"</span>)</a>
-<a class="sourceLine" id="cb3-59" data-line-number="59"><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>()</a></code></pre></div>
-<pre><code>## [1] "environment" "mergedSA"    "shapefile"</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">t1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">'environment/birds/WE'</span>, <span class="dt">pattern=</span><span class="st">"*.csv"</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">t2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">'environment/birds/PE'</span>, <span class="dt">pattern=</span><span class="st">"*.csv"</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">t3 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">'environment/amphibians/WE'</span>, <span class="dt">pattern=</span><span class="st">"*.csv"</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">t4 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">'environment/amphibians/PE'</span>, <span class="dt">pattern=</span><span class="st">"*.csv"</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-33" data-line-number="33">  res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">clim =</span> <span class="kw"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span>(res), res, <span class="dt">row.names =</span> <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb3-34" data-line-number="34">  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(res)</a>
+<a class="sourceLine" id="cb3-35" data-line-number="35">}</a>
+<a class="sourceLine" id="cb3-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb3-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb3-38" data-line-number="38"><span class="co">######### Arguments #######################</span></a>
+<a class="sourceLine" id="cb3-39" data-line-number="39"><span class="co"># x: A data.frame</span></a>
+<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="co"># y: A response variable</span></a>
+<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co"># nbs: Neighbourhood distance</span></a>
+<a class="sourceLine" id="cb3-42" data-line-number="42"><span class="co"># x1..x4 An explanatory variables corresponding to environmental variables</span></a>
+<a class="sourceLine" id="cb3-43" data-line-number="43"><span class="co"># lon: Column name of the longitude.</span></a>
+<a class="sourceLine" id="cb3-44" data-line-number="44"><span class="co"># lat: Column name of the latitude.</span></a>
+<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co"># continent: Column name of the column containing continent identity for grid cells</span></a>
+<a class="sourceLine" id="cb3-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb3-47" data-line-number="47">fun1 &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb3-48" data-line-number="48">    res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(x, <span class="st">"</span><span class="ch">\\</span><span class="st">/"</span>)[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb3-49" data-line-number="49">    res &lt;-<span class="st"> </span>res[[<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(res)]]</a>
+<a class="sourceLine" id="cb3-50" data-line-number="50">    res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(res, <span class="st">"</span><span class="ch">\\</span><span class="st">_"</span>)[[<span class="dv">1</span>]][<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb3-51" data-line-number="51">    res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">".csv"</span>, <span class="st">""</span>, res)</a>
+<a class="sourceLine" id="cb3-52" data-line-number="52">    res</a>
+<a class="sourceLine" id="cb3-53" data-line-number="53">}</a>
+<a class="sourceLine" id="cb3-54" data-line-number="54"></a>
+<a class="sourceLine" id="cb3-55" data-line-number="55"></a>
+<a class="sourceLine" id="cb3-56" data-line-number="56"><span class="co"># Download the data frames from Dropbox and save in temporary folder</span></a>
+<a class="sourceLine" id="cb3-57" data-line-number="57">dir =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()</a>
+<a class="sourceLine" id="cb3-58" data-line-number="58"><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(dir)</a>
+<a class="sourceLine" id="cb3-59" data-line-number="59"><span class="kw"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span>(<span class="dt">url =</span> <span class="st">"https://github.com/darunabas/extras/archive/master.zip"</span>,</a>
+<a class="sourceLine" id="cb3-60" data-line-number="60">              <span class="dt">destfile =</span> <span class="st">"extras-master.zip"</span>)</a>
+<a class="sourceLine" id="cb3-61" data-line-number="61"><span class="kw"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span>(<span class="dt">zipfile =</span> <span class="st">"extras-master.zip"</span>)</a>
+<a class="sourceLine" id="cb3-62" data-line-number="62"><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="dt">dir =</span> <span class="st">"extras-master"</span>)</a>
+<a class="sourceLine" id="cb3-63" data-line-number="63"><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>()</a></code></pre></div>
+<pre><code>## [1] "ENVIRONMENT" "mergedSA"    "shapefile"</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">t1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">'ENVIRONMENT/birds/WE'</span>, <span class="dt">pattern=</span><span class="st">"*.csv"</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">t2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">'ENVIRONMENT/birds/PE'</span>, <span class="dt">pattern=</span><span class="st">"*.csv"</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">t3 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">'ENVIRONMENT/amphibians/WE'</span>, <span class="dt">pattern=</span><span class="st">"*.csv"</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">t4 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">'ENVIRONMENT/amphibians/PE'</span>, <span class="dt">pattern=</span><span class="st">"*.csv"</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6">f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(t1, fun1))</a>
 <a class="sourceLine" id="cb5-7" data-line-number="7">f2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(t2, fun1))</a>
@@ -259,7 +261,7 @@
 <a class="sourceLine" id="cb7-17" data-line-number="17"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span>(<span class="dt">values=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span>))<span class="op">+</span></a>
 <a class="sourceLine" id="cb7-18" data-line-number="18"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">""</span>, <span class="dt">y =</span> <span class="st">"Estimated effects"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="heterogeneity-unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6"><p class="caption">plot of chunk unnamed-chunk-6</p>
+<img src="bird_WE.png" alt="Plot of environmental heterogeneity on bird weighted endemism"><p class="caption">Plot of environmental heterogeneity on bird weighted endemism</p>
 </div>
 </div>
 <div id="environmental-heterogeneity-and-bird-phylogenetic-endemism" class="section level3">
@@ -282,9 +284,9 @@
 <a class="sourceLine" id="cb8-15" data-line-number="15">                  <span class="dt">position =</span> pd)<span class="op">+</span></a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span>(<span class="dt">values=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span>))<span class="op">+</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">""</span>, <span class="dt">y =</span> <span class="st">"Estimated effects"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">""</span>, <span class="dt">y =</span> <span class="st">"Estimates of fixed effects"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="heterogeneity-unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7"><p class="caption">plot of chunk unnamed-chunk-7</p>
+<img src="bird_PE.png" alt="Plot of environmental heterogeneity on bird phylogenetic endemism"><p class="caption">Plot of environmental heterogeneity on bird phylogenetic endemism</p>
 </div>
 </div>
 <div id="environmental-heterogeneity-and-amphibian-weighted-endemism" class="section level3">
@@ -307,9 +309,9 @@
 <a class="sourceLine" id="cb9-15" data-line-number="15">                  <span class="dt">position =</span> pd)<span class="op">+</span></a>
 <a class="sourceLine" id="cb9-16" data-line-number="16"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb9-17" data-line-number="17"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span>(<span class="dt">values=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span>))<span class="op">+</span></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">""</span>, <span class="dt">y =</span> <span class="st">"Estimated effects"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">""</span>, <span class="dt">y =</span> <span class="st">"Estimates of fixed effects"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="heterogeneity-unnamed-chunk-8-1.png" alt="plot of chunk unnamed-chunk-8"><p class="caption">plot of chunk unnamed-chunk-8</p>
+<img src="amphibian_WE.png" alt="Plot of environmental heterogeneity on amphibian weighted endemism"><p class="caption">Plot of environmental heterogeneity on amphibian weighted endemism</p>
 </div>
 </div>
 <div id="environmental-heterogeneity-and-amphibian-phylogenetic-endemism" class="section level3">
@@ -332,9 +334,9 @@
 <a class="sourceLine" id="cb10-15" data-line-number="15">                  <span class="dt">position =</span> pd)<span class="op">+</span></a>
 <a class="sourceLine" id="cb10-16" data-line-number="16"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb10-17" data-line-number="17"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span>(<span class="dt">values=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span>))<span class="op">+</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">""</span>, <span class="dt">y =</span> <span class="st">"Estimated effects"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">""</span>, <span class="dt">y =</span> <span class="st">"Estimates of fixed effects"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="heterogeneity-unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9"><p class="caption">plot of chunk unnamed-chunk-9</p>
+<img src="amphibian_PE.png" alt="Plot of environmental heterogeneity on amphibian phylogenetic endemism"><p class="caption">Plot of environmental heterogeneity on amphibian phylogenetic endemism</p>
 </div>
 </div>
 </div>
@@ -389,17 +391,14 @@
 <div id="ref-phyloregionExtras">
 <p>3. Daru, B. H., Karunarathne, P. &amp; Schliep, K. <em>PhyloregionExtras: Extras for biogeographic regionalization and spatial conservation</em>. (2020).</p>
 </div>
-<div id="ref-pinheiro2006">
-<p>4. Pinheiro, J. &amp; Bates, D. <em>Mixed-effects models in s and s-plus</em>. (Springer Science &amp; Business Media, 2006).</p>
-</div>
-<div id="ref-Lark2006">
-<p>5. Lark, R. M., Cullis, B. R. &amp; Welham, S. J. On spatial prediction of soil properties in the presence of a spatial trend: The empirical best linear unbiased predictor (e-blup) with reml. <em>European Journal of Soil Science</em> <strong>57</strong>, 787–799 (2006).</p>
+<div id="ref-verbeke2000">
+<p>4. Verbeke, G. &amp; Molenberghs, G. Linear mixed models for longitudinal data. in <em>Linear mixed models in practice</em> 63–153 (Springer-Verlag, 2000).</p>
 </div>
 <div id="ref-spdep">
-<p>6. Bivand, R. &amp; Wong, D. W. S. Comparing implementations of global and local indicators of spatial association. <em>TEST</em> <strong>27</strong>, 716–748 (2018).</p>
+<p>5. Bivand, R. &amp; Wong, D. W. S. Comparing implementations of global and local indicators of spatial association. <em>TEST</em> <strong>27</strong>, 716–748 (2018).</p>
 </div>
 <div id="ref-nlme">
-<p>7. Pinheiro, J., Bates, D., DebRoy, S., Sarkar, D. &amp; R Core Team. <em>nlme: Linear and nonlinear mixed effects models</em>. (2020).</p>
+<p>6. Pinheiro, J., Bates, D., DebRoy, S., Sarkar, D. &amp; R Core Team. <em>nlme: Linear and nonlinear mixed effects models</em>. (2020).</p>
 </div>
 </div>
 </div>
@@ -411,9 +410,9 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#environmental-data">1. Environmental data</a></li>
+<li><a href="#environmental-data-and-heterogeneity">1. Environmental data and heterogeneity</a></li>
       <li><a href="#environmental-heterogeneity">2. Environmental heterogeneity</a></li>
-      <li><a href="#mixed-effects-models-analysis">3. Mixed effects models analysis</a></li>
+      <li><a href="#linear-mixed-effects-model">3. Linear mixed-effects model</a></li>
       <li><a href="#visualisation-of-results">4. Visualisation of results</a></li>
       <li><a href="#session-infomation">Session Infomation</a></li>
       <li><a href="#references">REFERENCES</a></li>
