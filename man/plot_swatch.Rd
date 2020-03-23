@@ -41,6 +41,8 @@ function in the \code{grDevices} package.}
 
 \item{legend}{logical indicating whether to add a legend to the map.}
 
+\item{border}{plot polygons in SpatialPolygons object}
+
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
