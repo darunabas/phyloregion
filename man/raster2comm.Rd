@@ -18,7 +18,6 @@ points2comm(
   lat = "decimallatitude",
   species = "species",
   shp.grids = NULL,
-  index = "taxon_richness",
   ...
 )
 }
@@ -51,9 +50,6 @@ shapefile covering the boundary of the survey region.}
 \item{lon}{character with the column name of the longitude.}
 
 \item{lat}{character with the column name of the latitude.}
-
-\item{index}{Diversity index, one of \dQuote{richness} (default) or
-\dQuote{abundance}.}
 }
 \value{
 \itemize{

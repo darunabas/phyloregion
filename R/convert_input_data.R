@@ -42,8 +42,6 @@ make_poly <- function(file){
 #' shapefile covering the boundary of the survey region.
 #' @param shp.grids if specified, the polygon shapefile of grid cells
 #' with a column labeled \dQuote{grids}.
-#' @param index Diversity index, one of \dQuote{richness} (default) or
-#' \dQuote{abundance}.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname raster2comm
 #' @seealso \code{\link[mapproj]{mapproject}} for conversion of
@@ -81,7 +79,7 @@ raster2comm <- function(files) {
         if(length(tmp) > 0) res <- rbind(res, cbind(tmp, names(obj)))
     }
     if(length(tmp) > 0) colnames(res) <- c("grids", "species")
-    y <- as.data.frame(res)
+    y <- long2sparse(as.data.frame(res))
     return(list(comm_dat = y, poly_shp = poly))
 }
 
@@ -122,12 +120,9 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
     ll <- lengths(spo)
     y <- data.frame(grids=unlist(spo), species=rep(dat@data$species, ll))
 
-#    names(y) <- c("grids", "species")
-#    y <- y[complete.cases(y), ]
-    y <- unique(y[, c("grids", "species")])
-    res <- data.frame(table(y$grids))
-    names(res) <- c("grids", "richness")
-    z <- sp::merge(m, res, by = "grids")
+    y <- long2sparse(unique(y[, c("grids", "species")]))
+    tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
+    z <- sp::merge(m, tmp, by = "grids")
     z <- z[!is.na(z@data$richness), ]
     return(list(comm_dat = y, poly_shp = z))
 }
@@ -153,7 +148,7 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
 #' @export
 points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
                         lat = "decimallatitude", species = "species",
-                        shp.grids = NULL, index = "taxon_richness", ...) {
+                        shp.grids = NULL, ...) {
     dat <- as.data.frame(dat)
     dat <- dat[, c(species, lon, lat)]
     names(dat) <- c("species", "lon", "lat")
@@ -164,7 +159,7 @@ points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
 
     if (length(shp.grids) == 0) {
         if (length(mask) == 0) {
-            e <- raster::extent(c(xmin = -180, xmax = 180, ymin = -90, ymax = 89))
+            e <- raster::extent(c(xmin = -180, xmax = 180, ymin = -90, ymax = 90))
             p <- as(e, "SpatialPolygons")
             m <- sp::SpatialPolygonsDataFrame(p, data.frame(sp = "x"))
             m <- fishnet(mask = m, res = res)
@@ -173,18 +168,12 @@ points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
     proj4string(dat) <- proj4string(m)
     x <- over(dat, m)
     y <- cbind(as.data.frame(dat), x)
-    #y <- cbind(data.table::as.data.table(dat), x)
     y <- y[complete.cases(y), ]
-    if (index == "abundance") {
-        y <- y[, c("grids", "species")]
-    }
-    else if (index == "taxon_richness") {
-        y <- unique(y <- y[, c("grids", "species")])
-    }
-    res <- data.frame(table(y$grids))
-    names(res) <- c("grids", "richness")
-    z <- sp::merge(m, res, by = "grids")
+    Y <- long2sparse(y)
+    tmp <- data.frame(grids=row.names(Y), abundance=rowSums(Y),
+                      richness=rowSums(Y>0))
+    z <- sp::merge(m, tmp, by = "grids")
     z <- z[!is.na(z@data$richness), ]
-    return(list(comm_dat = y, poly_shp = z))
+    return(list(comm_dat = Y, poly_shp = z))
 }
 

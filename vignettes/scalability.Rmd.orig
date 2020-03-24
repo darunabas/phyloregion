@@ -81,9 +81,8 @@ object.size(pol)
 object.size(comm)
 
 mybeta_fun <- function(phy, dat){
-  subphy <- match_phylo_comm(phy, long2sparse(dat))$phy
-  subdat <- match_phylo_comm(phy, long2sparse(dat))$comm
-  pb <- phylobeta(subdat, subphy)[[1]]
+  tmp <- match_phylo_comm(phy, dat)
+  pb <- phylobeta(tmp$comm, tmp$phy)[[1]]
   pb
 }
 
@@ -97,8 +96,6 @@ phylogenetic uncertainty in our analyses by drawing 10 trees at random
 from a posterior distribution of 10,000 possible tree topologies.
 
 ```{r}
-#subx <- lapply(tree, function(x) mybeta_fun(x, M))
-#m <- mean_dist(subx, sort(labels(subx[[1]])))
 m <- read.csv("/Users/barnabasdaru/Dropbox/Projects/phyloregion_MS/data/reptiles/pbsim_matrix.xz", row.names = 1)
 
 # Determine optimal clusters
