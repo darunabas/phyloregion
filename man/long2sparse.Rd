@@ -4,6 +4,9 @@
 \alias{long2sparse}
 \alias{sparse2long}
 \alias{dense2sparse}
+\alias{sparse2dense}
+\alias{long2dense}
+\alias{dense2long}
 \title{Conversion of community data}
 \usage{
 long2sparse(x, grids = "grids", species = "species")
@@ -11,6 +14,12 @@ long2sparse(x, grids = "grids", species = "species")
 sparse2long(x)
 
 dense2sparse(x)
+
+sparse2dense(x)
+
+long2dense(x)
+
+dense2long(x)
 }
 \arguments{
 \item{x}{A community data which one wants to transform}

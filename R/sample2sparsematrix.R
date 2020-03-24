@@ -7,7 +7,7 @@
 #' @param grids column name of the column containing grid cells
 #' @param species column name of the column containing  the species / taxa names
 #' @rdname long2sparse
-#' @importFrom Matrix sparseMatrix
+#' @importFrom Matrix sparseMatrix as.matrix
 #'
 #' @return A compressed sparse community matrix of sites by species
 #'
@@ -63,5 +63,23 @@ sparse2long <- function(x){
 dense2sparse <- function(x){
   x <- as.matrix(x)
   Matrix(x, sparse=TRUE)
+}
+
+#' @rdname long2sparse
+#' @export
+sparse2dense <- function(x){
+  as.matrix(x)
+}
+
+#' @rdname long2sparse
+#' @export
+long2dense <- function(x){
+   as.matrix(long2sparse(x))
+}
+
+#' @rdname long2sparse
+#' @export
+dense2long <- function(x){
+  sparse2long(dense2sparse(x))
 }
 
