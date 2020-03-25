@@ -75,7 +75,7 @@ plot.phyloregion <- function(x, shp=NULL, palette="YlOrBr", ...) {
   k <- x$k
   if(palette=="NMDS") clr <- shp$COLOURS
     else clr <- hcl.colors(k, palette)[shp$cluster]
-  plot(shp, col = shp$COLOURS, ...)
+  plot(shp, col = clr, ...)
   text(shp, labels = as.character(shp@data$cluster), ...)
 }
 
@@ -102,6 +102,7 @@ plot_NMDS <- function(x, ...) {
 #'
 #' plot_NMDS(y, cex=6)
 #' text_NMDS(y, cex=2)
+#' plot(y, cex=1, palette="NMDS")
 #' plot(y, cex=1)
 #' plot_evoldistinct(y)
 #' @export
