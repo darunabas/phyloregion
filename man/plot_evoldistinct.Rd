@@ -62,6 +62,7 @@ y <- phyloregion(pbc[[1]], shp=africa$polys)
 
 plot_NMDS(y, cex=6)
 text_NMDS(y, cex=2)
+plot(y, cex=1, palette="NMDS")
 plot(y, cex=1)
 plot_evoldistinct(y)
 }

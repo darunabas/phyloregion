@@ -25,10 +25,12 @@
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
 #'
 #' @return
-#' An object of class \code{phyloregion}
+#' An object of class \code{phyloregion} containing
 #' \itemize{
-#'   \item A data frame of mean evolutionary distinctiveness for each phyloregion.
-#'   \item A phyloregion × phyloregion phylogenetic beta diversity distance matrix.
+#'   \item a data frame membership with columns grids and cluster
+#'   \item k the number of clusters
+#'   and additionally there can be an shape file and other bjects.
+#'   This representation may still change.
 #' }
 #' @references
 #'
