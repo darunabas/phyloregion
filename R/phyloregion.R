@@ -154,11 +154,11 @@ infomap <- function(x, shp = NULL, ...){
   ms <- membership(imc)
   k <- max(ms)
   ind <- names(ms) %in% rownames(x)
-  dx <- data.frame(grids=names(ms)[ind], unname(ms)[ind])
+  dx <- data.frame(grids=names(ms)[ind], cluster=unname(ms)[ind])
   if(!is.null(shp)){
      shp <- sp::merge(shp, dx, by = "grids")
   }
-  result <- c(membership=dx, k=k, shp=shp)
+  result <- list(membership=dx, k=k, shp=shp)
   class(result) <- "phyloregion"
   result
 }
