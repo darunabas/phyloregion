@@ -12,4 +12,6 @@
 ^logo\.png
 ^vignettes/heterogeneity.*
 ^vignettes/scalability.*
+^vignettes/bird.*
+^vignettes/amphibian.*
 ^R/darwinize.*
