@@ -18,7 +18,7 @@ plot_evoldistinct(
   ...
 )
 
-\method{plot}{phyloregion}(x, ...)
+\method{plot}{phyloregion}(x, shp = NULL, palette = "YlOrBr", ...)
 
 plot_NMDS(x, ...)
 
@@ -43,6 +43,8 @@ the \code{hcl.colors} function in the \code{grDevices} package.}
 \item{lwd}{parameter of the color key.}
 
 \item{\dots}{arguments passed among methods.}
+
+\item{shp}{a polygon shapefile of grid cells.}
 }
 \description{
 Visualize biogeographic patterns

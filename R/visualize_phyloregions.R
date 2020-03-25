@@ -39,6 +39,7 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' \dQuote{bottomleft}, \dQuote{topleft}, and \dQuote{topright}.
 #' @param leg parameter of the color key.
 #' @param lwd parameter of the color key.
+#' @param shp a polygon shapefile of grid cells.
 #' @param \dots arguments passed among methods.
 #' @rdname plot_evoldistinct
 #' @export
@@ -47,7 +48,7 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
                               lwd = 15, ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
-  m1 <- x$evol_distinct
+  m1 <- x$shp
   k <- nrow(m1)
   COLRS <- hcl.colors(k, palette, rev = TRUE, ...)
   y <- choropleth(m1$ED, k) # , style = style
@@ -66,12 +67,16 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
 #' @method plot phyloregion
 #' @importFrom graphics plot plot.default
 #' @export
-plot.phyloregion <- function(x, ...) {
+plot.phyloregion <- function(x, shp=NULL, palette="YlOrBr", ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
-  y <- x$evol_distinct
-  plot(y, col = y$COLOURS, ...)
-  text(y, labels = as.character(y@data$cluster), ...)
+  if(is.null(shp)) shp <- x$shp
+  if(is.null(shp)) stop("Need shape file!")
+  k <- x$k
+  if(palette=="NMDS") clr <- shp$COLOURS
+    else clr <- hcl.colors(k, palette)[shp$cluster]
+  plot(shp, col = shp$COLOURS, ...)
+  text(shp, labels = as.character(shp@data$cluster), ...)
 }
 
 #' @rdname plot_evoldistinct

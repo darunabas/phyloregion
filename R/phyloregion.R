@@ -64,8 +64,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
   Q <- as.dist(x)
   P1 <- hclust(Q, method = method)
   g <- cutree(P1, k)
-  dx <- data.frame(cluster = g)
-  dx <- data.frame(grids = row.names(dx), dx)
+  dx <- data.frame(grids=names(g), cluster = unname(g))
 
   x <- as.matrix(x)
   colnames(x) <- rownames(x)
@@ -73,11 +72,9 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
   region.mat <- matrix(NA, k, k, dimnames = list(1:k, 1:k))
 
   for (i in 1:k) {
-
     for (j in 1:k) {
       region.mat[i, j] <- mean(x[names(g)[g == i], names(g)[g == j]])
     }
-
   }
   region.dist <- as.dist(region.mat)
   region.mat <- as.matrix(region.dist)
@@ -89,7 +86,8 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
     data.frame(evol_distinct, row.names = NULL))
 
   if (length(shp) == 0) {
-    r <- list(evol_distinct = evol_distinct, region.dist = region.dist,
+    r <- list(membership=dx, k=k,
+      evol_distinct = evol_distinct, region.dist = region.dist,
       region.df = dx)
     class(r) <- c("phyloregion")
     r
@@ -132,9 +130,33 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
 
     index <- match(dx$cluster, y$cluster)
     z <- cbind(dx, ED = y$ED[index], COLOURS = y$COLOURS[index])
-    r <- list(evol_distinct = y, region.dist = region.dist, region.df = z,
-              NMDS = c1)
-    class(r) <- c("phyloregion")
+
+    # membership
+
+    r <- list(membership=dx, k=k, shp = y,
+              region.dist = region.dist, region.df = z, NMDS = c1)
+    class(r) <- "phyloregion"
     r
   }
+}
+
+
+#' @rdname phyloregion
+#' @importFrom igraph graph_from_incidence_matrix cluster_infomap communities
+#' @importFrom igraph membership
+#' @export
+infomap <- function(x, shp = NULL, ...){
+  x@x[x@x >1e-8] <- 1
+  g <- graph_from_incidence_matrix(x)
+  imc <- cluster_infomap(g, ...)
+  ms <- membership(imc)
+  k <- max(ms)
+  ind <- names(ms) %in% rownames(x)
+  dx <- data.frame(grids=names(ms)[ind], unname(ms)[ind])
+  if(!is.null(shp)){
+     shp <- sp::merge(shp, dx, by = "grids")
+  }
+  result <- c(membership=dx, k=k, shp=shp)
+  class(result) <- "phyloregion"
+  result
 }
