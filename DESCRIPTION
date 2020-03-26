@@ -7,7 +7,11 @@ Authors@R: c(person("Barnabas H.", "Daru", email= "darunabas@gmail.com", role = 
              person("Klaus", "Schliep", email="klaus.schliep@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0003-2941-0161")),
              person("Xiaobei", "Zhao", role=c("ctb")), 
              person("Albin", "Sandelin", role=c("ctb")))
-Description: Computational infrastructure for biogeography, community ecology, beta diversity, and mapping biodiversity.
+Description: Computational infrastructure for biogeography, community ecology, 
+beta diversity, and mapping biodiversity (Daru et al. 2020) <bioRxiv:2020.02.12.945691>, 
+based on conceptual work of Daru et al.(2017) <doi:10.1016/j.tree.2017.08.013>. 
+Additionally the package contains fast and efficient functions to compute phylogenetic 
+diversity, phylogenetic endemism, evolutionary distinctiveness and global endangerment. 
 Imports: ape, phangorn, Matrix, betapart, fastmatch, parallel, methods, raster, 
          data.table, colorspace, cluster, rgeos, vegan, sp, igraph
 Suggests: tinytest, knitr, mapproj
