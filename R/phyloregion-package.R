@@ -65,7 +65,7 @@
 #' @examples
 #' data(africa)
 #' names(africa)
-#' \dontrun{
+#' \donttest{
 #' library(raster)
 #' library(ape)
 #' plot(africa$polys)

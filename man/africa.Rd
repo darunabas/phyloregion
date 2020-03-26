@@ -50,7 +50,7 @@ Specifically for this package, we arranged the dataset into four components:
 \examples{
 data(africa)
 names(africa)
-\dontrun{
+\donttest{
 library(raster)
 library(ape)
 plot(africa$polys)

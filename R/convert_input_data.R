@@ -55,7 +55,7 @@ make_poly <- function(file){
 #'   \item poly_shp: shapefile of grid cells with the values per cell.
 #' }
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' fdir <- system.file("NGAplants", package="phyloregion")
 #' files <- file.path(fdir, dir(fdir))
 #' raster2comm(files)
@@ -88,7 +88,7 @@ raster2comm <- function(files) {
 #' @importFrom sp coordinates over CRS proj4string merge
 #' @importFrom methods as
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 #' sp <- random_species(100, species=5, shp=s)
 #' polys2comm(dat = sp, species = "species")

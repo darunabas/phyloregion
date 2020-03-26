@@ -65,13 +65,13 @@ respectively, to a community composition data frame at varying spatial grains
 and extents for downstream analyses.
 }
 \examples{
-\dontrun{
+\donttest{
 fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
 raster2comm(files)
 }
 
-\dontrun{
+\donttest{
 s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 sp <- random_species(100, species=5, shp=s)
 polys2comm(dat = sp, species = "species")
