@@ -1,3 +1,15 @@
+dissolve_poly <- function(x){
+  # Now the dissolve
+  region <- rgeos::gUnaryUnion(x, id = x@data$cluster)
+  # make sure row names match
+  row.names(region) <- as.character(seq_along(region))
+  # Extract the data you want (the larger geography)
+  fx <- unique(x$cluster)
+  fx <- as.data.frame(fx)
+  colnames(fx) <- "cluster"
+  # And add the data back in
+  region <- SpatialPolygonsDataFrame(region, fx)
+}
 #' Calculate evolutionary distinctiveness of phyloregions
 #'
 #' This function estimates evolutionary distinctiveness of each phyloregion by
@@ -100,19 +112,8 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
       stop("Invalid geometry, may only be applied to polygons")
     }
     m <- m[!is.na(m@data$cluster), ]
-    # Now the dissolve
-    region <- rgeos::gUnaryUnion(m, id = m@data$cluster)
 
-    # make sure row names match
-    row.names(region) <- as.character(seq_along(region))
-
-    # Extract the data you want (the larger geography)
-    fx <- unique(m$cluster)
-    fx <- as.data.frame(fx)
-    colnames(fx) <- "cluster"
-
-    # And add the data back in
-    region <- SpatialPolygonsDataFrame(region, fx)
+    region <- dissolve_poly(m)
 
     m1 <- sp::merge(region, evol_distinct, by = "cluster")
     proj4string(m1) <- proj4string(shp)
@@ -157,6 +158,7 @@ infomap <- function(x, shp = NULL, ...){
   dx <- data.frame(grids=names(ms)[ind], cluster=unname(ms)[ind])
   if(!is.null(shp)){
      shp <- sp::merge(shp, dx, by = "grids")
+     shp <- dissolve_poly(shp)
   }
   result <- list(membership=dx, k=k, shp=shp)
   class(result) <- "phyloregion"
