@@ -1,5 +1,6 @@
 dissolve_poly <- function(x){
   # Now the dissolve
+  x <- x[!is.na(x@data$cluster),]
   region <- rgeos::gUnaryUnion(x, id = x@data$cluster)
   # make sure row names match
   row.names(region) <- as.character(seq_along(region))

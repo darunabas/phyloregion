@@ -79,7 +79,7 @@ the origins of species assemblages." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -190,10 +190,11 @@ evolutionary origins of biogeographic assemblages.
 <span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ape/man/rtree.html'>rcoal</a></span>(<span class='fl'>50</span>)
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>timeslice</span>(<span class='no'>tree</span>, <span class='fl'>.5</span>)
 
+<span class='no'>old_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>()
 <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>))
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>tree</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/ape/man/axisPhylo.html'>axisPhylo</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/ape/man/axisPhylo.html'>axisPhylo</a></span>()</div><div class='img'><img src='timeslice-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/ape/man/axisPhylo.html'>axisPhylo</a></span>()</div><div class='img'><img src='timeslice-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='no'>old_par</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cin" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cra" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "csi" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cxy" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "din" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "page" cannot be set</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

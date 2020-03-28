@@ -79,7 +79,7 @@ species richness, species endemism or degree of threat." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -196,10 +196,8 @@ hotspots and complementary areas of tree diversity in southern Africa.
     <div class='dont-index'><p><code><a href='choropleth.html'>choropleth</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘raster’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:ape’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    rotate, zoom</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sp</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sp</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/raster/man/names.html'>names</a></span>(<span class='no'>africa</span>)</div><div class='output co'>#&gt; [1] "comm"  "polys" "phylo" "mat"   "IUCN" </div><div class='input'>
 <span class='no'>Endm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='weighted_endemism.html'>weighted_endemism</a></span>(<span class='no'>africa</span>$<span class='no'>comm</span>)
@@ -208,7 +206,7 @@ hotspots and complementary areas of tree diversity in southern Africa.
 
 <span class='co'>## Merge endemism values to shapefile of grid cells.</span>
 <span class='no'>DF</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>grids</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/names.html'>names</a></span>(<span class='no'>C</span>), <span class='kw'>cold</span><span class='kw'>=</span><span class='no'>C</span>, <span class='kw'>hot</span><span class='kw'>=</span><span class='no'>H</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sp/man/merge.html'>merge</a></span>(<span class='no'>africa</span>$<span class='no'>polys</span>, <span class='no'>DF</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"grids"</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/merge.html'>merge</a></span>(<span class='no'>africa</span>$<span class='no'>polys</span>, <span class='no'>DF</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"grids"</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span>(<span class='no'>africa</span>$<span class='no'>polys</span>, <span class='kw'>border</span> <span class='kw'>=</span> <span class='st'>"grey"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"lightgrey"</span>,
   <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Weighted Endemism Hotspots and Coldspots"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span>(<span class='no'>m</span>[(<span class='no'>m</span>@<span class='kw'>data</span>$<span class='no'>cold</span> <span class='kw'>==</span> <span class='fl'>1</span>), ], <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>border</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span>(<span class='no'>m</span>[(<span class='no'>m</span>@<span class='kw'>data</span>$<span class='no'>hot</span> <span class='kw'>==</span> <span class='fl'>1</span>), ], <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>border</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"bottomleft"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"yellow"</span>, <span class='st'>"green"</span>),

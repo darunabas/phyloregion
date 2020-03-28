@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
       <h1>Scalability of phyloregion</h1>
                         <h4 class="author">Barnabas H. Daru, Piyal Karunarathne &amp; Klaus Schliep</h4>
             
-            <h4 class="date">March 16, 2020</h4>
+            <h4 class="date">March 27, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/darunabas/phyloregion/blob/master/vignettes/scalability.Rmd"><code>vignettes/scalability.Rmd</code></a></small>
       <div class="hidden name"><code>scalability.Rmd</code></div>
@@ -183,12 +183,12 @@
 <a class="sourceLine" id="cb14-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>,<span class="dv">4</span>))</a>
 <a class="sourceLine" id="cb14-9" data-line-number="9"><span class="kw"><a href="../reference/plot_swatch.html">plot_swatch</a></span>(shp, shp<span class="op">$</span>richness, <span class="dt">k =</span> <span class="dv">30</span>, <span class="dt">leg =</span> <span class="dv">30</span>, <span class="dt">lwd =</span> <span class="dv">5</span>)</a></code></pre></div>
 <div class="figure">
-<img src="scalability-unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5"><p class="caption">plot of chunk unnamed-chunk-5</p>
+<img src="richness.png" alt="Global species richness map of squamate reptiles"><p class="caption">Global species richness map of squamate reptiles</p>
 </div>
 <div id="scale-dependence-at-global-extent" class="section level3">
 <h3 class="hasAnchor">
 <a href="#scale-dependence-at-global-extent" class="anchor"></a>2.1. Scale dependence at global extent</h3>
-<p>Here, we generate phyloregions at a global scales. We accounmted for phylogenetic uncertainty in our analyses by drawing 10 trees at random from a posterior distribution of 10,000 possible tree topologies.</p>
+<p>Here, we generate phyloregions at a global scales. We accounted for phylogenetic uncertainty in our analyses by drawing 10 trees at random from a posterior distribution of 10,000 possible tree topologies.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">#subx &lt;- lapply(tree, function(x) mybeta_fun(x, M))</span></a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#m &lt;- mean_dist(subx, sort(labels(subx[[1]])))</span></a>
 <a class="sourceLine" id="cb15-3" data-line-number="3">m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">"/Users/barnabasdaru/Dropbox/Projects/phyloregion_MS/data/reptiles/pbsim_matrix.xz"</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</a>
@@ -244,7 +244,7 @@
 <a class="sourceLine" id="cb17-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/text.html">text</a></span>(z, <span class="dt">labels=</span>z<span class="op">$</span>cluster, <span class="dt">cex =</span><span class="fl">0.7</span>)</a>
 <a class="sourceLine" id="cb17-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(wmap0, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">lwd=</span><span class="fl">0.25</span>)</a></code></pre></div>
 <div class="figure">
-<img src="scalability-unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6"><p class="caption">plot of chunk unnamed-chunk-6</p>
+<img src="1global.png" alt="Phylogenetic regionalization at the global extent"><p class="caption">Phylogenetic regionalization at the global extent</p>
 </div>
 </div>
 <div id="scale-dependence-at-continental-extent" class="section level3">
@@ -285,14 +285,94 @@
 <a class="sourceLine" id="cb18-32" data-line-number="32"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/text.html">text</a></span>(result1, <span class="dt">labels=</span>result1<span class="op">$</span>cluster, <span class="dt">cex =</span><span class="fl">0.7</span>)</a>
 <a class="sourceLine" id="cb18-33" data-line-number="33"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(wmap1, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">lwd=</span><span class="fl">0.25</span>)</a></code></pre></div>
 <div class="figure">
-<img src="scalability-unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7"><p class="caption">plot of chunk unnamed-chunk-7</p>
+<img src="2continent.png" alt="Phylogenetic regionalization at the continental extent"><p class="caption">Phylogenetic regionalization at the continental extent</p>
 </div>
 </div>
 <div id="scale-dependence-at-localregional-scale" class="section level3">
 <h3 class="hasAnchor">
 <a href="#scale-dependence-at-localregional-scale" class="anchor"></a>2.3. Scale dependence at local/regional scale</h3>
 <p>Here, we generate phyloregions at the extent of regions or country borders.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">level2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/raster/man/as.data.frame.html">as.data.frame</a></span>(shp), sp<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sp/man/over.html">over</a></span>(shp, wmap2))</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">level2 &lt;-<span class="st"> </span>level2[<span class="kw"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span>(level2),]</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">S &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span>(level1<span class="op">$</span>LEVEL2_NAM)</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">out &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>()</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span>(S)) {</a>
+<a class="sourceLine" id="cb19-8" data-line-number="8">  <span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span>({</a>
+<a class="sourceLine" id="cb19-9" data-line-number="9">    y1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/subset.html">subset</a></span>(level2, level2<span class="op">$</span>LEVEL2_NAM <span class="op">%in%</span><span class="st"> </span>S[i])</a>
+<a class="sourceLine" id="cb19-10" data-line-number="10">    index &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/intersect.html">intersect</a></span>(y1<span class="op">$</span>grids, comm<span class="op">$</span>grids)</a>
+<a class="sourceLine" id="cb19-11" data-line-number="11">    M &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/subset.html">subset</a></span>(comm, comm<span class="op">$</span>grids <span class="op">%in%</span><span class="st"> </span>index)</a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13">    subx &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(tree, <span class="cf">function</span>(x) <span class="kw">mybeta_fun</span>(x, M))</a>
+<a class="sourceLine" id="cb19-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb19-15" data-line-number="15">    m &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mean_dist.html">mean_dist</a></span>(subx, <span class="kw"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/labels.html">labels</a></span>(subx[[<span class="dv">1</span>]])))</a>
+<a class="sourceLine" id="cb19-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb19-17" data-line-number="17">    <span class="co"># Determine optimal clusters</span></a>
+<a class="sourceLine" id="cb19-18" data-line-number="18">    (d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/optimal_phyloregion.html">optimal_phyloregion</a></span>(m))</a>
+<a class="sourceLine" id="cb19-19" data-line-number="19">    z &lt;-<span class="st"> </span><span class="kw"><a href="../reference/phyloregion.html">phyloregion</a></span>(m, <span class="dt">k =</span> d<span class="op">$</span>optimal<span class="op">$</span>k, <span class="dt">shp =</span> shp)<span class="op">$</span>evol_distinct</a>
+<a class="sourceLine" id="cb19-20" data-line-number="20">    z<span class="op">$</span>region &lt;-<span class="st"> </span>S[i]</a>
+<a class="sourceLine" id="cb19-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb19-22" data-line-number="22">  }, <span class="dt">error =</span> <span class="cf">function</span>(e){})</a>
+<a class="sourceLine" id="cb19-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb19-24" data-line-number="24">  out[[i]] &lt;-<span class="st"> </span>z</a>
+<a class="sourceLine" id="cb19-25" data-line-number="25">}</a>
+<a class="sourceLine" id="cb19-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb19-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb19-28" data-line-number="28">result2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="st">"rbind"</span>, out)</a>
+<a class="sourceLine" id="cb19-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb19-30" data-line-number="30"><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar=</span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>,<span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb19-31" data-line-number="31"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(wmap2, <span class="dt">col=</span><span class="st">"grey"</span>, <span class="dt">border =</span> <span class="st">"grey"</span>, <span class="dt">density =</span> <span class="dv">37</span>, <span class="dt">lwd=</span><span class="fl">0.25</span>)</a>
+<a class="sourceLine" id="cb19-32" data-line-number="32"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(result2, <span class="dt">col=</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/as.character.html">as.character</a></span>(result2<span class="op">$</span>COLOURS),</a>
+<a class="sourceLine" id="cb19-33" data-line-number="33">     <span class="dt">border=</span><span class="st">"white"</span>, <span class="dt">lwd=</span><span class="fl">0.25</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb19-34" data-line-number="34"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/text.html">text</a></span>(result2, <span class="dt">labels=</span>result2<span class="op">$</span>cluster, <span class="dt">cex =</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb19-35" data-line-number="35"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(wmap2, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">lwd=</span><span class="fl">0.25</span>)</a></code></pre></div>
+<div class="figure">
+<img src="3national.png" alt="Phylogenetic regionalization at the subregional/local extent"><p class="caption">Phylogenetic regionalization at the subregional/local extent</p>
 </div>
+</div>
+</div>
+<div id="session-information" class="section level2">
+<h2 class="hasAnchor">
+<a href="#session-information" class="anchor"></a>Session Information</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
+## 
+## Matrix products: default
+## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] nlme_3.1-145  ggplot2_3.3.0 spdep_1.1-3   sf_0.8-1      spData_0.3.3  sp_1.4-1     
+## [7] knitr_1.28   
+## 
+## loaded via a namespace (and not attached):
+##  [1] gtools_3.8.1       tidyselect_1.0.0   xfun_0.12          purrr_0.3.3       
+##  [5] splines_3.6.1      lattice_0.20-40    colorspace_1.4-1   expm_0.999-4      
+##  [9] htmltools_0.4.0    yaml_2.2.1         rlang_0.4.5        e1071_1.7-3       
+## [13] pillar_1.4.3       glue_1.3.2         withr_2.1.2        DBI_1.1.0         
+## [17] lifecycle_0.2.0    stringr_1.4.0      munsell_0.5.0      gtable_0.3.0      
+## [21] raster_3.0-12      codetools_0.2-16   coda_0.19-3        evaluate_0.14     
+## [25] labeling_0.3       class_7.3-15       highr_0.8          Rcpp_1.0.3        
+## [29] KernSmooth_2.23-16 scales_1.1.0       classInt_0.4-2     gdata_2.18.0      
+## [33] farver_2.0.3       deldir_0.1-25      digest_0.6.25      stringi_1.4.6     
+## [37] gmodels_2.18.1     dplyr_0.8.5        grid_3.6.1         tools_3.6.1       
+## [41] LearnBayes_2.15.1  magrittr_1.5       tibble_2.1.3       crayon_1.3.4      
+## [45] pkgconfig_2.0.3    MASS_7.3-51.5      Matrix_1.2-18      assertthat_0.2.1  
+## [49] rmarkdown_2.1      R6_2.4.1           boot_1.3-24        units_0.6-5       
+## [53] compiler_3.6.1</code></pre>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>REFERENCES</h2>
 </div>
   </div>
 
@@ -304,6 +384,8 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#scale-dependence-of-phyloregion-across-spatial-extents">Scale-dependence of <code>phyloregion</code> across spatial extents</a></li>
       <li><a href="#species-distributional-data-conversion">2. Species distributional data conversion</a></li>
+      <li><a href="#session-information">Session Information</a></li>
+      <li><a href="#references">REFERENCES</a></li>
       </ul>
 </div>
       </div>
