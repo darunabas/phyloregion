@@ -30,13 +30,13 @@
 #' tree <- rcoal(50)
 #' x <- timeslice(tree, .5)
 #'
-#' old_par <- par()
+#' old.par <- par(no.readonly = TRUE)
 #' par(mfrow = c(1, 2))
 #' plot(tree)
 #' axisPhylo()
 #' plot(x)
 #' axisPhylo()
-#' par(old_par)
+#' par(old.par)
 #' @export
 timeslice <- function(phy, n = 0.2, collapse = FALSE, ...) {
   node_age <- node.depth.edgelength(phy)
