@@ -16,9 +16,21 @@ species.}
 \item{index.family}{family of dissimilarity indices, partial match of
 "sorensen" or "jaccard".}
 }
+\value{
+\code{beta_core} returns an object of class \code{beta_diss} like the
+\code{\link{betapart.core}} function. This object can be called by
+\code{\link{beta.pair}} or \code{\link{beta.multi}}.
+
+\code{beta_diss} returns a list with three dissimilarity matrices. See
+\code{\link{beta.pair}} for details.
+}
 \description{
 Data are assumed to be presence / absence (0 / 1) and all values greater zero
 are assumed to reflect presence.
+}
+\details{
+\code{beta_core} is helper function to compute the basic quantities needed
+for computing the "sorensen" or "jaccard" index.
 }
 \examples{
 data(africa)

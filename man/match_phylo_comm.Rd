@@ -13,6 +13,11 @@ match_phylo_comm(phy, comm, delete_empty_rows = TRUE)
 
 \item{delete_empty_rows}{delete rows with no observation}
 }
+\value{
+A list containing the following elements, pruned and sorted to match one another:
+\item{phy}{A phylogeny object of class phylo}
+\item{comm}{A (sparse) community data matrix}
+}
 \description{
 match_phylo_comm compares taxa (species, labels, tips) present in a phylogeny
 with a community matrix. Pruning, sorting and trying to add missing species

@@ -24,6 +24,12 @@ phylo_community <- function(x, phy) {
 #' @param phy a phylogenetic tree (object of class phylo)
 #' @param index.family family of dissimilarity indices, partial match of
 #' "sorensen" or "jaccard".
+#' @return \code{phylobeta_core} returns an object of class "phylo.betapart",
+#' see \code{\link{phylo.betapart.core}} for details. This object can be called
+#' by \code{\link{phylo.beta.pair}} or \code{\link{phylo.beta.multi}}.
+#'
+#' \code{phylobeta} returns a list with three phylogenetic dissimilarity
+#' matrices. See \code{\link{phylo.beta.multi}} for details.
 #' @keywords phyloregion
 #' @seealso \code{\link{read.community}}, \code{\link{phylo.betapart.core}},
 #' \code{\link{beta_core}}
@@ -85,13 +91,7 @@ phylobeta_core <- function(x, phy) {
 phylobeta <- function(x, phy, index.family = "sorensen") {
   res <- phylobeta_core(x, phy)
   p <- phylo.beta.pair(res, index.family = index.family)
-  if (index.family == "sorensen") {
-    z <- p
-  }
-  else if (index.family == "jaccard") {
-    z <- p
-  }
-  return(z)
+  return(p)
 }
 
 
@@ -108,6 +108,9 @@ phylobeta <- function(x, phy, index.family = "sorensen") {
 #' @param phy A phylogeny
 #' @param comm A (sparse) community data matrix
 #' @param delete_empty_rows delete rows with no observation
+#' @return A list containing the following elements, pruned and sorted to match one another:
+#' \item{phy}{A phylogeny object of class phylo}
+#' \item{comm}{A (sparse) community data matrix}
 #' @keywords bioregion
 #' @examples
 #' data(africa)
@@ -144,11 +147,19 @@ match_phylo_comm <- function(phy, comm, delete_empty_rows=TRUE) {
 #' Data are assumed to be presence / absence (0 / 1) and all values greater zero
 #' are assumed to reflect presence.
 #'
+#' \code{beta_core} is helper function to compute the basic quantities needed
+#' for computing the "sorensen" or "jaccard" index.
 #' @rdname beta_diss
 #' @param x an object of class Matrix, where rows are sites and columns are
 #' species.
 #' @param index.family family of dissimilarity indices, partial match of
 #' "sorensen" or "jaccard".
+#' @return \code{beta_core} returns an object of class \code{beta_diss} like the
+#' \code{\link{betapart.core}} function. This object can be called by
+#' \code{\link{beta.pair}} or \code{\link{beta.multi}}.
+#'
+#' \code{beta_diss} returns a list with three dissimilarity matrices. See
+#' \code{\link{beta.pair}} for details.
 #' @importFrom Matrix Matrix tcrossprod colSums
 #' @importFrom betapart beta.pair beta.multi
 #' @seealso \code{\link{betapart.core}}, \code{\link{betapart}},
@@ -184,12 +195,6 @@ beta_core <- function(x) {
 #' @export
 beta_diss <- function(x, index.family = "sorensen") {
   computations <- beta_core(x)
-  p <- beta.pair(computations, index.family = index.family)
-  if (index.family == "sorensen") {
-    res <- p
-  }
-  else if (index.family == "jaccard") {
-    res <- p
-  }
+  res <- beta.pair(computations, index.family = index.family)
   return(res)
 }
