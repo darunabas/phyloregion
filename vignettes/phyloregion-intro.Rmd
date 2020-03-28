@@ -29,7 +29,16 @@ When installed, load the package in R:
 library(phyloregion)
 ```
 
-## 2. Input data
+## 2. Overview and general workflow of `phyloregion`
+The workflow of the `phyloregion` package demonstrates steps from preparation 
+of different types of data to visualizing the results of biogeographical
+regionalization, together with tips on selecting the optimal method for 
+achieving the best output, depending on the types of data used and research
+questions.
+
+![Simplified workflow for analysis of biogeographical regionalization using phyloregion. Distribution data is converted to a sparse community matrix. When paired with phylogenetic data, phylobuilder creates a subtree with largest overlap from a species list, thereby ensuring complete representation of missing data; phylocommunity matrix to visualization of results.](workflow.png)
+
+## 3. Input data
 
 ### Phylogenies
 In R, phylogenetic relationships among species / taxa are often represented as a phylo 
@@ -65,7 +74,7 @@ object.size(sparse_comm)
 Here, the data set in the dense matrix representation consumes roughly five times 
 more memory than the sparse representation. 
 
-## 3. Analysis
+## 4. Analysis
 
 ### Phylogenetic beta diversity
 

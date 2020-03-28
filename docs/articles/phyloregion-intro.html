@@ -120,9 +120,18 @@ remotes::install_github("darunabas/phyloregion")</code></pre>
 <p>When installed, load the package in R:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(phyloregion)</a></code></pre></div>
 </div>
+<div id="overview-and-general-workflow-of-phyloregion" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview-and-general-workflow-of-phyloregion" class="anchor"></a>2. Overview and general workflow of <code>phyloregion</code>
+</h2>
+<p>The workflow of the <code>phyloregion</code> package demonstrates steps from preparation of different types of data to visualizing the results of biogeographical regionalization, together with tips on selecting the optimal method for achieving the best output, depending on the types of data used and research questions.</p>
+<div class="figure">
+<img src="workflow.png" alt="Simplified workflow for analysis of biogeographical regionalization using phyloregion. Distribution data is converted to a sparse community matrix. When paired with phylogenetic data, phylobuilder creates a subtree with largest overlap from a species list, thereby ensuring complete representation of missing data; phylocommunity matrix to visualization of results."><p class="caption">Simplified workflow for analysis of biogeographical regionalization using phyloregion. Distribution data is converted to a sparse community matrix. When paired with phylogenetic data, phylobuilder creates a subtree with largest overlap from a species list, thereby ensuring complete representation of missing data; phylocommunity matrix to visualization of results.</p>
+</div>
+</div>
 <div id="input-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#input-data" class="anchor"></a>2. Input data</h2>
+<a href="#input-data" class="anchor"></a>3. Input data</h2>
 <div id="phylogenies" class="section level3">
 <h3 class="hasAnchor">
 <a href="#phylogenies" class="anchor"></a>Phylogenies</h3>
@@ -148,7 +157,7 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 </div>
 <div id="analysis" class="section level2">
 <h2 class="hasAnchor">
-<a href="#analysis" class="anchor"></a>3. Analysis</h2>
+<a href="#analysis" class="anchor"></a>4. Analysis</h2>
 <div id="phylogenetic-beta-diversity" class="section level3">
 <h3 class="hasAnchor">
 <a href="#phylogenetic-beta-diversity" class="anchor"></a>Phylogenetic beta diversity</h3>
@@ -236,8 +245,9 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#installation">1. Installation</a></li>
-      <li><a href="#input-data">2. Input data</a></li>
-      <li><a href="#analysis">3. Analysis</a></li>
+      <li><a href="#overview-and-general-workflow-of-phyloregion">2. Overview and general workflow of <code>phyloregion</code></a></li>
+      <li><a href="#input-data">3. Input data</a></li>
+      <li><a href="#analysis">4. Analysis</a></li>
       <li><a href="#session-information">Session Information</a></li>
       <li><a href="#references">REFERENCES</a></li>
       </ul>
