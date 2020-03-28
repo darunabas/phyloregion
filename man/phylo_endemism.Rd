@@ -19,6 +19,10 @@ exactly!}
 \item{weighted}{is a logical indicating whether weighted endemism (default)
 or strict endemism should be calculated.}
 }
+\value{
+\code{phylo_endemism} returns a vector of phylogenetic endemism for
+each sample or site.
+}
 \description{
 Calculates phylogenetic endemism (sum of 'unique' branch lengths) of multiple
 ecological samples.

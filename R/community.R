@@ -7,6 +7,8 @@
 #' @param grids Column name of the column containing grid cells.
 #' @param species Column name of the column containing the species / taxa names.
 #' @param ... further arguments passed to or from other methods.
+#' @return \code{read.community} returns a sparse matrix (an object of class
+#' "dgCMatrix").
 #' @keywords cluster
 #' @rdname read.community
 #' @importFrom ape Nnode Ntip

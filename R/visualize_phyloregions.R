@@ -41,6 +41,7 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' @param lwd parameter of the color key.
 #' @param shp a polygon shapefile of grid cells.
 #' @param \dots arguments passed among methods.
+#' @return No return value, called for plotting.
 #' @rdname plot_evoldistinct
 #' @export
 plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",

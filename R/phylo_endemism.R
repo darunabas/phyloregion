@@ -23,6 +23,8 @@
 #' @param  phy a (rooted) phylogenetic tree (phylo) with branch lengths
 #' @param weighted is a logical indicating whether weighted endemism (default)
 #' or strict endemism should be calculated.
+#' @return \code{phylo_endemism} returns a vector of phylogenetic endemism for
+#' each sample or site.
 #' @references
 #' Faith, D.P., Reid, C.A.M. & Hunter, J. (2004) Integrating phylogenetic
 #' diversity, complementarity, and endemism for conservation assessment.

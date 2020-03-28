@@ -9,6 +9,8 @@
 #' @param tree a phylogenetic tree (object of class phylo)
 #' @param extract extract the species in the list after trying to  add missing
 #' labels to the tree. If FALSE phylobuilder adds only the taxa in the list.
+#' @return \code{phylobuilder} returns a phylogenetic tree, i.e. an object of
+#' class \code{phylo}.
 #' @seealso \code{\link[phangorn]{add.tips}}, \code{\link[ape]{label2table}},
 #' \code{\link[ape]{stripLabel}}
 #' @keywords bioregion

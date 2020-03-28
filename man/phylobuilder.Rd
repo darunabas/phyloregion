@@ -14,6 +14,10 @@ phylobuilder(species, tree, extract = TRUE)
 \item{extract}{extract the species in the list after trying to  add missing
 labels to the tree. If FALSE phylobuilder adds only the taxa in the list.}
 }
+\value{
+\code{phylobuilder} returns a phylogenetic tree, i.e. an object of
+class \code{phylo}.
+}
 \description{
 phylobuilder creates a subtree with largest overlap from a species list.
 If species in the species list are not already in the tip label, species will

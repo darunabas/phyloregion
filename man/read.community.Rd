@@ -15,6 +15,10 @@ read.community(file, grids = "grids", species = "species", ...)
 
 \item{...}{further arguments passed to or from other methods.}
 }
+\value{
+\code{read.community} returns a sparse matrix (an object of class
+"dgCMatrix").
+}
 \description{
 \code{read.community} reads in file containing occurrence data and returns a
 sparse matrix.

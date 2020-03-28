@@ -46,6 +46,9 @@ the \code{hcl.colors} function in the \code{grDevices} package.}
 
 \item{shp}{a polygon shapefile of grid cells.}
 }
+\value{
+No return value, called for plotting.
+}
 \description{
 Visualize biogeographic patterns
 }
