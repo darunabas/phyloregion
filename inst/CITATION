@@ -3,7 +3,7 @@ citHeader("To cite phyloregion in publications use:")
 
 
 bibentry(bibtype = "Manual",
-    author = "Barnabas Daru and Piyal Karunarathne and Klaus Schliep",
+    author = "Barnabas H. Daru and Piyal Karunarathne and Klaus Schliep",
     title = "phyloregion: R package for biogeographic regionalization and spatial conservation",
     year = "2019",
     note = note,
