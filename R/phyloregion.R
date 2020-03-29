@@ -9,7 +9,7 @@ dissolve_poly <- function(x){
   fx <- as.data.frame(fx)
   colnames(fx) <- "cluster"
   # And add the data back in
-  region <- SpatialPolygonsDataFrame(region, fx)
+  SpatialPolygonsDataFrame(region, fx)
 }
 #' Calculate evolutionary distinctiveness of phyloregions
 #'
