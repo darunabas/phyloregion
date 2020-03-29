@@ -14,4 +14,8 @@
 ^vignettes/scalability.*
 ^vignettes/bird.*
 ^vignettes/amphibian.*
+^vignettes/richness.*
+^vignettes/1global.*
+^vignettes/2continent.*
+^vignettes/3national.*
 ^R/darwinize.*
