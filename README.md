@@ -31,7 +31,11 @@ If you have any questions, suggestions or issues regarding the package, please a
 
 # Installation
 
-`phyloregion` is an open-source and free package hosted on GitHub. You will need to install the `devtools` package. In R, type:
+`phyloregion` is available from Comprehensive R Archive Network, so you can use `install.packages("phyloregion")`.
+
+See below for instructions on installing the development version
+
+The development version of `phyloregion` is hosted on GitHub. You will need to install the `devtools` package. In R, type:
 
 ```
 if (!requireNamespace("devtools", quietly = TRUE)) 

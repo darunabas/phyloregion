@@ -9,7 +9,7 @@ Authors@R: c(person("Barnabas H.", "Daru", email= "darunabas@gmail.com", role = 
              person("Albin", "Sandelin", role=c("ctb")))
 Description: Computational infrastructure for biogeography, community ecology, 
     and biodiversity conservation (Daru et al. 2020) <doi:10.1101/2020.02.12.945691>. It is
-    based on the conceptual work in Daru et al.(2017) <doi:10.1016/j.tree.2017.08.013> on 
+    based on the conceptual work in Daru et al. (2017) <doi:10.1016/j.tree.2017.08.013> on 
     patterns and processes of biogeographical regionalization. Additionally, the package 
     contains fast and efficient functions to compute more standard conservation measures 
     such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness 
