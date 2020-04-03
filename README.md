@@ -31,7 +31,11 @@ If you have any questions, suggestions or issues regarding the package, please a
 
 # Installation
 
-`phyloregion` is available from Comprehensive R Archive Network, so you can use `install.packages("phyloregion")`.
+`phyloregion` is available from [Comprehensive R Archive Network](https://cran.r-project.org/web/packages/phyloregion/index.html), so you can use:
+
+```
+install.packages("phyloregion")
+```
 
 See below for instructions on installing the development version
 
