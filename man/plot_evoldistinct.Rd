@@ -18,7 +18,7 @@ plot_evoldistinct(
   ...
 )
 
-\method{plot}{phyloregion}(x, shp = NULL, palette = "YlOrBr", ...)
+\method{plot}{phyloregion}(x, shp = NULL, palette = "NMDS", ...)
 
 plot_NMDS(x, ...)
 

@@ -68,7 +68,7 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
 #' @method plot phyloregion
 #' @importFrom graphics plot plot.default
 #' @export
-plot.phyloregion <- function(x, shp=NULL, palette="YlOrBr", ...) {
+plot.phyloregion <- function(x, shp=NULL, palette="NMDS", ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
   if(is.null(shp)) shp <- x$shp
