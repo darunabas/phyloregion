@@ -27,8 +27,8 @@
 choropleth <- function(x, k = 10, style="quantile", ...) {
   quants <- switch(style,
                    quantile = quantile(x, seq(0, 1, length.out = k + 1),
-                   equal = seq(min(x), max(x), length.out = k),
-                   pretty = c(pretty(x, k = k + 1))))
+                   equal = seq(min(x), max(x), length.out = k + 1),
+                   pretty = c(pretty(x, k = k))))
   l <- length(quants) - 1
   col_vec <- integer(length(x))
   col_vec[x == quants[1]] <- 1L
