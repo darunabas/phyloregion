@@ -15,6 +15,7 @@ plot_swatch(
   pos = "bottomleft",
   legend = TRUE,
   border = par("fg"),
+  style = "quantile",
   ...
 )
 }
@@ -42,6 +43,9 @@ function in the \code{grDevices} package.}
 \item{legend}{logical indicating whether to add a legend to the map.}
 
 \item{border}{plot polygons in SpatialPolygons object}
+
+\item{style}{one of \dQuote{equal}, \dQuote{pretty}, \dQuote{jenks},
+or \dQuote{quantile}.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }

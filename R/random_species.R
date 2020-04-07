@@ -15,6 +15,7 @@
 #' @importFrom rgeos gConvexHull
 #' @importFrom sp spsample SpatialPolygonsDataFrame
 #' @importFrom raster bind
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @return A polygon shapefile of species' extent of occurrence ranges.
 #'
@@ -26,12 +27,14 @@ random_species <- function(n, species, shp, ...) {
   x <- sample(n, species, replace = TRUE, ...)
 
   y <- vector("list", length(x))
+  pb <- txtProgressBar(min = 0, max = length(x), style = 3)
   for (i in seq_along(x)) {
     sp <- sample(c("random", "regular", "stratified",
       "nonaligned", "hexagonal", "clustered"), 6)
     v <- sp::spsample(shp, x[i], type = sp[1], iter = 10, ...)
     k <- rgeos::gConvexHull(v)
     y[[i]] <- k
+    setTxtProgressBar(pb, i)
   }
 
   m <- do.call(raster::bind, y)
