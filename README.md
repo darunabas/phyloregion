@@ -31,13 +31,13 @@ If you have any questions, suggestions or issues regarding the package, please a
 
 # Installation
 
-`phyloregion` is available from the [Comprehensive R Archive Network](https://cran.r-project.org/web/packages/phyloregion/index.html), so you can use:
+`phyloregion` is available from the [Comprehensive R Archive Network](https://cran.r-project.org/web/packages/phyloregion/index.html), so you can use the following line of code to install it:
 
 ```
 install.packages("phyloregion")
 ```
 
-See below for instructions on installing the development version of `phyloregion` hosted on GitHub. You will need to install the `devtools` package. In R, type:
+Alternatively, you can install the development version of `phyloregion` hosted on GitHub. To do this, you will need to install the `devtools` package. In R, type:
 
 ```
 if (!requireNamespace("devtools", quietly = TRUE)) 
@@ -50,7 +50,7 @@ Then:
 devtools::install_github("darunabas/phyloregion")
 ```
 
-Load the `phyloregion` package:
+Load the `phyloregion` package and you are good to go:
 
 ```
 library(phyloregion)
