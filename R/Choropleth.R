@@ -46,7 +46,11 @@ JENKS <- function(x, k){
 #'
 #' @param x Vector of values to discretize.
 #' @param k Numeric, the desired number of bins to discretize.
-#' @param style one of \dQuote{equal}, \dQuote{pretty}, or \dQuote{quantile}.
+#' @param style one of \dQuote{equal}, \dQuote{pretty}, \dQuote{jenks},
+#' \dQuote{quantile} or numeric vector with the actual breaks by
+#' specifying the minimum (\code{min}) and maximum (\code{max}) bounds.
+#' @param min the minima of the lowest bound of the break.
+#' @param max the maxima of the upper bound of the break
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname choropleth
 #' @keywords bioregion
@@ -67,12 +71,22 @@ JENKS <- function(x, k){
 #' plot(s, col = COLOUR[y])
 #' @export
 #'
-choropleth <- function(x, k = 10, style = "quantile", ...) {
-  quants <- switch(style,
-                   quantile = quantile(x, probs = seq(0, 1, 1/k), ...),
-                   equal = seq(min(x), max(x), length.out = (k + 1)),
-                   pretty = c(pretty(x, k = k, ...)),
-                   jenks = JENKS(x, k))
+choropleth <- function(x, k = 10, style = "quantile", min = NULL, max = NULL, ...) {
+
+  if (!is.null(min) & !is.null(max)) {
+    y <- seq(min, max, length.out = length(x))
+    quants <- switch(style,
+                     quantile = quantile(y, probs = seq(0, 1, 1/k), ...),
+                     equal = seq(min(y), max(y), length.out = (k + 1)),
+                     pretty = c(pretty(y, k = k, ...)),
+                     jenks = JENKS(y, k))
+  } else
+    quants <- switch(style,
+                     quantile = quantile(x, probs = seq(0, 1, 1/k), ...),
+                     equal = seq(min(x), max(x), length.out = (k + 1)),
+                     pretty = c(pretty(x, k = k, ...)),
+                     jenks = JENKS(x, k))
+
   l <- length(quants) - 1
   col_vec <- integer(length(x))
   col_vec[x == quants[1]] <- 1L
@@ -81,3 +95,4 @@ choropleth <- function(x, k = 10, style = "quantile", ...) {
   }
   col_vec
 }
+

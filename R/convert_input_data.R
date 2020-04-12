@@ -49,6 +49,7 @@ make_poly <- function(file){
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
 #' @importFrom raster values
 #' @importFrom sp CRS proj4string<-
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #' @return
 #' \itemize{
 #'   \item comm_dat: community data frame
@@ -71,12 +72,15 @@ raster2comm <- function(files) {
     index <- match(ind1, ind2)
     res <- NULL
     cells <- as.character(poly$grids)
+    pb <- txtProgressBar(min = 0, max = length(files), style = 3,
+  						width = getOption("width")/2L)
     for(i in seq_along(files)) {
         obj <- raster(files[i])
         tmp <- values(obj)
         tmp <- cells[index[tmp > 0]]
         tmp <- tmp[!is.na(tmp)]
         if(length(tmp) > 0) res <- rbind(res, cbind(tmp, names(obj)))
+        setTxtProgressBar(pb, i)
     }
     if(length(tmp) > 0) colnames(res) <- c("grids", "species")
     y <- long2sparse(as.data.frame(res))
@@ -85,8 +89,9 @@ raster2comm <- function(files) {
 
 
 #' @rdname raster2comm
-#' @importFrom sp coordinates over CRS proj4string merge
+#' @importFrom sp coordinates over CRS proj4string merge split
 #' @importFrom methods as
+#' @importFrom utils object.size
 #' @examples
 #' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
@@ -113,7 +118,12 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
 
     proj4string(dat) <- proj4string(m)
 
-    spo <- sp::over(dat, m, returnList = TRUE)
+    if (object.size(dat) > 50000L) {
+        dx <- sp::split(dat, f=dat@data$species)
+        spo <- progress(dx, function(x) sp::over(x, m, returnList = TRUE))
+    } else {
+        spo <- sp::over(dat, m, returnList = TRUE)
+    }
     spo <- lapply(spo, unlist)
     ll <- lengths(spo)
     y <- data.frame(grids=unlist(spo), species=rep(dat@data$species, ll))

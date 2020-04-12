@@ -8,17 +8,20 @@
 #' discretize the values of the quantity.
 #' @param k Numeric, the desired number of bins to discretize.
 #' @param palette name of the palette to generate colors from. The name is
-#' matched to the list of available color palettes from the \code{hcl.colors}
-#' function in the \code{grDevices} package.
+#' matched to the list of available color palettes from the
+#' \code{\link[grDevices]{hcl.colors}} function.
 #' @param leg Numeric, length of the legend
 #' @param key_label label for the color key
 #' @param legend logical indicating whether to add a legend to the map.
 #' @param style one of \dQuote{equal}, \dQuote{pretty}, \dQuote{jenks},
-#' or \dQuote{quantile}.
+#' \dQuote{quantile} or numeric with the actual breaks by specifying
+#' the minimum (\code{min}) and maximum (\code{max}) bounds.
 #' @param pos location to position the legend such as \dQuote{bottomright},
 #' \dQuote{bottomleft}, \dQuote{topleft}, and \dQuote{topright}.
 #' @param lwd numeric, line width of the legend.
 #' @param border plot polygons in SpatialPolygons object
+#' @param min the minima of the lowest bound of the break.
+#' @param max the maxima of the upper bound of the break
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname plot_swatch
 #' @keywords visualization and mapping
@@ -38,7 +41,8 @@
 #' @export
 plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
                         key_label = "", leg = 10, lwd = 15, pos = "bottomleft",
-                        legend = TRUE, border=par("fg"), style = "quantile", ...) {
+                        legend = TRUE, border=par("fg"), style = "quantile",
+                        min = NULL, max = NULL, ...) {
   ed <- FALSE
   if(inherits(x, "phyloregion")){
     x <- x$evol_distinct
@@ -48,13 +52,12 @@ plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
   }
   x$values <- values
   colrs <- hcl.colors(k, palette = palette, ...)
-  y <- choropleth(values, k, style = style, ...) # , style = style
-  plot(x, col = colrs[y], border=border, ...)
+  y <- choropleth(values, k, style = style, min, max, ...) # , style = style
+  plot(x, col = colrs[y], border = border, ...)
   if(ed) text(x, labels = as.character(x@data$cluster), ...)
   if (legend) {
     color_key(x, colrs, vals = values, lab = key_label, pos = pos, leg = leg,
               lwd = lwd)
   }
 }
-
 

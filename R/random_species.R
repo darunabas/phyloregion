@@ -27,7 +27,8 @@ random_species <- function(n, species, shp, ...) {
   x <- sample(n, species, replace = TRUE, ...)
 
   y <- vector("list", length(x))
-  pb <- txtProgressBar(min = 0, max = length(x), style = 3)
+  pb <- txtProgressBar(min = 0, max = length(x), style = 3,
+  						width = getOption("width")/2L)
   for (i in seq_along(x)) {
     sp <- sample(c("random", "regular", "stratified",
       "nonaligned", "hexagonal", "clustered"), 6)
