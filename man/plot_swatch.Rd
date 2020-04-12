@@ -16,6 +16,8 @@ plot_swatch(
   legend = TRUE,
   border = par("fg"),
   style = "quantile",
+  min = NULL,
+  max = NULL,
   ...
 )
 }
@@ -28,8 +30,8 @@ discretize the values of the quantity.}
 \item{k}{Numeric, the desired number of bins to discretize.}
 
 \item{palette}{name of the palette to generate colors from. The name is
-matched to the list of available color palettes from the \code{hcl.colors}
-function in the \code{grDevices} package.}
+matched to the list of available color palettes from the
+\code{\link[grDevices]{hcl.colors}} function.}
 
 \item{key_label}{label for the color key}
 
@@ -45,7 +47,12 @@ function in the \code{grDevices} package.}
 \item{border}{plot polygons in SpatialPolygons object}
 
 \item{style}{one of \dQuote{equal}, \dQuote{pretty}, \dQuote{jenks},
-or \dQuote{quantile}.}
+\dQuote{quantile} or numeric with the actual breaks by specifying
+the minimum (\code{min}) and maximum (\code{max}) bounds.}
+
+\item{min}{the minima of the lowest bound of the break.}
+
+\item{max}{the maxima of the upper bound of the break}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }
