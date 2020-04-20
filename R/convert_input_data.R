@@ -14,7 +14,6 @@ make_poly <- function(file){
 }
 
 
-
 #' Convert raw input distribution data to community
 #'
 #' The functions \code{points2comm}, \code{polys2comm}, \code{raster2comm}
@@ -91,7 +90,6 @@ raster2comm <- function(files) {
 #' @rdname raster2comm
 #' @importFrom sp coordinates over CRS proj4string merge split
 #' @importFrom methods as
-#' @importFrom utils object.size
 #' @examples
 #' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
@@ -117,13 +115,7 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
     }
 
     proj4string(dat) <- proj4string(m)
-
-    if (object.size(dat) > 50000L) {
-        dx <- sp::split(dat, f=dat@data$species)
-        spo <- progress(dx, function(x) sp::over(x, m, returnList = TRUE))
-    } else {
-        spo <- sp::over(dat, m, returnList = TRUE)
-    }
+    spo <- sp::over(dat, m, returnList = TRUE, ...)
     spo <- lapply(spo, unlist)
     ll <- lengths(spo)
     y <- data.frame(grids=unlist(spo), species=rep(dat@data$species, ll))

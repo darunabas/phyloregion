@@ -13,7 +13,7 @@
 #' @param leg Numeric, length of the legend
 #' @param key_label label for the color key
 #' @param legend logical indicating whether to add a legend to the map.
-#' @param style one of \dQuote{equal}, \dQuote{pretty}, \dQuote{jenks},
+#' @param breaks one of \dQuote{equal}, \dQuote{pretty}, \dQuote{jenks},
 #' \dQuote{quantile} or numeric with the actual breaks by specifying
 #' the minimum (\code{min}) and maximum (\code{max}) bounds.
 #' @param pos location to position the legend such as \dQuote{bottomright},
@@ -41,7 +41,7 @@
 #' @export
 plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
                         key_label = "", leg = 10, lwd = 15, pos = "bottomleft",
-                        legend = TRUE, border=par("fg"), style = "quantile",
+                        legend = TRUE, border=par("fg"), breaks = "quantile",
                         min = NULL, max = NULL, ...) {
   ed <- FALSE
   if(inherits(x, "phyloregion")){
@@ -51,8 +51,8 @@ plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
     ed <- TRUE
   }
   x$values <- values
-  colrs <- hcl.colors(k, palette = palette, ...)
-  y <- choropleth(values, k, style = style, min, max, ...) # , style = style
+  colrs <- hcl.colors(k, palette = palette)
+  y <- choropleth(values, k, breaks = breaks, min, max) # , style = style
   plot(x, col = colrs[y], border = border, ...)
   if(ed) text(x, labels = as.character(x@data$cluster), ...)
   if (legend) {

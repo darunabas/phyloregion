@@ -15,7 +15,7 @@ plot_swatch(
   pos = "bottomleft",
   legend = TRUE,
   border = par("fg"),
-  style = "quantile",
+  breaks = "quantile",
   min = NULL,
   max = NULL,
   ...
@@ -46,7 +46,7 @@ matched to the list of available color palettes from the
 
 \item{border}{plot polygons in SpatialPolygons object}
 
-\item{style}{one of \dQuote{equal}, \dQuote{pretty}, \dQuote{jenks},
+\item{breaks}{one of \dQuote{equal}, \dQuote{pretty}, \dQuote{jenks},
 \dQuote{quantile} or numeric with the actual breaks by specifying
 the minimum (\code{min}) and maximum (\code{max}) bounds.}
 
