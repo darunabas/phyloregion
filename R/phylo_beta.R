@@ -134,9 +134,9 @@ match_phylo_comm <- function(phy, comm, delete_empty_rows=TRUE) {
   }
   phytaxa <- phy$tip.label
   index <- intersect(commtaxa, phytaxa)
-  comm <- comm[, index]
+  comm <- comm[, index, drop = FALSE]
   if(delete_empty_rows){
-    comm[rowSums(comm)>0, , drop=FALSE]
+    comm <- comm[rowSums(comm)>0, , drop = FALSE]
   }
   phy <- keep.tip(phy, index)
   list(comm=comm, phy=phy)

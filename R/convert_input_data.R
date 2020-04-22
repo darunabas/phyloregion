@@ -1,15 +1,16 @@
 make_poly <- function(file){
     dd <- raster(file)
     pol <- rasterToPolygons(dd, fun=NULL, dissolve=FALSE, na.rm=FALSE)
-    proj4string(pol) <- CRS("+proj=longlat +datum=WGS84")
+    proj4string(pol) <- crs(dd)
     pol$grids <- paste0("v", seq_len(nrow(pol)))
     xx <- as.data.frame(xyFromCell(dd, cell=seq_len(ncell(dd))))
     #Make dataframe of all xy coordinates
     xx$grids <- paste0("v", seq_len(nrow(xx)))
-    m <- merge(pol, xx, by="grids")
-    names(m)[2] <- "richness"
+    m <- merge(pol, xx, by = "grids")
+    #names(m)[2] <- "richness"
     names(m)[3] <- "lon"
     names(m)[4] <- "lat"
+    m <- m[, c("grids", "lon", "lat")]
     m
 }
 
@@ -46,7 +47,7 @@ make_poly <- function(file){
 #' @seealso \code{\link[mapproj]{mapproject}} for conversion of
 #' latitude and longitude into projected coordinates system.
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
-#' @importFrom raster values
+#' @importFrom raster values crs
 #' @importFrom sp CRS proj4string<-
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @return
@@ -102,7 +103,7 @@ polys2comm <- function(dat, res=1, shp.grids = NULL,
                        species = "species", ...) {
     dat <- dat[, species, drop = FALSE]
     names(dat) <- "species"
-    if (length(shp.grids) == 0) {
+    if (is.null(shp.grids)) {
         e <- extent(dat) + (2 * res)
         # coerce to a SpatialPolygons object
         mask <- as(e, "SpatialPolygons")
