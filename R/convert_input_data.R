@@ -15,6 +15,25 @@ make_poly <- function(file){
 }
 
 
+progress <- function(x, FUN, ...) {
+    env <- environment()
+    pb_Total <- length(x)
+    counter <- 0
+    pb <- txtProgressBar(min = 0, max = pb_Total, style = 3,
+                         width = getOption("width")/2L)
+
+    # wrapper around FUN
+    wrapper <- function(...){
+        curVal <- get("counter", envir = env)
+        assign("counter", curVal +1 ,envir=env)
+        setTxtProgressBar(get("pb", envir=env), curVal +1)
+        FUN(...)
+    }
+    r <- lapply(x, wrapper, ...)
+    close(pb)
+    r
+}
+
 #' Convert raw input distribution data to community
 #'
 #' The functions \code{points2comm}, \code{polys2comm}, \code{raster2comm}
@@ -89,8 +108,10 @@ raster2comm <- function(files) {
 
 
 #' @rdname raster2comm
-#' @importFrom sp coordinates over CRS proj4string merge split
+#' @importFrom sp coordinates over CRS proj4string merge split merge
 #' @importFrom methods as
+#' @importFrom utils txtProgressBar setTxtProgressBar object.size
+#' @importFrom raster raster res rasterize xyFromCell getValues
 #' @examples
 #' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
@@ -99,31 +120,41 @@ raster2comm <- function(files) {
 #' }
 #'
 #' @export
-polys2comm <- function(dat, res=1, shp.grids = NULL,
-                       species = "species", ...) {
+polys2comm <- function(dat, res = 1, species = "species", ...) {
+
     dat <- dat[, species, drop = FALSE]
     names(dat) <- "species"
-    if (is.null(shp.grids)) {
-        e <- extent(dat) + (2 * res)
-        # coerce to a SpatialPolygons object
-        mask <- as(e, "SpatialPolygons")
-        lu <- as.data.frame(1L)
-        mask <- sp::SpatialPolygonsDataFrame(mask, lu)
-        m <- fishnet(mask, res = res)
+
+    e <- raster(dat)
+    res(e) <- res
+    s <- split(dat, f = dat$species)
+    w <- rasterize(s[[1]], e)
+    poly <- make_poly(w)
+    fg <- as.data.frame(xyFromCell(w, cell = 1:ncell(w)))
+    ind1 <- paste(as.character(fg$x), as.character(fg$y), sep = "_")
+    ind2 <- paste(as.character(poly$lon), as.character(poly$lat), sep = "_")
+    index <- match(ind1, ind2)
+    r <- NULL
+    cells <- as.character(poly$grids)[index]
+    if (object.size(dat) > 150000L) {
+        m <- progress(s, function(x) {
+            obj <- rasterize(x, e)
+            tmp <- getValues(obj)
+            cells[!is.na(tmp) & (tmp>0)]
+        })
     } else {
-        shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
-        m <- shp.grids
+        m <- lapply(s, function(x) {
+            obj <- rasterize(x, e)
+            tmp <- getValues(obj)
+            cells[!is.na(tmp) & (tmp>0)]
+        })
     }
 
-    proj4string(dat) <- proj4string(m)
-    spo <- sp::over(dat, m, returnList = TRUE, ...)
-    spo <- lapply(spo, unlist)
-    ll <- lengths(spo)
-    y <- data.frame(grids=unlist(spo), species=rep(dat@data$species, ll))
+    spo <- data.frame(grids = unlist(m), species = rep(labels(s), lengths(m)))
+    y <- long2sparse(spo)
 
-    y <- long2sparse(unique(y[, c("grids", "species")]))
-    tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-    z <- sp::merge(m, tmp, by = "grids")
+    z <- data.frame(grids = row.names(y), richness = rowSums(y > 0))
+    z <- sp::merge(poly, z, by = "grids")
     z <- z[!is.na(z@data$richness), ]
     return(list(comm_dat = y, poly_shp = z))
 }

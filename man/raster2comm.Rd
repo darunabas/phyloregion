@@ -8,7 +8,7 @@
 \usage{
 raster2comm(files)
 
-polys2comm(dat, res = 1, shp.grids = NULL, species = "species", ...)
+polys2comm(dat, res = 1, species = "species", ...)
 
 points2comm(
   dat,
@@ -36,9 +36,6 @@ with at least three columns:
 
 \item{res}{the grain size of the grid cells in decimal degrees (default).}
 
-\item{shp.grids}{if specified, the polygon shapefile of grid cells
-with a column labeled \dQuote{grids}.}
-
 \item{species}{a character string. The column with the species or taxon name.
 Default = \dQuote{species}.}
 
@@ -50,6 +47,9 @@ shapefile covering the boundary of the survey region.}
 \item{lon}{character with the column name of the longitude.}
 
 \item{lat}{character with the column name of the latitude.}
+
+\item{shp.grids}{if specified, the polygon shapefile of grid cells
+with a column labeled \dQuote{grids}.}
 }
 \value{
 \itemize{
