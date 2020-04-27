@@ -34,6 +34,7 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' The name is matched to the list of available color palettes from
 #' the \code{hcl.colors} function in the \code{grDevices} package.
 #' @param key_label label for the color key
+#' @param border plot polygons in SpatialPolygons object
 #' @param legend logical indicating whether to add a legend to the map.
 #' @param pos location to position the legend such as \dQuote{bottomright},
 #' \dQuote{bottomleft}, \dQuote{topleft}, and \dQuote{topright}.
@@ -46,14 +47,14 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' @export
 plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
                               key_label = "", legend = TRUE, leg = 5,
-                              lwd = 15, ...) {
+                              lwd = 15, border=par("fg"), ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
   m1 <- x$shp
   k <- nrow(m1)
-  COLRS <- hcl.colors(k, palette, rev = TRUE, ...)
+  COLRS <- hcl.colors(k, palette, rev = TRUE)
   y <- choropleth(m1$ED, k) # , style = style
-  plot(m1, col = COLRS[y], ...)
+  plot(m1, col = COLRS[y], border = border, ...)
   text(m1, labels = as.character(m1@data$cluster), ...)
   if (legend) {
     color_key(m1, COLRS, vals = m1$ED, leg = leg, lwd = lwd, pos = pos,

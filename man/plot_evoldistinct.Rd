@@ -15,6 +15,7 @@ plot_evoldistinct(
   legend = TRUE,
   leg = 5,
   lwd = 15,
+  border = par("fg"),
   ...
 )
 
@@ -41,6 +42,8 @@ the \code{hcl.colors} function in the \code{grDevices} package.}
 \item{leg}{parameter of the color key.}
 
 \item{lwd}{parameter of the color key.}
+
+\item{border}{plot polygons in SpatialPolygons object}
 
 \item{\dots}{arguments passed among methods.}
 

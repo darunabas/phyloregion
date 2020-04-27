@@ -32,7 +32,7 @@ dissolve_poly <- function(x){
 #' @importFrom rgeos gUnaryUnion
 #' @importFrom sp SpatialPolygonsDataFrame merge
 #' @importFrom sp CRS proj4string
-#' @importFrom raster text
+#' @importFrom raster text aggregate
 #' @importFrom graphics legend par points rect segments strheight strwidth text
 #' xinch yinch lines
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
@@ -114,7 +114,9 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
     }
     m <- m[!is.na(m@data$cluster), ]
 
-    region <- dissolve_poly(m)
+    region <- raster::aggregate(m, by = 'cluster')
+
+    #region <- dissolve_poly(m)
 
     m1 <- sp::merge(region, evol_distinct, by = "cluster")
     proj4string(m1) <- proj4string(shp)
@@ -159,7 +161,8 @@ infomap <- function(x, shp = NULL, ...){
   dx <- data.frame(grids=names(ms)[ind], cluster=unname(ms)[ind])
   if(!is.null(shp)){
      shp <- sp::merge(shp, dx, by = "grids")
-     shp <- dissolve_poly(shp)
+     #shp <- raster::aggregate(shp, by = 'cluster')
+      shp <- dissolve_poly(shp)
   }
   result <- list(membership=dx, k=k, shp=shp)
   class(result) <- "phyloregion"
