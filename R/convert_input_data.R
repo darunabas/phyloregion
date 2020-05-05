@@ -78,7 +78,8 @@ progress <- function(x, FUN, ...) {
 #' \donttest{
 #' fdir <- system.file("NGAplants", package="phyloregion")
 #' files <- file.path(fdir, dir(fdir))
-#' raster2comm(files)
+#' ras <- raster2comm(files)
+#' head(ras[[1]])
 #' }
 #'
 #' @export
@@ -91,15 +92,18 @@ raster2comm <- function(files) {
     index <- match(ind1, ind2)
     res <- NULL
     cells <- as.character(poly$grids)
-    pb <- txtProgressBar(min = 0, max = length(files), style = 3,
-  						width = getOption("width")/2L)
+    if (interactive()){
+        pb <- txtProgressBar(min = 0, max = length(files), style = 3,
+                             width = getOption("width")/2L)
+    }
+
     for(i in seq_along(files)) {
         obj <- raster(files[i])
         tmp <- values(obj)
         tmp <- cells[index[tmp > 0]]
         tmp <- tmp[!is.na(tmp)]
         if(length(tmp) > 0) res <- rbind(res, cbind(tmp, names(obj)))
-        setTxtProgressBar(pb, i)
+        if (interactive()) setTxtProgressBar(pb, i)
     }
     if(length(tmp) > 0) colnames(res) <- c("grids", "species")
     y <- long2sparse(as.data.frame(res))
@@ -116,7 +120,8 @@ raster2comm <- function(files) {
 #' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 #' sp <- random_species(100, species=5, shp=s)
-#' polys2comm(dat = sp, species = "species")
+#' pol <- polys2comm(dat = sp, species = "species")
+#' head(pol[[1]])
 #' }
 #'
 #' @export
@@ -136,7 +141,7 @@ polys2comm <- function(dat, res = 1, species = "species", ...) {
     index <- match(ind1, ind2)
     r <- NULL
     cells <- as.character(poly$grids)[index]
-    if (object.size(dat) > 150000L) {
+    if (object.size(dat) > 150000L && interactive()) {
         m <- progress(s, function(x) {
             obj <- rasterize(x, e)
             tmp <- getValues(obj)

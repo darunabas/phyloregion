@@ -28,7 +28,7 @@
 #' }
 #' @export
 read.community <- function(file, grids="grids", species="species", ...){
-  d <- read.csv(file, ...)
+  d <- read.csv(file, stringsAsFactors = TRUE, ...)
   M <- Matrix::sparseMatrix(as.integer(d[,grids]), as.integer(d[,species]),
                   x = rep(1L, nrow(d)),
                   dimnames = list(levels(d[,"grids"]), levels(d[,"species"])))

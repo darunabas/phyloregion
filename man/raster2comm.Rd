@@ -68,13 +68,15 @@ and extents for downstream analyses.
 \donttest{
 fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
-raster2comm(files)
+ras <- raster2comm(files)
+head(ras[[1]])
 }
 
 \donttest{
 s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 sp <- random_species(100, species=5, shp=s)
-polys2comm(dat = sp, species = "species")
+pol <- polys2comm(dat = sp, species = "species")
+head(pol[[1]])
 }
 
 s <- readRDS(system.file("nigeria/nigeria.rds", package = "phyloregion"))
