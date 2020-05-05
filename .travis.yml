@@ -16,6 +16,8 @@ addons:
       - libudunits2-dev
       - libmagick++-dev
 
+r_packages:
+  - rgdal
 
 matrix:
   include:
