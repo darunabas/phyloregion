@@ -1,7 +1,32 @@
+JS <- function(X) {
+  X <- gsub(" ","_",X)
+  js <- paste("// Braz_fl.js
+
+  // Create a webpage object
+  var page = require('webpage').create();
+
+  // Include the File System module for writing to files
+  var fs = require('fs');
+
+  // Specify source and path to output file
+  var url  = 'http://servicos.jbrj.gov.br/flora/search/",X,"'
+  var path = 'Braz_fl.html'
+
+  page.open(url, function (status) {
+    var content = page.content;
+    fs.write(path,content,'w')
+    phantom.exit();
+  });",sep="")
+  writeLines(js, "Braz_fl.js")
+}
 #' Plant traits from online databases
 #'
 #' Get plant height data from online databases.
 #' This function requires Internet connection.
+#' If the desired database uses java script to store the data
+#' (e.g. Flora of Brazil),
+#' the function requires phantomjs (.exe for windows) stored in
+#' the workind directory.
 #'
 #' @param X A vector of species names
 #' @param database The database to search for traits. Available databases include:
@@ -10,11 +35,11 @@
 #'   \item \dQuote{FNA} = Beta version of Flora of North America.
 #'   \item \dQuote{plantzafrica} = Plants of southern Africa.
 #'   \item \dQuote{wikipedia} = Wikipedia free online encyclopedia.
+#'   \item \dQuote{reflora} = Flora of Brazil
 #' }
 #'
 #' @rdname get_trait
 #' @importFrom xml2 read_html xml_text
-#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @return A dataframe containing the traits data for the species of interest.
 #' @examples
@@ -75,6 +100,33 @@ get_trait <- function(X, database = "FNA") {
           min <- trimws(min, "both", "\\D")
           min <- as.numeric(gsub("[^[:digit:].]", "", min))
           res <- as.data.frame(cbind(species=x, taxa=id, min, max, unit))
+        } else if (database=="reflora") {
+          if (!(file.exists("phantomjs") | file.exists("phantomjs.exe"))) {
+            warning("PhantomJS does not exist; please download it from https://phantomjs.org/download.html and save it in your working directory")
+          } else {
+            JS(x)
+            system("./phantomjs Braz_fl.js")
+            txt <- xml2::read_html("Braz_fl.html")
+            txt <- xml2::xml_text(txt)
+            id <- "NA"
+            txt <-  gsub("[ ]+", " ", txt)
+            txt <- sub(".*(Description)", "\\1", txt)
+
+            one <- sub(".*Stem:", "\\1", txt)
+            one <- sub(";.* ", "", one)
+            one <- gsub("administrator.*","",one)
+            one <- strsplit(one, split = "(?<=[a-zA-Z])\\s*(?=[0-9])", perl = TRUE)
+
+            mxun <- one[[1]][length(one[[1]])]
+            max <- gsub('([0-9]+) .*', '\\1', mxun)
+            max <- as.numeric(gsub("[^[:digit:].]", "", max))
+
+            unit <- sub("\\).*", "", sub(".*\\(", "", mxun))
+            min <- one[[1]][length(one[[1]])-1]
+            min <- trimws(min, "both", "\\D")
+            min <- as.numeric(gsub("[^[:digit:].]", "", min))
+            res <- as.data.frame(cbind(species=x, taxa=id, min, max, unit))
+          }
         } else {
           url <- switch(database,
                         FNA = paste0(fna, as.character(gsub(" ", "_", x))),
@@ -96,7 +148,6 @@ get_trait <- function(X, database = "FNA") {
           min <- as.numeric(gsub("[^[:digit:].]", "", min))
           res <- as.data.frame(cbind(species=x, taxa=id, min, max, unit))
         }
-
         return(res)
       }, error = function(e) {NA})
     })
@@ -124,6 +175,33 @@ get_trait <- function(X, database = "FNA") {
           min <- trimws(min, "both", "\\D")
           min <- as.numeric(gsub("[^[:digit:].]", "", min))
           res <- as.data.frame(cbind(species=x, taxa=id, min, max, unit))
+        } else if (database=="reflora") {
+          if(!(file.exists("phantomjs") | file.exists("phantomjs.exe"))) {
+            warning("PhantomJS does not exist; please download it from https://phantomjs.org/download.html and save it in your working directory")
+          } else {
+            JS(x)
+            system("./phantomjs Braz_fl.js")
+            txt <- xml2::read_html("Braz_fl.html")
+            txt <- xml2::xml_text(txt)
+            id <- "NA"
+            txt <-  gsub("[ ]+", " ", txt)
+            txt <- sub(".*(Description)", "\\1", txt)
+
+            one <- sub(".*Stem:", "\\1", txt)
+            one <- sub(";.* ", "", one)
+            one <- gsub("administrator.*","",one)
+            one <- strsplit(one, split = "(?<=[a-zA-Z])\\s*(?=[0-9])", perl = TRUE)
+
+            mxun <- one[[1]][length(one[[1]])]
+            max <- gsub('([0-9]+) .*', '\\1', mxun)
+            max <- as.numeric(gsub("[^[:digit:].]", "", max))
+
+            unit <- sub("\\).*", "", sub(".*\\(", "", mxun))
+            min <- one[[1]][length(one[[1]])-1]
+            min <- trimws(min, "both", "\\D")
+            min <- as.numeric(gsub("[^[:digit:].]", "", min))
+            res <- as.data.frame(cbind(species=x, taxa=id, min, max, unit))
+          }
         } else if (database=="plantzafrica"){
           x <- tolower(x)
           web <- paste0(pza, gsub(" ", "-", as.character(x)))

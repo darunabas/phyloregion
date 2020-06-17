@@ -15,6 +15,7 @@ get_trait(X, database = "FNA")
   \item \dQuote{FNA} = Beta version of Flora of North America.
   \item \dQuote{plantzafrica} = Plants of southern Africa.
   \item \dQuote{wikipedia} = Wikipedia free online encyclopedia.
+  \item \dQuote{reflora} = Flora of Brazil
 }}
 }
 \value{
@@ -23,6 +24,10 @@ A dataframe containing the traits data for the species of interest.
 \description{
 Get plant height data from online databases.
 This function requires Internet connection.
+If the desired database uses java script to store the data
+(e.g. Flora of Brazil),
+the function requires phantomjs (.exe for windows) stored in
+the workind directory.
 }
 \examples{
 sp <- c("Graptopetalum bartramii", "Salix raupii",
