@@ -114,3 +114,5 @@ text_NMDS <- function(x, ...) {
   c1 <- x$NMDS
   text(c1$points, as.character(1:c1$nobj), ...)
 }
+
+
