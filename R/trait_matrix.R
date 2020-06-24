@@ -40,10 +40,9 @@ trait_matrix <- function (x, trait, num = NULL, bin = NULL,
     subphy <- keep.tip(phy, intersect(phy$tip.label, x$species))
     submat <- subset(x, x$species %in% intersect(phy$tip.label, x$species))
     tx <- get_clades(subphy, cut = cut)
-    zz <- setNames(stack(setNames(tx, labels(tx))), c('species', 'cluster'))
-    memb <- as.numeric(levels(zz$cluster))[zz$cluster]
-    names(memb) <- zz$species
-    z <- length(unique(memb))
+    z <- length(tx)
+    memb <- rep(seq_len(z), lengths(tx))
+    names(memb) <- unlist(tx)
 
   } else if(method=="trait") {
     trait <- trait[!duplicated(trait[ , "species"]),]
@@ -66,6 +65,9 @@ trait_matrix <- function (x, trait, num = NULL, bin = NULL,
     trait$species <- gsub(" ", "_", trait$species)
     row.names(trait) <- trait$species
     zz <- trait[, cat, drop=FALSE]
+    names(zz) <- "foo"
+
+    zz$foo[zz$foo==""] <- "noise"
     memb <- as.numeric(factor(zz[,1]))
     names(memb) <- row.names(zz)
     z <- length(unique(memb))

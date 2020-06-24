@@ -117,8 +117,9 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 plot_structure <- function (x = NULL, shp.grids, K = 5,
                       pie_control = list(), legend = FALSE, ...) {
 
-    index <- intersect(row.names(x), shp.grids$grids)
+    index <- intersect(shp.grids$grids, rownames(x))
     s <- subset(shp.grids, shp.grids$grids %in% index)
+    x <- x[index,]
 
     pie_control_default <- list(edges = 200, clockwise = TRUE,
                                 init.angle = 90, density = NULL,
