@@ -31,7 +31,7 @@ traits. The variables must be a mix of numeric and categorical values.}
 
 \item{cat}{A vector of column index of the categorical trait variable.}
 
-\item{cut}{The slice time}
+\item{cut}{The slice time.}
 
 \item{phy}{is a dated phylogenetic tree with branch lengths stored
 as a phylo object (as in the ape package).}

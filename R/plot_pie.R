@@ -100,18 +100,22 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' the add.pie function.
 #' @param K Number of distinctive colors for the pies corresponding to the
 #' number of clusters or regions.
+#' @param legend Logical, whether to plot a legend or not.
 #' @param \dots Further arguments passed to or from other methods.
-#' @rdname plot_pie
-#' @importFrom graphics polygon par
+#' @rdname plot_structure
+#' @importFrom graphics polygon par legend
 #' @importFrom sp coordinates
 #' @importFrom rgeos gArea
 #' @importFrom colorspace LAB hex coords
 #' @importFrom utils modifyList
 #' @importFrom stats kmeans
 #' @return Returns no value, just map color pies in geographic space!
+#' @examples
+#' data(africa)
+#' plot_structure(africa$omega, shp.grids = africa$polys, K = africa$K)
 #' @export
-plot_pie <- function (x = NULL, shp.grids, K = 5,
-                      pie_control = list(), ...) {
+plot_structure <- function (x = NULL, shp.grids, K = 5,
+                      pie_control = list(), legend = FALSE, ...) {
 
     index <- intersect(row.names(x), shp.grids$grids)
     s <- subset(shp.grids, shp.grids$grids %in% index)
@@ -138,6 +142,11 @@ plot_pie <- function (x = NULL, shp.grids, K = 5,
             col = COLRS), pie_control))
     })))
     #par(old.par)
+        if (isTRUE(legend)) {
+          legend("bottomleft", legend=colnames(x), y.intersp = 0.8,
+                 fill = COLRS, bty = "n", ...)
+        }
+
 }
 
 

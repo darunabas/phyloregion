@@ -12,7 +12,7 @@
 #' @param num A vector of column index of the numerical trait variable.
 #' @param bin A vector of column index of the binary trait variable.
 #' @param cat A vector of column index of the categorical trait variable.
-#' @param cut The slice time
+#' @param cut The slice time.
 #' @param phy is a dated phylogenetic tree with branch lengths stored
 #' as a phylo object (as in the ape package).
 #' @param method Whether to compute phylogenetic
