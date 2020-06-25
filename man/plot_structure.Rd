@@ -8,8 +8,10 @@ plot_structure(
   x = NULL,
   shp.grids,
   K = 5,
+  r = 1,
   pie_control = list(),
   legend = FALSE,
+  legend_pie = FALSE,
   ...
 )
 }
@@ -22,10 +24,14 @@ with a column labeled \dQuote{grids}.}
 \item{K}{Number of distinctive colors for the pies corresponding to the
 number of clusters or regions.}
 
+\item{r}{Radius of the pie legend to be displayed}
+
 \item{pie_control}{The list of control parameters to be passed into
 the add.pie function.}
 
 \item{legend}{Logical, whether to plot a legend or not.}
+
+\item{legend_pie}{Legend for the pie plots.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }

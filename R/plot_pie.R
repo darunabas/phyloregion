@@ -1,3 +1,50 @@
+legend_box <- function (x, y = NULL, maxradius, mab = 1.2, inset = 0, double = F)
+{
+  auto <- if (is.character(x))
+    match.arg(x, c("bottomright", "bottom", "bottomleft",
+                   "left", "topleft", "top", "topright", "right", "center"))
+  else NA
+  asp <- get.asp()
+  h <- mab * 2 * maxradius
+  w <- h * asp
+  if (double)
+    h <- h * 2
+  usr <- par("usr")
+  inset <- rep(inset, length.out = 2)
+  if (!is.na(auto)) {
+    insetx <- inset[1L] * (usr[2L] - usr[1L])
+    left <- switch(auto, bottomright = , topright = , right = usr[2L] -
+                     w - insetx, bottomleft = , left = , topleft = usr[1L] +
+                     insetx, bottom = , top = , center = (usr[1L] + usr[2L] -
+                                                            w)/2)
+    insety <- inset[2L] * (usr[4L] - usr[3L])
+    top <- switch(auto, bottomright = , bottom = , bottomleft = usr[3L] +
+                    h + insety, topleft = , top = , topright = usr[4L] -
+                    insety, left = , right = , center = (usr[3L] + usr[4L] +
+                                                           h)/2)
+  }
+  else {
+    left <- x - 1.2 * asp * maxradius
+    top <- y + 1.2 * maxradius
+  }
+  return(c(left, top, left + w, top - h))
+}
+
+
+legend_pie <- function (x, y = NULL, z = NULL, labels, r = NULL, bty = "n",
+                        mab = 1.2, bg = NULL, inset = 0, ...)
+{
+  if (is.null(z))
+    z <- rep(1, length.out = length(labels))
+  box <- legend_box(x, y, r, mab, inset)
+  if (bty == "o")
+    rect(box[1], box[2], box[3], box[4], col = bg)
+  x <- (box[1] + box[3])/2
+  y <- box[4] + mab * r
+  add_pie(z, x, y, labels, r, ...)
+}
+
+
 hue <- function(x, hmin=0, hmax=360, cmin=0, cmax=180, lmin=0, lmax=100,
                      random=FALSE) {
   stopifnot(hmin >= 0, cmin >= 0, lmin >= 0,
@@ -100,6 +147,8 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' the add.pie function.
 #' @param K Number of distinctive colors for the pies corresponding to the
 #' number of clusters or regions.
+#' @param legend_pie Legend for the pie plots.
+#' @param r Radius of the pie legend to be displayed
 #' @param legend Logical, whether to plot a legend or not.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname plot_structure
@@ -114,8 +163,9 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' data(africa)
 #' plot_structure(africa$omega, shp.grids = africa$polys, K = africa$K)
 #' @export
-plot_structure <- function (x = NULL, shp.grids, K = 5,
-                      pie_control = list(), legend = FALSE, ...) {
+plot_structure <- function (x = NULL, shp.grids, K = 5, r = 1,
+                      pie_control = list(), legend = FALSE,
+                      legend_pie = FALSE, ...) {
 
     index <- intersect(shp.grids$grids, rownames(x))
     s <- subset(shp.grids, shp.grids$grids %in% index)
@@ -144,8 +194,12 @@ plot_structure <- function (x = NULL, shp.grids, K = 5,
     })))
     #par(old.par)
         if (isTRUE(legend)) {
-          legend("bottomleft", legend=colnames(x), y.intersp = 0.8,
-                 fill = COLRS, bty = "n", ncol = 2, ...)
+          legend("bottomright", legend=colnames(x), y.intersp = 0.8, bty = "n",
+                 col = COLRS, ncol = 2, pch = 19, pt.cex = 1.5, ...)
+        }
+        if (isTRUE(legend_pie)) {
+          legend_pie("bottomleft", labels=colnames(x), r=r, bty="n", col=COLRS,
+                     cex=0.5, label.dist=1.3, border = NA)
         }
 
 }
