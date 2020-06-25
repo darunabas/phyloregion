@@ -145,7 +145,7 @@ plot_structure <- function (x = NULL, shp.grids, K = 5,
     #par(old.par)
         if (isTRUE(legend)) {
           legend("bottomleft", legend=colnames(x), y.intersp = 0.8,
-                 fill = COLRS, bty = "n", ...)
+                 fill = COLRS, bty = "n", ncol = 2, ...)
         }
 
 }
