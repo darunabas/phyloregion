@@ -15,10 +15,12 @@
 #' @param cut The slice time.
 #' @param phy is a dated phylogenetic tree with branch lengths stored
 #' as a phylo object (as in the ape package).
+#' @param k The desired number of clusters for single numeric trait
+#' variables.
 #' @param method Whether to compute phylogenetic
-#' (method = \dQuote{phylo}), functional (method = \dQuote{trait})
-#' or on single functional categorical variables (method =
-#' \dQuote{single_cat})
+#' (method = \dQuote{phylo}), functional (method = \dQuote{trait}),
+#' single functional categorical variables (method = \dQuote{single_cat}),
+#' or for single numeric variables (method = \dQuote{single_num}).
 #' @rdname trait_matrix
 #' @keywords bioregion
 #' @importFrom dbscan dbscan
@@ -31,7 +33,7 @@
 #' @export
 trait_matrix <- function (x, trait, num = NULL, bin = NULL,
                           cat = NULL, cut = NULL, phy = NULL,
-                          method="trait")
+                          method="trait", k = NULL)
 {
 
   x$species <- gsub(" ", "_", x$species)
@@ -69,6 +71,19 @@ trait_matrix <- function (x, trait, num = NULL, bin = NULL,
 
     zz$foo[zz$foo==""] <- "noise"
     memb <- as.numeric(factor(zz[,1]))
+    names(memb) <- row.names(zz)
+    z <- length(unique(memb))
+    submat <- subset(x, x$species %in% intersect(x$species, names(memb)))
+  } else if (method=="single_num"){
+    trait <- trait[!duplicated(trait[ , "species"]),]
+    trait$species <- gsub(" ", "_", trait$species)
+    row.names(trait) <- trait$species
+    zz <- trait[, num, drop=FALSE]
+    names(zz) <- "foo"
+    zz$cluster <- findInterval(zz$foo,
+                               unique(quantile(zz$foo, probs = seq(0, 1, 1/k))),
+                               rightmost.closed = TRUE)
+    memb <- zz$cluster
     names(memb) <- row.names(zz)
     z <- length(unique(memb))
     submat <- subset(x, x$species %in% intersect(x$species, names(memb)))

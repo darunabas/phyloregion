@@ -12,7 +12,8 @@ trait_matrix(
   cat = NULL,
   cut = NULL,
   phy = NULL,
-  method = "trait"
+  method = "trait",
+  k = NULL
 )
 }
 \arguments{
@@ -37,9 +38,12 @@ traits. The variables must be a mix of numeric and categorical values.}
 as a phylo object (as in the ape package).}
 
 \item{method}{Whether to compute phylogenetic
-(method = \dQuote{phylo}), functional (method = \dQuote{trait})
-or on single functional categorical variables (method =
-\dQuote{single_cat})}
+(method = \dQuote{phylo}), functional (method = \dQuote{trait}),
+single functional categorical variables (method = \dQuote{single_cat}),
+or for single numeric variables (method = \dQuote{single_num}).}
+
+\item{k}{The desired number of clusters for single numeric trait
+variables.}
 }
 \value{
 Function returns a community data frame that captures the
