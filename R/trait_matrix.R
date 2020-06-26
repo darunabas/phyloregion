@@ -263,8 +263,9 @@ trait_matrix <- function (x, trait, num = NULL, bin = NULL,
     tx <- get_clades(subphy, cut = cut)
     z <- length(tx)
     memb <- rep(seq_len(z), lengths(tx))
-    names(memb) <- unlist(tx)
-
+#    names(memb) <- unlist(tx)
+    sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
+                       dimnames=list(unlist(tx), as.character(seq_len(z))))
   } else if(method=="trait") {
     trait <- trait[!duplicated(trait[ , "species"]),]
     trait$species <- gsub(" ", "_", trait$species)
@@ -277,10 +278,15 @@ trait_matrix <- function (x, trait, num = NULL, bin = NULL,
     gc()
 
     memb <- g2$cluster
-    names(memb) <- labels(g1)
-    memb <- memb[!(memb==0)]
+#    names(memb) <- labels(g1)
+#    memb <- memb[!(memb==0)]
     z <- length(unique(memb))
-    submat <- subset(x, x$species %in% intersect(x$species, names(memb)))
+
+    sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
+                       dimnames=list(labels(g1), as.character(seq_len(z))))
+
+
+    submat <- subset(x, x$species %in% intersect(x$species, labels(g1)))
   } else if (method=="single_cat"){
     trait <- trait[!duplicated(trait[ , "species"]),]
     trait$species <- gsub(" ", "_", trait$species)
@@ -289,10 +295,14 @@ trait_matrix <- function (x, trait, num = NULL, bin = NULL,
     names(zz) <- "foo"
 
     zz$foo[zz$foo==""] <- "noise"
-    memb <- as.numeric(factor(zz[,1]))
-    names(memb) <- row.names(zz)
+    memb <- as.integer(factor(zz[,1]))
+#    names(memb) <- row.names(zz)
     z <- length(unique(memb))
-    submat <- subset(x, x$species %in% intersect(x$species, names(memb)))
+    sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
+                       dimnames=list(row.names(zz), as.character(seq_len(z))))
+
+
+    submat <- subset(x, x$species %in% intersect(x$species, row.names(zz)))
   } else if (method=="single_num"){
     trait <- trait[!duplicated(trait[ , "species"]),]
     trait$species <- gsub(" ", "_", trait$species)
@@ -303,28 +313,31 @@ trait_matrix <- function (x, trait, num = NULL, bin = NULL,
                                unique(quantile(zz$foo, probs = seq(0, 1, 1/k))),
                                rightmost.closed = TRUE)
     memb <- zz$cluster
-    names(memb) <- row.names(zz)
+#    names(memb) <- row.names(zz)
     z <- length(unique(memb))
-    submat <- subset(x, x$species %in% intersect(x$species, names(memb)))
+    sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
+                       dimnames=list(row.names(zz), as.character(seq_len(z))))
+
+    submat <- subset(x, x$species %in% intersect(x$species, row.names(zz)))
   }
 
   M <- long2sparse(submat)
-  mx <- Matrix(0, dim(M)[[1]], z)
-  tmp <- Matrix(0, dim(M)[[1]], dim(M)[[2]])
-  rownames(mx) <- rownames(M)
-  rownames(tmp) <- rownames(M)
-  colnames(tmp) <- names(memb)[order(memb, decreasing = FALSE)]
-  colnames(mx) <- colnames(M)[1:z]
+#  mx <- Matrix(0, dim(M)[[1]], z)
+#  tmp <- Matrix(0, dim(M)[[1]], dim(M)[[2]])
+#  rownames(mx) <- rownames(M)
+#  rownames(tmp) <- rownames(M)
+#  colnames(tmp) <- names(memb)[order(memb, decreasing = FALSE)]
+#  colnames(mx) <- colnames(M)[1:z]
 
-  for (i in 1:dim(M)[[1]]) {
-    tmp[i, ] <- as.numeric(M[i, names(memb)[order(memb, decreasing = FALSE)]])
-    for (j in 1:z) {
-      names <- names(memb)[memb == j]
-      mx[i, j] <- sum(tmp[i, names])
-      colnames(mx)[j] <- names[[1]]
-    }
-  }
-
+#  for (i in 1:dim(M)[[1]]) {
+#    tmp[i, ] <- as.numeric(M[i, names(memb)[order(memb, decreasing = FALSE)]])
+#    for (j in 1:z) {
+#      names <- names(memb)[memb == j]
+#      mx[i, j] <- sum(tmp[i, names])
+#      colnames(mx)[j] <- names[[1]]
+#    }
+#  }
+  mx <- M %*% sp
   res <- sparse2long(mx)
   return(list(comm_dat = res, k = z))
 }
