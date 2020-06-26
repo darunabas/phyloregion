@@ -31,17 +31,17 @@ legend_box <- function (x, y = NULL, maxradius, mab = 1.2, inset = 0, double = F
 }
 
 
-legend_pie <- function (x, y = NULL, z = NULL, labels, r = NULL, bty = "n",
+legend_pie <- function (x, y = NULL, z = NULL, labels, rd = NULL, bty = "n",
                         mab = 1.2, bg = NULL, inset = 0, ...)
 {
   if (is.null(z))
     z <- rep(1, length.out = length(labels))
-  box <- legend_box(x, y, r, mab, inset)
+  box <- legend_box(x, y, rd, mab, inset)
   if (bty == "o")
     rect(box[1], box[2], box[3], box[4], col = bg)
   x <- (box[1] + box[3])/2
-  y <- box[4] + mab * r
-  add_pie(z, x, y, labels, r, ...)
+  y <- box[4] + mab * rd
+  add_pie(z, x, y, labels, rd, ...)
 }
 
 
@@ -198,8 +198,9 @@ plot_structure <- function (x = NULL, shp.grids, K = 5, r = 1,
                  col = COLRS, ncol = 2, pch = 19, pt.cex = 1.5, ...)
         }
         if (isTRUE(legend_pie)) {
-          legend_pie("bottomleft", labels=colnames(x), r=r, bty="n", col=COLRS,
-                     cex=0.5, label.dist=1.3, border = NA)
+            rl = (sqrt(gArea(s[1,]))*r)*2
+            legend_pie("left", labels=colnames(x), rd=rl, bty="n",
+                       col=COLRS, cex=0.5, label.dist=1.3, border = NA)
         }
 
 }
