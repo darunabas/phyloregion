@@ -236,11 +236,11 @@ gower_distance <- function (data, method = "gower", idnum = NULL, idbin = NULL,
 #' as a phylo object (as in the ape package).
 #' @param k The desired number of clusters for single numeric trait
 #' variables.
-#' @param method Whether to compute phylogenetic
-#' (method = \dQuote{phylo}), functional (method = \dQuote{trait}),
-#' single functional categorical variables (method = \dQuote{single_cat}),
-#' or for single numeric variables (method = \dQuote{single_num}).
-#' @rdname trait_matrix
+#' @param method Whether to compute phylogenetic, functional
+#' (method = \dQuote{trait}), single functional categorical
+#' variables (method = \dQuote{single_cat}), or for single
+#' numeric variables (method = \dQuote{single_num}).
+#' @rdname counts
 #' @keywords bioregion
 #' @importFrom dbscan dbscan
 #' @importFrom stats as.dist var sd dist
@@ -250,7 +250,7 @@ gower_distance <- function (data, method = "gower", idnum = NULL, idbin = NULL,
 #' @return Function returns a community data frame that captures the
 #' count of each species based on its cluster membership.
 #' @export
-trait_matrix <- function (x, trait, num = NULL, bin = NULL,
+counts <- function (x, trait, num = NULL, bin = NULL,
                           cat = NULL, cut = NULL, phy = NULL,
                           method="trait", k = NULL)
 {
