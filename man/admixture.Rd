@@ -10,7 +10,7 @@ admixture(
   shape = NULL,
   initopics = NULL,
   tol = 0.1,
-  bf = FALSE,
+  bf = TRUE,
   kill = 2,
   ord = TRUE,
   verb = 1,
@@ -62,7 +62,7 @@ print something, with the level of detail increasing with verb.}
 An topics object list with entries
 \itemize{
   \item \code{K} The number of latent topics estimated. If input
-  length(K)>1, on output this is a single value corresponding to
+  \code{length(K)>1}, on output this is a single value corresponding to
   the model with the highest Bayes factor.
   \item \code{theta} The ncol{counts} by K matrix of estimated
   topic-phrase probabilities.

@@ -40,7 +40,7 @@
 #' @return An topics object list with entries
 #' \itemize{
 #'   \item \code{K} The number of latent topics estimated. If input
-#'   length(K)>1, on output this is a single value corresponding to
+#'   \code{length(K)>1}, on output this is a single value corresponding to
 #'   the model with the highest Bayes factor.
 #'   \item \code{theta} The ncol{counts} by K matrix of estimated
 #'   topic-phrase probabilities.
@@ -56,8 +56,8 @@
 #' }
 #' @export
 admixture <- function(counts, K, shape = NULL, initopics = NULL, tol = 0.1,
-                      bf = FALSE, kill = 2, ord = TRUE, verb = 1, ...) {
-    res <- topics(counts, K, shape=NULL, initopics=NULL,
-                 tol=0.1, bf=FALSE, kill=2, ord=TRUE, verb=1, ...)
+                      bf = TRUE, kill = 2, ord = TRUE, verb = 1, ...) {
+    res <- topics(counts, K, shape = shape, initopics = initopics, tol = tol,
+                  bf = bf, kill = kill, ord = ord, verb = verb, ...)
     return(res)
 }
