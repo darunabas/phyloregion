@@ -189,7 +189,7 @@ plot_structure <- function (x = NULL, shp.grids, K = 5, r = 1,
             x = coordinates(s[r,])[, 1],
             y = coordinates(s[r,])[, 2],
             labels = c("", "", ""),
-            radius = sqrt(gArea(s[r,]))*0.6,
+            radius = sqrt(gArea(s[r,]))*0.55,
             col = COLRS), pie_control))
     })))
     #par(old.par)
