@@ -46,7 +46,7 @@ counts <- function (x, trait, cut = NULL, phy = NULL, k = 10)
     trait <- trait[ , !colnames(trait) %in% "species"]
 
     x1 <- Filter(is.character, trait)
-    x1[] <- lapply(x1, factor)
+    x1[] <- lapply(x1, as.factor)
 
     x2 <- Filter(is.numeric, trait)
     x2[] <- apply(x2, 2, as.numeric)
