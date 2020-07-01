@@ -2,19 +2,9 @@
 % Please edit documentation in R/counts.R
 \name{counts}
 \alias{counts}
-\title{Phyloregions for functional traits}
+\title{Phyloregions for functional traits and phylogeny}
 \usage{
-counts(
-  x,
-  trait,
-  num = NULL,
-  bin = NULL,
-  cat = NULL,
-  cut = NULL,
-  phy = NULL,
-  method = "trait",
-  k = NULL
-)
+counts(x, trait, cut = NULL, phy = NULL, k = 10)
 }
 \arguments{
 \item{x}{A community data in long format with one column representing
@@ -26,24 +16,12 @@ labeled \dQuote{species} containing the texonomic groups to be
 evaluated whereas the remaining columns have the various functional
 traits. The variables must be a mix of numeric and categorical values.}
 
-\item{num}{A vector of column index of the numerical trait variable.}
-
-\item{bin}{A vector of column index of the binary trait variable.}
-
-\item{cat}{A vector of column index of the categorical trait variable.}
-
 \item{cut}{The slice time.}
 
 \item{phy}{is a dated phylogenetic tree with branch lengths stored
 as a phylo object (as in the ape package).}
 
-\item{method}{Whether to compute phylogenetic, functional
-(method = \dQuote{trait}), single functional categorical
-variables (method = \dQuote{single_cat}), or for single
-numeric variables (method = \dQuote{single_num}).}
-
-\item{k}{The desired number of clusters for single numeric trait
-variables.}
+\item{k}{The desired number of clusters.}
 }
 \value{
 Function returns a community data frame that captures the
