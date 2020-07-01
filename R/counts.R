@@ -36,13 +36,14 @@ counts <- function (x, trait, cut = NULL, phy = NULL, k = 10)
     sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
                        dimnames=list(unlist(tx), as.character(seq_len(z))))
   } else {
+    trait <- as.data.frame(trait)
     trait <- trait[!duplicated(trait[ , "species"]),]
     trait$species <- gsub(" ", "_", trait$species)
     index <- intersect(x$species, trait$species)
     trait <- subset(trait, trait$species %in% index)
 
     row.names(trait) <- trait$species
-    trait <- trait[ , !names(trait) %in% "species"]
+    trait <- trait[ , !colnames(trait) %in% "species"]
 
     x1 <- Filter(is.character, trait)
     x1[] <- lapply(x1, factor)
