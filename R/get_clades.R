@@ -4,7 +4,6 @@
 #'
 #' @param tree is a dated phylogenetic tree with branch lengths stored
 #' as a phylo object (as in the \code{ape} package).
-#' @param ... Further arguments passed to or from other methods.
 #' @param cut the slice time
 #' @param k number of slices
 #' @rdname get_clades

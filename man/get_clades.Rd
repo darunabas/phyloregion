@@ -4,7 +4,7 @@
 \alias{get_clades}
 \title{Get descendant nodes of phylogeny at a given time depth}
 \usage{
-get_clades(tree, cut = 2, ...)
+get_clades(tree, cut = NULL, k = NULL)
 }
 \arguments{
 \item{tree}{is a dated phylogenetic tree with branch lengths stored
@@ -12,7 +12,7 @@ as a phylo object (as in the \code{ape} package).}
 
 \item{cut}{the slice time}
 
-\item{...}{Further arguments passed to or from other methods.}
+\item{k}{number of slices}
 }
 \value{
 A list of descendants

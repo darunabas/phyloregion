@@ -30,7 +30,7 @@ counts <- function (x, trait, cut = NULL, phy = NULL, k = 10)
   if (!is.null(phy)) {
     subphy <- keep.tip(phy, intersect(phy$tip.label, x$species))
     submat <- subset(x, x$species %in% intersect(phy$tip.label, x$species))
-    tx <- get_clades(subphy, cut = cut)
+    tx <- get_clades(subphy, cut = cut, k = k)
     z <- length(tx)
     memb <- rep(seq_len(z), lengths(tx))
     sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
