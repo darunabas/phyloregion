@@ -6,6 +6,7 @@
 #' as a phylo object (as in the \code{ape} package).
 #' @param ... Further arguments passed to or from other methods.
 #' @param cut the slice time
+#' @param k number of slices
 #' @rdname get_clades
 #' @keywords bioregion
 #' @importFrom phangorn Descendants
@@ -25,9 +26,25 @@
 #' abline(v=28-23) # the root is here at 28
 #' get_clades(bird.orders, 23)
 #' @export
-get_clades <- function(tree, cut=2, ...){
+get_clades <- function(tree, cut=NULL, k=NULL){
   nh <- node.depth.edgelength(tree)
   nh <- max(nh) - nh
+  if(!is.null(k)){
+    if(k >= Ntip(tree)) return(as.list(tree$tip.label))
+    if(k == 1) return(list(tree$tip.label))
+    kids <- lengths(Descendants(tree, type = "children"))
+    kids[kids>0] <- kids[kids>0]- 1L
+    tmp <- 1
+    eps <- 1e-8
+    ordered_nh <- order(nh, decreasing = TRUE)
+    i <- 1
+    while(tmp < k){
+      j <- ordered_nh[i]
+      cut <- nh[j] - eps
+      tmp <- tmp + kids[j]
+      i <- i+1
+    }
+  }
   ind <- which( (nh[tree$edge[,1]] > cut) & (nh[tree$edge[,2]] <= cut) )
   desc <- Descendants(tree)
   res <- desc[tree$edge[ind,2]]
