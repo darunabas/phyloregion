@@ -7,7 +7,6 @@
 plot_structure(
   x = NULL,
   shp.grids,
-  K = 5,
   r = 1,
   pie_control = list(),
   legend = FALSE,
@@ -20,9 +19,6 @@ plot_structure(
 
 \item{shp.grids}{if specified, the polygon shapefile of grid cells
 with a column labeled \dQuote{grids}.}
-
-\item{K}{Number of distinctive colors for the pies corresponding to the
-number of clusters or regions.}
 
 \item{r}{Radius of the pie legend to be displayed}
 
@@ -43,5 +39,5 @@ Visualize biogeographic patterns using pie charts
 }
 \examples{
 data(africa)
-plot_structure(africa$omega, shp.grids = africa$polys, K = africa$K)
+plot_structure(africa$omega, shp.grids = africa$polys)
 }

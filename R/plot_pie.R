@@ -145,8 +145,6 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' with a column labeled \dQuote{grids}.
 #' @param pie_control The list of control parameters to be passed into
 #' the add.pie function.
-#' @param K Number of distinctive colors for the pies corresponding to the
-#' number of clusters or regions.
 #' @param legend_pie Legend for the pie plots.
 #' @param r Radius of the pie legend to be displayed
 #' @param legend Logical, whether to plot a legend or not.
@@ -161,9 +159,9 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' @return Returns no value, just map color pies in geographic space!
 #' @examples
 #' data(africa)
-#' plot_structure(africa$omega, shp.grids = africa$polys, K = africa$K)
+#' plot_structure(africa$omega, shp.grids = africa$polys)
 #' @export
-plot_structure <- function (x = NULL, shp.grids, K = 5, r = 1,
+plot_structure <- function (x = NULL, shp.grids, r = 1,
                       pie_control = list(), legend = FALSE,
                       legend_pie = FALSE, ...) {
 
@@ -176,6 +174,8 @@ plot_structure <- function (x = NULL, shp.grids, K = 5, r = 1,
                                 angle = 45, border = NA,
                                 lty = NULL, label.dist = 1.1)
     pie_control <- modifyList(pie_control_default, pie_control)
+
+    K <- ncol(x)
 
     COLRS <- hue(K, hmin=0, hmax=360, cmin=0, cmax=180, lmin=0, lmax=100,
                      random=FALSE)
