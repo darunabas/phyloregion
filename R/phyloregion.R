@@ -1,16 +1,16 @@
-dissolve_poly <- function(x){
+#dissolve_poly <- function(x){
   # Now the dissolve
-  x <- x[!is.na(x@data$cluster),]
-  region <- rgeos::gUnaryUnion(x, id = x@data$cluster)
-  # make sure row names match
-  row.names(region) <- as.character(seq_along(region))
-  # Extract the data you want (the larger geography)
-  fx <- unique(x$cluster)
-  fx <- as.data.frame(fx)
-  colnames(fx) <- "cluster"
-  # And add the data back in
-  SpatialPolygonsDataFrame(region, fx)
-}
+#  x <- x[!is.na(x@data$cluster),]
+#  region <- rgeos::gUnaryUnion(x, id = x@data$cluster)
+#  # make sure row names match
+#  row.names(region) <- as.character(seq_along(region))
+#  # Extract the data you want (the larger geography)
+#  fx <- unique(x$cluster)
+#  fx <- as.data.frame(fx)
+#  colnames(fx) <- "cluster"
+#  # And add the data back in
+#  SpatialPolygonsDataFrame(region, fx)
+#}
 #' Calculate evolutionary distinctiveness of phyloregions
 #'
 #' This function estimates evolutionary distinctiveness of each phyloregion by
@@ -29,7 +29,6 @@ dissolve_poly <- function(x){
 #' @rdname phyloregion
 #' @keywords phyloregion
 #' @importFrom stats as.dist hclust cutree
-#' @importFrom rgeos gUnaryUnion
 #' @importFrom sp SpatialPolygonsDataFrame merge
 #' @importFrom sp CRS proj4string
 #' @importFrom raster text aggregate
@@ -161,8 +160,8 @@ infomap <- function(x, shp = NULL, ...){
   dx <- data.frame(grids=names(ms)[ind], cluster=unname(ms)[ind])
   if(!is.null(shp)){
      shp <- sp::merge(shp, dx, by = "grids")
-     #shp <- raster::aggregate(shp, by = 'cluster')
-      shp <- dissolve_poly(shp)
+     shp <- raster::aggregate(shp, by = 'cluster')
+     #shp <- dissolve_poly(shp)
   }
   result <- list(membership=dx, k=k, shp=shp)
   class(result) <- "phyloregion"

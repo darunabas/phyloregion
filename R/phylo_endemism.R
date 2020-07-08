@@ -34,6 +34,10 @@
 #' Phylogenetic endemism: a new approach for identifying geographical
 #' concentrations of evolutionary history. \emph{Molecular Ecology}
 #' \strong{18}(19): 4061-4072.
+#'
+#' Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism
+#' patterns are scale dependent. \emph{Nature Communications} \strong{11}
+#' : 2115.
 #' @examples
 #' data(africa)
 #' pe <- phylo_endemism(africa$comm, africa$phylo)

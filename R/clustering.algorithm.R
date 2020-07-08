@@ -9,7 +9,6 @@
 #' @rdname select_linkage
 #' @keywords bioregion
 #' @importFrom stats hclust as.dist cor cophenetic
-#' @importFrom cluster diana
 #'
 #' @references
 #' Sokal, R.R. & Rohlf, F.J. (1962) The comparison of dendrograms by
@@ -40,7 +39,6 @@ select_linkage <- function(x){
   hc6 <- hclust(as.dist(x), method="mcquitty")
   hc7 <- hclust(as.dist(x), method="median")
   hc8 <- hclust(as.dist(x), method="centroid")
-  hc9 <- diana(as.dist(x))
 
   z <- c(UPGMA=cor(as.dist(x), cophenetic(hc1), use="complete.obs"),
     Single=cor(as.dist(x), cophenetic(hc2), use="complete.obs"),
@@ -49,8 +47,7 @@ select_linkage <- function(x){
     ward.D2=cor(as.dist(x), cophenetic(hc5), use="complete.obs"),
     WPGMA=cor(as.dist(x), cophenetic(hc6), use="complete.obs"),
     WPGMC=cor(as.dist(x), cophenetic(hc7), use="complete.obs"),
-    UPGMC=cor(as.dist(x), cophenetic(hc8), use="complete.obs"),
-    DIANA=cor(as.dist(x), cophenetic(hc9), use="complete.obs"))
+    UPGMC=cor(as.dist(x), cophenetic(hc8), use="complete.obs"))
 
   cat("\nA good clustering algorithm for the distance matrix is:\n",
       names(z[which.max(z)]),

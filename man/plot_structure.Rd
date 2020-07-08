@@ -6,7 +6,7 @@
 \usage{
 plot_structure(
   x = NULL,
-  shp.grids,
+  shp,
   r = 1,
   pie_control = list(),
   legend = FALSE,
@@ -17,7 +17,7 @@ plot_structure(
 \arguments{
 \item{x}{a matrix of phyloregion of probabilities of each species}
 
-\item{shp.grids}{if specified, the polygon shapefile of grid cells
+\item{shp}{if specified, the polygon shapefile of grid cells
 with a column labeled \dQuote{grids}.}
 
 \item{r}{Radius of the pie legend to be displayed}
@@ -39,5 +39,5 @@ Visualize biogeographic patterns using pie charts
 }
 \examples{
 data(africa)
-plot_structure(africa$omega, shp.grids = africa$polys)
+plot_structure(africa$omega, shp = africa$polys)
 }

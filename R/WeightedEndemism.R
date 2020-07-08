@@ -13,6 +13,10 @@
 #' Crisp, M.D., Laffan, S., Linder, H.P. & Monro, A. (2001) Endemism in the
 #' Australian flora. \emph{Journal of Biogeography} \strong{28}: 183–198.
 #'
+#' Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism
+#' patterns are scale dependent. \emph{Nature Communications} \strong{11}
+#' : 2115.
+#'
 #' @examples
 #' library(raster)
 #' data(africa)

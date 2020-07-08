@@ -53,4 +53,8 @@ Rosauer, D., Laffan, S.W., Crisp, M.D., Donnellan, C. & Cook, L.G. (2009).
 Phylogenetic endemism: a new approach for identifying geographical
 concentrations of evolutionary history. \emph{Molecular Ecology}
 \strong{18}(19): 4061-4072.
+
+Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism
+patterns are scale dependent. \emph{Nature Communications} \strong{11}
+: 2115.
 }
