@@ -38,13 +38,13 @@ progress <- function(x, FUN, ...) {
 #'
 #' The functions \code{points2comm}, \code{polys2comm}, \code{raster2comm}
 #' provide convenient interfaces to convert raw distribution data often
-#' available as point records, extent-of-occurrence polygons and raster layers,
+#' available as point records, polygons and raster layers,
 #' respectively, to a community composition data frame at varying spatial grains
 #' and extents for downstream analyses.
 #'
 #' @param files  list of raster layer objects with the same spatial
 #' extent and resolution.
-#' @param dat layers of merged maps corresponding to species ranges for
+#' @param dat layers of merged maps corresponding to species polygons for
 #' \code{polys2comm}; or point occurrence data frame for \code{points2comm},
 #' with at least three columns:
 #' \itemize{
