@@ -14,6 +14,7 @@
 #' @param phy is a dated phylogenetic tree with branch lengths stored
 #' as a phylo object (as in the ape package).
 #' @param k The desired number of clusters.
+#' @param na.rm Logical, whether NA values should be removed or not.
 #' @rdname counts
 #' @keywords bioregion
 #' @importFrom clustMixType kproto
@@ -22,7 +23,7 @@
 #' @return Function returns a community data frame that captures the
 #' count of each species based on its cluster membership.
 #' @export
-counts <- function (x, trait, cut = NULL, phy = NULL, k = 10)
+counts <- function (x, trait, cut = NULL, phy = NULL, k = 10, na.rm = FALSE)
 {
 
   x$species <- gsub(" ", "_", x$species)
@@ -53,7 +54,7 @@ counts <- function (x, trait, cut = NULL, phy = NULL, k = 10)
     m <- data.frame(x1, x2)
 
     # apply k-prototypes
-    m <- kproto(m, k=k)
+    m <- kproto(m, k=k, na.rm = na.rm)
 
     memb <- m$cluster
     #    names(memb) <- labels(g1)

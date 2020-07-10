@@ -4,7 +4,7 @@
 \alias{counts}
 \title{Phyloregions for functional traits and phylogeny}
 \usage{
-counts(x, trait, cut = NULL, phy = NULL, k = 10)
+counts(x, trait, cut = NULL, phy = NULL, k = 10, na.rm = FALSE)
 }
 \arguments{
 \item{x}{A community data in long format with one column representing
@@ -22,6 +22,8 @@ traits. The variables must be a mix of numeric and categorical values.}
 as a phylo object (as in the ape package).}
 
 \item{k}{The desired number of clusters.}
+
+\item{na.rm}{Logical, whether NA values should be removed or not.}
 }
 \value{
 Function returns a community data frame that captures the
