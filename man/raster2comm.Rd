@@ -53,7 +53,7 @@ with a column labeled \dQuote{grids}.}
 }
 \value{
 \itemize{
-  \item comm_dat: community data frame
+  \item comm_dat: (sparse) community matrix
   \item poly_shp: shapefile of grid cells with the values per cell.
 }
 }
@@ -92,6 +92,5 @@ pt <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
 head(pt[[1]])
 }
 \seealso{
-\code{\link[mapproj]{mapproject}} for conversion of
-latitude and longitude into projected coordinates system.
+
 }
