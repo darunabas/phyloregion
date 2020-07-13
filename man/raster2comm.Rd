@@ -92,5 +92,7 @@ pt <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
 head(pt[[1]])
 }
 \seealso{
-
+\code{\link[mapproj]{mapproject}} for conversion of
+latitude and longitude into projected coordinates system.
+\code{\link{long2sparse}} for conversion of community data.
 }
