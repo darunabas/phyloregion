@@ -31,7 +31,7 @@
 #' @importFrom stats as.dist hclust cutree
 #' @importFrom sp SpatialPolygonsDataFrame merge
 #' @importFrom sp CRS proj4string
-#' @importFrom raster text aggregate
+#' @importFrom raster text
 #' @importFrom graphics legend par points rect segments strheight strwidth text
 #' xinch yinch lines
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords

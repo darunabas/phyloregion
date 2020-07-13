@@ -17,7 +17,7 @@
 #' @rdname map_trait
 #' @keywords phyloregion
 #' @importFrom raster values
-#' @importFrom data.table as.data.table
+#' @importFrom stats aggregate
 #'
 #' @return A data frame of species traits by site.
 #'
@@ -37,8 +37,10 @@ map_trait <- function(x, trait, FUN = sum, shp = NULL, ...){
   if(length(ind1)>0){
     submat <- x[x$species %in% ind1,]
     submat <- cbind(submat, trait=trait[submat$species])
-    tmp <- data.table::as.data.table(submat)
-    res <- tmp[, FUN(trait), by=grids]
+    #tmp <- data.table::as.data.table(submat)
+    res <- stats::aggregate(submat$trait, by = list(submat$grids), FUN = FUN)
+    #res <- aggregate(trait ~ grids, data = submat, FUN = FUN)
+    #res <- tmp[, FUN(trait), by=grids]
     names(res) <- c("grids", "traits")
     if(length(shp)==0){
       m <- res
