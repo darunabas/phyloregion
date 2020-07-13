@@ -65,7 +65,7 @@ progress <- function(x, FUN, ...) {
 #' @rdname raster2comm
 #' @seealso \code{\link[mapproj]{mapproject}} for conversion of
 #' latitude and longitude into projected coordinates system.
-#' \code{\link{long2sparse} for conversion of community data.
+#' \code{\link{long2sparse}} for conversion of community data.
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
 #' @importFrom raster values crs
 #' @importFrom sp CRS proj4string<-
