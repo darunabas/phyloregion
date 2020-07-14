@@ -68,6 +68,7 @@ plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
 #' @importMethodsFrom raster text
 #' @method plot phyloregion
 #' @importFrom graphics plot plot.default
+#' @rawNamespace export(plot.phyloregion)
 #' @export
 plot.phyloregion <- function(x, shp=NULL, palette="NMDS", ...) {
   if (!inherits(x, "phyloregion"))

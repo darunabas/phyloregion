@@ -65,13 +65,14 @@ progress <- function(x, FUN, ...) {
 #' @rdname raster2comm
 #' @seealso \code{\link[mapproj]{mapproject}} for conversion of
 #' latitude and longitude into projected coordinates system.
+#' \code{\link{long2sparse}} for conversion of community data.
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
 #' @importFrom raster values crs
 #' @importFrom sp CRS proj4string<-
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @return
 #' \itemize{
-#'   \item comm_dat: community data frame
+#'   \item comm_dat: (sparse) community matrix
 #'   \item poly_shp: shapefile of grid cells with the values per cell.
 #' }
 #' @examples

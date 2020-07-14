@@ -23,7 +23,7 @@ see \code{\link{phylo.betapart.core}} for details. This object can be called
 by \code{\link{phylo.beta.pair}} or \code{\link{phylo.beta.multi}}.
 
 \code{phylobeta} returns a list with three phylogenetic dissimilarity
-matrices. See \code{\link{phylo.beta.multi}} for details.
+matrices. See \code{\link{phylo.beta.pair}} for details.
 }
 \description{
 \code{phylobeta_core} computes efficiently for large community matrices and

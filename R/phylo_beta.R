@@ -29,7 +29,7 @@ phylo_community <- function(x, phy) {
 #' by \code{\link{phylo.beta.pair}} or \code{\link{phylo.beta.multi}}.
 #'
 #' \code{phylobeta} returns a list with three phylogenetic dissimilarity
-#' matrices. See \code{\link{phylo.beta.multi}} for details.
+#' matrices. See \code{\link{phylo.beta.pair}} for details.
 #' @keywords phyloregion
 #' @seealso \code{\link{read.community}}, \code{\link{phylo.betapart.core}},
 #' \code{\link{beta_core}}
