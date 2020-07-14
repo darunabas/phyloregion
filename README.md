@@ -31,7 +31,7 @@ If you have any questions, suggestions or issues regarding the package, please a
 
 # Installation
 
-`phyloregion` is available from the [Comprehensive R Archive Network](https://cran.r-project.org/web/packages/phyloregion/index.html), so you can use the following line of code to install it:
+`phyloregion` is available from the [Comprehensive R Archive Network](https://cran.r-project.org/web/packages/phyloregion/index.html), so you can use the following line of code to install and run it:
 
 ```
 install.packages("phyloregion")
@@ -55,3 +55,11 @@ Load the `phyloregion` package and you are good to go:
 ```
 library(phyloregion)
 ```
+
+# License
+
+The license for `phyloregion` is similar to that of the package on `CRAN`:
+
+License: AGPL-3
+
+The AGPL-3 license can be found at: https://cran.r-project.org/web/licenses/AGPL-3
