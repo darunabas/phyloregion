@@ -45,7 +45,6 @@ phylo_community <- function(x, phy) {
 #' pb <- phylobeta(com, tree)
 #' @rdname phylobeta
 #' @author Klaus Schliep
-#' @importFrom fastmatch fmatch
 #' @importFrom betapart phylo.beta.multi phylo.beta.pair
 #' @importFrom phangorn getRoot
 #' @importFrom Matrix tril tcrossprod Diagonal

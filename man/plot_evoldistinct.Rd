@@ -28,8 +28,10 @@ text_NMDS(x, ...)
 \arguments{
 \item{x}{an object of class phyloregion from \code{phyloregion}}
 
-\item{palette}{name of the palette to generate colors from.
-The name is matched to the list of available color palettes from
+\item{palette}{name of the palette to generate colors from. The default,
+\dQuote{NMDS}, allows display of phyloregions in multidimensional
+scaling color space matching the color vision of the human visual
+system. The name is matched to the list of available color palettes from
 the \code{hcl.colors} function in the \code{grDevices} package.}
 
 \item{pos}{location to position the legend such as \dQuote{bottomright},
