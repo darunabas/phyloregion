@@ -20,7 +20,6 @@ The \code{fishnet} function creates a regular grid of locations covering
 the study area at various grain sizes.
 }
 \examples{
-library(raster)
 file <- system.file("nigeria/nigeria.rds", package="phyloregion")
 d <- readRDS(file)
 d1 <- fishnet(d, res = 0.75)

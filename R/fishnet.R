@@ -17,7 +17,6 @@
 #' modeling of species geographic distributions. \emph{Ecological Modelling}
 #' \strong{190}: 231-259.
 #' @examples
-#' library(raster)
 #' file <- system.file("nigeria/nigeria.rds", package="phyloregion")
 #' d <- readRDS(file)
 #' d1 <- fishnet(d, res = 0.75)
