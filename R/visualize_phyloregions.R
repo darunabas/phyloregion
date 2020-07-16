@@ -39,7 +39,6 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' @param \dots arguments passed among methods.
 #' @return No return value, called for plotting.
 #' @rdname plot.phyloregion
-#' @rdname plot.phyloregion
 #' @importMethodsFrom sp plot
 #' @importMethodsFrom raster text
 #' @method plot phyloregion

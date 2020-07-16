@@ -6,7 +6,7 @@
 \usage{
 plot_swatch(
   x,
-  values,
+  values = NULL,
   k = 10,
   palette = "Blue-Red 3",
   key_label = "",
