@@ -141,8 +141,8 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' Visualize biogeographic patterns using pie charts
 #'
 #' @param x a matrix of phyloregion of probabilities of each species
-#' @param shp if specified, the polygon shapefile of grid cells
-#' with a column labeled \dQuote{grids}.
+#' @param shp a polygon shapefile of grid cells with a column labeled
+#' \dQuote{grids}.
 #' @param pie_control The list of control parameters to be passed into
 #' the add.pie function.
 #' @param legend_pie Legend for the pie plots.
@@ -161,7 +161,7 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' data(africa)
 #' plot_structure(africa$omega, shp = africa$polys)
 #' @export
-plot_structure <- function (x = NULL, shp, r = 1,
+plot_structure <- function (x, shp, r = 1,
                       pie_control = list(), legend = FALSE,
                       legend_pie = FALSE, ...) {
 

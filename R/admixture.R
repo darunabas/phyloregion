@@ -15,7 +15,7 @@
 #' concentration parameter as shape for topic-phrase probabilities.
 #' Defaults to 1/(K*ncol(counts)). For fixed single K, this can also
 #' be a ncol(counts) by K matrix of unique shapes for each topic element.
-#' @param initopics Optional start-location for \code{[θ_1 ... θ_K]}, the
+#' @param initopics Optional start-location for\eqn{[\theta_1 \dots \theta_K]}, the
 #' topic-phrase probabilities. Dimensions must accord with the smallest
 #' element of K. If NULL, the initial estimates are built by incrementally
 #' adding topics.

@@ -19,3 +19,6 @@
 ^vignettes/2continent.*
 ^vignettes/3national.*
 ^R/darwinize.*
+^R/admixture.R
+^R/plot_pie.R
+^R/counts.R
