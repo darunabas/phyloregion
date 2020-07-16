@@ -107,11 +107,6 @@ text_NMDS(y)
 plot(y, palette="NMDS")
 ```
 
-```{r}
-plot_evoldistinct(y)
-```
-
-
 ## Session Information
 ```{r, eval=TRUE}
 sessionInfo()

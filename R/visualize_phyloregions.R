@@ -35,37 +35,11 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' scaling color space matching the color vision of the human visual
 #' system. The name is matched to the list of available color palettes from
 #' the \code{hcl.colors} function in the \code{grDevices} package.
-#' @param key_label label for the color key
-#' @param border plot polygons in SpatialPolygons object
-#' @param legend logical indicating whether to add a legend to the map.
-#' @param pos location to position the legend such as \dQuote{bottomright},
-#' \dQuote{bottomleft}, \dQuote{topleft}, and \dQuote{topright}.
-#' @param leg parameter of the color key.
-#' @param lwd parameter of the color key.
 #' @param shp a polygon shapefile of grid cells.
 #' @param \dots arguments passed among methods.
 #' @return No return value, called for plotting.
-#' @rdname plot_evoldistinct
-#' @export
-plot_evoldistinct <- function(x, palette = "YlOrBr", pos = "bottomleft",
-                              key_label = "", legend = TRUE, leg = 5,
-                              lwd = 15, border=par("fg"), ...) {
-  if (!inherits(x, "phyloregion"))
-    stop("object \"x\" is not of class \"phyloregion\"")
-  m1 <- x$shp
-  k <- nrow(m1)
-  COLRS <- hcl.colors(k, palette, rev = TRUE)
-  y <- choropleth(m1$ED, k) # , style = style
-  plot(m1, col = COLRS[y], border = border, ...)
-  text(m1, labels = as.character(m1@data$cluster), ...)
-  if (legend) {
-    color_key(m1, COLRS, vals = m1$ED, leg = leg, lwd = lwd, pos = pos,
-      lab = key_label)
-  }
-}
-
-
-#' @rdname plot_evoldistinct
+#' @rdname plot.phyloregion
+#' @rdname plot.phyloregion
 #' @importMethodsFrom sp plot
 #' @importMethodsFrom raster text
 #' @method plot phyloregion
@@ -84,7 +58,7 @@ plot.phyloregion <- function(x, shp=NULL, palette="NMDS", ...) {
   text(shp, labels = as.character(shp@data$cluster), ...)
 }
 
-#' @rdname plot_evoldistinct
+#' @rdname plot.phyloregion
 #' @export
 plot_NMDS <- function(x, ...) {
   if (!inherits(x, "phyloregion"))
@@ -93,7 +67,7 @@ plot_NMDS <- function(x, ...) {
   plot(c1$points, bg = hexcols(c1), pch = 21, ...)
 }
 
-#' @rdname plot_evoldistinct
+#' @rdname plot.phyloregion
 #' @examples
 #' data(africa)
 #' tree <- africa$phylo
@@ -109,7 +83,6 @@ plot_NMDS <- function(x, ...) {
 #' text_NMDS(y, cex=2)
 #' plot(y, cex=1, palette="NMDS")
 #' plot(y, cex=1)
-#' plot_evoldistinct(y)
 #' @export
 text_NMDS <- function(x, ...) {
   if (!inherits(x, "phyloregion"))
