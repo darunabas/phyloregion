@@ -39,7 +39,7 @@
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 #' plot_swatch(s, values = s$SR, k = 20)
 #' @export
-plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
+plot_swatch <- function(x, values=NULL, k = 10, palette = "Blue-Red 3",
                         key_label = "", leg = 10, lwd = 15, pos = "bottomleft",
                         legend = TRUE, border=par("fg"), breaks = "quantile",
                         min = NULL, max = NULL, ...) {
@@ -47,11 +47,12 @@ plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
   rev <- FALSE
   if(inherits(x, "phyloregion")){
     x <- x$evol_distinct
-    values <- x$ED
+    if(is.null(values)) values <- x$ED
     k <- nrow(x)
     ed <- TRUE
     rev <- TRUE
   }
+  if(is.null(values)) stop("You need to supply value argument!")
   x$values <- values
   colrs <- hcl.colors(k, palette = palette, rev=rev)
   y <- choropleth(values, k, breaks = breaks, min, max) # , style = style
