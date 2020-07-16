@@ -44,14 +44,16 @@ plot_swatch <- function(x, values, k = 10, palette = "Blue-Red 3",
                         legend = TRUE, border=par("fg"), breaks = "quantile",
                         min = NULL, max = NULL, ...) {
   ed <- FALSE
+  rev <- FALSE
   if(inherits(x, "phyloregion")){
     x <- x$evol_distinct
     values <- x$ED
     k <- nrow(x)
     ed <- TRUE
+    rev <- TRUE
   }
   x$values <- values
-  colrs <- hcl.colors(k, palette = palette)
+  colrs <- hcl.colors(k, palette = palette, rev=rev)
   y <- choropleth(values, k, breaks = breaks, min, max) # , style = style
   plot(x, col = colrs[y], border = border, ...)
   if(ed) text(x, labels = as.character(x@data$cluster), ...)
