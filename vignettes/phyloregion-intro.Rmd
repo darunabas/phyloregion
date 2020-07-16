@@ -30,11 +30,7 @@ library(phyloregion)
 ```
 
 ## 2. Overview and general workflow of `phyloregion`
-The workflow of the `phyloregion` package demonstrates steps from preparation 
-of different types of data to visualizing the results of biogeographical
-regionalization, together with tips on selecting the optimal method for 
-achieving the best output, depending on the types of data used and research
-questions.
+The workflow of the `phyloregion` package demonstrates steps from preparation of different types of data to visualizing the results of biogeographical regionalization, together with tips on selecting the optimal method for achieving the best output, depending on the types of data used and research questions.
 
 ![Simplified workflow for analysis of biogeographical regionalization using phyloregion. Distribution data is converted to a sparse community matrix. When paired with phylogenetic data, phylobuilder creates a subtree with largest overlap from a species list, thereby ensuring complete representation of missing data; phylocommunity matrix to visualization of results.](workflow.png)
 
@@ -76,15 +72,45 @@ more memory than the sparse representation.
 
 ## 4. Analysis
 
+### Phylogenetic alpha diversity
+
+For analysis of alpha diversity commonly used in conservation such as phylogenetic
+diversity - the sum of all phylogenetic branch lengths within an area [@Faith1992]
+(Faith 1992). 
+```{r}
+library(ape)
+tree <- africa$phylo
+tree <- keep.tip(tree, intersect(tree$tip.label, colnames(sparse_comm)))
+par(mar=c(2,2,2,2))
+plot(tree, show.tip.label=FALSE)
+pd  <- PD(sparse_comm, tree)
+pd[1:20]
+```
+
+
 ### Phylogenetic beta diversity
 
 `phyloregion` offers a fast means of computing phylogenetic beta diversity, the turnover 
-of branch lengths among sites, making use of and improving on the infrastructure provided by the `betapart` package [@Baselga2012].  
+of branch lengths among sites, making use of and improving on the infrastructure provided by the `betapart` package [@Baselga2012] allowing a sparse community matrix as input.  
 ```{r}
-tree <- africa$phylo
-tree <- ape::keep.tip(tree, colnames(sparse_comm))
 pb <- phylobeta(sparse_comm, tree)
 ```
+
+```{r}
+y <- phyloregion(pb[[1]], shp=africa$polys)
+```
+
+```{r}
+plot_NMDS(y)
+text_NMDS(y)
+
+plot(y, palette="NMDS")
+```
+
+```{r}
+plot_evoldistinct(y)
+```
+
 
 ## Session Information
 ```{r, eval=TRUE}
