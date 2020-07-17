@@ -4,8 +4,9 @@ author: "Barnabas H. Daru, Piyal Karunarathne & Klaus Schliep"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
+csl: nature-communications.csl
 vignette: >
-   %\VignetteIndexEntry{phyloregion-benchmark}
+   %\VignetteIndexEntry{Benchmarking phyloregion}
    %\VignetteEngine{knitr::rmarkdown}
    %\usepackage[utf8]{inputenc}
 ---
@@ -17,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 
-## Benchmarking `phyloregion` against other packages
+## Benchmarking `phyloregion` with comparable packages
 
 In this vignette, we benchmark `phyloregion` against other similar `R`
 packages in analyses of standard alpha diversity metrics commonly
@@ -56,7 +57,10 @@ library(hilldiv)
 library(BAT)
 library(pez)
 ```
-We will use a small data set which comes with `phyloregion`.
+We will use a small data set which comes with `phyloregion`. This dataset
+consists of a dated phylogeny of the woody plant species of southern
+Africa along with their geographical distributions. The dataset comes from a study that maps tree diversity hotspots in southern Africa [@Daru2015ddi].
+
 ```{r}
 data(africa)
 # subset matrix
@@ -70,13 +74,13 @@ object.size(X_dense)
 dim(X_sparse)
 ```
 To make results comparable, it is often desirable to make sure
-that the taxa in different datasets match each other. For example,
-
-the community matrix in the `hilldiv` package needs to be transposed.
-These transformations can influence the execution times, often only marginally.
-To benchmark `phyloregion` against other packages, we here use the package `bench`
-because it returns execution times and provides estimates of memory
-allocations for each computation.
+that the taxa in different datasets match each other [@Kembel2010].
+For example, the community matrix in the `hilldiv` package [@hilldiv]
+needs to be transposed. These transformations can influence the execution
+times of the function, often only marginally.
+Thus, to benchmark `phyloregion` against other packages, we here use the
+package `bench` [@bench2020] because it returns execution times and
+provides estimates of memory allocations for each computation.
 
 ## 1. Analysis of alpha diversity
 #### 1.1. Benchmarking `phyloregion` for analysis of phylogenetic diversity
@@ -115,9 +119,10 @@ autoplot(res1)
 
 #### 1.2. Benchmarking `phyloregion` for analysis of phylogenetic endemism
 
-Another benchmark for `phyloregion` is in analysis of phylogenetic endemism, the
-degree to which phylogenetic diversity is restricted to any given area [@Rosauer2009]. Here, we found that `phyloregion` is 160 times faster
-and 489 times efficient in memory allocation.
+Another benchmark for `phyloregion` is in the analysis of phylogenetic
+endemism, the degree to which phylogenetic diversity is restricted to
+any given area [@Rosauer2009]. Here, we found that `phyloregion` is
+160 times faster and 489 times efficient in memory allocation.
 
 ```{r, phylo_endemism}
 tree <- africa$phylo
@@ -162,7 +167,7 @@ autoplot(res3)
 ```
 
 #### 2.2. Benchmarking `phyloregion` for analysis of phylogenetic beta diversity
-For analysis phylogenetic turnover (beta-diversity) among communities - the
+For analysis of phylogenetic turnover (beta-diversity) among communities - the
 proportion of shared phylogenetic branch lengths between communities [@Graham2008] - `phyloregion` is 300-400 times faster and allocates 100-600 times less memory!
 ```{r, phylobeta}
 fun_phyloregion <- function(x, tree) phyloregion::phylobeta(x, tree)[[3]]

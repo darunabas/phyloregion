@@ -8,7 +8,7 @@
 \usage{
 raster2comm(files)
 
-polys2comm(dat, res = 1, species = "species", ...)
+polys2comm(dat, res = 1, species = "species", trace = 1, ...)
 
 points2comm(
   dat,
@@ -38,6 +38,8 @@ with at least three columns:
 
 \item{species}{a character string. The column with the species or taxon name.
 Default = \dQuote{species}.}
+
+\item{trace}{Trace the function; trace = 2 or higher will be more voluminous.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 
@@ -75,7 +77,7 @@ head(ras[[1]])
 \donttest{
 s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 sp <- random_species(100, species=5, shp=s)
-pol <- polys2comm(dat = sp, species = "species")
+pol <- polys2comm(dat = sp, species = "species", trace=0)
 head(pol[[1]])
 }
 

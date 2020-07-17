@@ -117,16 +117,17 @@ raster2comm <- function(files) {
 #' @importFrom methods as
 #' @importFrom utils txtProgressBar setTxtProgressBar object.size
 #' @importFrom raster raster res rasterize xyFromCell getValues
+#' @param trace Trace the function; trace = 2 or higher will be more voluminous.
 #' @examples
 #' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 #' sp <- random_species(100, species=5, shp=s)
-#' pol <- polys2comm(dat = sp, species = "species")
+#' pol <- polys2comm(dat = sp, species = "species", trace=0)
 #' head(pol[[1]])
 #' }
 #'
 #' @export
-polys2comm <- function(dat, res = 1, species = "species", ...) {
+polys2comm <- function(dat, res = 1, species = "species", trace = 1, ...) {
 
     dat <- dat[, species, drop = FALSE]
     names(dat) <- "species"
@@ -142,7 +143,7 @@ polys2comm <- function(dat, res = 1, species = "species", ...) {
     index <- match(ind1, ind2)
     r <- NULL
     cells <- as.character(poly$grids)[index]
-    if (object.size(dat) > 150000L && interactive()) {
+    if (object.size(dat) > 150000L && interactive() && trace > 0) {
         m <- progress(s, function(x) {
             obj <- rasterize(x, e)
             tmp <- getValues(obj)

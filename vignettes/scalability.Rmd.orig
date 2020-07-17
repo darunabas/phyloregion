@@ -4,8 +4,9 @@ author: "Barnabas H. Daru, Piyal Karunarathne & Klaus Schliep"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
+csl: nature-communications.csl
 vignette: >
-   %\VignetteIndexEntry{phyloregion-scalability}
+   %\VignetteIndexEntry{Scalability of phyloregion}
    %\VignetteEngine{knitr::rmarkdown}
    %\usepackage[utf8]{inputenc}
 ---
@@ -37,11 +38,13 @@ library(phyloregion)
 library(raster)
 ```
 ```{r}
-# Download the data from Dropbox.
+# Download data from our website https://barnabasdaru.com/. It is 511.3 MB big!
+wd <- getwd()
 dir = tempdir()
 setwd(dir)
-download.file(url = "https://www.dropbox.com/s/6z4koibfqmvkn64/reptile_data.zip?dl=1",
-              destfile = "reptile_data.zip")
+download.file(
+    url="https://barnabasdaru.files.wordpress.com/2020/07/reptile_data.zip",
+    destfile = "reptile_data.zip")
 unzip(zipfile = "reptile_data.zip")
 setwd(dir = "reptile_data")
 list.files()
@@ -51,26 +54,27 @@ wmap0 <- shapefile("world_map/level0/wrld_simpl.shp") # Global extent
 wmap1 <- shapefile("world_map/level1/level1.shp") # Continental extent
 wmap2 <- shapefile("world_map/level2/level2.shp") # Regional/local extent
 
-# 2. Read in phylogeny
+# 2. Read in the phylogeny
 tree <- read.tree("phylo_trees/ten_trees.trees")
 tree
 
-# 3. Species distributions as range polygons
+# 3. Read in species distributions as polygons
 rept_map <- shapefile("merged_polygons/modeled_reptiles.shp")
 head(rept_map)
+setwd(wd)
 ```
 ## 2. Species distributional data conversion
-Because the squamate reptile distribution data is available as extent-of-occurrence
-range maps, we use the function `polys2comm` to convert the range
-polygons to a community composition data frame at a spatial grain of 1 degree
-for downstream analyses.
+Because the squamate reptile distribution data are available as polygons,
+we use the function `polys2comm` to convert the polygons to a community
+matrix at a spatial grain of 1 degree for downstream analyses.
+Note that this resolution can be adjusted by varying the `res` argument in
+the `polys2comm` function.
 
-```{r}
-pol <- polys2comm(rept_map, res = 1, species = "Binomial")
+```{r, species_richness}
+pol <- polys2comm(rept_map, res = 1, species = "Binomial", trace=0)
 
-comm <- pol$comm_dat
-head(comm)
-comm$species <- gsub(" ", "_", comm$species)
+M <- pol$comm_dat
+colnames(M) <- gsub(" ", "_", colnames(M))
 
 shp <- pol$poly_shp
 proj4string(wmap0) <- proj4string(shp)
@@ -78,35 +82,36 @@ proj4string(wmap1) <- proj4string(shp)
 proj4string(wmap2) <- proj4string(shp)
 
 object.size(pol)
-object.size(comm)
+object.size(M)
 
 mybeta_fun <- function(phy, dat){
   tmp <- match_phylo_comm(phy, dat)
-  pb <- phylobeta(tmp$comm, tmp$phy)[[1]]
-  pb
+  phylobeta(tmp$comm, tmp$phy)[[1]]
 }
 
 par(mar=rep(0,4))
-plot_swatch(shp, shp$richness, k = 30, leg = 30, lwd = 5)
+plot(wmap0, col="grey", border = "grey", density = 37, lwd=0.25)
+plot_swatch(shp, shp$richness, k = 30, border=NA,
+            leg = 30, lwd = 5, add = TRUE, breaks = "jenks")
+plot(wmap0, add=TRUE, lwd=0.25)
 ```
 
-### 2.1. Scale dependence at global extent
-Here, we generate phyloregions at a global scales. We accounmted for
+### 2.1. Scale dependence at the global extent
+Here, we generate phyloregions at a global scale. We accounmted for
 phylogenetic uncertainty in our analyses by drawing 10 trees at random
 from a posterior distribution of 10,000 possible tree topologies.
 
-```{r}
-m <- read.csv("/Users/barnabasdaru/Dropbox/Projects/phyloregion_MS/data/reptiles/pbsim_matrix.xz", row.names = 1)
+```{r, global_extent}
+subx <- lapply(tree, function(x) mybeta_fun(x, M))
+m <- mean_dist(subx, sort(labels(subx[[1]])), trace=0)
 
 # Determine optimal clusters
 (d <- optimal_phyloregion(m))
-z <- phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
+z <- phyloregion(m, k = d$optimal$k, shp = shp)
 
 par(mar=rep(0,4))
 plot(wmap0, col="grey", border = "grey", density = 37, lwd=0.25)
-plot(z, col=as.character(z$COLOURS),
-     border="white", lwd=0.25, add=TRUE)
-text(z, labels=z$cluster, cex =0.7)
+plot(z, lwd=0.25, add=TRUE)
 plot(wmap0, add=TRUE, lwd=0.25)
 ```
 
@@ -115,30 +120,29 @@ Here, we generate phyloregions at the extent of continents. To account for
 phylogenetic uncertainty in our analyses, we drew 10 trees at random
 from a posterior distribution of 10,000 possible tree topologies.
 
-```{r}
-
+```{r, continental_extent}
 level1 <- cbind(as.data.frame(shp), sp::over(shp, wmap1))
 level1 <- level1[complete.cases(level1),]
+comm <- sparse2long(M)
 
 S <- unique(level1$LEVEL1_NAM)
 
 out <- list()
 for (i in seq_along(S)) {
-  tryCatch({
-  y1 <- subset(level1, level1$LEVEL1_NAM %in% S[i])
-  index <- intersect(y1$grids, comm$grids)
-  M <- subset(comm, comm$grids %in% index)
+    tryCatch({
+        y1 <- subset(level1, level1$LEVEL1_NAM %in% S[i])
+        mx <- subset(comm, comm$grids %in% intersect(y1$grids, comm$grids))
 
-  subx <- lapply(tree, function(x) mybeta_fun(x, M))
-  m <- mean_dist(subx, sort(labels(subx[[1]])))
+        subx <- lapply(tree, function(x) mybeta_fun(x, long2sparse(mx)))
+        m <- mean_dist(subx, sort(labels(subx[[1]])), trace=0)
 
-  # Determine optimal clusters
-  (d <- optimal_phyloregion(m))
-  z <- phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
-  z$region <- S[i]
+        # Determine optimal clusters
+        (d <- optimal_phyloregion(m))
+        z <- phyloregion(m, k = d$optimal$k, shp = shp)$shp
+        z$region <- S[i]
 
-  }, error = function(e){})
-  out[[i]] <- z
+    }, error = function(e){})
+    out[[i]] <- z
 }
 
 
@@ -155,44 +159,47 @@ plot(wmap1, add=TRUE, lwd=0.25)
 ### 2.3. Scale dependence at local/regional scale
 Here, we generate phyloregions at the extent of regions or country borders.
 
-```{r}
-
+```{r, national_extent}
 level2 <- cbind(as.data.frame(shp), sp::over(shp, wmap2))
 level2 <- level2[complete.cases(level2),]
 
-S <- unique(level1$LEVEL2_NAM)
+S <- unique(level2$LEVEL2_NAM)
 
-out <- list()
+spo <- list()
 for (i in seq_along(S)) {
-  tryCatch({
-    y1 <- subset(level2, level2$LEVEL2_NAM %in% S[i])
-    index <- intersect(y1$grids, comm$grids)
-    M <- subset(comm, comm$grids %in% index)
+    tryCatch({
+        y1 <- subset(level2, level2$LEVEL2_NAM %in% S[i])
+        mx <- subset(comm, comm$grids %in% intersect(y1$grids, comm$grids))
 
-    subx <- lapply(tree, function(x) mybeta_fun(x, M))
+        subx <- lapply(tree, function(x) mybeta_fun(x, long2sparse(mx)))
 
-    m <- mean_dist(subx, sort(labels(subx[[1]])))
+        m <- mean_dist(subx, sort(labels(subx[[1]])), trace=0)
 
-    # Determine optimal clusters
-    (d <- optimal_phyloregion(m))
-    z <- phyloregion(m, k = d$optimal$k, shp = shp)$evol_distinct
-    z$region <- S[i]
+        # Determine optimal clusters
+        (d <- optimal_phyloregion(m))
+        z <- phyloregion(m, k = d$optimal$k, shp = shp)$shp
+        z$region <- S[i]
 
-  }, error = function(e){})
+    }, error = function(e){})
 
-  out[[i]] <- z
+    spo[[i]] <- z
 }
 
 
-result2 <- do.call("rbind", out)
+result2 <- do.call("rbind", spo)
 
 par(mar=rep(0,4))
 plot(wmap2, col="grey", border = "grey", density = 37, lwd=0.25)
 plot(result2, col=as.character(result2$COLOURS),
      border="white", lwd=0.25, add=TRUE)
-text(result2, labels=result2$cluster, cex =1)
+text(result2, labels=result2$cluster, cex =0.35)
 plot(wmap2, add=TRUE, lwd=0.25)
 ```
+
+Just as there is increasing evidence that patterns of biodiversity are
+scale-dependent [@daru2020endemism],[@jarzyna2018taxonomic], it is likely
+that the mechanisms underlying patterns of biogeographic regionalization
+are sensitive to differences in spatial grain and extent.
 
 ## Session Infomation
 ```{r, eval=TRUE}
