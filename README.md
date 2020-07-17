@@ -9,10 +9,11 @@
 # phyloregion <img src='man/figures/logo.png' align="right" width="120" />
 
 This is a computational infrastructure for biogeographic regionalization (the classification of geographical areas in terms of their biotas) and spatial conservation in the R scientific computing environment. Previously it was only possible to perform analysis of biogeographic regionalization on small datasets, often using tools that are difficult to replicate. With macroecological datasets of ever increasing size and complexity, `phyloregion` offers the possibility of handling and executing large scale biogeographic regionalization efficiently and with extreme speed. It also allows fast and efficient analysis of more standard conservation measures such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness and global endangerment. `phyloregion` can run on any operating system (Mac, Linux, Windows or even high performance computing cluster) with `R` 3.6.0 (or higher) installed.
+
 ### Authors
 [Barnabas Daru](https://barnabasdaru.com/) 
-
 [Klaus Schliep](https://kschliep.netlify.com/)
+
 ### How to cite
 The original implementation of ```phyloregion``` is described in:
 
@@ -31,7 +32,7 @@ If you have any questions, suggestions or issues regarding the package, please a
 
 # Installation
 
-`phyloregion` is available from the [Comprehensive R Archive Network](https://cran.r-project.org/web/packages/phyloregion/index.html), so you can use the following line of code to install and run it:
+`phyloregion` is available from the [Comprehensive R Archive Network](https://cran.r-project.org/package=phyloregion), so you can use the following line of code to install and run it:
 
 ```
 install.packages("phyloregion")
