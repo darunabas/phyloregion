@@ -3,12 +3,12 @@ citHeader("To cite phyloregion in publications use:")
 
 
 bibentry(bibtype = "Manual",
-    title = "phyloregion: Biogeographic Regionalization and Spatial Conservation",
+    title = "phyloregion: Biogeographic Regionalization and Macroecology",
     author = "Barnabas H. Daru and Piyal Karunarathne and Klaus Schliep",
     year = "2020",
-    note = "R package version 1.0.2",
+    note = "R package version 1.0.4",
     url = "https://CRAN.R-project.org/package=phyloregion",
-    textVersion = "Daru, B. H., Karunarathne P., & Schliep K. (2020), phyloregion: R package for biogeographic regionalization and spatial conservation. R package version 1.0.2, https://CRAN.R-project.org/package=phyloregion"
+    textVersion = "Daru, B. H., Karunarathne P., & Schliep K. (2020), phyloregion: R package for biogeographic regionalization and macroecology. R package version 1.0.4, https://CRAN.R-project.org/package=phyloregion"
 )
 
 
