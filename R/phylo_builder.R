@@ -12,7 +12,7 @@
 #' @return \code{phylobuilder} returns a phylogenetic tree, i.e. an object of
 #' class \code{phylo}.
 #' @seealso \code{\link[phangorn]{add.tips}}, \code{\link[ape]{label2table}},
-#' \code{\link[ape]{stripLabel}}
+#' \code{\link[ape:label2table]{stripLabel}}
 #' @keywords bioregion
 #' @importFrom ape drop.tip stripLabel label2table getMRCA
 #' @importFrom parallel mclapply

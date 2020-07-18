@@ -63,6 +63,6 @@ attr(t2, "species_list")
 }
 \seealso{
 \code{\link[phangorn]{add.tips}}, \code{\link[ape]{label2table}},
-\code{\link[ape]{stripLabel}}
+\code{\link[ape:label2table]{stripLabel}}
 }
 \keyword{bioregion}

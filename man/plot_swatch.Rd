@@ -31,7 +31,7 @@ discretize the values of the quantity.}
 
 \item{palette}{name of the palette to generate colors from. The name is
 matched to the list of available color palettes from the
-\code{\link[grDevices]{hcl.colors}} function.}
+\code{\link[grDevices:palettes]{hcl.colors}} function.}
 
 \item{key_label}{label for the color key}
 

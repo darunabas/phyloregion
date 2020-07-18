@@ -9,7 +9,7 @@
 #' @param k Numeric, the desired number of bins to discretize.
 #' @param palette name of the palette to generate colors from. The name is
 #' matched to the list of available color palettes from the
-#' \code{\link[grDevices]{hcl.colors}} function.
+#' \code{\link[grDevices:palettes]{hcl.colors}} function.
 #' @param leg Numeric, length of the legend
 #' @param key_label label for the color key
 #' @param legend logical indicating whether to add a legend to the map.
