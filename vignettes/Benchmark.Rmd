@@ -1,0 +1,345 @@
+---
+title: "Benchmarking phyloregion"
+author: "Barnabas H. Daru, Piyal Karunarathne & Klaus Schliep"
+date: "July 19, 2020"
+output: rmarkdown::html_vignette
+bibliography: phyloregion.bib
+csl: nature-communications.csl
+vignette: >
+   %\VignetteIndexEntry{Benchmarking phyloregion}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\usepackage[utf8]{inputenc}
+---
+
+
+
+## Benchmarking `phyloregion` with comparable packages
+
+In this vignette, we benchmark `phyloregion` against other similar `R`
+packages in analyses of standard alpha diversity metrics commonly
+used in conservation, such as phylogenetic diversity and phylogenetic
+endemism as well as metrics for analyzing compositional turnover (e.g.,
+beta diversity and phylogenetic beta diversity). Specifically, we
+compare `phyloregion`'s functions with available packages for efficiency
+in memory allocation and computation speed in various biogeographic analyses.
+
+First, load the packages for the benchmarking:
+
+
+```r
+library(ape)
+library(Matrix)
+library(bench)
+library(ggplot2)
+# packages we benchmark
+library(phyloregion)
+library(betapart)
+library(picante)
+library(vegan)
+library(hilldiv)
+library(BAT)
+library(pez)
+```
+We will use a small data set which comes with `phyloregion`. This dataset
+consists of a dated phylogeny of the woody plant species of southern
+Africa along with their geographical distributions. The dataset comes from a study that maps tree diversity hotspots in southern Africa [@Daru2015ddi].
+
+
+```r
+data(africa)
+# subset matrix
+X_sparse <- africa$comm[1:30, ]
+X_sparse <- X_sparse[, colSums(X_sparse)>0]
+X_dense <- as.matrix(X_sparse)
+Xt_dense <- t(X_dense)
+
+object.size(X_sparse)
+```
+
+```
+## 76504 bytes
+```
+
+```r
+object.size(X_dense)
+```
+
+```
+## 134752 bytes
+```
+
+```r
+dim(X_sparse)
+```
+
+```
+## [1]  30 401
+```
+To make results comparable, it is often desirable to make sure
+that the taxa in different datasets match each other [@Kembel2010].
+For example, the community matrix in the `hilldiv` package [@hilldiv]
+needs to be transposed. These transformations can influence the execution
+times of the function, often only marginally.
+Thus, to benchmark `phyloregion` against other packages, we here use the
+package `bench` [@bench2020] because it returns execution times and
+provides estimates of memory allocations for each computation.
+
+## 1. Analysis of alpha diversity
+#### 1.1. Benchmarking `phyloregion` for analysis of phylogenetic diversity
+
+For analysis of alpha diversity commonly used in conservation such as phylogenetic
+diversity - the sum of all phylogenetic branch lengths within an area [@Faith1992]
+- `phyloregion` is 31 to 284 times faster and 67 to 192 times
+memory efficient, compared to other packages!
+
+```r
+tree <- africa$phylo
+tree <- keep.tip(tree, colnames(X_sparse))
+
+pd_picante <- function(x, tree){
+    res <- picante::pd(x, tree)[,1]
+    names(res) <- row.names(x)
+    res
+}
+
+pd_pez <- function(x, tree){
+    dat <- pez::comparative.comm(tree, x)
+    res <- pez::.pd(dat)[,1]
+    names(res) <- row.names(x)
+    res
+}
+
+pd_hilldiv <- function(x, tree) hilldiv::index_div(x, tree, index="faith")
+pd_phyloregion <- function(x, tree) phyloregion::PD(x, tree)
+
+res1 <- bench::mark(picante=pd_picante(X_dense, tree),
+          hilldiv=pd_hilldiv(Xt_dense,tree=tree),
+          pez=pd_pez(X_dense, tree),
+          phyloregion=pd_phyloregion(X_sparse, tree))
+summary(res1)
+```
+
+```
+## # A tibble: 4 x 6
+##   expression       min   median `itr/sec` mem_alloc `gc/sec`
+##   <bch:expr>  <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
+## 1 picante     118.88ms 125.72ms     7.34    59.62MB    12.8 
+## 2 hilldiv         1.1s     1.1s     0.911  170.22MB     4.56
+## 3 pez         125.34ms 139.49ms     7.27    60.89MB    14.5 
+## 4 phyloregion   3.21ms   4.61ms   142.       1.86MB     4.00
+```
+
+```r
+autoplot(res1)
+```
+
+![plot of chunk phylo_diversity](benchmark-phylo_diversity-1.png)
+
+#### 1.2. Benchmarking `phyloregion` for analysis of phylogenetic endemism
+
+Another benchmark for `phyloregion` is in the analysis of phylogenetic
+endemism, the degree to which phylogenetic diversity is restricted to
+any given area [@Rosauer2009]. Here, we found that `phyloregion` is
+160 times faster and 489 times efficient in memory allocation.
+
+
+```r
+tree <- africa$phylo
+tree <- keep.tip(tree, colnames(X_sparse))
+
+pe_pez <- function(x, tree){
+    dat <- pez::comparative.comm(tree, x)
+    res <- pez::pez.endemism(dat)[,1]
+    names(res) <- row.names(x)
+    res
+}
+
+pe_phyloregion <- function(x, tree) phyloregion::phylo_endemism(x, tree)
+
+res2 <- bench::mark(pez=pe_pez(X_dense, tree),
+          phyloregion=pe_phyloregion(X_sparse, tree))
+summary(res2)
+```
+
+```
+## # A tibble: 2 x 6
+##   expression       min   median `itr/sec` mem_alloc `gc/sec`
+##   <bch:expr>  <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
+## 1 pez            1.38s    1.38s     0.725  493.84MB     4.35
+## 2 phyloregion   3.24ms   3.47ms   265.       1.07MB     1.99
+```
+
+```r
+autoplot(res2)
+```
+
+![plot of chunk phylo_endemism](benchmark-phylo_endemism-1.png)
+
+## 2. Analysis of compositional turnover (beta diversity)
+#### 2.1. Benchmarking `phyloregion` for analysis of taxonomic beta diversity
+
+For analysis of taxonomic beta diversity, which compares diversity between
+communities [@Koleff2003], `phyloregion` has marginal advantage
+over other packages. Nonetheless, it is 1-39 times faster and allocates 2 to 110
+times less memory than other packages.
+
+```r
+chk_fun <- function(target, current)
+    all.equal(target, current, check.attributes = FALSE)
+
+fun_phyloregion <- function(x) as.matrix(phyloregion::beta_diss(x)[[3]])
+fun_betapart <- function(x) as.matrix(betapart::beta.pair(x)[[3]])
+fun_vegan  <- function(x) as.matrix(vegan::vegdist(x, binary=TRUE))
+fun_BAT <- function(x) as.matrix(BAT::beta(x, func = "Soerensen")[[1]])
+res3 <- bench::mark(phyloregion=fun_phyloregion(X_sparse),
+                    betapart=fun_betapart(X_dense),
+                    vegan=fun_vegan(X_dense),
+                    BAT=fun_BAT(X_dense), check=chk_fun)
+summary(res3)
+```
+
+```
+## # A tibble: 4 x 6
+##   expression       min   median `itr/sec` mem_alloc `gc/sec`
+##   <bch:expr>  <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
+## 1 phyloregion  753.1µs  929.9µs     903.    404.1KB     2.10
+## 2 betapart     863.1µs    924µs     998.    594.1KB     4.38
+## 3 vegan        945.8µs      1ms     946.    993.4KB     7.05
+## 4 BAT           38.3ms   44.3ms      23.6    31.8MB    15.7
+```
+
+```r
+autoplot(res3)
+```
+
+![plot of chunk beta_diversity](benchmark-beta_diversity-1.png)
+
+#### 2.2. Benchmarking `phyloregion` for analysis of phylogenetic beta diversity
+For analysis of phylogenetic turnover (beta-diversity) among communities - the
+proportion of shared phylogenetic branch lengths between communities [@Graham2008] - `phyloregion` is 300-400 times faster and allocates 100-600 times less memory!
+
+```r
+fun_phyloregion <- function(x, tree) phyloregion::phylobeta(x, tree)[[3]]
+fun_betapart <- function(x, tree) betapart::phylo.beta.pair(x, tree)[[3]]
+fun_picante <- function(x, tree) 1 - picante::phylosor(x, tree)
+fun_BAT <- function(x, tree) BAT::beta(x, tree, func = "Soerensen")[[1]]
+
+chk_fun <- function(target, current)
+    all.equal(target, current, check.attributes = FALSE)
+
+res4 <- bench::mark(picante=fun_picante(X_dense, tree),
+                       betapart=fun_betapart(X_dense, tree),
+                       BAT=fun_BAT(X_dense, tree),
+                       phyloregion=fun_phyloregion(X_sparse, tree), check=chk_fun)
+summary(res4)
+```
+
+```
+## # A tibble: 4 x 6
+##   expression       min   median `itr/sec` mem_alloc `gc/sec`
+##   <bch:expr>  <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
+## 1 picante        1.86s    1.86s     0.539    1.24GB    1.62 
+## 2 betapart       1.83s    1.83s     0.545    1.24GB    2.18 
+## 3 BAT            1.42s    1.42s     0.703  208.99MB    0.703
+## 4 phyloregion   4.34ms   4.52ms   215.       1.15MB    0
+```
+
+```r
+autoplot(res4)
+```
+
+![plot of chunk phylobeta](benchmark-phylobeta-1.png)
+
+Note that for this test, `picante` returns a similarity matrix while
+`betapart`, and `phyloregion` return a dissimilarity matrix.
+
+## Session Information
+
+```r
+sessionInfo()
+```
+
+```
+## R version 4.0.2 (2020-06-22)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Catalina 10.15.6
+## 
+## Matrix products: default
+## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] pez_1.2-0         BAT_2.0.1         hilldiv_1.5.1     picante_1.8.2    
+##  [5] nlme_3.1-148      vegan_2.5-6       lattice_0.20-41   permute_0.9-5    
+##  [9] betapart_1.5.1    phyloregion_1.0.4 ggplot2_3.3.2     bench_1.1.1      
+## [13] Matrix_1.2-18     ape_5.4           knitr_1.29       
+## 
+## loaded via a namespace (and not attached):
+##   [1] utf8_1.1.4              ks_1.11.7               tidyselect_1.1.0       
+##   [4] htmlwidgets_1.5.1       grid_4.0.2              combinat_0.0-8         
+##   [7] munsell_0.5.0           animation_2.6           codetools_0.2-16       
+##  [10] miniUI_0.1.1.1          withr_2.2.0             profmem_0.5.0          
+##  [13] colorspace_1.4-1        highr_0.8               rstudioapi_0.11        
+##  [16] geometry_0.4.5          stats4_4.0.2            tensor_1.5             
+##  [19] ggsignif_0.6.0          huge_1.3.4.1            FD_1.0-12              
+##  [22] nls2_0.2                polyclip_1.10-0         mnormt_2.0.1           
+##  [25] farver_2.0.3            rprojroot_1.3-2         coda_0.19-3            
+##  [28] vctrs_0.3.1             generics_0.0.2          clusterGeneration_1.3.4
+##  [31] xfun_0.15               fastcluster_1.1.25      R6_2.4.1               
+##  [34] ggbeeswarm_0.6.0        pdist_1.2               manipulateWidget_0.10.1
+##  [37] spatstat.utils_1.17-0   assertthat_0.2.1        promises_1.1.1         
+##  [40] scales_1.1.1            nnet_7.3-14             beeswarm_0.2.3         
+##  [43] rgeos_0.5-3             gtable_0.3.0            caper_1.0.1            
+##  [46] goftest_1.2-2           processx_3.4.3          phangorn_2.5.5         
+##  [49] MatrixModels_0.4-1      rlang_0.4.6             FSA_0.8.30             
+##  [52] scatterplot3d_0.3-41    splines_4.0.2           rstatix_0.6.0          
+##  [55] acepack_1.4.1           broom_0.7.0             checkmate_2.0.0        
+##  [58] rgl_0.100.54            yaml_2.2.1              reshape2_1.4.4         
+##  [61] abind_1.4-5             d3Network_0.5.2.1       crosstalk_1.1.0.1      
+##  [64] backports_1.1.8         httpuv_1.5.4            Hmisc_4.4-0            
+##  [67] tools_4.0.2             psych_1.9.12.31         lavaan_0.6-6           
+##  [70] cubature_2.0.4.1        ellipsis_0.3.1          raster_3.3-7           
+##  [73] RColorBrewer_1.1-2      Rcpp_1.0.5              plyr_1.8.6             
+##  [76] base64enc_0.1-3         progress_1.2.2          purrr_0.3.4            
+##  [79] ps_1.3.3                prettyunits_1.1.1       deldir_0.1-25          
+##  [82] ggpubr_0.4.0            rpart_4.1-15            pbapply_1.4-2          
+##  [85] deSolve_1.28            qgraph_1.6.5            haven_2.3.1            
+##  [88] cluster_2.1.0           fs_1.4.2                magrittr_1.5           
+##  [91] data.table_1.12.8       openxlsx_4.1.5          SparseM_1.78           
+##  [94] tmvnsim_1.0-2           mvtnorm_1.1-1           whisker_0.4            
+##  [97] hms_0.5.3               mime_0.9                evaluate_0.14          
+## [100] xtable_1.8-4            rio_0.5.16              jpeg_0.1-8.1           
+## [103] mclust_5.4.6            readxl_1.3.1            gridExtra_2.3          
+## [106] compiler_4.0.2          tibble_3.0.2            maps_3.3.0             
+## [109] KernSmooth_2.23-17      crayon_1.3.4            hypervolume_2.0.12     
+## [112] htmltools_0.5.0         mgcv_1.8-31             corpcor_1.6.9          
+## [115] later_1.1.0.1           Formula_1.2-3           tidyr_1.1.0            
+## [118] expm_0.999-4            apTreeshape_1.5-0       magic_1.5-9            
+## [121] subplex_1.6             MASS_7.3-51.6           ade4_1.7-15            
+## [124] car_3.0-8               cli_2.0.2               quadprog_1.5-8         
+## [127] parallel_4.0.2          igraph_1.2.5            BDgraph_2.62           
+## [130] forcats_0.5.0           pkgconfig_2.0.3         pkgdown_1.5.1          
+## [133] numDeriv_2016.8-1.1     foreign_0.8-80          sp_1.4-2               
+## [136] pbivnorm_0.6.0          vipor_0.4.5             webshot_0.5.2          
+## [139] stringr_1.4.0           callr_3.4.3             digest_0.6.25          
+## [142] phytools_0.7-47         rcdd_1.2-2              spatstat.data_1.4-3    
+## [145] rmarkdown_2.3           cellranger_1.1.0        fastmatch_1.1-0        
+## [148] htmlTable_2.0.1         curl_4.3                quantreg_5.55          
+## [151] shiny_1.5.0             gtools_3.8.2            rjson_0.2.20           
+## [154] geiger_2.0.7            lifecycle_0.2.0         glasso_1.11            
+## [157] jsonlite_1.7.0          carData_3.0-4           desc_1.2.0             
+## [160] fansi_0.4.1             pillar_1.4.6            fastmap_1.0.1          
+## [163] httr_1.4.1              plotrix_3.7-8           survival_3.2-3         
+## [166] glue_1.4.1              spatstat_1.64-1         zip_2.0.4              
+## [169] fdrtool_1.2.15          png_0.1-7               class_7.3-17           
+## [172] stringi_1.4.6           rematch2_2.1.2          latticeExtra_0.6-29    
+## [175] memoise_1.1.0           dplyr_1.0.0             e1071_1.7-3
+```
+
+## REFERENCES

@@ -16,7 +16,7 @@ nocite: |
 ---
 
 ## 1. Installation
-`phyloregion` is available from the [Comprehensive R Archive Network](https://cran.r-project.org/web/packages/phyloregion/index.html), so you can use the following line of code to install and run it:
+`phyloregion` is available from the [Comprehensive R Archive Network](https://CRAN.R-project.org/package=phyloregion), so you can use the following line of code to install and run it:
 
 ```
 install.packages("phyloregion")

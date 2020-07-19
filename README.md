@@ -32,7 +32,7 @@ If you have any questions, suggestions or issues regarding the package, please a
 
 # Installation
 
-`phyloregion` is available from the [Comprehensive R Archive Network](https://cran.r-project.org/package=phyloregion), so you can use the following line of code to install and run it:
+`phyloregion` is available from the [Comprehensive R Archive Network](https://CRAN.R-project.org/package=phyloregion), so you can use the following line of code to install and run it:
 
 ```
 install.packages("phyloregion")
