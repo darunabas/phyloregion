@@ -37,7 +37,7 @@
 #' @rdname admixture
 #' @keywords bioregion
 #' @importFrom maptpx topics
-#' @return An topics object list with entries
+#' @return A topics object list with entries
 #' \itemize{
 #'   \item \code{K} The number of latent topics estimated. If input
 #'   \code{length(K)>1}, on output this is a single value corresponding to

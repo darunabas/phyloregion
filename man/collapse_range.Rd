@@ -50,6 +50,7 @@ com <- matrix(c(1,0,1,1,0,0,
 collapse_range(com, tr1, n=1)
 }
 \references{
-Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. Endemism patterns are
-scale dependent.
+Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism
+patterns are scale dependent. \emph{Nature Communications}
+\strong{11}: 2115.
 }

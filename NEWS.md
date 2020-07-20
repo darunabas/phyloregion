@@ -1,4 +1,4 @@
-# Changes in version 1.0.3
+# [July 19, 2020] Changes in `phyloregion` version 1.0.3
 
 * Removed `plot_evoldistinct` because the functionality is replaced 
 with `plot_swatch`.
@@ -12,6 +12,6 @@ regionalization and macroecology"
 * Improvements in the vignettes with several examples.
 
 
-# phyloregion 1.0.0
+# [March 30, 2020] `phyloregion` version 1.0.0
 
 * This is the first CRAN release of phyloregion.
