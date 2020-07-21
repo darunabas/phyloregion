@@ -46,7 +46,13 @@
 #'
 #' @export
 ace_multi <- function(x, phy) {
-  tree <- keep.tip(phy, intersect(row.names(x), phy$tip.label))
+
+  row.names(x) <- gsub(" ", "_", row.names(x))
+  index <- intersect(row.names(x), phy$tip.label)
+  x <- x[index,]
+
+  tree <- keep.tip(phy, index)
+
   M1 <- apply(x, 2, function(i) {
     i <- as.numeric(i)
     y <- asr_independent_contrasts(tree, i,
