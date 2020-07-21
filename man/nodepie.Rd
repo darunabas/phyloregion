@@ -4,7 +4,14 @@
 \alias{nodepie}
 \title{Label phylogenetic nodes using pie}
 \usage{
-nodepie(pie, radius = 2, pie_control = list(), legend = FALSE, ...)
+nodepie(
+  pie,
+  radius = 2,
+  pie_control = list(),
+  legend = FALSE,
+  col = hcl.colors(5),
+  ...
+)
 }
 \arguments{
 \item{pie}{Estimates from ancestral character reconstruction}
@@ -15,6 +22,8 @@ nodepie(pie, radius = 2, pie_control = list(), legend = FALSE, ...)
 the add.pie function.}
 
 \item{legend}{Logical, whether to add a legend or not.}
+
+\item{col}{List of colors for the pies.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }
@@ -36,9 +45,13 @@ par(mfrow=c(2,1))
 plot(m$tree, type = "fan", show.tip.label=FALSE,
      open.angle = 180, edge.width=0.5)
 
-nodepie(m$ancestral_states, radius = 2)
+K <- ncol(africa$omega)
+COLRS <- phyloregion:::hue(K)
 
-plot_structure(africa$omega, shp = africa$polys, legend = TRUE)
+nodepie(m$ancestral_states, radius = 2, col=COLRS)
+
+plot_pie(africa$omega, shp = africa$polys, col=COLRS, legend = TRUE)
+
 par(old.par)
 }
 

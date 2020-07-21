@@ -44,11 +44,13 @@ par(mfrow=c(2,1))
 plot(m$tree, type = "fan", show.tip.label=FALSE,
      open.angle = 180, edge.width=0.5)
 
-nodelabels(pie = m$ancestral_states, cex = 0.23,
-           piecol=m$piecolors, lwd=0.0001)
+K <- ncol(africa$omega)
+COLRS <- phyloregion:::hue(K)
 
-plot_structure(africa$omega, shp = africa$polys, legend = TRUE)
-par(old.par)
+nodepie(m$ancestral_states, radius = 2, col=COLRS)
+
+
+plot_pie(africa$omega, shp = africa$polys, col=COLRS)
 }
 
 }
