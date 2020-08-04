@@ -33,26 +33,3 @@ Returns no value, just add color pies on phylogenetic nodes!
 \description{
 Label phylogenetic nodes using pie
 }
-\examples{
-\donttest{
-old.par <- par(no.readonly = TRUE)
-require(ape)
-data(africa)
-m <- ace_multi(africa$theta, africa$phylo)
-
-par(mai=rep(0,4))
-par(mfrow=c(2,1))
-plot(m$tree, type = "fan", show.tip.label=FALSE,
-     open.angle = 180, edge.width=0.5)
-
-K <- ncol(africa$omega)
-COLRS <- phyloregion:::hue(K)
-
-nodepie(m$ancestral_states, radius = 2, col=COLRS)
-
-plot_pie(africa$omega, shp = africa$polys, col=COLRS, legend = TRUE)
-
-par(old.par)
-}
-
-}

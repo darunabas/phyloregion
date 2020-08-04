@@ -13,7 +13,7 @@
 #' @param cut The slice time.
 #' @param phy is a dated phylogenetic tree with branch lengths stored
 #' as a phylo object (as in the ape package).
-#' @param k The desired number of clusters.
+#' @param bin The desired number of clusters or bins.
 #' @param na.rm Logical, whether NA values should be removed or not.
 #' @rdname counts
 #' @keywords bioregion
@@ -23,7 +23,7 @@
 #' @return Function returns a community data frame that captures the
 #' count of each species based on its cluster membership.
 #' @export
-counts <- function (x, trait, cut = NULL, phy = NULL, k = 10, na.rm = FALSE)
+counts <- function (x, trait, cut = NULL, phy = NULL, bin = 10, na.rm = FALSE)
 {
 
   x$species <- gsub(" ", "_", x$species)
@@ -31,7 +31,7 @@ counts <- function (x, trait, cut = NULL, phy = NULL, k = 10, na.rm = FALSE)
   if (!is.null(phy)) {
     subphy <- keep.tip(phy, intersect(phy$tip.label, x$species))
     submat <- subset(x, x$species %in% intersect(phy$tip.label, x$species))
-    tx <- get_clades(subphy, cut = cut, k = k)
+    tx <- get_clades(subphy, cut = cut, k = bin)
     z <- length(tx)
     memb <- rep(seq_len(z), lengths(tx))
     sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
@@ -54,7 +54,7 @@ counts <- function (x, trait, cut = NULL, phy = NULL, k = 10, na.rm = FALSE)
     m <- data.frame(x1, x2)
 
     # apply k-prototypes
-    m <- kproto(m, k=k, na.rm = na.rm)
+    m <- kproto(m, bin = bin, na.rm = na.rm)
 
     memb <- m$cluster
     #    names(memb) <- labels(g1)
@@ -72,5 +72,5 @@ counts <- function (x, trait, cut = NULL, phy = NULL, k = 10, na.rm = FALSE)
   mx <- M %*% sp
   raw_mtx <- mx/rowSums(mx)
   res <- sparse2long(mx)
-  return(list(comm_dat = res, k = z, raw_mtx = raw_mtx))
+  return(list(comm_dat = res, bins = z, raw_mtx = raw_mtx))
 }
