@@ -5,7 +5,7 @@
 \title{Visualize biogeographic patterns using pie charts}
 \usage{
 plot_pie(
-  x,
+  omega,
   shp,
   r = 1,
   col = hcl.colors(5),
@@ -16,7 +16,7 @@ plot_pie(
 )
 }
 \arguments{
-\item{x}{a matrix of phyloregion of probabilities of each species}
+\item{omega}{a matrix of phyloregion of probabilities of each species}
 
 \item{shp}{a polygon shapefile of grid cells with a column labeled
 \dQuote{grids}.}

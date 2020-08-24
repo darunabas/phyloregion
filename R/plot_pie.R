@@ -140,7 +140,7 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 
 #' Visualize biogeographic patterns using pie charts
 #'
-#' @param x a matrix of phyloregion of probabilities of each species
+#' @param omega a matrix of phyloregion of probabilities of each species
 #' @param shp a polygon shapefile of grid cells with a column labeled
 #' \dQuote{grids}.
 #' @param pie_control The list of control parameters to be passed into
@@ -165,13 +165,13 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' COLRS <- phyloregion:::hue(K)
 #' plot_pie(africa$omega, shp = africa$polys, col=COLRS)
 #' @export
-plot_pie <- function (x, shp, r = 1, col=hcl.colors(5),
+plot_pie <- function (omega, shp, r = 1, col=hcl.colors(5),
                       pie_control = list(), legend = FALSE,
                       legend_pie = FALSE, ...) {
 
-    index <- intersect(shp$grids, rownames(x))
+    index <- intersect(shp$grids, rownames(omega))
     s <- subset(shp, shp$grids %in% index)
-    x <- x[index,]
+    omega <- omega[index,]
 
     pie_control_default <- list(edges = 200, clockwise = TRUE,
                                 init.angle = 90, density = NULL,
@@ -179,15 +179,14 @@ plot_pie <- function (x, shp, r = 1, col=hcl.colors(5),
                                 lty = NULL, label.dist = 1.1)
     pie_control <- modifyList(pie_control_default, pie_control)
 
-    #K <- ncol(x)
 
     #COLRS <- hue(K, hmin=0, hmax=360, cmin=0, cmax=180, lmin=0, lmax=100,
     #                 random=FALSE)
 
     plot(s, border = NA, ...)
-        suppressWarnings(invisible(lapply(1:dim(x)[1], function(r) {
+        suppressWarnings(invisible(lapply(1:dim(omega)[1], function(r) {
         do.call(add_pie, append(list(
-            z = as.integer(100 * x[r, ]),
+            z = as.integer(100 * omega[r, ]),
             x = coordinates(s[r,])[, 1],
             y = coordinates(s[r,])[, 2],
             labels = c("", "", ""),
@@ -196,13 +195,13 @@ plot_pie <- function (x, shp, r = 1, col=hcl.colors(5),
             col = col), pie_control))
     })))
         if (isTRUE(legend)) {
-          legend("bottomright", legend=colnames(x), y.intersp = 0.8, bty = "n",
+          legend("bottomright", legend=colnames(omega), y.intersp = 0.8, bty = "n",
                  col = col, ncol = 2, pch = 19, pt.cex = 1.5, ...)
         }
         if (isTRUE(legend_pie)) {
             rl = (sqrt(sapply(slot(s[1,], "polygons"),
                               function(i) slot(i, "area")))*r)*2
-            legend_pie("left", labels=colnames(x), rd=rl, bty="n",
+            legend_pie("left", labels=colnames(omega), rd=rl, bty="n",
                        col=col, cex=0.5, label.dist=1.3, border = NA)
         }
 
