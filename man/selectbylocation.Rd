@@ -2,7 +2,7 @@
 % Please edit documentation in R/selectbylocation.R
 \name{selectbylocation}
 \alias{selectbylocation}
-\title{Select features within polygon from another layer}
+\title{Select polygon features from another layer and adds polygon attributes to layer}
 \usage{
 selectbylocation(x, y)
 }

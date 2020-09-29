@@ -70,7 +70,7 @@ progress <- function(x, FUN, ...) {
 #' @importFrom raster values crs
 #' @importFrom sp CRS proj4string<-
 #' @importFrom utils txtProgressBar setTxtProgressBar
-#' @return
+#' @return Each of these functions generate a list of two objects as follows:
 #' \itemize{
 #'   \item comm_dat: (sparse) community matrix
 #'   \item poly_shp: shapefile of grid cells with the values per cell.
@@ -79,7 +79,8 @@ progress <- function(x, FUN, ...) {
 #' \donttest{
 #' fdir <- system.file("NGAplants", package="phyloregion")
 #' files <- file.path(fdir, dir(fdir))
-#' ras <- raster2comm(files)
+#' ras <- raster2comm(files) # Note, this function generates
+#'      # a list of two objects
 #' head(ras[[1]])
 #' }
 #'
@@ -182,7 +183,7 @@ polys2comm <- function(dat, res = 1, species = "species", trace = 1, ...) {
 #' m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 #'
 #' pt <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
-#'             species = "taxon")
+#'             species = "taxon") # Note, this generates a list of two objects
 #' head(pt[[1]])
 #' @export
 points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",

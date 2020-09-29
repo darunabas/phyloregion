@@ -54,6 +54,7 @@ shapefile covering the boundary of the survey region.}
 with a column labeled \dQuote{grids}.}
 }
 \value{
+Each of these functions generate a list of two objects as follows:
 \itemize{
   \item comm_dat: (sparse) community matrix
   \item poly_shp: shapefile of grid cells with the values per cell.
@@ -70,7 +71,8 @@ and extents for downstream analyses.
 \donttest{
 fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
-ras <- raster2comm(files)
+ras <- raster2comm(files) # Note, this function generates
+     # a list of two objects
 head(ras[[1]])
 }
 
@@ -90,7 +92,7 @@ species <- paste0("sp", sample(1:1000))
 m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 
 pt <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
-            species = "taxon")
+            species = "taxon") # Note, this generates a list of two objects
 head(pt[[1]])
 }
 \seealso{

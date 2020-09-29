@@ -1,4 +1,4 @@
-#' Select features within polygon from another layer
+#' Select polygon features from another layer and adds polygon attributes to layer
 #'
 #' The \code{selectbylocation} function selects features based on
 #' their location relative to features in another layer.
