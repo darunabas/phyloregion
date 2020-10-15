@@ -81,7 +81,7 @@ sparse matrix." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@ sparse matrix." />
 sparse matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read.community</span>(<span class='no'>file</span>, <span class='kw'>grids</span> <span class='kw'>=</span> <span class='st'>"grids"</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>read.community</span><span class='op'>(</span><span class='va'>file</span>, grids <span class='op'>=</span> <span class='st'>"grids"</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,26 +181,30 @@ sparse matrix.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>grids</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"g"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>)),
-                 <span class='kw'>species</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"sp"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>4</span>)))
-<span class='no'>df</span></div><div class='output co'>#&gt;   grids species
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>grids<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"g"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>,
+                 species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"sp"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>df</span>
+</div><div class='output co'>#&gt;   grids species
 #&gt; 1    g1     sp1
 #&gt; 2    g1     sp3
 #&gt; 3    g2     sp2
 #&gt; 4    g3     sp1
-#&gt; 5    g3     sp4</div><div class='input'><span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span>(<span class='no'>df</span>, <span class='no'>tmp</span>)
-(<span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'>read.community</span>(<span class='no'>tmp</span>) )</div><div class='output co'>#&gt; 3 x 4 sparse Matrix of class "dgCMatrix"
+#&gt; 5    g3     sp4</div><div class='input'><span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>tmp</span><span class='op'>)</span>
+<span class='op'>(</span><span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'>read.community</span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>)</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; 3 x 4 sparse Matrix of class "dgCMatrix"
 #&gt;    sp1 sp2 sp3 sp4
 #&gt; g1   1   .   1   .
 #&gt; g2   .   1   .   .
-#&gt; g3   1   .   .   1</div><div class='input'><span class='fu'><a href='long2sparse.html'>sparse2long</a></span>(<span class='no'>M</span>)</div><div class='output co'>#&gt;   grids species
+#&gt; g3   1   .   .   1</div><div class='input'><span class='fu'><a href='long2sparse.html'>sparse2long</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   grids species
 #&gt; 1    g1     sp1
 #&gt; 2    g3     sp1
 #&gt; 3    g2     sp2
 #&gt; 4    g1     sp3
-#&gt; 5    g3     sp4</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='no'>tmp</span>)
-<span class='co'># }</span></div></pre>
+#&gt; 5    g3     sp4</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span><span class='op'>(</span><span class='va'>tmp</span><span class='op'>)</span>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,7 +220,7 @@ sparse matrix.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

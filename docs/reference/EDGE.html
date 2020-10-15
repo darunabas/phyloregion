@@ -83,7 +83,7 @@ of Nature (IUCN)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@ of Nature (IUCN)." />
 of Nature (IUCN).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>EDGE</span>(<span class='no'>x</span>, <span class='no'>phy</span>, <span class='kw'>Redlist</span> <span class='kw'>=</span> <span class='st'>"Redlist"</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>EDGE</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>phy</span>, Redlist <span class='op'>=</span> <span class='st'>"Redlist"</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,10 +205,14 @@ into conservation prioritization. <em>Conservation Biology</em>
 <p>Isaac, N.J., Turvey, S.T., Collen, B., Waterman, C. &amp; Baillie, J.E.
 (2007) Mammals on the EDGE: conservation priorities based on threat
 and phylogeny. <em>PLoS ONE</em> <strong>2</strong>: e296.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Barnabas H. Daru</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>EDGE</span>(<span class='no'>africa</span>$<span class='no'>IUCN</span>, <span class='no'>africa</span>$<span class='no'>phylo</span>, <span class='kw'>Redlist</span> <span class='kw'>=</span> <span class='st'>"IUCN"</span>, <span class='kw'>species</span><span class='kw'>=</span><span class='st'>"Species"</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>EDGE</span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>IUCN</span>, <span class='va'>africa</span><span class='op'>$</span><span class='va'>phylo</span>, Redlist <span class='op'>=</span> <span class='st'>"IUCN"</span>, species<span class='op'>=</span><span class='st'>"Species"</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -224,7 +228,7 @@ and phylogeny. <em>PLoS ONE</em> <strong>2</strong>: e296.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

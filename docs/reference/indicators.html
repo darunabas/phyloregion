@@ -81,7 +81,7 @@ species in phyloregions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -151,13 +151,13 @@ species in phyloregions." />
 species in phyloregions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>indicators</span>(
-  <span class='no'>theta</span>,
-  <span class='kw'>top_indicators</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"poisson"</span>, <span class='st'>"bernoulli"</span>),
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"min"</span>, <span class='st'>"max"</span>),
-  <span class='kw'>shared</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>indicators</span><span class='op'>(</span>
+  <span class='va'>theta</span>,
+  top_indicators <span class='op'>=</span> <span class='fl'>5</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"poisson"</span>, <span class='st'>"bernoulli"</span><span class='op'>)</span>,
+  options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"min"</span>, <span class='st'>"max"</span><span class='op'>)</span>,
+  shared <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -196,9 +196,10 @@ in more than one phyloregion.</p></td>
     <p>A list of top indicator species and their indicator values</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='no'>indsp</span> <span class='kw'>&lt;-</span> <span class='fu'>indicators</span>(<span class='no'>africa</span>$<span class='no'>theta</span>, <span class='kw'>top_indicators</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-                    <span class='kw'>options</span> <span class='kw'>=</span> <span class='st'>"max"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"poisson"</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='va'>indsp</span> <span class='op'>&lt;-</span> <span class='fu'>indicators</span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>theta</span>, top_indicators <span class='op'>=</span> <span class='fl'>5</span>,
+                    options <span class='op'>=</span> <span class='st'>"max"</span>, method <span class='op'>=</span> <span class='st'>"poisson"</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -214,7 +215,7 @@ in more than one phyloregion.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

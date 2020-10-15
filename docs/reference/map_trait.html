@@ -81,7 +81,7 @@ in geographic space." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@ in geographic space." />
 in geographic space.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>map_trait</span>(<span class='no'>x</span>, <span class='no'>trait</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sum</span>, <span class='kw'>shp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>map_trait</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>trait</span>, FUN <span class='op'>=</span> <span class='va'>sum</span>, shp <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,13 +186,17 @@ all species traits per area  or grid cell is calculated.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame of species traits by site.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Barnabas H. Daru <a href='mailto:darunabas@gmail.com'>darunabas@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='EDGE.html'>EDGE</a></span>(<span class='no'>africa</span>$<span class='no'>IUCN</span>, <span class='no'>africa</span>$<span class='no'>phylo</span>, <span class='kw'>Redlist</span> <span class='kw'>=</span> <span class='st'>"IUCN"</span>, <span class='kw'>species</span><span class='kw'>=</span><span class='st'>"Species"</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>map_trait</span>(<span class='no'>africa</span>$<span class='no'>comm</span>, <span class='no'>x</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span>, <span class='kw'>shp</span><span class='kw'>=</span><span class='no'>africa</span>$<span class='no'>polys</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='EDGE.html'>EDGE</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>IUCN</span>, <span class='va'>africa</span><span class='op'>$</span><span class='va'>phylo</span>, Redlist <span class='op'>=</span> <span class='st'>"IUCN"</span>, species<span class='op'>=</span><span class='st'>"Species"</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>map_trait</span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>comm</span>, <span class='va'>x</span>, FUN <span class='op'>=</span> <span class='va'>sd</span>, shp<span class='op'>=</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>polys</span><span class='op'>)</span>
 
-<span class='fu'><a href='plot_swatch.html'>plot_swatch</a></span>(<span class='no'>y</span>, <span class='no'>y</span>$<span class='no'>traits</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>20</span>)</div><div class='img'><img src='map_trait-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='plot_swatch.html'>plot_swatch</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>y</span><span class='op'>$</span><span class='va'>traits</span>, k<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>
+</div><div class='img'><img src='map_trait-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -208,7 +212,7 @@ all species traits per area  or grid cell is calculated.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -84,7 +84,7 @@ and extents for downstream analyses." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -157,20 +157,20 @@ respectively, to a community composition data frame at varying spatial grains
 and extents for downstream analyses.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>raster2comm</span>(<span class='no'>files</span>)
+    <pre class="usage"><span class='fu'>raster2comm</span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span>
 
-<span class='fu'>polys2comm</span>(<span class='no'>dat</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+<span class='fu'>polys2comm</span><span class='op'>(</span><span class='va'>dat</span>, res <span class='op'>=</span> <span class='fl'>1</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, trace <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>points2comm</span>(
-  <span class='no'>dat</span>,
-  <span class='kw'>mask</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lon</span> <span class='kw'>=</span> <span class='st'>"decimallongitude"</span>,
-  <span class='kw'>lat</span> <span class='kw'>=</span> <span class='st'>"decimallatitude"</span>,
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
-  <span class='kw'>shp.grids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>points2comm</span><span class='op'>(</span>
+  <span class='va'>dat</span>,
+  mask <span class='op'>=</span> <span class='cn'>NULL</span>,
+  res <span class='op'>=</span> <span class='fl'>1</span>,
+  lon <span class='op'>=</span> <span class='st'>"decimallongitude"</span>,
+  lat <span class='op'>=</span> <span class='st'>"decimallatitude"</span>,
+  species <span class='op'>=</span> <span class='st'>"species"</span>,
+  shp.grids <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -229,8 +229,7 @@ with a column labeled &#8220;grids&#8221;.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-<ul>
+    <p>Each of these functions generate a list of two objects as follows:</p><ul>
 <li><p>comm_dat: (sparse) community matrix</p></li>
 <li><p>poly_shp: shapefile of grid cells with the values per cell.</p></li>
 </ul>
@@ -243,10 +242,12 @@ latitude and longitude into projected coordinates system.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>fdir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"NGAplants"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"phyloregion"</span>)
-<span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>fdir</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='no'>fdir</span>))
-<span class='no'>ras</span> <span class='kw'>&lt;-</span> <span class='fu'>raster2comm</span>(<span class='no'>files</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ras</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 6 x 16 sparse Matrix of class "dgCMatrix"</div><div class='output co'>#&gt; <span class='message'>   [[ suppressing 16 column names ‘Chytranthus_gilletii’, ‘Commelina_ramulosa’, ‘Cymbopogon_caesius’ ... ]]</span></div><div class='output co'>#&gt;                                     
+<span class='va'>fdir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"NGAplants"</span>, package<span class='op'>=</span><span class='st'>"phyloregion"</span><span class='op'>)</span>
+<span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>fdir</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='va'>fdir</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>ras</span> <span class='op'>&lt;-</span> <span class='fu'>raster2comm</span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span> <span class='co'># Note, this function generates</span>
+     <span class='co'># a list of two objects</span>
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/headtail.html'>head</a></span><span class='op'>(</span><span class='va'>ras</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 6 x 16 sparse Matrix of class "dgCMatrix"</div><div class='output co'>#&gt; <span class='message'>   [[ suppressing 16 column names ‘Chytranthus_gilletii’, ‘Commelina_ramulosa’, ‘Cymbopogon_caesius’ ... ]]</span></div><div class='output co'>#&gt;                                     
 #&gt; v100 . . . 1 . . . . . . . . . . . .
 #&gt; v101 . . . 1 . . . . . . . . . . . .
 #&gt; v102 . . . 1 . . . . . . . . . . . .
@@ -255,29 +256,31 @@ latitude and longitude into projected coordinates system.
 #&gt; v105 . . . 1 . . . . . . . . . . . .</div><div class='input'><span class='co'># }</span>
 
 <span class='co'># \donttest{</span>
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nigeria/nigeria.rds"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"phyloregion"</span>))
-<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='random_species.html'>random_species</a></span>(<span class='fl'>100</span>, <span class='kw'>species</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>shp</span><span class='kw'>=</span><span class='no'>s</span>)
-<span class='no'>pol</span> <span class='kw'>&lt;-</span> <span class='fu'>polys2comm</span>(<span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>sp</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>, <span class='kw'>trace</span><span class='kw'>=</span><span class='fl'>0</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>pol</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 6 x 5 sparse Matrix of class "dgCMatrix"
+<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"nigeria/nigeria.rds"</span>, package<span class='op'>=</span><span class='st'>"phyloregion"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>sp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='random_species.html'>random_species</a></span><span class='op'>(</span><span class='fl'>100</span>, species<span class='op'>=</span><span class='fl'>5</span>, shp<span class='op'>=</span><span class='va'>s</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: less than 4 coordinates in polygon</span></div><div class='input'><span class='va'>pol</span> <span class='op'>&lt;-</span> <span class='fu'>polys2comm</span><span class='op'>(</span>dat <span class='op'>=</span> <span class='va'>sp</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, trace<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/headtail.html'>head</a></span><span class='op'>(</span><span class='va'>pol</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 6 x 5 sparse Matrix of class "dgCMatrix"
 #&gt;     species1 species2 species3 species4 species5
-#&gt; v10        .        .        1        .        .
-#&gt; v12        .        .        .        .        1
-#&gt; v13        1        .        1        1        1
-#&gt; v14        1        1        1        1        1
-#&gt; v15        1        1        1        1        1
-#&gt; v16        1        1        1        1        1</div><div class='input'><span class='co'># }</span>
+#&gt; v10        1        .        .        .        .
+#&gt; v11        1        .        .        .        .
+#&gt; v13        1        .        1        .        .
+#&gt; v14        1        1        1        .        .
+#&gt; v15        1        1        1        .        .
+#&gt; v16        1        1        1        .        .</div><div class='input'><span class='co'># }</span>
 
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nigeria/nigeria.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"phyloregion"</span>))
+<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"nigeria/nigeria.rds"</span>, package <span class='op'>=</span> <span class='st'>"phyloregion"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw pkg'>sp</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sp/man/spsample.html'>spsample</a></span>(<span class='no'>s</span>, <span class='fl'>10000</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"nonaligned"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>m</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lon"</span>, <span class='st'>"lat"</span>)
-<span class='no'>species</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"sp"</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>1000</span>))
-<span class='no'>m</span>$<span class='no'>taxon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>species</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>m</span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='fu'>sp</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sp/man/spsample.html'>spsample</a></span><span class='op'>(</span><span class='va'>s</span>, <span class='fl'>10000</span>, type <span class='op'>=</span> <span class='st'>"nonaligned"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/names.html'>names</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lon"</span>, <span class='st'>"lat"</span><span class='op'>)</span>
+<span class='va'>species</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"sp"</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>m</span><span class='op'>$</span><span class='va'>taxon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='va'>species</span>, size <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/ncell.html'>nrow</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>)</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='no'>pt</span> <span class='kw'>&lt;-</span> <span class='fu'>points2comm</span>(<span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>m</span>, <span class='kw'>mask</span> <span class='kw'>=</span> <span class='no'>s</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>lon</span> <span class='kw'>=</span> <span class='st'>"lon"</span>, <span class='kw'>lat</span> <span class='kw'>=</span> <span class='st'>"lat"</span>,
-            <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"taxon"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>pt</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 6 x 1000 sparse Matrix of class "dgCMatrix"</div><div class='output co'>#&gt; <span class='message'>   [[ suppressing 1000 column names ‘sp1’, ‘sp10’, ‘sp100’ ... ]]</span></div><div class='output co'>#&gt;                                                                               
+<span class='va'>pt</span> <span class='op'>&lt;-</span> <span class='fu'>points2comm</span><span class='op'>(</span>dat <span class='op'>=</span> <span class='va'>m</span>, mask <span class='op'>=</span> <span class='va'>s</span>, res <span class='op'>=</span> <span class='fl'>0.5</span>, lon <span class='op'>=</span> <span class='st'>"lon"</span>, lat <span class='op'>=</span> <span class='st'>"lat"</span>,
+            species <span class='op'>=</span> <span class='st'>"taxon"</span><span class='op'>)</span> <span class='co'># Note, this generates a list of two objects</span>
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/headtail.html'>head</a></span><span class='op'>(</span><span class='va'>pt</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 6 x 1000 sparse Matrix of class "dgCMatrix"</div><div class='output co'>#&gt; <span class='message'>   [[ suppressing 1000 column names ‘sp1’, ‘sp10’, ‘sp100’ ... ]]</span></div><div class='output co'>#&gt;                                                                               
 #&gt; v100 . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . .
 #&gt; v101 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . .
 #&gt; v102 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . .
@@ -488,7 +491,7 @@ latitude and longitude into projected coordinates system.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

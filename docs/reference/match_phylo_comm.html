@@ -82,7 +82,7 @@ on genus level if possible to match in subsequent analysis." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -153,7 +153,7 @@ with a community matrix. Pruning, sorting and trying to add missing species
 on genus level if possible to match in subsequent analysis.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>match_phylo_comm</span>(<span class='no'>phy</span>, <span class='no'>comm</span>, <span class='kw'>delete_empty_rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>match_phylo_comm</span><span class='op'>(</span><span class='va'>phy</span>, <span class='va'>comm</span>, delete_empty_rows <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,12 +184,13 @@ on genus level if possible to match in subsequent analysis.</p>
 and with taxa addition.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='no'>africa</span>$<span class='no'>phylo</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='no'>africa</span>$<span class='no'>comm</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='va'>tree</span> <span class='op'>&lt;-</span> <span class='va'>africa</span><span class='op'>$</span><span class='va'>phylo</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='va'>africa</span><span class='op'>$</span><span class='va'>comm</span>
 
-<span class='no'>subphy</span> <span class='kw'>&lt;-</span> <span class='fu'>match_phylo_comm</span>(<span class='no'>tree</span>, <span class='no'>x</span>)$<span class='no'>phy</span>
-<span class='no'>submat</span> <span class='kw'>&lt;-</span> <span class='fu'>match_phylo_comm</span>(<span class='no'>tree</span>, <span class='no'>x</span>)$<span class='no'>com</span></div></pre>
+<span class='va'>subphy</span> <span class='op'>&lt;-</span> <span class='fu'>match_phylo_comm</span><span class='op'>(</span><span class='va'>tree</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>phy</span>
+<span class='va'>submat</span> <span class='op'>&lt;-</span> <span class='fu'>match_phylo_comm</span><span class='op'>(</span><span class='va'>tree</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>com</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -205,7 +206,7 @@ and with taxa addition.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -81,7 +81,7 @@ by species ranges." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@ by species ranges." />
 by species ranges.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>weighted_endemism</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>weighted_endemism</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,13 +174,14 @@ patterns are scale dependent. <em>Nature Communications</em> <strong>11</strong>
 : 2115.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='no'>Endm</span> <span class='kw'>&lt;-</span> <span class='fu'>weighted_endemism</span>(<span class='no'>africa</span>$<span class='no'>comm</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/merge.html'>merge</a></span>(<span class='no'>africa</span>$<span class='no'>polys</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>grids</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/names.html'>names</a></span>(<span class='no'>Endm</span>), <span class='kw'>WE</span><span class='kw'>=</span><span class='no'>Endm</span>), <span class='kw'>by</span><span class='kw'>=</span><span class='st'>"grids"</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='no'>m</span>[!<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>m</span>@<span class='kw'>data</span>$<span class='no'>WE</span>),]
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rspatial.org/raster'>raster</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='va'>Endm</span> <span class='op'>&lt;-</span> <span class='fu'>weighted_endemism</span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>comm</span><span class='op'>)</span>
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/merge.html'>merge</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>polys</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>grids<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/names.html'>names</a></span><span class='op'>(</span><span class='va'>Endm</span><span class='op'>)</span>, WE<span class='op'>=</span><span class='va'>Endm</span><span class='op'>)</span>, by<span class='op'>=</span><span class='st'>"grids"</span><span class='op'>)</span>
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='va'>m</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>@</span><span class='va'>data</span><span class='op'>$</span><span class='va'>WE</span><span class='op'>)</span>,<span class='op'>]</span>
 
-<span class='fu'><a href='plot_swatch.html'>plot_swatch</a></span>(<span class='no'>m</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='no'>m</span>$<span class='no'>WE</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>20</span>)</div><div class='img'><img src='weighted_endemism-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot_swatch.html'>plot_swatch</a></span><span class='op'>(</span><span class='va'>m</span>, values <span class='op'>=</span> <span class='va'>m</span><span class='op'>$</span><span class='va'>WE</span>, k<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>
+</div><div class='img'><img src='weighted_endemism-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -197,7 +198,7 @@ patterns are scale dependent. <em>Nature Communications</em> <strong>11</strong>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -81,7 +81,7 @@ divergence times at various time depths." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -151,14 +151,14 @@ divergence times at various time depths." />
 divergence times at various time depths.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>collapse_range</span>(
-  <span class='no'>x</span>,
-  <span class='no'>tree</span>,
-  <span class='no'>n</span>,
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
-  <span class='kw'>grids</span> <span class='kw'>=</span> <span class='st'>"grids"</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"wide"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>collapse_range</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>tree</span>,
+  <span class='va'>n</span>,
+  species <span class='op'>=</span> <span class='st'>"species"</span>,
+  grids <span class='op'>=</span> <span class='st'>"grids"</span>,
+  format <span class='op'>=</span> <span class='st'>"wide"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,20 +198,22 @@ the column with the species name.</p></td>
 <code>original community data</code></p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Daru, B.H., Farooq, H., Antonelli, A. &amp; Faurby, S. Endemism patterns are
-scale dependent.</p>
+    <p>Daru, B.H., Farooq, H., Antonelli, A. &amp; Faurby, S. (2020) Endemism
+patterns are scale dependent. <em>Nature Communications</em>
+<strong>11</strong>: 2115.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ape</span>)
-<span class='no'>tr1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>read.tree</a></span>(<span class='kw'>text</span> <span class='kw'>=</span><span class='st'>"(((a:2,(b:1,c:1):1):1,d:3):1,e:4);"</span>)
-<span class='no'>com</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ape-package.ird.fr/'>ape</a></span><span class='op'>)</span>
+<span class='va'>tr1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>read.tree</a></span><span class='op'>(</span>text <span class='op'>=</span><span class='st'>"(((a:2,(b:1,c:1):1):1,d:3):1,e:4);"</span><span class='op'>)</span>
+<span class='va'>com</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,
                 <span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,
                 <span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,
                 <span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,
-                <span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>), <span class='fl'>6</span>, <span class='fl'>5</span>,
-              <span class='kw'>dimnames</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"g"</span>,<span class='fl'>1</span>:<span class='fl'>6</span>), <span class='no'>tr1</span>$<span class='no'>tip.label</span>))
+                <span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span><span class='op'>)</span>, <span class='fl'>6</span>, <span class='fl'>5</span>,
+              dimnames<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"g"</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>, <span class='va'>tr1</span><span class='op'>$</span><span class='va'>tip.label</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>collapse_range</span>(<span class='no'>com</span>, <span class='no'>tr1</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>1</span>)</div><div class='output co'>#&gt; $collapsed_com
+<span class='fu'>collapse_range</span><span class='op'>(</span><span class='va'>com</span>, <span class='va'>tr1</span>, n<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $collapsed_com
 #&gt;    grids species
 #&gt; 1     g1       a
 #&gt; 4     g1       d
@@ -265,7 +267,7 @@ scale dependent.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

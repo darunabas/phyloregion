@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Phylogenetic diversity — PD • phyloregion</title>
+<title>Visualize biogeographic patterns using pie charts — plot_pie • phyloregion</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Phylogenetic diversity — PD" />
-<meta property="og:description" content="PD calculates Faith's (1992) phylogenetic diversity." />
+<meta property="og:title" content="Visualize biogeographic patterns using pie charts — plot_pie" />
+<meta property="og:description" content="Visualize biogeographic patterns using pie charts" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -140,52 +140,76 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Phylogenetic diversity</h1>
-    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/pd.R'><code>R/pd.R</code></a></small>
-    <div class="hidden name"><code>PD.Rd</code></div>
+    <h1>Visualize biogeographic patterns using pie charts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/plot_pie.R'><code>R/plot_pie.R</code></a></small>
+    <div class="hidden name"><code>plot_pie.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>PD</code> calculates Faith's (1992) phylogenetic diversity.</p>
+    <p>Visualize biogeographic patterns using pie charts</p>
     </div>
 
-    <pre class="usage"><span class='fu'>PD</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>phy</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_pie</span><span class='op'>(</span>
+  <span class='va'>omega</span>,
+  <span class='va'>shp</span>,
+  r <span class='op'>=</span> <span class='fl'>1</span>,
+  col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>hcl.colors</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>,
+  pie_control <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  legend_pie <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a community matrix, i.e. an object of class matrix or Matrix.</p></td>
+      <th>omega</th>
+      <td><p>a matrix of phyloregion of probabilities of each species</p></td>
     </tr>
     <tr>
-      <th>phy</th>
-      <td><p>a phylogenetic tree (object of class phylo).</p></td>
+      <th>shp</th>
+      <td><p>a polygon shapefile of grid cells with a column labeled
+&#8220;grids&#8221;.</p></td>
+    </tr>
+    <tr>
+      <th>r</th>
+      <td><p>Radius of the pie legend to be displayed</p></td>
+    </tr>
+    <tr>
+      <th>col</th>
+      <td><p>List of colors for the pies.</p></td>
+    </tr>
+    <tr>
+      <th>pie_control</th>
+      <td><p>The list of control parameters to be passed into
+the add.pie function.</p></td>
+    </tr>
+    <tr>
+      <th>legend</th>
+      <td><p>Logical, whether to plot a legend or not.</p></td>
+    </tr>
+    <tr>
+      <th>legend_pie</th>
+      <td><p>Legend for the pie plots.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vector with the PD for all samples.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Faith, D.P. (1992) Conservation evaluation and phylogenetic diversity.
-<em>Biological Conservation</em> <strong>61</strong>: 1–10.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>read.community read.tree phylobeta_core</p></div>
+    <p>Returns no value, just map color pies in geographic space!</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ape-package.ird.fr/'>ape</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://Matrix.R-forge.R-project.org/'>Matrix</a></span><span class='op'>)</span>
-<span class='va'>tree</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>read.tree</a></span><span class='op'>(</span>text <span class='op'>=</span><span class='st'>"((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;"</span><span class='op'>)</span>
-<span class='va'>com</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/sparseMatrix.html'>sparseMatrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>1</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>6</span><span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span><span class='op'>)</span>,x<span class='op'>=</span><span class='fl'>1</span>,
-  dimnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"g"</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>, <span class='va'>tree</span><span class='op'>$</span><span class='va'>tip.label</span><span class='op'>)</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='va'>K</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/ncell.html'>ncol</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>omega</span><span class='op'>)</span>
 
-<span class='fu'>PD</span><span class='op'>(</span><span class='va'>com</span>, <span class='va'>tree</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; g1 g2 g3 g4 g5 g6 
-#&gt;  5  2  5  6  4  3 </div></pre>
+<span class='va'>COLRS</span> <span class='op'>&lt;-</span> <span class='fu'>phyloregion</span><span class='fu'>:::</span><span class='fu'>hue</span><span class='op'>(</span><span class='va'>K</span><span class='op'>)</span>
+<span class='fu'>plot_pie</span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>omega</span>, shp <span class='op'>=</span> <span class='va'>africa</span><span class='op'>$</span><span class='va'>polys</span>, col<span class='op'>=</span><span class='va'>COLRS</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_pie-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

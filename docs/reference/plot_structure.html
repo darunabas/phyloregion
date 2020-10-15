@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualize biogeographic patterns using pie charts — plot_structure • phyloregion</title>
+<title>Visualize biogeographic patterns using structure plots — plot_structure • phyloregion</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Visualize biogeographic patterns using pie charts — plot_structure" />
-<meta property="og:description" content="Visualize biogeographic patterns using pie charts" />
+<meta property="og:title" content="Visualize biogeographic patterns using structure plots — plot_structure" />
+<meta property="og:description" content="Visualize biogeographic patterns using structure plots" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -140,53 +140,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualize biogeographic patterns using pie charts</h1>
-    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/plot_pie.R'><code>R/plot_pie.R</code></a></small>
+    <h1>Visualize biogeographic patterns using structure plots</h1>
+    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/plot_structure.R'><code>R/plot_structure.R</code></a></small>
     <div class="hidden name"><code>plot_structure.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Visualize biogeographic patterns using pie charts</p>
+    <p>Visualize biogeographic patterns using structure plots</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_structure</span>(
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>shp</span>,
-  <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>pie_control</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>legend_pie</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plot_structure</span><span class='op'>(</span><span class='va'>omega</span>, <span class='va'>shp</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>hcl.colors</a></span><span class='op'>(</span><span class='fl'>12</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>omega</th>
       <td><p>a matrix of phyloregion of probabilities of each species</p></td>
     </tr>
     <tr>
       <th>shp</th>
-      <td><p>if specified, the polygon shapefile of grid cells
-with a column labeled &#8220;grids&#8221;.</p></td>
+      <td><p>a polygon shapefile of grid cells with a column labeled
+&#8220;grids&#8221;.</p></td>
     </tr>
     <tr>
-      <th>r</th>
-      <td><p>Radius of the pie legend to be displayed</p></td>
+      <th>by</th>
+      <td><p>Specification of the column used for grouping.</p></td>
     </tr>
     <tr>
-      <th>pie_control</th>
-      <td><p>The list of control parameters to be passed into
-the add.pie function.</p></td>
-    </tr>
-    <tr>
-      <th>legend</th>
-      <td><p>Logical, whether to plot a legend or not.</p></td>
-    </tr>
-    <tr>
-      <th>legend_pie</th>
-      <td><p>Legend for the pie plots.</p></td>
+      <th>col</th>
+      <td><p>List of colors for the pies.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -196,11 +179,8 @@ the add.pie function.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns no value, just map color pies in geographic space!</p>
+    <p>Returns no value, just visualize structure plot!</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='fu'>plot_structure</span>(<span class='no'>africa</span>$<span class='no'>omega</span>, <span class='kw'>shp</span> <span class='kw'>=</span> <span class='no'>africa</span>$<span class='no'>polys</span>)</div><div class='img'><img src='plot_structure-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,7 +196,7 @@ the add.pie function.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

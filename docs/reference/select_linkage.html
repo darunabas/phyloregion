@@ -83,7 +83,7 @@ correlation coefficient." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@ data distortion using Sokal &amp; Rohlf’s (1962) cophenetic
 correlation coefficient.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_linkage</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>select_linkage</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,13 +182,15 @@ correlation coefficient.</p>
 objective methods. <em>Taxon</em> <strong>11</strong>: 33–40.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='no'>africa</span>$<span class='no'>phylo</span>
-<span class='no'>bc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='beta_diss.html'>beta_diss</a></span>(<span class='no'>africa</span>$<span class='no'>comm</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>select_linkage</span>(<span class='no'>bc</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='va'>tree</span> <span class='op'>&lt;-</span> <span class='va'>africa</span><span class='op'>$</span><span class='va'>phylo</span>
+<span class='va'>bc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='beta_core.html'>beta_diss</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>comm</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>select_linkage</span><span class='op'>(</span><span class='va'>bc</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; A good clustering algorithm for the distance matrix is:
 #&gt;  UPGMC with cophenetic correlation = 0.6561082 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='no'>y</span>, <span class='kw'>horiz</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>las</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='select_linkage-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/barplot.html'>barplot</a></span><span class='op'>(</span><span class='va'>y</span>, horiz <span class='op'>=</span> <span class='cn'>TRUE</span>, las <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='img'><img src='select_linkage-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -205,7 +207,7 @@ objective methods. <em>Taxon</em> <strong>11</strong>: 33–40.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

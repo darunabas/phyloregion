@@ -84,7 +84,7 @@ however allowing multifurcations and can be orders of magnitude faster." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -157,13 +157,13 @@ This a new implementation of the picante function <code>evol.distinct</code>
 however allowing multifurcations and can be orders of magnitude faster.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>evol_distinct</span>(
-  <span class='no'>tree</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"equal.splits"</span>, <span class='st'>"fair.proportion"</span>),
-  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>use.branch.lengths</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>evol_distinct</span><span class='op'>(</span>
+  <span class='va'>tree</span>,
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"equal.splits"</span>, <span class='st'>"fair.proportion"</span><span class='op'>)</span>,
+  scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  use.branch.lengths <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,16 +208,21 @@ phylogeny. <em>PLoS ONE</em>, <strong>2</strong>, e296.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/picante/man/evol.distinct.html'>evol.distinct</a></code>, <code><a href='phyloregion.html'>phyloregion</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Klaus Schliep</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ape</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ape/man/rtree.html'>rcoal</a></span>(<span class='fl'>10</span>)
-<span class='fu'>evol_distinct</span>(<span class='no'>tree</span>)</div><div class='output co'>#&gt;        t2        t3        t1        t6        t9        t5       t10        t8 
-#&gt; 0.7613976 0.6741969 0.6741969 0.8581716 0.2174435 0.2174435 0.3821883 0.2463015 
-#&gt;        t4        t7 
-#&gt; 0.2463015 0.4213303 </div><div class='input'><span class='fu'>evol_distinct</span>(<span class='no'>tree</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fair.proportion"</span>)</div><div class='output co'>#&gt;        t2        t3        t1        t6        t9        t5       t10        t8 
-#&gt; 0.7311174 0.6923037 0.6923037 0.8522381 0.2680633 0.2680633 0.2809489 0.2903976 
-#&gt;        t4        t7 
-#&gt; 0.2903976 0.3331382 </div></pre>
+    <pre class="examples"><div class='input'><span class='va'>tree</span> <span class='op'>&lt;-</span> <span class='fu'>ape</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ape/man/rtree.html'>rcoal</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='fu'>evol_distinct</span><span class='op'>(</span><span class='va'>tree</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;        t9        t4        t3        t6        t7        t2        t8       t10 
+#&gt; 1.6895230 1.6895230 2.0725936 0.1794941 0.1794941 0.1419877 0.1419877 0.4012457 
+#&gt;        t5        t1 
+#&gt; 0.6636162 1.1818672 </div><div class='input'><span class='fu'>evol_distinct</span><span class='op'>(</span><span class='va'>tree</span>, type <span class='op'>=</span> <span class='st'>"fair.proportion"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;        t9        t4        t3        t6        t7        t2        t8       t10 
+#&gt; 1.6895230 1.6895230 1.1978334 0.5189544 0.5189544 0.4814480 0.4814480 0.5439281 
+#&gt;        t5        t1 
+#&gt; 0.5491202 0.6705998 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -233,7 +238,7 @@ phylogeny. <em>PLoS ONE</em>, <strong>2</strong>, e296.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

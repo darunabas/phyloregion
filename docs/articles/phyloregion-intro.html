@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
       <h1 data-toc-skip>An introduction to the phyloregion package</h1>
                         <h4 class="author">Barnabas H. Daru, Piyal Karunarathne &amp; Klaus Schliep</h4>
             
-            <h4 class="date">July 19, 2020</h4>
+            <h4 class="date">October 15, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/darunabas/phyloregion/blob/master/vignettes/phyloregion-intro.Rmd"><code>vignettes/phyloregion-intro.Rmd</code></a></small>
       <div class="hidden name"><code>phyloregion-intro.Rmd</code></div>
@@ -120,7 +120,8 @@
     install.packages("remotes") 
 remotes::install_github("darunabas/phyloregion")</code></pre>
 <p>When installed, load the package in R:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">phyloregion</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/darunabas/phyloregion">phyloregion</a></span><span class="op">)</span></pre></div>
 </div>
 <div id="overview-and-general-workflow-of-phyloregion" class="section level2">
 <h2 class="hasAnchor">
@@ -138,16 +139,17 @@ remotes::install_github("darunabas/phyloregion")</code></pre>
 <h3 class="hasAnchor">
 <a href="#phylogenies" class="anchor"></a>Phylogenies</h3>
 <p>In R, phylogenetic relationships among species / taxa are often represented as a phylo object implemented in the <code>ape</code> package<span class="citation"><sup>1</sup></span>. Phylogenies (often in the Newick or Nexus formats) can be imported into R with the <code>read.tree</code> or <code>read.nexus</code> functions of the <code>ape</code> package<span class="citation"><sup>1</sup></span>.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ape</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Matrix</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sp</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">africa</span>)
-<span class="no">sparse_comm</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">comm</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/">Matrix</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/">sp</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">africa</span><span class="op">)</span>
+<span class="va">sparse_comm</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">comm</span>
 
-<span class="no">tree</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">phylo</span>
-<span class="no">tree</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(<span class="no">tree</span>, <span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span>(<span class="no">tree</span>$<span class="no">tip.label</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">sparse_comm</span>)))
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mar</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree</span>, <span class="kw">show.tip.label</span><span class="kw">=</span><span class="fl">FALSE</span>)</pre></body></html></div>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">phylo</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/intersect.html">intersect</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sparse_comm</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">tree</span>, show.tip.label<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: left">
 <img src="phyloregion-intro_files/figure-html/unnamed-chunk-2-1.png" alt="__Figure 2.__ Phylogenetic tree of the woody plants of southern Africa inferred from DNA barcodes using a maximum likelihood approach and transforming branch lengths to millions of years ago by enforcing a relaxed molecular clock and multiple calibrations [@Daru2015ddi]." width="700"><p class="caption">
 <strong>Figure 2.</strong> Phylogenetic tree of the woody plants of southern Africa inferred from DNA barcodes using a maximum likelihood approach and transforming branch lengths to millions of years ago by enforcing a relaxed molecular clock and multiple calibrations.<span class="citation"><sup>2</sup></span>
@@ -165,17 +167,18 @@ remotes::install_github("darunabas/phyloregion")</code></pre>
 <a href="#function-points2comm" class="anchor"></a><strong><em>Function <code>points2comm</code></em></strong>
 </h3>
 <p>Here, we will generate random points in geographic space, similar to data obtained from museum records, GBIF, iDigBio, or CIESIN which typically have columns of geographic coordinates for each observation.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"nigeria/nigeria.rds"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"phyloregion"</span>))
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"nigeria/nigeria.rds"</span>, package <span class="op">=</span> <span class="st">"phyloregion"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1</span>)
-<span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw pkg">sp</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/spsample.html">spsample</a></span>(<span class="no">s</span>, <span class="fl">10000</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"nonaligned"</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">m</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lon"</span>, <span class="st">"lat"</span>)
-<span class="no">species</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"sp"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">1</span>:<span class="fl">1000</span>))
-<span class="no">m</span>$<span class="no">taxon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="no">species</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">m</span>), <span class="kw">replace</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/spsample.html">spsample</a></span><span class="op">(</span><span class="va">s</span>, <span class="fl">10000</span>, type <span class="op">=</span> <span class="st">"nonaligned"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span>
+<span class="va">species</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"sp"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span><span class="op">)</span>
+<span class="va">m</span><span class="op">$</span><span class="va">taxon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">species</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/ncell.html">nrow</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="no">pt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/raster2comm.html">points2comm</a></span>(<span class="kw">dat</span> <span class="kw">=</span> <span class="no">m</span>, <span class="kw">mask</span> <span class="kw">=</span> <span class="no">s</span>, <span class="kw">res</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">lon</span> <span class="kw">=</span> <span class="st">"lon"</span>, <span class="kw">lat</span> <span class="kw">=</span> <span class="st">"lat"</span>,
-            <span class="kw">species</span> <span class="kw">=</span> <span class="st">"taxon"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">pt</span><span class="kw">[[</span><span class="fl">1</span>]][<span class="fl">1</span>:<span class="fl">5</span>, <span class="fl">1</span>:<span class="fl">5</span>])</pre></body></html></div>
+<span class="va">pt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/raster2comm.html">points2comm</a></span><span class="op">(</span>dat <span class="op">=</span> <span class="va">m</span>, mask <span class="op">=</span> <span class="va">s</span>, res <span class="op">=</span> <span class="fl">0.5</span>, lon <span class="op">=</span> <span class="st">"lon"</span>, lat <span class="op">=</span> <span class="st">"lat"</span>,
+            species <span class="op">=</span> <span class="st">"taxon"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">pt</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></pre></div>
 <pre><code>## 5 x 5 sparse Matrix of class "dgCMatrix"
 ##      sp1 sp10 sp100 sp1000 sp101
 ## v100   .    .     .      .     1
@@ -189,10 +192,11 @@ remotes::install_github("darunabas/phyloregion")</code></pre>
 <a href="#function-polys2comm" class="anchor"></a><strong><em>Function <code>polys2comm</code></em></strong>
 </h3>
 <p>This function converts polygons to a community matrix at varying spatial grains and extents for downstream analyses. Polygons can be derived from the IUCN Redlist spatial database (https: //www.iucnredlist.org/resources/spatial-data-download), published monographs or field guides validated by taxonomic experts. To illustrate this function, we will use the function <code>random_species</code> to generate random polygons for five random species over the landscape of Nigeria as follows:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"nigeria/nigeria.rds"</span>, <span class="kw">package</span><span class="kw">=</span><span class="st">"phyloregion"</span>))
-<span class="no">sp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/random_species.html">random_species</a></span>(<span class="fl">100</span>, <span class="kw">species</span><span class="kw">=</span><span class="fl">5</span>, <span class="kw">shp</span><span class="kw">=</span><span class="no">s</span>)
-<span class="no">pol</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/raster2comm.html">polys2comm</a></span>(<span class="kw">dat</span> <span class="kw">=</span> <span class="no">sp</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="kw">trace</span><span class="kw">=</span><span class="fl">0</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">pol</span><span class="kw">[[</span><span class="fl">1</span>]][<span class="fl">1</span>:<span class="fl">5</span>, <span class="fl">1</span>:<span class="fl">5</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"nigeria/nigeria.rds"</span>, package<span class="op">=</span><span class="st">"phyloregion"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/random_species.html">random_species</a></span><span class="op">(</span><span class="fl">100</span>, species<span class="op">=</span><span class="fl">5</span>, shp<span class="op">=</span><span class="va">s</span><span class="op">)</span>
+<span class="va">pol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/raster2comm.html">polys2comm</a></span><span class="op">(</span>dat <span class="op">=</span> <span class="va">sp</span>, species <span class="op">=</span> <span class="st">"species"</span>, trace<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">pol</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></pre></div>
 <pre><code>## 5 x 5 sparse Matrix of class "dgCMatrix"
 ##     species1 species2 species3 species4 species5
 ## v10        .        .        1        .        .
@@ -206,10 +210,11 @@ remotes::install_github("darunabas/phyloregion")</code></pre>
 <a href="#function-raster2comm" class="anchor"></a><strong><em>Function <code>raster2comm</code></em></strong>
 </h3>
 <p>This third function, converts raster layers (often derived from species distribution modeling, such as aquamaps<span class="citation"><sup>3</sup></span>) to a community matrix.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">fdir</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"NGAplants"</span>, <span class="kw">package</span><span class="kw">=</span><span class="st">"phyloregion"</span>)
-<span class="no">files</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">fdir</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="no">fdir</span>))
-<span class="no">ras</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/raster2comm.html">raster2comm</a></span>(<span class="no">files</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">ras</span><span class="kw">[[</span><span class="fl">1</span>]])</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="va">fdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"NGAplants"</span>, package<span class="op">=</span><span class="st">"phyloregion"</span><span class="op">)</span>
+<span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">fdir</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="va">fdir</span><span class="op">)</span><span class="op">)</span>
+<span class="va">ras</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/raster2comm.html">raster2comm</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">ras</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></pre></div>
 <pre><code>## 6 x 16 sparse Matrix of class "dgCMatrix"</code></pre>
 <pre><code>##    [[ suppressing 16 column names 'Chytranthus_gilletii', 'Commelina_ramulosa', 'Cymbopogon_caesius' ... ]]</code></pre>
 <pre><code>##                                     
@@ -220,9 +225,10 @@ remotes::install_github("darunabas/phyloregion")</code></pre>
 ## v104 . . . 1 . . . . . . . . . . . .
 ## v105 . . . 1 . . . . . . . . . . . .</code></pre>
 <p>The object <code>ras</code> above also returns two objects: a community data frame and a shapefile of grid cells with the numbers of species per cell and can be plotted as a heatmap using our nice <code>plot_swatch</code> function as follows:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"nigeria/SR_Naija.rds"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"phyloregion"</span>))
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mar</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>,<span class="fl">4</span>))
-<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span>(<span class="no">s</span>, <span class="kw">values</span> <span class="kw">=</span> <span class="no">s</span>$<span class="no">SR</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">20</span>, <span class="kw">leg</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">border</span><span class="kw">=</span><span class="fl">NA</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"nigeria/SR_Naija.rds"</span>, package <span class="op">=</span> <span class="st">"phyloregion"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">s</span>, values <span class="op">=</span> <span class="va">s</span><span class="op">$</span><span class="va">SR</span>, k <span class="op">=</span> <span class="fl">20</span>, leg<span class="op">=</span><span class="fl">1</span>, border<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: left">
 <img src="phyloregion-intro_files/figure-html/unnamed-chunk-6-1.png" alt="__Figure 3.__ Species richness of plants in Nigeria across equal area grid cells. This is to demonstrate how the function `plot_swatch` works." width="50%"><p class="caption">
 <strong>Figure 3.</strong> Species richness of plants in Nigeria across equal area grid cells. This is to demonstrate how the function <code>plot_swatch</code> works.
@@ -236,13 +242,15 @@ remotes::install_github("darunabas/phyloregion")</code></pre>
 <p><code>phyloregion</code> differs from other R packages (e.g. vegan,<span class="citation"><sup>5</sup></span> picante<span class="citation"><sup>6</sup></span> or betapart<span class="citation"><sup>7</sup></span>) in that the data are not stored in a (dense) <code>matrix</code> or <code>data.frame</code> but as a sparse matrix making use of the infrastructure provided by the Matrix package.<span class="citation"><sup>8</sup></span> A sparse matrix is a matrix with a high proportion of zero entries<span class="citation"><sup>9</sup></span>, of which only the non-zero entries are stored and used for downstream analysis.</p>
 <p>A sparse matrix representation has two advantages. First the community matrix can be stored in a much memory efficient manner, allowing analysis of larger datasets. Second, for very large datasets spanning thousands of taxa and spatial scales, computations with a sparse matrix are often much faster.<br>
 The <code>phyloregion</code> package contains functions to conveniently change between data formats.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Matrix</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">africa</span>)
-<span class="no">sparse_comm</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">comm</span>
-<span class="no">dense_comm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="no">sparse_comm</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(<span class="no">dense_comm</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/">Matrix</a></span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">africa</span><span class="op">)</span>
+<span class="va">sparse_comm</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">comm</span>
+<span class="va">dense_comm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">sparse_comm</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">dense_comm</span><span class="op">)</span></pre></div>
 <pre><code>## 4216952 bytes</code></pre>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(<span class="no">sparse_comm</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">sparse_comm</span><span class="op">)</span></pre></div>
 <pre><code>## 885952 bytes</code></pre>
 <p>Here, the data set in the dense matrix representation consumes roughly five times more memory than the sparse representation.</p>
 </div>
@@ -259,22 +267,25 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <a href="#function-weighted_endemism" class="anchor"></a>Function <code>weighted_endemism</code>
 </h4>
 <p>Weighted endemism is species richness inversely weighted by species ranges<span class="citation"><sup>11</sup></span>,<span class="citation"><sup>12</sup></span>,<span class="citation"><sup>13</sup></span>.</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span></pre></div>
 <pre><code>## 
 ## Attaching package: 'raster'</code></pre>
 <pre><code>## The following objects are masked from 'package:ape':
 ## 
 ##     rotate, zoom</code></pre>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">africa</span>)
-<span class="no">Endm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/weighted_endemism.html">weighted_endemism</a></span>(<span class="no">africa</span>$<span class="no">comm</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(<span class="no">Endm</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">africa</span><span class="op">)</span>
+<span class="va">Endm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/weighted_endemism.html">weighted_endemism</a></span><span class="op">(</span><span class="va">africa</span><span class="op">$</span><span class="va">comm</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">Endm</span><span class="op">)</span></pre></div>
 <pre><code>##    v3635    v3636    v3637    v3638    v3639    v3640 
 ## 1.770041 2.637894 1.825862 1.270093 1.043782 0.259324</code></pre>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/merge.html">merge</a></span>(<span class="no">africa</span>$<span class="no">polys</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">grids</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span>(<span class="no">Endm</span>), <span class="kw">WE</span><span class="kw">=</span><span class="no">Endm</span>), <span class="kw">by</span><span class="kw">=</span><span class="st">"grids"</span>)
-<span class="no">m</span> <span class="kw">&lt;-</span> <span class="no">m</span>[!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">m</span>@<span class="kw">data</span>$<span class="no">WE</span>),]
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/merge.html">merge</a></span><span class="op">(</span><span class="va">africa</span><span class="op">$</span><span class="va">polys</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>grids<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">Endm</span><span class="op">)</span>, WE<span class="op">=</span><span class="va">Endm</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"grids"</span><span class="op">)</span>
+<span class="va">m</span> <span class="op">&lt;-</span> <span class="va">m</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">m</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">WE</span><span class="op">)</span>,<span class="op">]</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mar</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>,<span class="fl">4</span>))
-<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span>(<span class="no">m</span>, <span class="kw">values</span> <span class="kw">=</span> <span class="no">m</span>$<span class="no">WE</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">20</span>, <span class="kw">leg</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="fl">NA</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">m</span>, values <span class="op">=</span> <span class="va">m</span><span class="op">$</span><span class="va">WE</span>, k<span class="op">=</span><span class="fl">20</span>, leg <span class="op">=</span> <span class="fl">3</span>, border <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: left">
 <img src="phyloregion-intro_files/figure-html/unnamed-chunk-8-1.png" alt="__Figure 4.__ Geographic distributions of weighted endemism for woody plants of southern Africa." width="50%"><p class="caption">
 <strong>Figure 4.</strong> Geographic distributions of weighted endemism for woody plants of southern Africa.
@@ -285,18 +296,20 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <h4 class="hasAnchor">
 <a href="#function-pd-phylogenetic-diversity" class="anchor"></a>Function <code>PD</code> – phylogenetic diversity</h4>
 <p>Phylogenetic diversity (<code>PD</code>) represents the length of evolutionary pathways that connects a given set of taxa on a rooted phylogenetic tree.<span class="citation"><sup>14</sup></span> This metric is often characterised in units of time (millions of years, for dated phylogenies). We will map PD for plants of southern Africa.</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">africa</span>)
-<span class="no">comm</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">comm</span>
-<span class="no">tree</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">phylo</span>
-<span class="no">poly</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">polys</span>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">africa</span><span class="op">)</span>
+<span class="va">comm</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">comm</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">phylo</span>
+<span class="va">poly</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">polys</span>
 
-<span class="no">mypd</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/PD.html">PD</a></span>(<span class="no">comm</span>, <span class="no">tree</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(<span class="no">mypd</span>)</pre></body></html></div>
+<span class="va">mypd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PD.html">PD</a></span><span class="op">(</span><span class="va">comm</span>, <span class="va">tree</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">mypd</span><span class="op">)</span></pre></div>
 <pre><code>##    v3635    v3636    v3637    v3638    v3639    v3640 
 ## 4226.216 5372.009 4377.735 3783.992 3260.111 1032.685</code></pre>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">M</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/merge.html">merge</a></span>(<span class="no">poly</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">grids</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span>(<span class="no">mypd</span>), <span class="kw">pd</span><span class="kw">=</span><span class="no">mypd</span>), <span class="kw">by</span><span class="kw">=</span><span class="st">"grids"</span>)
-<span class="no">M</span> <span class="kw">&lt;-</span> <span class="no">M</span>[!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">M</span>@<span class="kw">data</span>$<span class="no">pd</span>),]
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(<span class="no">M</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit">
+<span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/merge.html">merge</a></span><span class="op">(</span><span class="va">poly</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>grids<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">mypd</span><span class="op">)</span>, pd<span class="op">=</span><span class="va">mypd</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"grids"</span><span class="op">)</span>
+<span class="va">M</span> <span class="op">&lt;-</span> <span class="va">M</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">M</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">pd</span><span class="op">)</span>,<span class="op">]</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></pre></div>
 <pre><code>##   grids       pd
 ## 1 v3635 4226.216
 ## 2 v3636 5372.009
@@ -304,8 +317,9 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 ## 4 v3638 3783.992
 ## 5 v3639 3260.111
 ## 6 v3640 1032.685</code></pre>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mar</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>,<span class="fl">4</span>))
-<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span>(<span class="no">M</span>, <span class="kw">values</span> <span class="kw">=</span> <span class="no">M</span>$<span class="no">pd</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">20</span>, <span class="kw">border</span><span class="kw">=</span><span class="fl">NA</span>, <span class="kw">leg</span><span class="kw">=</span><span class="fl">3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb28"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">M</span>, values <span class="op">=</span> <span class="va">M</span><span class="op">$</span><span class="va">pd</span>, k<span class="op">=</span><span class="fl">20</span>, border<span class="op">=</span><span class="cn">NA</span>, leg<span class="op">=</span><span class="fl">3</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: left">
 <img src="phyloregion-intro_files/figure-html/unnamed-chunk-9-1.png" alt="__Figure 5.__ Geographic distributions of phylogenetic diversity for woody plants of southern Africa." width="50%"><p class="caption">
 <strong>Figure 5.</strong> Geographic distributions of phylogenetic diversity for woody plants of southern Africa.
@@ -316,19 +330,21 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <h4 class="hasAnchor">
 <a href="#function-phylo_endemism-phylogenetic-endemism" class="anchor"></a>Function <code>phylo_endemism</code> – phylogenetic endemism</h4>
 <p>Phylogenetic endemism is not influenced by variations in taxonomic opinion because it measures endemism based on the relatedness of species before weighting it by their range sizes<span class="citation"><sup>15</sup></span>,<span class="citation"><sup>13</sup></span>.</p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">africa</span>)
-<span class="no">comm</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">comm</span>
-<span class="no">tree</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">phylo</span>
-<span class="no">poly</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">polys</span>
+<div class="sourceCode" id="cb29"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">africa</span><span class="op">)</span>
+<span class="va">comm</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">comm</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">phylo</span>
+<span class="va">poly</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">polys</span>
 
-<span class="no">pe</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/phylo_endemism.html">phylo_endemism</a></span>(<span class="no">comm</span>, <span class="no">tree</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(<span class="no">pe</span>)</pre></body></html></div>
+<span class="va">pe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phylo_endemism.html">phylo_endemism</a></span><span class="op">(</span><span class="va">comm</span>, <span class="va">tree</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">pe</span><span class="op">)</span></pre></div>
 <pre><code>##     v3635     v3636     v3637     v3638     v3639     v3640 
 ## 32.536530 45.262625 35.004944 27.603721 23.183947  6.439589</code></pre>
-<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="no">mx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/merge.html">merge</a></span>(<span class="no">poly</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">grids</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span>(<span class="no">pe</span>), <span class="kw">pe</span><span class="kw">=</span><span class="no">pe</span>), <span class="kw">by</span><span class="kw">=</span><span class="st">"grids"</span>)
-<span class="no">mx</span> <span class="kw">&lt;-</span> <span class="no">mx</span>[!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">mx</span>@<span class="kw">data</span>$<span class="no">pe</span>),]
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(<span class="no">mx</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb31"><pre class="downlit">
+<span class="va">mx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/merge.html">merge</a></span><span class="op">(</span><span class="va">poly</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>grids<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">pe</span><span class="op">)</span>, pe<span class="op">=</span><span class="va">pe</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"grids"</span><span class="op">)</span>
+<span class="va">mx</span> <span class="op">&lt;-</span> <span class="va">mx</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">mx</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">pe</span><span class="op">)</span>,<span class="op">]</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">mx</span><span class="op">)</span></pre></div>
 <pre><code>##   grids        pe
 ## 1 v3635 32.536530
 ## 2 v3636 45.262625
@@ -336,8 +352,9 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 ## 4 v3638 27.603721
 ## 5 v3639 23.183947
 ## 6 v3640  6.439589</code></pre>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mar</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>,<span class="fl">4</span>))
-<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span>(<span class="no">mx</span>, <span class="kw">values</span> <span class="kw">=</span> <span class="no">mx</span>$<span class="no">pe</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">20</span>, <span class="kw">border</span><span class="kw">=</span><span class="fl">NA</span>, <span class="kw">leg</span><span class="kw">=</span><span class="fl">3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb33"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">mx</span>, values <span class="op">=</span> <span class="va">mx</span><span class="op">$</span><span class="va">pe</span>, k<span class="op">=</span><span class="fl">20</span>, border<span class="op">=</span><span class="cn">NA</span>, leg<span class="op">=</span><span class="fl">3</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: left">
 <img src="phyloregion-intro_files/figure-html/unnamed-chunk-10-1.png" alt="__Figure 6.__ Geographic distributions of phylogenetic endemism for woody plants of southern Africa." width="50%"><p class="caption">
 <strong>Figure 6.</strong> Geographic distributions of phylogenetic endemism for woody plants of southern Africa.
@@ -348,24 +365,26 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <h4 class="hasAnchor">
 <a href="#function-edge-evolutionary-distinctiveness-and-global-endangerment" class="anchor"></a>Function <code>EDGE</code> – Evolutionary Distinctiveness and Global Endangerment</h4>
 <p>This function calculates EDGE by combining evolutionary distinctiveness (ED; i.e., phylogenetic isolation of a species) with global endangerment (GE) status as defined by the International Union for Conservation of Nature (IUCN).</p>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">africa</span>)
-<span class="no">comm</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">comm</span>
-<span class="no">threat</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">IUCN</span>
-<span class="no">tree</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">phylo</span>
-<span class="no">poly</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">polys</span>
+<div class="sourceCode" id="cb34"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">africa</span><span class="op">)</span>
+<span class="va">comm</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">comm</span>
+<span class="va">threat</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">IUCN</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">phylo</span>
+<span class="va">poly</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">polys</span>
 
-<span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/EDGE.html">EDGE</a></span>(<span class="no">threat</span>, <span class="no">tree</span>, <span class="kw">Redlist</span> <span class="kw">=</span> <span class="st">"IUCN"</span>, <span class="kw">species</span><span class="kw">=</span><span class="st">"Species"</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(<span class="no">x</span>)</pre></body></html></div>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/EDGE.html">EDGE</a></span><span class="op">(</span><span class="va">threat</span>, <span class="va">tree</span>, Redlist <span class="op">=</span> <span class="st">"IUCN"</span>, species<span class="op">=</span><span class="st">"Species"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></pre></div>
 <pre><code>##        Abutilon_angulatum_OM1934    Abutilon_sonneratianum_LTM034 
 ##                         2.903551                         2.903551 
 ## Acalypha_glabrata_glabrata_OM441  Acalypha_glabrata_pilosa_OM1979 
 ##                         2.480505                         2.480505 
 ##       Acalypha_sonderiana_OM2163  Acokanthera_oblongifolia_OM2240 
 ##                         2.914481                         2.211561</code></pre>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/map_trait.html">map_trait</a></span>(<span class="no">comm</span>, <span class="no">x</span>, <span class="kw">FUN</span> <span class="kw">=</span> <span class="no">sd</span>, <span class="kw">shp</span><span class="kw">=</span><span class="no">poly</span>)
+<div class="sourceCode" id="cb36"><pre class="downlit">
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/map_trait.html">map_trait</a></span><span class="op">(</span><span class="va">comm</span>, <span class="va">x</span>, FUN <span class="op">=</span> <span class="va">sd</span>, shp<span class="op">=</span><span class="va">poly</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mar</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>,<span class="fl">4</span>))
-<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span>(<span class="no">y</span>, <span class="no">y</span>$<span class="no">traits</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">20</span>, <span class="kw">border</span><span class="kw">=</span><span class="fl">NA</span>, <span class="kw">leg</span><span class="kw">=</span><span class="fl">3</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">y</span><span class="op">$</span><span class="va">traits</span>, k<span class="op">=</span><span class="fl">20</span>, border<span class="op">=</span><span class="cn">NA</span>, leg<span class="op">=</span><span class="fl">3</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: left">
 <img src="phyloregion-intro_files/figure-html/unnamed-chunk-11-1.png" alt="__Figure 7.__ Geographic distributions of evolutionary distinctiveness and global endangerment for woody plants of southern Africa." width="50%"><p class="caption">
 <strong>Figure 7.</strong> Geographic distributions of evolutionary distinctiveness and global endangerment for woody plants of southern Africa.
@@ -383,28 +402,33 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 <h3 class="hasAnchor">
 <a href="#phylogenetic-beta-diversity" class="anchor"></a>Phylogenetic beta diversity</h3>
 <p><code>phyloregion</code> offers a fast means of computing phylogenetic beta diversity, the turnover of branch lengths among sites, making use of and improving on the infrastructure provided by the <code>betapart</code> package<span class="citation"><sup>7</sup></span> allowing a sparse community matrix as input.</p>
-<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">africa</span>)
-<span class="no">sparse_comm</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">comm</span>
+<div class="sourceCode" id="cb37"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">africa</span><span class="op">)</span>
+<span class="va">sparse_comm</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">comm</span>
 
-<span class="no">tree</span> <span class="kw">&lt;-</span> <span class="no">africa</span>$<span class="no">phylo</span>
-<span class="no">tree</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span>(<span class="no">tree</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/intersect.html">intersect</a></span>(<span class="no">tree</span>$<span class="no">tip.label</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">sparse_comm</span>)))
-<span class="no">pb</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/phylobeta.html">phylobeta</a></span>(<span class="no">sparse_comm</span>, <span class="no">tree</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/phyloregion.html">phyloregion</a></span>(<span class="no">pb</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="kw">shp</span><span class="kw">=</span><span class="no">africa</span>$<span class="no">polys</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="fu"><a href="../reference/plot.phyloregion.html">plot_NMDS</a></span>(<span class="no">y</span>, <span class="kw">cex</span><span class="kw">=</span><span class="fl">3</span>)
-<span class="fu"><a href="../reference/plot.phyloregion.html">text_NMDS</a></span>(<span class="no">y</span>)</pre></body></html></div>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">phylo</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://rdrr.io/pkg/raster/man/intersect.html">intersect</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sparse_comm</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">pb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phylobeta_core.html">phylobeta</a></span><span class="op">(</span><span class="va">sparse_comm</span>, <span class="va">tree</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb38"><pre class="downlit">
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phyloregion.html">phyloregion</a></span><span class="op">(</span><span class="va">pb</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, shp<span class="op">=</span><span class="va">africa</span><span class="op">$</span><span class="va">polys</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb39"><pre class="downlit">
+<span class="fu"><a href="../reference/plot.phyloregion.html">plot_NMDS</a></span><span class="op">(</span><span class="va">y</span>, cex<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot.phyloregion.html">text_NMDS</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></pre></div>
 <p><img src="phyloregion-intro_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mar</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>,<span class="fl">4</span>))
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">y</span>, <span class="kw">palette</span><span class="kw">=</span><span class="st">"NMDS"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb40"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">y</span>, palette<span class="op">=</span><span class="st">"NMDS"</span><span class="op">)</span></pre></div>
 <p><img src="phyloregion-intro_files/figure-html/unnamed-chunk-14-2.png" width="700"></p>
 </div>
 </div>
 <div id="session-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session Information</h2>
-<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb41"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## R version 4.0.2 (2020-06-22)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
-## Running under: macOS Catalina 10.15.6
+## Running under: macOS Mojave 10.14.6
 ## 
 ## Matrix products: default
 ## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -417,23 +441,25 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] raster_3.3-7      sp_1.4-2          Matrix_1.2-18     ape_5.4          
-## [5] phyloregion_1.0.4
+## [1] raster_3.3-13     sp_1.4-2          Matrix_1.2-18     ape_5.4          
+## [5] phyloregion_1.0.5
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.5       highr_0.8        compiler_4.0.2   tools_4.0.2     
-##  [5] magic_1.5-9      digest_0.6.25    betapart_1.5.1   evaluate_0.14   
-##  [9] memoise_1.1.0    nlme_3.1-148     lattice_0.20-41  mgcv_1.8-31     
-## [13] pkgconfig_2.0.3  rlang_0.4.6      igraph_1.2.5     fastmatch_1.1-0 
-## [17] rstudioapi_0.11  rgdal_1.5-12     yaml_2.2.1       parallel_4.0.2  
-## [21] pkgdown_1.5.1    xfun_0.15        stringr_1.4.0    knitr_1.29      
-## [25] cluster_2.1.0    rgeos_0.5-3      desc_1.2.0       fs_1.4.2        
-## [29] rcdd_1.2-2       rprojroot_1.3-2  grid_4.0.2       R6_2.4.1        
-## [33] phangorn_2.5.5   rmarkdown_2.3    magrittr_1.5     codetools_0.2-16
-## [37] backports_1.1.8  htmltools_0.5.0  MASS_7.3-51.6    splines_4.0.2   
-## [41] assertthat_0.2.1 abind_1.4-5      colorspace_1.4-1 picante_1.8.2   
-## [45] permute_0.9-5    quadprog_1.5-8   stringi_1.4.6    geometry_0.4.5  
-## [49] crayon_1.3.4     vegan_2.5-6</code></pre>
+##  [1] phangorn_2.5.5     xfun_0.16          slam_0.1-47        splines_4.0.2     
+##  [5] lattice_0.20-41    clustMixType_0.2-5 colorspace_1.4-1   geometry_0.4.5    
+##  [9] htmltools_0.5.0    yaml_2.2.1         mgcv_1.8-31        rlang_0.4.7       
+## [13] pkgdown_1.6.1      RColorBrewer_1.1-2 stringr_1.4.0      rgeos_0.5-3       
+## [17] ragg_0.4.0         codetools_0.2-16   memoise_1.1.0      evaluate_0.14     
+## [21] knitr_1.29         magic_1.5-9        permute_0.9-5      rcdd_1.2-2        
+## [25] parallel_4.0.2     highr_0.8          Rcpp_1.0.5         backports_1.1.8   
+## [29] vegan_2.5-6        desc_1.2.0         betapart_1.5.1     abind_1.4-5       
+## [33] maptpx_1.9-7       picante_1.8.2      systemfonts_0.3.2  fs_1.5.0          
+## [37] textshaping_0.1.2  fastmatch_1.1-0    digest_0.6.25      stringi_1.4.6     
+## [41] grid_4.0.2         rprojroot_1.3-2    rgdal_1.5-16       quadprog_1.5-8    
+## [45] tools_4.0.2        magrittr_1.5       cluster_2.1.0      crayon_1.3.4      
+## [49] pkgconfig_2.0.3    MASS_7.3-51.6      assertthat_0.2.1   rmarkdown_2.3     
+## [53] rstudioapi_0.11    R6_2.4.1           igraph_1.2.5       nlme_3.1-148      
+## [57] compiler_4.0.2</code></pre>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
@@ -512,7 +538,7 @@ The <code>phyloregion</code> package contains functions to conveniently change b
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

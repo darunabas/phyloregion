@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Select features within polygon from another layer — selectbylocation • phyloregion</title>
+<title>Select polygon features from another layer and adds polygon attributes to layer — selectbylocation • phyloregion</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Select features within polygon from another layer — selectbylocation" />
+<meta property="og:title" content="Select polygon features from another layer and adds polygon attributes to layer — selectbylocation" />
 <meta property="og:description" content="The selectbylocation function selects features based on
 their location relative to features in another layer." />
 <meta property="og:image" content="/logo.png" />
@@ -81,7 +81,7 @@ their location relative to features in another layer." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@ their location relative to features in another layer." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Select features within polygon from another layer</h1>
+    <h1>Select polygon features from another layer and adds polygon attributes to layer</h1>
     <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/selectbylocation.R'><code>R/selectbylocation.R</code></a></small>
     <div class="hidden name"><code>selectbylocation.Rd</code></div>
     </div>
@@ -151,7 +151,7 @@ their location relative to features in another layer." />
 their location relative to features in another layer.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>selectbylocation</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
+    <pre class="usage"><span class='fu'>selectbylocation</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,18 +173,21 @@ SpatialPointsDataFrame</p></td>
 of the target layer.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)
-<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"nigeria/nigeria.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"phyloregion"</span>)
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='no'>file</span>)
-<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/extent.html'>extent</a></span>(<span class='no'>d</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rspatial.org/raster'>raster</a></span><span class='op'>)</span>
+<span class='va'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"nigeria/nigeria.rds"</span>, package <span class='op'>=</span> <span class='st'>"phyloregion"</span><span class='op'>)</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span>
+<span class='va'>e</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/extent.html'>extent</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>lon</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>1000</span>, <span class='no'>e</span>[<span class='fl'>1</span>], <span class='no'>e</span>[<span class='fl'>2</span>]),
-  <span class='kw'>lat</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>1000</span>, <span class='no'>e</span>[<span class='fl'>3</span>], <span class='no'>e</span>[<span class='fl'>4</span>]),
-  <span class='kw'>sites</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1000</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/raster/man/xyFromCell.html'>coordinates</a></span>(<span class='no'>m</span>) <span class='kw'>&lt;-</span> ~ <span class='no'>lon</span> + <span class='no'>lat</span>
-<span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'>selectbylocation</span>(<span class='no'>m</span>, <span class='no'>d</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span>(<span class='no'>d</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='no'>m</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='st'>"+"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='no'>z</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='st'>"+"</span>)</div><div class='img'><img src='selectbylocation-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>lon <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>1000</span>, <span class='va'>e</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, <span class='va'>e</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>,
+  lat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>1000</span>, <span class='va'>e</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span>, <span class='va'>e</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span>,
+  sites <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/xyFromCell.html'>coordinates</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='op'>~</span> <span class='va'>lon</span> <span class='op'>+</span> <span class='va'>lat</span>
+<span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>selectbylocation</span><span class='op'>(</span><span class='va'>m</span>, <span class='va'>d</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>m</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, pch <span class='op'>=</span> <span class='st'>"+"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>z</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, pch <span class='op'>=</span> <span class='st'>"+"</span><span class='op'>)</span>
+</div><div class='img'><img src='selectbylocation-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -200,7 +203,7 @@ of the target layer.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

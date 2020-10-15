@@ -82,7 +82,7 @@ an evaluation graph that corresponds to the point of optimal curvature." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -153,7 +153,7 @@ clusters ("phyloregions"), based on the ‘elbow’ or ‘knee’ of
 an evaluation graph that corresponds to the point of optimal curvature.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>optimal_phyloregion</span>(<span class='no'>x</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"average"</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>)</pre>
+    <pre class="usage"><span class='fu'>optimal_phyloregion</span><span class='op'>(</span><span class='va'>x</span>, method <span class='op'>=</span> <span class='st'>"average"</span>, k <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,10 +199,11 @@ clustering of transcription start site landscapes.
 <em>PLoS ONE</em> <strong>6</strong>: e23409.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>africa</span>)
-<span class='no'>tree</span> <span class='kw'>&lt;-</span> <span class='no'>africa</span>$<span class='no'>phylo</span>
-<span class='no'>bc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='beta_diss.html'>beta_diss</a></span>(<span class='no'>africa</span>$<span class='no'>comm</span>)
-(<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>optimal_phyloregion</span>(<span class='no'>bc</span><span class='kw'>[[</span><span class='fl'>1</span>]]))</div><div class='output co'>#&gt; $df
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='va'>tree</span> <span class='op'>&lt;-</span> <span class='va'>africa</span><span class='op'>$</span><span class='va'>phylo</span>
+<span class='va'>bc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='beta_core.html'>beta_diss</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>comm</span><span class='op'>)</span>
+<span class='op'>(</span><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>optimal_phyloregion</span><span class='op'>(</span><span class='va'>bc</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $df
 #&gt;     k        ev   totbss      tss
 #&gt; 1   1 0.0000000  0.00000 73.51413
 #&gt; 2   2 0.3439631 25.28615 73.51413
@@ -242,8 +243,12 @@ clustering of transcription start site landscapes.
 #&gt; [1] "A \"good\" k=12 (EV=0.81) is detected when the EV is no less than 0.8\nand the increment of EV is no more than 0.01 for a bigger k.\n"
 #&gt; attr(,"class")
 #&gt; [1] "elbow" "list" 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>d</span>$<span class='no'>df</span>$<span class='no'>k</span>, <span class='no'>d</span>$<span class='no'>df</span>$<span class='no'>ev</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Explained variances"</span>,
-  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Number of clusters"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>d</span>$<span class='no'>df</span>$<span class='no'>k</span>[<span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>d</span>$<span class='no'>df</span>$<span class='no'>k</span>)], <span class='no'>d</span>$<span class='no'>df</span>$<span class='no'>ev</span>[<span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>d</span>$<span class='no'>df</span>$<span class='no'>k</span>)], <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='no'>d</span>$<span class='no'>optimal</span>$<span class='no'>k</span>, <span class='no'>d</span>$<span class='no'>optimal</span>$<span class='no'>ev</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='no'>d</span>$<span class='no'>optimal</span>$<span class='no'>k</span>, <span class='no'>d</span>$<span class='no'>optimal</span>$<span class='no'>ev</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><div class='img'><img src='optimal_phyloregion-1.png' alt='' width='700' height='433' /></div></pre>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>df</span><span class='op'>$</span><span class='va'>k</span>, <span class='va'>d</span><span class='op'>$</span><span class='va'>df</span><span class='op'>$</span><span class='va'>ev</span>, ylab <span class='op'>=</span> <span class='st'>"Explained variances"</span>,
+  xlab <span class='op'>=</span> <span class='st'>"Number of clusters"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>df</span><span class='op'>$</span><span class='va'>k</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>df</span><span class='op'>$</span><span class='va'>k</span><span class='op'>)</span><span class='op'>]</span>, <span class='va'>d</span><span class='op'>$</span><span class='va'>df</span><span class='op'>$</span><span class='va'>ev</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>df</span><span class='op'>$</span><span class='va'>k</span><span class='op'>)</span><span class='op'>]</span>, pch <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>optimal</span><span class='op'>$</span><span class='va'>k</span>, <span class='va'>d</span><span class='op'>$</span><span class='va'>optimal</span><span class='op'>$</span><span class='va'>ev</span>, pch <span class='op'>=</span> <span class='fl'>21</span>, bg <span class='op'>=</span> <span class='st'>"red"</span>, cex <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>$</span><span class='va'>optimal</span><span class='op'>$</span><span class='va'>k</span>, <span class='va'>d</span><span class='op'>$</span><span class='va'>optimal</span><span class='op'>$</span><span class='va'>ev</span>, pch <span class='op'>=</span> <span class='fl'>21</span>, bg <span class='op'>=</span> <span class='st'>"red"</span>, type <span class='op'>=</span> <span class='st'>"h"</span><span class='op'>)</span>
+</div><div class='img'><img src='optimal_phyloregion-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -259,7 +264,7 @@ clustering of transcription start site landscapes.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

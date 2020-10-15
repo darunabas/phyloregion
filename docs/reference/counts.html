@@ -81,7 +81,7 @@ based on the similairity of functional traits across species." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@ based on the similairity of functional traits across species." />
 based on the similairity of functional traits across species.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>counts</span>(<span class='no'>x</span>, <span class='no'>trait</span>, <span class='kw'>cut</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>phy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>counts</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>trait</span>, cut <span class='op'>=</span> <span class='cn'>NULL</span>, phy <span class='op'>=</span> <span class='cn'>NULL</span>, bin <span class='op'>=</span> <span class='fl'>10</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,8 +179,8 @@ traits. The variables must be a mix of numeric and categorical values.</p></td>
 as a phylo object (as in the ape package).</p></td>
     </tr>
     <tr>
-      <th>k</th>
-      <td><p>The desired number of clusters.</p></td>
+      <th>bin</th>
+      <td><p>The desired number of clusters or bins.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
@@ -208,7 +208,7 @@ count of each species based on its cluster membership.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
