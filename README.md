@@ -8,11 +8,10 @@
 
 # phyloregion <img src='man/figures/logo.png' align="right" width="120" />
 
-This is a computational infrastructure for biogeographic regionalization (the classification of geographical areas in terms of their biotas) and spatial conservation in the R scientific computing environment. Previously it was only possible to perform analysis of biogeographic regionalization on small datasets, often using tools that are difficult to replicate. With macroecological datasets of ever increasing size and complexity, `phyloregion` offers the possibility of handling and executing large scale biogeographic regionalization efficiently and with extreme speed. It also allows fast and efficient analysis of more standard conservation measures such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness and global endangerment. `phyloregion` can run on any operating system (Mac, Linux, Windows or even high performance computing cluster) with `R` 3.6.0 (or higher) installed.
+An R package for biogeographic regionalization (the classification of geographical areas in terms of their biotas) and macroecology. With macroecological datasets of ever increasing size and complexity, `phyloregion` offers the possibility of handling and executing very large scale analysis of biogeographic regionalization. It also allows fast and memory efficient analysis of standard conservation measures such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness and global endangerment. `phyloregion` can run on any operating system (Mac, Linux, Windows or even high performance computing cluster) with `R` 3.6.0 (or higher) installed.
 
-### Authors
-[Barnabas Daru](https://barnabasdaru.com/) 
-[Klaus Schliep](https://kschliep.netlify.com/)
+<img src='man/figures/examples.png' align="centre" height="200" />
+
 
 ### How to cite
 The original implementation of ```phyloregion``` is described in:
@@ -27,9 +26,6 @@ The original conceptual is described in:
 
 Daru, B.H., Elliott, T.L., Park, D.S. & Davies, T.J. (2017) Understanding the processes underpinning patterns of phylogenetic regionalization. **_Trends in Ecology & Evolution_** __32__: 845-860. [doi: 10.1016/j.tree.2017.08.013](http://dx.doi.org/10.1016/j.tree.2017.08.013)
 
-### Feedback
-If you have any questions, suggestions or issues regarding the package, please add them to [GitHub issues](https://github.com/darunabas/phyloregion/issues)
-
 # Installation
 
 `phyloregion` is available from the [Comprehensive R Archive Network](https://CRAN.R-project.org/package=phyloregion), so you can use the following line of code to install and run it:
@@ -43,19 +39,12 @@ Alternatively, you can install the development version of `phyloregion` hosted o
 ```
 if (!requireNamespace("devtools", quietly = TRUE)) 
     install.packages("devtools") 
-```
-
-Then:
-
-```
 devtools::install_github("darunabas/phyloregion")
 ```
 
-Load the `phyloregion` package and you are good to go:
+### Feedback
+If you have any questions, suggestions or issues regarding the package, please add them to [GitHub issues](https://github.com/darunabas/phyloregion/issues)
 
-```
-library(phyloregion)
-```
 
 # License
 
