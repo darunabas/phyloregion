@@ -1,3 +1,8 @@
+# [October 16, 2020] Changes in `phyloregion` version 1.0.5
+
+* Revised `plot_swatch` to use `col` instead of palette argument.
+
+
 # [July 19, 2020] Changes in `phyloregion` version 1.0.3
 
 * Removed `plot_evoldistinct` because the functionality is replaced 

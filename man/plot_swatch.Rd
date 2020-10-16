@@ -8,7 +8,7 @@ plot_swatch(
   x,
   values = NULL,
   k = 10,
-  palette = "Blue-Red 3",
+  col = hcl.colors(k, palette = "Blue-Red 3", rev = FALSE),
   key_label = "",
   leg = 10,
   lwd = 15,
@@ -29,9 +29,7 @@ discretize the values of the quantity.}
 
 \item{k}{Numeric, the desired number of bins to discretize.}
 
-\item{palette}{name of the palette to generate colors from. The name is
-matched to the list of available color palettes from the
-\code{\link[grDevices:palettes]{hcl.colors}} function.}
+\item{col}{A vector of colors}
 
 \item{key_label}{label for the color key}
 

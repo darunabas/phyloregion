@@ -3,7 +3,7 @@
 #
 
 library(knitr)
-knit("vignettes/Benchmark.Rmd.orig", "vignettes/Benchmark.Rmd")
+knit("vignettes/pd.Rmd.orig", "vignettes/pd.Rmd")
 
 knit("vignettes/scalability.Rmd.orig", "vignettes/scalability.Rmd")
 

@@ -7,9 +7,7 @@
 #' @param values Variable in the SpatialPolygonsDataFrame for which to
 #' discretize the values of the quantity.
 #' @param k Numeric, the desired number of bins to discretize.
-#' @param palette name of the palette to generate colors from. The name is
-#' matched to the list of available color palettes from the
-#' \code{\link[grDevices:palettes]{hcl.colors}} function.
+#' @param col A vector of colors
 #' @param leg Numeric, length of the legend
 #' @param key_label label for the color key
 #' @param legend logical indicating whether to add a legend to the map.
@@ -39,12 +37,14 @@
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
 #' plot_swatch(s, values = s$SR, k = 20)
 #' @export
-plot_swatch <- function(x, values=NULL, k = 10, palette = "Blue-Red 3",
-                        key_label = "", leg = 10, lwd = 15, pos = "bottomleft",
-                        legend = TRUE, border=par("fg"), breaks = "quantile",
+plot_swatch <- function(x, values=NULL, k = 10,
+                        col = hcl.colors(k, palette = "Blue-Red 3", rev=FALSE),
+                        key_label = "", leg = 10,
+                        lwd = 15, pos = "bottomleft", legend = TRUE,
+                        border=par("fg"), breaks = "quantile",
                         min = NULL, max = NULL, ...) {
   ed <- FALSE
-  rev <- FALSE
+  #rev <- FALSE
   if(inherits(x, "phyloregion")){
     x <- x$evol_distinct
     if(is.null(values)) values <- x$ED
@@ -54,12 +54,12 @@ plot_swatch <- function(x, values=NULL, k = 10, palette = "Blue-Red 3",
   }
   if(is.null(values)) stop("You need to supply value argument!")
   x$values <- values
-  colrs <- hcl.colors(k, palette = palette, rev=rev)
+  #colrs <- hcl.colors(k, palette = palette, rev=rev)
   y <- choropleth(values, k, breaks = breaks, min, max) # , style = style
-  plot(x, col = colrs[y], border = border, ...)
+  plot(x, col = col[y], border = border, ...)
   if(ed) text(x, labels = as.character(x@data$cluster), ...)
   if (legend) {
-    color_key(x, colrs, vals = values, lab = key_label, pos = pos, leg = leg,
+    color_key(x, col, vals = values, lab = key_label, pos = pos, leg = leg,
               lwd = lwd)
   }
 }

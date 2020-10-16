@@ -6,7 +6,7 @@ output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
 csl: nature-communications.csl
 vignette: >
-   %\VignetteIndexEntry{phyloregion-intro}
+   %\VignetteIndexEntry{An introduction to the phyloregion package}
    %\VignetteEngine{knitr::rmarkdown}
    %\usepackage[utf8]{inputenc}   
 ---
