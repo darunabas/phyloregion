@@ -91,7 +91,8 @@ mybeta_fun <- function(phy, dat){
 
 par(mar=rep(0,4))
 plot(wmap0, col="grey", border = "grey", density = 37, lwd=0.25)
-plot_swatch(shp, shp$richness, k = 30, border=NA,
+plot_swatch(shp, shp$richness, border=NA,
+            col = hcl.colors(n=30, palette = "Blue-Red 3", rev=FALSE),
             leg = 30, lwd = 5, add = TRUE, breaks = "jenks")
 plot(wmap0, add=TRUE, lwd=0.25)
 ```

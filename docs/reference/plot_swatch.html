@@ -110,6 +110,9 @@ quantiles." />
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
+      <a href="../articles/pd.html">Phylogenetic Diversity for Large Datasets</a>
+    </li>
+    <li>
       <a href="../articles/phyloregion-intro.html">An introduction to the phyloregion package</a>
     </li>
     <li>
@@ -155,7 +158,7 @@ quantiles.</p>
   <span class='va'>x</span>,
   values <span class='op'>=</span> <span class='cn'>NULL</span>,
   k <span class='op'>=</span> <span class='fl'>10</span>,
-  palette <span class='op'>=</span> <span class='st'>"Blue-Red 3"</span>,
+  col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>hcl.colors</a></span><span class='op'>(</span><span class='va'>k</span>, palette <span class='op'>=</span> <span class='st'>"Blue-Red 3"</span>, rev <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
   key_label <span class='op'>=</span> <span class='st'>""</span>,
   leg <span class='op'>=</span> <span class='fl'>10</span>,
   lwd <span class='op'>=</span> <span class='fl'>15</span>,
@@ -185,10 +188,8 @@ discretize the values of the quantity.</p></td>
       <td><p>Numeric, the desired number of bins to discretize.</p></td>
     </tr>
     <tr>
-      <th>palette</th>
-      <td><p>name of the palette to generate colors from. The name is
-matched to the list of available color palettes from the
-<code>hcl.colors</code> function.</p></td>
+      <th>col</th>
+      <td><p>A vector of colors</p></td>
     </tr>
     <tr>
       <th>key_label</th>

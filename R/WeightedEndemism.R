@@ -24,7 +24,8 @@
 #' m <- merge(africa$polys, data.frame(grids=names(Endm), WE=Endm), by="grids")
 #' m <- m[!is.na(m@data$WE),]
 #'
-#' plot_swatch(m, values = m$WE, k=20)
+#' plot_swatch(m, values = m$WE,
+#'             col = hcl.colors(20, palette = "Blue-Red 3", rev=FALSE))
 #'
 #' @export
 weighted_endemism <- function(x){

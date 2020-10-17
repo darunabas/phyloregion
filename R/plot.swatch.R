@@ -1,12 +1,11 @@
 #' Plot shapefile polygons based on slot values
 #'
-#' \code{plot_swatch} maps discretized values of a quantity based on their
-#' quantiles.
+#' \code{plot_swatch} maps discretized values of a quantity using
+#' continuous color gradients.
 #'
 #' @param x A data frame or object of the class SpatialPolygonsDataFrame
 #' @param values Variable in the SpatialPolygonsDataFrame for which to
 #' discretize the values of the quantity.
-#' @param k Numeric, the desired number of bins to discretize.
 #' @param col A vector of colors
 #' @param leg Numeric, length of the legend
 #' @param key_label label for the color key
@@ -35,15 +34,16 @@
 #' @examples
 #' library(sp)
 #' s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
-#' plot_swatch(s, values = s$SR, k = 20)
+#' plot_swatch(s, values = s$SR)
 #' @export
-plot_swatch <- function(x, values=NULL, k = 10,
-                        col = hcl.colors(k, palette = "Blue-Red 3", rev=FALSE),
+plot_swatch <- function(x, values=NULL,
+                        col = hcl.colors(n=10, palette = "Blue-Red 3", rev=FALSE),
                         key_label = "", leg = 10,
                         lwd = 15, pos = "bottomleft", legend = TRUE,
                         border=par("fg"), breaks = "quantile",
                         min = NULL, max = NULL, ...) {
   ed <- FALSE
+  k <- length(col)
   #rev <- FALSE
   if(inherits(x, "phyloregion")){
     x <- x$evol_distinct

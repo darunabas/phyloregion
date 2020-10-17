@@ -28,7 +28,8 @@
 #' x <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
 #' y <- map_trait(africa$comm, x, FUN = sd, shp=africa$polys)
 #'
-#' plot_swatch(y, y$traits, k=20)
+#' plot_swatch(y, y$traits,
+#'            col = hcl.colors(n=20, palette = "Blue-Red 3", rev=FALSE))
 #' @export map_trait
 map_trait <- function(x, trait, FUN = sum, shp = NULL, ...){
   if(is(x, "sparseMatrix")) x <- sparse2long(x)

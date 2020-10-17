@@ -7,8 +7,7 @@
 plot_swatch(
   x,
   values = NULL,
-  k = 10,
-  col = hcl.colors(k, palette = "Blue-Red 3", rev = FALSE),
+  col = hcl.colors(n = 10, palette = "Blue-Red 3", rev = FALSE),
   key_label = "",
   leg = 10,
   lwd = 15,
@@ -26,8 +25,6 @@ plot_swatch(
 
 \item{values}{Variable in the SpatialPolygonsDataFrame for which to
 discretize the values of the quantity.}
-
-\item{k}{Numeric, the desired number of bins to discretize.}
 
 \item{col}{A vector of colors}
 
@@ -58,13 +55,13 @@ the minimum (\code{min}) and maximum (\code{max}) bounds.}
 Returns no value, just map swatch of colors in geographic space!
 }
 \description{
-\code{plot_swatch} maps discretized values of a quantity based on their
-quantiles.
+\code{plot_swatch} maps discretized values of a quantity using
+continuous color gradients.
 }
 \examples{
 library(sp)
 s <- readRDS(system.file("nigeria/SR_Naija.rds", package = "phyloregion"))
-plot_swatch(s, values = s$SR, k = 20)
+plot_swatch(s, values = s$SR)
 }
 \seealso{
 \code{\link[sp]{SpatialPolygons-class}}

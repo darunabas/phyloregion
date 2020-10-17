@@ -1,0 +1,130 @@
+---
+title: "Phylogenetic Diversity for Large Datasets"
+author: "Barnabas H. Daru"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: rmarkdown::html_vignette
+bibliography: phyloregion.bib
+csl: nature-communications.csl
+vignette: >
+   %\VignetteIndexEntry{Phylogenetic Diversity for Large Datasets}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\usepackage[utf8]{inputenc}
+---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  dpi = 72, fig.path = "pd-",
+  message = FALSE, warning = FALSE, error = FALSE
+)
+```
+
+
+## 1. Introduction
+
+Phylogenetic diversity is the sum of branch lengths connecting species into the root of a phylogenetic tree[@Faith1992]. We will demonstrate the ability of our new R package `phyloregion`[@darumee] to handle and execute large biogeographical datasets for analysis of phylogenetic diversity for 4888 plant species in just five steps!.
+
+## 2. Input data
+
+Species distributions data are commonly available in three formats: polygons, points records and raster layers. We will tap into the Botanical Information and Ecology Network database to download polygons range maps and phylogeny for 4888 plant species using the R package `BIEN`[@bien] as follows:
+
+
+First, load the packages for the analysis:
+```{r, echo=FALSE}
+suppressPackageStartupMessages( library(phyloregion) )
+suppressPackageStartupMessages( library(BIEN) )
+suppressPackageStartupMessages( library(ape) )
+suppressPackageStartupMessages( library(raster) )
+```
+```{r}
+library(phyloregion)
+library(BIEN)
+library(ape)
+library(raster)
+```
+
+```{r, eval=FALSE}
+s <- BIEN_ranges_genus("Pinus")
+```
+Because downloading large number of species using the `BIEN` R package can take a long time, we previously downloaded the shapefiles and saved to file:
+
+
+```{r}
+wd <- getwd()
+dir = tempdir()
+setwd(dir)
+download.file(
+    url="https://barnabasdaru.files.wordpress.com/2020/10/bien_data.zip",
+    destfile = "bien_data.zip")
+unzip(zipfile = "bien_data.zip")
+setwd(dir = "bien_data")
+list.files()
+```
+
+### Read in the phylogeny
+
+We will download the complete BIEN phylogenies for 81,274 plant species.
+```{r}
+tree <- BIEN_phylogeny_complete(1)
+tree
+```
+### Read in species polygon maps
+
+```{r}
+m <- shapefile("/Users/barnabasdaru/Dropbox/Projects/phyloregion_MS/wordpress_R/bien_data/bien_polygons/bien_plants.shp")
+
+# and base map of the Americas for plotting
+b <- shapefile("/Users/barnabasdaru/Dropbox/Projects/phyloregion_MS/wordpress_R/bien_data/americas/americas.shp")
+setwd(wd)
+```
+## 3. Community matrix
+Next, we convert the polygon range maps to community matrix using the function `polys2comm` at a grid resolution of 1 degree, but other grain sizes can be specified using the `res` argument -- remember, patterns of biodiversity are scale dependent[@daru2020endemism],[@jarzyna2018taxonomic].
+
+```{r}
+p <- polys2comm(m, res = 1, species = "Species", trace=0)
+
+# This gives 2 objects: `comm_dat` the (sparse) community matrix and `poly_shp`, shapefile of grid cells with cell values, i.e. species richness per cell.
+
+comm <- p$comm_dat
+shp <- p$poly_shp
+```
+
+## 4. Species richness
+
+We can use the function `plot_swatch` to map cell values using nice continuous color gradients as follows:
+```{r, richness}
+plot_swatch(shp, shp$richness, border=NA, breaks = "jenks",
+            col = hcl.colors(n=30, palette = "RdYlGn", rev = TRUE))
+plot(b, add=TRUE, lwd=.5)
+```
+
+## 5. Phylogenetic diversity
+
+Computing phylogenetic diversity is very straightforward using the function `PD` and visualized using `plot_swatch` as follows:
+```{r, PD}
+# First, match phylogeny to community matrix:
+submat <- match_phylo_comm(tree, comm)$comm
+subphy <- match_phylo_comm(tree, comm)$phy
+
+mypd <- PD(submat, subphy)
+head(mypd)
+
+y <- merge(shp, data.frame(grids=names(mypd), pd=mypd), by="grids")
+y <- y[!is.na(y@data$pd),]
+head(y)
+
+plot_swatch(y, values = y$pd, border=NA, breaks = "jenks",
+            col = hcl.colors(n=30, palette = "RdYlGn", rev = TRUE))
+plot(b, add=TRUE, lwd=.5)
+```
+View the correlation between Phylogenetic Diversity and Species Richness:
+```{r, correlation}
+plot(y$richness, y$pd, pch=21, bg="black", col="white",
+     lwd=0.31, cex=1, ylab="Phylogenetic Diversity",
+     xlab="Species Richness", las=1)
+abline(lm(y$pd~y$richness), col="red", lwd=2)
+```
+If you find this vignette tutorial useful, please cite in publications as:
+
+Daru, B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion: R package for biogeographic regionalization and macroecology. **_Methods in Ecology and Evolution_** [doi: 10.1111/2041-210X.13478](https://doi.org/10.1111/2041-210X.13478).
+
+
+## REFERENCES
