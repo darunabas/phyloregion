@@ -75,6 +75,7 @@ PD_ses <- function(x, phy,
     y <- do.call(rbind, pd.rand)
     pd_rand_mean <- apply(X = y, MARGIN = 2, FUN = mean, na.rm = TRUE)
     pd_rand_sd <- apply(X = y, MARGIN = 2, FUN = sd, na.rm = TRUE)
+    pd_rand_sd[pd_rand_sd == 0] <- 1
     pd_obs_z <- (PD_obs - pd_rand_mean)/pd_rand_sd
     pd_obs_rank <- apply(X = rbind(PD_obs, y), MARGIN = 2, FUN = rank)[1, ]
     pd_obs_rank <- ifelse(is.na(pd_rand_mean), NA, pd_obs_rank)

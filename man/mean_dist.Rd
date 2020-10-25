@@ -4,13 +4,11 @@
 \alias{mean_dist}
 \title{Mean distance matrix from a set of distance matrices}
 \usage{
-mean_dist(files, tips, trace = 1, ...)
+mean_dist(files, trace = 1, ...)
 }
 \arguments{
 \item{files}{list of pairwise distance matrices stored as CSVs or .rds
 with the same dimensions.}
-
-\item{tips}{list of site or grid names}
 
 \item{trace}{Trace the function; trace = 2 or higher will be more voluminous.}
 

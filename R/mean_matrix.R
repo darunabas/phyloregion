@@ -5,7 +5,6 @@
 #'
 #' @param files list of pairwise distance matrices stored as CSVs or .rds
 #' with the same dimensions.
-#' @param tips list of site or grid names
 #' @param trace Trace the function; trace = 2 or higher will be more voluminous.
 #' @param ... Further arguments passed to or from other methods.
 #' @rdname mean_dist
@@ -13,7 +12,8 @@
 #' @importFrom utils read.csv txtProgressBar setTxtProgressBar
 #'
 #' @export
-mean_dist <- function(files, tips, trace = 1, ...){
+mean_dist <- function(files, trace = 1, ...){
+  tips <- sort(labels(files[[1]]))
   ntips <- length(tips)
   res <- matrix(0, ntips, ntips, dimnames = list(tips, tips))
   tmp <- matrix(0L, ntips, ntips, dimnames = list(tips, tips))
