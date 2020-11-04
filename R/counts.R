@@ -7,7 +7,7 @@
 #' sites labeled \dQuote{grids} and another column representing species
 #' labeled \dQuote{species}.
 #' @param trait A data frame or matrix object with the first column
-#' labeled \dQuote{species} containing the texonomic groups to be
+#' labeled \dQuote{species} containing the taxonomic groups to be
 #' evaluated whereas the remaining columns have the various functional
 #' traits. The variables must be a mix of numeric and categorical values.
 #' @param cut The slice time.

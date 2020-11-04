@@ -16,7 +16,7 @@ An R package for biogeographic regionalization (the classification of geographic
 ### How to cite
 The original implementation of ```phyloregion``` is described in:
 
-Daru, B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion: R package for biogeographic regionalization and macroecology. **_Methods in Ecology and Evolution_** [doi: 10.1111/2041-210X.13478](https://doi.org/10.1111/2041-210X.13478).
+Daru, B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion: R package for biogeographic regionalization and macroecology. **_Methods in Ecology and Evolution_** __11__: 1483-1491. [doi: 10.1111/2041-210X.13478](https://doi.org/10.1111/2041-210X.13478).
 
 It is based on the method described in:
 
