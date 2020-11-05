@@ -35,6 +35,7 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' scaling color space matching the color vision of the human visual
 #' system. The name is matched to the list of available color palettes from
 #' the \code{hcl.colors} function in the \code{grDevices} package.
+#' @param col vector of colors of length equal to the number of phyloregions.
 #' @param shp a polygon shapefile of grid cells.
 #' @param \dots arguments passed among methods.
 #' @return No return value, called for plotting.
@@ -45,15 +46,22 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' @importFrom graphics plot plot.default
 #' @rawNamespace export(plot.phyloregion)
 #' @export
-plot.phyloregion <- function(x, shp=NULL, palette="NMDS", ...) {
+plot.phyloregion <- function(x, shp=NULL, palette="NMDS", col=NULL, ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
   if(is.null(shp)) shp <- x$shp
   if(is.null(shp)) stop("Need shape file!")
   k <- x$k
-  if(palette=="NMDS") clr <- shp$COLOURS
-    else clr <- hcl.colors(k, palette)[shp$cluster]
-  plot(shp, col = clr, ...)
+  #l <- length(shp$cluster)
+  if(is.null(col)){
+    if(palette=="NMDS") col <- shp$COLOURS
+    else col <- hcl.colors(k, palette)[shp$cluster]
+  }
+  else{
+    if(length(col)==k) col <- col[shp$cluster]
+    else stop("Expect 'col' of length x$k!")
+  }
+  plot(shp, col = col, ...)
   text(shp, labels = as.character(shp@data$cluster), ...)
 }
 

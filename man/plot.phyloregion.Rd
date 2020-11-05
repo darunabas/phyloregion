@@ -6,7 +6,7 @@
 \alias{text_NMDS}
 \title{Visualize biogeographic patterns}
 \usage{
-\method{plot}{phyloregion}(x, shp = NULL, palette = "NMDS", ...)
+\method{plot}{phyloregion}(x, shp = NULL, palette = "NMDS", col = NULL, ...)
 
 plot_NMDS(x, ...)
 
@@ -22,6 +22,8 @@ text_NMDS(x, ...)
 scaling color space matching the color vision of the human visual
 system. The name is matched to the list of available color palettes from
 the \code{hcl.colors} function in the \code{grDevices} package.}
+
+\item{col}{vector of colors of length equal to the number of phyloregions.}
 
 \item{\dots}{arguments passed among methods.}
 }
