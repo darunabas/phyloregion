@@ -4,7 +4,7 @@
 \alias{plot_structure}
 \title{Visualize biogeographic patterns using structure plots}
 \usage{
-plot_structure(omega, shp, by = NULL, col = hcl.colors(12), ...)
+plot_structure(omega, shp, by = NULL, col = hcl.colors(15), ...)
 }
 \arguments{
 \item{omega}{a matrix of phyloregion of probabilities of each species}
