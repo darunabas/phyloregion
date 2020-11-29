@@ -55,9 +55,9 @@
 #' plot(m[(m@data$hot == 1), ], col = "red", add = TRUE, border = NA)
 #' legend("bottomleft", fill = c("blue", "red", "yellow", "green"),
 #'   legend = c("coldspots", "hotspots"), bty = "n", inset = .092)
-coldspots <- function(x, prob = 2.5, ...) {
+coldspots <- function(x, prob = 2.5, na.rm = TRUE, ...) {
   quant <- prob / 100
-  r <- quantile(x, quant, na.rm = TRUE)
+  r <- quantile(x, quant, na.rm = na.rm, ...)
   x[which(x < r[[1]])] <- NA
   x[which(x > r[[1]])] <- 0
   x[which(x == r[[1]])] <- NA
