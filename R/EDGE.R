@@ -40,41 +40,19 @@
 #' @export EDGE
 
 EDGE <- function(x, phy, Redlist="Redlist", species="species", ...){
-
   x <- as.data.frame(x)
   x <- x[, c(species, Redlist)]
   names(x) <- c("species", "Redlist")
-
   # Calculating GE
-  y <- as.character(x$Redlist)
-  Redlist <- as.data.frame(NULL)
-  for (i in seq_along(y)){
-    if (y[i]=="LC") RL <- 0.001
-    if (y[i]=="NT") RL <- 0.01
-    if (y[i]=="VU") RL <- 0.1
-    if (y[i]=="EN") RL <- 0.67
-    if (y[i]=="CR") RL <- 0.999
-    if (y[i]=="EW") RL <- 1
-    if (y[i]=="EX") RL <- 1
-    if (y[i]=="DD") RL <- NA
-    Redlist <- rbind(Redlist, RL)
-  }
-
-  Redlist <- as.data.frame(cbind(as.character(x$species), Redlist))
-  colnames(Redlist) <- c("species", "GE")
-
+  lookup <- c(0.001, 0.01, 0.1, 0.67, 0.999, 1, 1, NA_real_)
+  names(lookup) <- c("LC", "NT", "VU", "EN", "CR" , "EW", "EX", "DD")
+  Redlist <- lookup[x$Redlist]
+  names(Redlist) <- x$species
+  Redlist <- na.omit(Redlist)
   # CALCULATING ED
   ED <- evol_distinct(phy, type = "fair.proportion", ...)
-  ED <- as.data.frame(ED)
-  ED <- cbind(species=rownames(ED), ED=data.frame(ED, row.names=NULL))
-
-  index <- match(ED$species, Redlist$species)
-  m <- cbind(ED, GE=Redlist$GE[index])
-  m <- m[complete.cases(m),]
-
-  m$EDGE <- (log(1+m$ED) + (m$GE*log(2)))
-
-  my_EDGE <- m$EDGE
-  names(my_EDGE) <- m$species
+  index <- intersect(names(ED), names(Redlist))
+  my_EDGE <- (log(1+ED[index]) + (Redlist[index] * log(2)))
+  names(my_EDGE) <- index
   my_EDGE
 }
