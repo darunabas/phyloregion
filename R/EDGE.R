@@ -36,11 +36,10 @@
 #' and phylogeny. \emph{PLoS ONE} \strong{2}: e296.
 #' @examples
 #' data(africa)
-#' y <- EDGE(x = africa$IUCN, phy = africa$phylo, Redlist = "IUCN", species="Species")
+#' y <- EDGE(x=africa$IUCN, phy=africa$phylo, Redlist="IUCN", species="Species")
 #' @export EDGE
 
 EDGE <- function(x, phy, Redlist="Redlist", species="species", ...){
-
   x <- as.data.frame(x)
   x <- x[, c(species, Redlist)]
   names(x) <- c("species", "Redlist")
