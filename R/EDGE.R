@@ -35,32 +35,26 @@
 #' (2007) Mammals on the EDGE: conservation priorities based on threat
 #' and phylogeny. \emph{PLoS ONE} \strong{2}: e296.
 #' @examples
-#' require(dplyr)
 #' data(africa)
 #' y <- EDGE(x = africa$IUCN, phy = africa$phylo, Redlist = "IUCN", species="Species")
 #' @export EDGE
 
 EDGE <- function(x, phy, Redlist="Redlist", species="species", ...){
 
-  ref_table <- data.frame(Redlist = c("LC", "NT", "VU", "EN",
-                                      "CR" , "EW", "EX", "DD"),
-                          GE = c(0.001, 0.01, 0.1, 0.67,
-                                 0.999, 1, 1, NA))
-
-  x <- x[, c(species, Redlist)] %>%
-    setNames(c("species", "Redlist")) %>%
-    left_join(ref_table, by = 'Redlist')
-
+  x <- as.data.frame(x)
+  x <- x[, c(species, Redlist)]
+  names(x) <- c("species", "Redlist")
+  # Calculating GE
+  lookup <- c(0.001, 0.01, 0.1, 0.67, 0.999, 1, 1, NA_real_)
+  names(lookup) <- c("LC", "NT", "VU", "EN", "CR" , "EW", "EX", "DD")
+  Redlist <- lookup[x$Redlist]
+  names(Redlist) <- x$species
+  Redlist <- na.omit(Redlist)
   # CALCULATING ED
-  EDGE <- evol_distinct(phy, type = "fair.proportion") %>%
-    as.data.frame() %>%
-    rownames_to_column(var = 'species') %>%
-    inner_join(x, by = 'species') %>%
-    rename(ED = '.') %>%
-    mutate(EDGE = log(1+ ED) + ( GE * log(2))) %>%
-    pull(EDGE, name = species)
-
-
-  return(EDGE)
+  ED <- evol_distinct(phy, type = "fair.proportion", ...)
+  index <- intersect(names(ED), names(Redlist))
+  my_EDGE <- (log(1+ED[index]) + (Redlist[index] * log(2)))
+  names(my_EDGE) <- index
+  my_EDGE
 
 }
