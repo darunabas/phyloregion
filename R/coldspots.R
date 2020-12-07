@@ -68,9 +68,9 @@ coldspots <- function(x, prob = 2.5, na.rm = TRUE, ...) {
 
 #' @rdname coldspots
 #' @export
-hotspots <- function(x, prob = 2.5,...) {
+hotspots <- function(x, prob = 2.5, na.rm = TRUE, ...) {
   quant <- (1 - (prob / 100))
-  r <- quantile(x, quant, na.rm = TRUE)
+  r <- quantile(x, quant, na.rm = na.rm, ...)
   x[which(x < r[[1]])] <- NA
   x[which(x > r[[1]])] <- 1
   x[which(x == r[[1]])] <- 1

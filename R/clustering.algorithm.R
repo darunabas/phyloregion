@@ -32,16 +32,23 @@
 #' @export select_linkage
 select_linkage <- function(x) {
 
-  z <- methods_hc %>%
-    sapply(function(y){
+  dist_x <- as.dist(x)
 
-      clust_methods <- hclust(as.dist(x), method = y)
-      res <- cor(as.dist(x), cophenetic(clust_methods), use="complete.obs")
+  methods_hc <- c("average", "single", "complete",
+                  "ward.D", "ward.D2", "mcquitty",
+                  "median", "centroid")
 
-      return(res)
-    }
-    ) %>%
-    setNames(name_methods)
+  z <- sapply(methods_hc, function(y){
+
+    clust_methods <- hclust(dist_x, method = y)
+
+    cor(dist_x, cophenetic(clust_methods), use="complete.obs")
+
+  } )
+
+  z <- setNames(z, c('UPGMA', 'Single', 'Complete',
+                     'ward.D', 'ward.D2', 'WPGMA',
+                     'WPGMC', 'UPGMC'))
 
   cat("\nA good clustering algorithm for the distance matrix is:\n",
       names(z[which.max(z)]),

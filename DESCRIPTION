@@ -6,7 +6,7 @@ Authors@R: c(person("Barnabas H.", "Daru", email= "darunabas@gmail.com", role = 
              person("Piyal", "Karunarathne", role = c("aut")),
              person("Klaus", "Schliep", email="klaus.schliep@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0003-2941-0161")),
              person("Xiaobei", "Zhao", role=c("ctb")),
-             person("Albin", "Sandelin", role=c("ctb"))),
+             person("Albin", "Sandelin", role=c("ctb")),
              person("Luciano", "Pataro", role=c("ctb")))
 Description: Computational infrastructure for biogeography, community ecology,
     and biodiversity conservation (Daru et al. 2020) <doi:10.1111/2041-210X.13478>.
@@ -17,7 +17,7 @@ Description: Computational infrastructure for biogeography, community ecology,
     such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
     and global endangerment, as well as compositional turnover (e.g., beta diversity).
 Imports: ape, phangorn, Matrix, betapart, parallel, methods, raster, colorspace,
-         vegan, sp, igraph, rgdal, rgeos, clustMixType, maptpx, dplyr, magrittr
+         vegan, sp, igraph, rgdal, rgeos, clustMixType, maptpx
 Suggests: tinytest, knitr, rmarkdown, mapproj
 VignetteBuilder: knitr
 URL: https://github.com/darunabas/phyloregion, https://darunabas.github.io/phyloregion/index.html

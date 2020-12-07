@@ -39,8 +39,9 @@ threatened and conservation dependent = 0.01, vulnerable = 0.1,
 endangered = 0.67, and critically endangered = 0.999.
 }
 \examples{
+require(dplyr)
 data(africa)
-y <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
+y <- EDGE(x = africa$IUCN, phy = africa$phylo, Redlist = "IUCN", species="Species")
 }
 \references{
 Redding, D.W., & Mooers, A.Ø. (2006) Incorporating evolutionary measures

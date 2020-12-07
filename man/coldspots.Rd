@@ -5,9 +5,9 @@
 \alias{hotspots}
 \title{Computes biodiversity coldspots and hotspots}
 \usage{
-coldspots(x, prob = 2.5, ...)
+coldspots(x, prob = 2.5, na.rm = TRUE, ...)
 
-hotspots(x, prob = 2.5, ...)
+hotspots(x, prob = 2.5, na.rm = TRUE, ...)
 }
 \arguments{
 \item{x}{a vector on which to compute coldspots}

@@ -46,7 +46,6 @@ collapse_range <- function(x, tree, n, species="species", grids="grids",
   else if (format == "long") {
     x <- as.data.frame(x)
     x <- x[, c(grids, species)]
-    x <- x[, c(grids, species)]
     names(x) <- c("grids", "species")}
   ind <- intersect(x$species, tree$tip.label)
   if(length(ind)>0){
