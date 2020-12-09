@@ -23,7 +23,7 @@
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname EDGE
 #' @return Returns a dataframe of EDGE scores
-#' @importFrom stats complete.cases
+#' @importFrom stats complete.cases na.omit
 #'
 #' @author Barnabas H. Daru
 #' @references
