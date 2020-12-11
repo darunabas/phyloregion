@@ -30,12 +30,12 @@ plot_structure <- function(omega, shp, by = NULL, col=hcl.colors(15), ...) {
     if (!is.null(by)) {
         if (inherits(by, "SpatialPolygonsDataFrame")) {
             w <- s1[, "grids"]
-            suppressWarnings(proj4string(by) <- proj4string(w))
+            #suppressWarnings(proj4string(by) <- proj4string(w))
             r <- suppressWarnings(cbind(as.data.frame(w), sp::over(w, by)))
             d <- merge(w, r, by="grids")
             d <- d[, c(1, 2)]
             names(d) <- c("grids", "by")
-            d <- d[!is.na(d@data$by),]
+            d <- d[!is.na(d$by),]
         } else {
             d <- s1[, c("grids", by)]
             names(d) <- c("grids", "by")
