@@ -106,6 +106,9 @@
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/ed.html">Fast Evolutionary Distinctiveness in R</a>
+    </li>
+    <li>
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
@@ -153,7 +156,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for phyloregion</span>
-<span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span>, shp <span class='op'>=</span> <span class='cn'>NULL</span>, palette <span class='op'>=</span> <span class='st'>"NMDS"</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span>, shp <span class='op'>=</span> <span class='cn'>NULL</span>, palette <span class='op'>=</span> <span class='st'>"NMDS"</span>, col <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>plot_NMDS</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
@@ -179,6 +182,10 @@ system. The name is matched to the list of available color palettes from
 the <code>hcl.colors</code> function in the <code>grDevices</code> package.</p></td>
     </tr>
     <tr>
+      <th>col</th>
+      <td><p>vector of colors of length equal to the number of phyloregions.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>arguments passed among methods.</p></td>
     </tr>
@@ -198,26 +205,15 @@ the <code>hcl.colors</code> function in the <code>grDevices</code> package.</p><
 
 <span class='va'>pbc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='phylobeta_core.html'>phylobeta</a></span><span class='op'>(</span><span class='va'>submat</span>, <span class='va'>subphy</span><span class='op'>)</span>
 <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='phyloregion.html'>phyloregion</a></span><span class='op'>(</span><span class='va'>pbc</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, shp<span class='op'>=</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>polys</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
-#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: A new CRS was assigned to an object with an existing CRS:</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has no comment</span></div><div class='output co'>#&gt; <span class='warning'>Warning: A new CRS was assigned to an object with an existing CRS:</span>
 #&gt; <span class='warning'>+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0</span>
 #&gt; <span class='warning'>without reprojecting.</span>
 #&gt; <span class='warning'>For reprojection, use function spTransform</span></div><div class='input'>
 <span class='fu'>plot_NMDS</span><span class='op'>(</span><span class='va'>y</span>, cex<span class='op'>=</span><span class='fl'>6</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'>text_NMDS</span><span class='op'>(</span><span class='va'>y</span>, cex<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
 </div><div class='img'><img src='plot.phyloregion-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>y</span>, cex<span class='op'>=</span><span class='fl'>1</span>, palette<span class='op'>=</span><span class='st'>"NMDS"</span><span class='op'>)</span>
-</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>y</span>, cex<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='img'><img src='plot.phyloregion-2.png' alt='' width='700' height='433' /></div></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has no comment</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>y</span>, cex<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has no comment</span></div><div class='img'><img src='plot.phyloregion-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

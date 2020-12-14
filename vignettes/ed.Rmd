@@ -1,0 +1,79 @@
+---
+title: "Fast Evolutionary Distinctiveness in R"
+author: "Barnabas H. Daru"
+date: "December 12, 2020"
+output: rmarkdown::html_vignette
+bibliography: phyloregion.bib
+csl: nature-communications.csl
+vignette: >
+   %\VignetteIndexEntry{Fast Evolutionary Distinctiveness in R}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\usepackage[utf8]{inputenc}
+---
+
+
+## Introduction
+
+Evolutionary distinctiveness is a metric that quantifies how isolated a species is on a phylogenetic tree – some species have few or no close living relatives.
+
+The standard method for calculating evolutionary distinctiveness is either by using the `R` packages `picante` or `caper`. For very large trees, such calculation is a memory-intensive operation and a bottle-neck for these algorithms.
+
+Because of these challenges, we developed a new method in our `phyloregion` package that speeds up the process significantly to produce results in seconds! Here's how:
+
+
+Let's try computing evolutionary distinctiveness for a tree with 5,000 species:
+
+
+
+
+```r
+library(ape)
+library(ggplot2)
+# packages we benchmark
+library(phyloregion)
+library(picante)
+library(caper)
+```
+
+
+```r
+tree <- ape::rcoal(5000)
+
+ed_picante <- function(x) picante::evol.distinct(x, type="fair.proportion")
+ed_caper <- function(x) caper::ed.calc(x)
+ed_phyloregion <- function(x) phyloregion::evol_distinct(x, type="fair.proportion")
+
+res <- bench::mark(picante=ed_picante(tree),
+          caper=ed_caper(tree),
+          phyloregion=ed_phyloregion(tree), check=FALSE)
+summary(res)
+```
+
+```
+## # A tibble: 3 x 6
+##   expression       min   median `itr/sec` mem_alloc `gc/sec`
+##   <bch:expr>  <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
+## 1 picante        11.9m    11.9m   0.00140   287.9GB    0.122
+## 2 caper          21.1s    21.1s   0.0474     21.6GB    0.284
+## 3 phyloregion   64.5ms   67.2ms  14.8       882.2KB    0
+```
+
+```r
+autoplot(res)
+```
+
+![plot of evolutionary distinctiveness](ed-evoldistinct-1.png)
+Here, `phyloregion` is several orders of magnitude faster and efficient in memory allocation than the other packages.
+
+The function in `phyloreegion` is called `evol_distinct` and it is used as follows:
+
+
+```r
+evol_distinct(tree, type = c("equal.splits", "fair.proportion"), ...)
+```
+
+If you find this vignette tutorial useful, please cite in publications as:
+
+Daru, B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion: R package for biogeographic regionalization and macroecology. **_Methods in Ecology and Evolution_** __11__: 1483-1491. [doi: 10.1111/2041-210X.13478](https://doi.org/10.1111/2041-210X.13478).
+
+

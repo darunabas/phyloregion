@@ -107,6 +107,9 @@ in geographic space." />
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/ed.html">Fast Evolutionary Distinctiveness in R</a>
+    </li>
+    <li>
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
@@ -198,8 +201,9 @@ all species traits per area  or grid cell is calculated.</p></td>
 <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='EDGE.html'>EDGE</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>IUCN</span>, <span class='va'>africa</span><span class='op'>$</span><span class='va'>phylo</span>, Redlist <span class='op'>=</span> <span class='st'>"IUCN"</span>, species<span class='op'>=</span><span class='st'>"Species"</span><span class='op'>)</span>
 <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>map_trait</span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>comm</span>, <span class='va'>x</span>, FUN <span class='op'>=</span> <span class='va'>sd</span>, shp<span class='op'>=</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>polys</span><span class='op'>)</span>
 
-<span class='fu'><a href='plot_swatch.html'>plot_swatch</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>y</span><span class='op'>$</span><span class='va'>traits</span>, k<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>
-</div><div class='img'><img src='map_trait-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='plot_swatch.html'>plot_swatch</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>y</span><span class='op'>$</span><span class='va'>traits</span>,
+           col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>hcl.colors</a></span><span class='op'>(</span>n<span class='op'>=</span><span class='fl'>20</span>, palette <span class='op'>=</span> <span class='st'>"Blue-Red 3"</span>, rev<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has no comment</span></div><div class='img'><img src='map_trait-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

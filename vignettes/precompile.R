@@ -9,5 +9,7 @@ knit("vignettes/scalability.Rmd.orig", "vignettes/scalability.Rmd")
 
 knit("vignettes/heterogeneity.Rmd.orig", "vignettes/heterogeneity.Rmd")
 
+knit("vignettes/ed.Rmd.orig", "vignettes/ed.Rmd")
+
 # run pkgdown::build_site() afterwards
 # ch <- check_for_cran()
