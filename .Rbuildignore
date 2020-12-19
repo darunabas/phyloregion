@@ -1,4 +1,3 @@
-^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.httr-oauth$
@@ -21,4 +20,3 @@
 ^vignettes/3national.*
 ^R/darwinize.*
 ^R/admixture.R
-^\.github$
