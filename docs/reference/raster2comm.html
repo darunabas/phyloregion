@@ -110,6 +110,9 @@ and extents for downstream analyses." />
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/ed.html">Fast Evolutionary Distinctiveness in R</a>
+    </li>
+    <li>
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
@@ -261,16 +264,16 @@ latitude and longitude into projected coordinates system.
 <span class='co'># \donttest{</span>
 <span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"nigeria/nigeria.rds"</span>, package<span class='op'>=</span><span class='st'>"phyloregion"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>sp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='random_species.html'>random_species</a></span><span class='op'>(</span><span class='fl'>100</span>, species<span class='op'>=</span><span class='fl'>5</span>, shp<span class='op'>=</span><span class='va'>s</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: less than 4 coordinates in polygon</span></div><div class='input'><span class='va'>pol</span> <span class='op'>&lt;-</span> <span class='fu'>polys2comm</span><span class='op'>(</span>dat <span class='op'>=</span> <span class='va'>sp</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, trace<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
+<span class='va'>pol</span> <span class='op'>&lt;-</span> <span class='fu'>polys2comm</span><span class='op'>(</span>dat <span class='op'>=</span> <span class='va'>sp</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, trace<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/pkg/raster/man/headtail.html'>head</a></span><span class='op'>(</span><span class='va'>pol</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 6 x 5 sparse Matrix of class "dgCMatrix"
 #&gt;     species1 species2 species3 species4 species5
-#&gt; v10        1        .        .        .        .
-#&gt; v11        1        .        .        .        .
-#&gt; v13        1        .        1        .        .
-#&gt; v14        1        1        1        .        .
-#&gt; v15        1        1        1        .        .
-#&gt; v16        1        1        1        .        .</div><div class='input'><span class='co'># }</span>
+#&gt; v10        1        1        .        1        1
+#&gt; v11        1        .        .        .        1
+#&gt; v13        1        .        .        1        1
+#&gt; v14        1        1        1        1        1
+#&gt; v15        1        1        1        1        1
+#&gt; v16        1        1        1        1        1</div><div class='input'><span class='co'># }</span>
 
 <span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"nigeria/nigeria.rds"</span>, package <span class='op'>=</span> <span class='st'>"phyloregion"</span><span class='op'>)</span><span class='op'>)</span>
 

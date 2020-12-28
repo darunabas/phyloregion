@@ -3,9 +3,10 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   Benchmark: Benchmark.html
+  ed: ed.html
   heterogeneity: heterogeneity.html
   pd: pd.html
   phyloregion-intro: phyloregion-intro.html
   scalability: scalability.html
-last_built: 2020-10-16T22:27Z
+last_built: 2020-12-14T00:05Z
 

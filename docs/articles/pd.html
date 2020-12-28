@@ -64,6 +64,9 @@
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/ed.html">Fast Evolutionary Distinctiveness in R</a>
+    </li>
+    <li>
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
@@ -98,7 +101,8 @@
 
       
 
-      </header><script src="pd_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="pd_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="pd_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="pd_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Phylogenetic Diversity for Large Datasets</h1>
@@ -116,23 +120,23 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>1. Introduction</h2>
-<p>Phylogenetic diversity is the sum of branch lengths connecting species into the root of a phylogenetic tree<span class="citation"><sup>1</sup></span>. We will demonstrate the ability of our new R package <code>phyloregion</code><span class="citation"><sup>2</sup></span> to handle and execute large biogeographical datasets for analysis of phylogenetic diversity for 4888 plant species in just five steps!.</p>
+<p>Phylogenetic diversity is the sum of branch lengths connecting species into the root of a phylogenetic tree. We will demonstrate the ability of our new R package <code>phyloregion</code> to handle and execute large biogeographical datasets for analysis of phylogenetic diversity for 4888 plant species in just five steps!.</p>
 </div>
 <div id="input-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#input-data" class="anchor"></a>2. Input data</h2>
-<p>Species distributions data are commonly available in three formats: polygons, points records and raster layers. We will tap into the Botanical Information and Ecology Network database to download polygons range maps and phylogeny for 4888 plant species using the R package <code>BIEN</code><span class="citation"><sup>3</sup></span> as follows:</p>
+<p>Species distributions data are commonly available in three formats: polygons, points records and raster layers. We will tap into the Botanical Information and Ecology Network database to download polygons range maps and phylogeny for 4888 plant species using the R package <code>BIEN</code> as follows:</p>
 <p>First, load the packages for the analysis:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/darunabas/phyloregion">phyloregion</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/darunabas/phyloregion">phyloregion</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BIEN</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">BIEN_ranges_genus</span><span class="op">(</span><span class="st">"Pinus"</span><span class="op">)</span></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BIEN/man/BIEN_ranges_genus.html">BIEN_ranges_genus</a></span><span class="op">(</span><span class="st">"Pinus"</span><span class="op">)</span></code></pre></div>
 <p>Because downloading large number of species using the <code>BIEN</code> R package can take a long time, we previously downloaded the shapefiles and saved to file:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">dir</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="va">dir</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span>
@@ -140,15 +144,15 @@
     destfile <span class="op">=</span> <span class="st">"bien_data.zip"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span>zipfile <span class="op">=</span> <span class="st">"bien_data.zip"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span>dir <span class="op">=</span> <span class="st">"bien_data"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "americas"      "bien_polygons"</code></pre>
 <div id="read-in-the-phylogeny" class="section level3">
 <h3 class="hasAnchor">
 <a href="#read-in-the-phylogeny" class="anchor"></a>Read in the phylogeny</h3>
 <p>We will download the complete BIEN phylogenies for 81,274 plant species.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu">BIEN_phylogeny_complete</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">tree</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BIEN/man/BIEN_phylogeny_complete.html">BIEN_phylogeny_complete</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">tree</span></code></pre></div>
 <pre><code>## 
 ## Phylogenetic tree with 81274 tips and 81273 internal nodes.
 ## 
@@ -160,55 +164,55 @@
 <div id="read-in-species-polygon-maps" class="section level3">
 <h3 class="hasAnchor">
 <a href="#read-in-species-polygon-maps" class="anchor"></a>Read in species polygon maps</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/shapefile.html">shapefile</a></span><span class="op">(</span><span class="st">"bien_polygons/bien_plants.shp"</span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/shapefile.html">shapefile</a></span><span class="op">(</span><span class="st">"bien_polygons/bien_plants.shp"</span><span class="op">)</span>
 
 <span class="co"># and base map of the Americas for plotting</span>
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/shapefile.html">shapefile</a></span><span class="op">(</span><span class="st">"americas/americas.shp"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="va">wd</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="va">wd</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="community-matrix" class="section level2">
 <h2 class="hasAnchor">
 <a href="#community-matrix" class="anchor"></a>3. Community matrix</h2>
-<p>Next, we convert the polygon range maps to community matrix using the function <code>polys2comm</code> at a grid resolution of 1 degree, but other grain sizes can be specified using the <code>res</code> argument – remember, patterns of biodiversity are scale dependent<span class="citation"><sup>4</sup></span>,<span class="citation"><sup>5</sup></span>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/raster2comm.html">polys2comm</a></span><span class="op">(</span><span class="va">m</span>, res <span class="op">=</span> <span class="fl">1</span>, species <span class="op">=</span> <span class="st">"Species"</span>, trace<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
+<p>Next, we convert the polygon range maps to community matrix using the function <code>polys2comm</code> at a grid resolution of 1 degree, but other grain sizes can be specified using the <code>res</code> argument – remember, patterns of biodiversity are scale dependent.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/raster2comm.html">polys2comm</a></span><span class="op">(</span><span class="va">m</span>, res <span class="op">=</span> <span class="fl">1</span>, species <span class="op">=</span> <span class="st">"Species"</span>, trace<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
 
 <span class="co"># This gives 2 objects: `comm_dat` the (sparse) community matrix and `poly_shp`, shapefile of grid cells with cell values, i.e. species richness per cell.</span>
 
 <span class="va">comm</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="va">comm_dat</span>
-<span class="va">shp</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="va">poly_shp</span></pre></div>
+<span class="va">shp</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="va">poly_shp</span></code></pre></div>
 </div>
 <div id="species-richness" class="section level2">
 <h2 class="hasAnchor">
 <a href="#species-richness" class="anchor"></a>4. Species richness</h2>
 <p>We can use the function <code>plot_swatch</code> to map cell values using nice continuous color gradients as follows:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">shp</span>, <span class="va">shp</span><span class="op">$</span><span class="va">richness</span>, k <span class="op">=</span> <span class="fl">30</span>, border<span class="op">=</span><span class="cn">NA</span>, breaks <span class="op">=</span> <span class="st">"jenks"</span>,
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">shp</span>, <span class="va">shp</span><span class="op">$</span><span class="va">richness</span>, k <span class="op">=</span> <span class="fl">30</span>, border<span class="op">=</span><span class="cn">NA</span>, breaks <span class="op">=</span> <span class="st">"jenks"</span>,
             col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">30</span>, palette <span class="op">=</span> <span class="st">"RdYlGn"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">b</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lwd<span class="op">=</span><span class="fl">.5</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">b</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lwd<span class="op">=</span><span class="fl">.5</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="pd-richness-1.png" alt=""><p class="caption">plot of richness</p>
+<img src="https://barnabasdaru.files.wordpress.com/2020/10/pd-richness-1.png" alt=""><p class="caption">plot of richness</p>
 </div>
 </div>
 <div id="phylogenetic-diversity" class="section level2">
 <h2 class="hasAnchor">
 <a href="#phylogenetic-diversity" class="anchor"></a>5. Phylogenetic diversity</h2>
 <p>Computing phylogenetic diversity is very straightforward using the function <code>PD</code> and visualized using <code>plot_swatch</code> as follows:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="co"># First, match phylogeny to community matrix:</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># First, match phylogeny to community matrix:</span>
 <span class="va">submat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_phylo_comm.html">match_phylo_comm</a></span><span class="op">(</span><span class="va">tree</span>, <span class="va">comm</span><span class="op">)</span><span class="op">$</span><span class="va">comm</span>
 <span class="va">subphy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_phylo_comm.html">match_phylo_comm</a></span><span class="op">(</span><span class="va">tree</span>, <span class="va">comm</span><span class="op">)</span><span class="op">$</span><span class="va">phy</span>
 
 <span class="va">mypd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PD.html">PD</a></span><span class="op">(</span><span class="va">submat</span>, <span class="va">subphy</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">mypd</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">mypd</span><span class="op">)</span></code></pre></div>
 <pre><code>##      v100    v10067    v10068    v10072    v10099      v101 
 ##  730.1314 1657.3708 1657.3708 1530.7859 2173.5121  730.1314</code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/merge.html">merge</a></span><span class="op">(</span><span class="va">shp</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>grids<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">mypd</span><span class="op">)</span>, pd<span class="op">=</span><span class="va">mypd</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"grids"</span><span class="op">)</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/merge.html">merge</a></span><span class="op">(</span><span class="va">shp</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>grids<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">mypd</span><span class="op">)</span>, pd<span class="op">=</span><span class="va">mypd</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"grids"</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">y</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">pd</span><span class="op">)</span>,<span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></code></pre></div>
 <pre><code>##      grids       lon      lat richness       pd
 ## 4716   v98 -81.62558 82.80651        1 730.1314
 ## 4730   v99 -80.62558 82.80651        1 730.1314
@@ -216,45 +220,28 @@
 ## 6     v101 -78.62558 82.80651        1 730.1314
 ## 78    v102 -77.62558 82.80651        1 730.1314
 ## 79    v103 -76.62558 82.80651        1 730.1314</code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">y</span>, values <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">pd</span>, k <span class="op">=</span> <span class="fl">30</span>, border<span class="op">=</span><span class="cn">NA</span>, breaks <span class="op">=</span> <span class="st">"jenks"</span>,
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_swatch.html">plot_swatch</a></span><span class="op">(</span><span class="va">y</span>, values <span class="op">=</span> <span class="va">y</span><span class="op">$</span><span class="va">pd</span>, k <span class="op">=</span> <span class="fl">30</span>, border<span class="op">=</span><span class="cn">NA</span>, breaks <span class="op">=</span> <span class="st">"jenks"</span>,
             col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">30</span>, palette <span class="op">=</span> <span class="st">"RdYlGn"</span>, rev <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">b</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lwd<span class="op">=</span><span class="fl">.5</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">b</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lwd<span class="op">=</span><span class="fl">.5</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="pd-PD-1.png" alt=""><p class="caption">plot of PD</p>
+<img src="https://barnabasdaru.files.wordpress.com/2020/10/pd-pd-1.png" alt=""><p class="caption">plot of PD</p>
 </div>
 <p>View the correlation between Phylogenetic Diversity and Species Richness:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">richness</span>, <span class="va">y</span><span class="op">$</span><span class="va">pd</span>, pch<span class="op">=</span><span class="fl">21</span>, bg<span class="op">=</span><span class="st">"black"</span>, col<span class="op">=</span><span class="st">"white"</span>,
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">richness</span>, <span class="va">y</span><span class="op">$</span><span class="va">pd</span>, pch<span class="op">=</span><span class="fl">21</span>, bg<span class="op">=</span><span class="st">"black"</span>, col<span class="op">=</span><span class="st">"white"</span>,
      lwd<span class="op">=</span><span class="fl">0.31</span>, cex<span class="op">=</span><span class="fl">1</span>, ylab<span class="op">=</span><span class="st">"Phylogenetic Diversity"</span>,
      xlab<span class="op">=</span><span class="st">"Species Richness"</span>, las<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">pd</span><span class="op">~</span><span class="va">y</span><span class="op">$</span><span class="va">richness</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"red"</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">pd</span><span class="op">~</span><span class="va">y</span><span class="op">$</span><span class="va">richness</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"red"</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="pd-correlation-1.png" alt=""><p class="caption">plot of correlation</p>
+<img src="https://barnabasdaru.files.wordpress.com/2020/10/pd-correlation-1.png" alt=""><p class="caption">plot of correlation</p>
 </div>
 <p>If you find this vignette tutorial useful, please cite in publications as:</p>
 <p>Daru, B.H., Karunarathne, P. &amp; Schliep, K. (2020) phyloregion: R package for biogeographic regionalization and macroecology. <strong><em>Methods in Ecology and Evolution</em></strong> <a href="https://doi.org/10.1111/2041-210X.13478">doi: 10.1111/2041-210X.13478</a>.</p>
 </div>
-<div id="references" class="section level2 unnumbered">
+<div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>REFERENCES</h2>
-<div id="refs" class="references">
-<div id="ref-Faith1992">
-<p>1. Faith, D. P. Conservation evaluation and phylogenetic diversity. <em>Biological Conservation</em> <strong>61</strong>, 1–10 (1992).</p>
-</div>
-<div id="ref-darumee">
-<p>2. Daru, B. H., Karunarathne, P. &amp; Schliep, K. Phyloregion: R package for biogeographical regionalization and macroecology. <em>Methods in Ecology and Evolution</em> <strong>n/a</strong>, (2020).</p>
-</div>
-<div id="ref-bien">
-<p>3. Maitner, B. S. <em>et al.</em> The bien r package: A tool to access the botanical information and ecology network (bien) database. <em>Methods in Ecology and Evolution</em> <strong>9</strong>, 373–379 (2018).</p>
-</div>
-<div id="ref-daru2020endemism">
-<p>4. Daru, B. H., Farooq, H., Antonelli, A. &amp; Faurby, S. Endemism patterns are scale dependent. <em>Nature Communications</em> <strong>11</strong>, 2115 (2020).</p>
-</div>
-<div id="ref-jarzyna2018taxonomic">
-<p>5. Jarzyna, M. A. &amp; Jetz, W. Taxonomic and functional diversity change is scale dependent. <em>Nature communications</em> <strong>9</strong>, 1–8 (2018).</p>
-</div>
-</div>
 </div>
   </div>
 

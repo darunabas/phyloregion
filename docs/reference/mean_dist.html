@@ -107,6 +107,9 @@ many pairwise distance matrices. Note: all matrices should be of the same dimens
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/ed.html">Fast Evolutionary Distinctiveness in R</a>
+    </li>
+    <li>
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
@@ -154,7 +157,7 @@ many pairwise distance matrices. Note: all matrices should be of the same dimens
 many pairwise distance matrices. Note: all matrices should be of the same dimension.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mean_dist</span><span class='op'>(</span><span class='va'>files</span>, <span class='va'>tips</span>, trace <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>mean_dist</span><span class='op'>(</span><span class='va'>files</span>, trace <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,10 +166,6 @@ many pairwise distance matrices. Note: all matrices should be of the same dimens
       <th>files</th>
       <td><p>list of pairwise distance matrices stored as CSVs or .rds
 with the same dimensions.</p></td>
-    </tr>
-    <tr>
-      <th>tips</th>
-      <td><p>list of site or grid names</p></td>
     </tr>
     <tr>
       <th>trace</th>

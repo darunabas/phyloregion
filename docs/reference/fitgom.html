@@ -47,9 +47,10 @@
 
 
 <meta property="og:title" content="Fits Grade of membership models for biogeographic regionalization — fitgom" />
-<meta property="og:description" content="This function generates grade of membership, “admixture”,
-“topic” or “Latent Dirichlet Allocation” models, for
-clustering regions based on attributes." />
+<meta property="og:description" content="Generates grade of membership, “admixture”, “topic”
+or “Latent Dirichlet Allocation” models, by representing sampling units
+as partial memberships in multiple groups. It can group regions
+based on phylogenetic information or functional traits." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -108,6 +109,9 @@ clustering regions based on attributes." />
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/ed.html">Fast Evolutionary Distinctiveness in R</a>
+    </li>
+    <li>
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
@@ -151,13 +155,19 @@ clustering regions based on attributes." />
     </div>
 
     <div class="ref-description">
-    <p>This function generates grade of membership, “admixture”,
-“topic” or “Latent Dirichlet Allocation” models, for
-clustering regions based on attributes.</p>
+    <p>Generates grade of membership, “admixture”, “topic”
+or “Latent Dirichlet Allocation” models, by representing sampling units
+as partial memberships in multiple groups. It can group regions
+based on phylogenetic information or functional traits.</p>
     </div>
 
     <pre class="usage"><span class='fu'>fitgom</span><span class='op'>(</span>
-  <span class='va'>counts</span>,
+  <span class='va'>x</span>,
+  trait <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cut <span class='op'>=</span> <span class='cn'>NULL</span>,
+  phy <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bin <span class='op'>=</span> <span class='fl'>10</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>K</span>,
   shape <span class='op'>=</span> <span class='cn'>NULL</span>,
   initopics <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -173,10 +183,34 @@ clustering regions based on attributes.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>counts</th>
-      <td><p>A matrix of multinomial response counts in
-ncol(counts) phrases/categories for nrow(counts)
-documents/observations. It can also be a simple matrix.</p></td>
+      <th>x</th>
+      <td><p>A community data in long format with one column representing
+sites labeled &#8220;grids&#8221; and another column representing species
+labeled &#8220;species&#8221;.</p></td>
+    </tr>
+    <tr>
+      <th>trait</th>
+      <td><p>A data frame or matrix object with the first column
+labeled &#8220;species&#8221; containing the taxonomic groups to be
+evaluated whereas the remaining columns have the various functional
+traits. The variables must be a mix of numeric and categorical values.</p></td>
+    </tr>
+    <tr>
+      <th>cut</th>
+      <td><p>The slice time for the phylogenetic tree.</p></td>
+    </tr>
+    <tr>
+      <th>phy</th>
+      <td><p>is a dated phylogenetic tree with branch lengths stored
+as a phylo object (as in the ape package).</p></td>
+    </tr>
+    <tr>
+      <th>bin</th>
+      <td><p>The desired number of clusters or bins.</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>Logical, whether NA values should be removed or not.</p></td>
     </tr>
     <tr>
       <th>K</th>
@@ -250,10 +284,22 @@ print something, with the level of detail increasing with verb.</p></td>
   dispersion parameter (which should be near one for the multinomial),
   degrees of freedom, and p-value for a test of whether the true dispersion
   is &gt;1.</p></li>
-<li><p><code>X</code> The input count matrix, in dgTMatrix format.</p></li>
+<li><p><code>X</code> The input community matrix as a sparse matrix.</p></li>
 </ul>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/raster/man/names.html'>names</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "comm"  "polys" "phylo" "mat"   "IUCN"  "K"     "theta" "omega"</div><div class='input'><span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'>fitgom</span><span class='op'>(</span>x<span class='op'>=</span><span class='fu'><a href='long2sparse.html'>sparse2long</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>comm</span><span class='op'>)</span>, K<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; Estimating on a 365 document collection.
+#&gt; Fit and Bayes Factor Estimation for K = 5
+#&gt; log posterior increase: 3015.8, 400.4, 108, 165.2, 97, 58.7, 38.6, 30.2, 12.1, 14.6, 40.7, 31.5, 12.8, 2, 1.5, 0.2, done.
+#&gt; log BF( 5 ) = 19681.92</div><div class='input'>
+<span class='va'>COLRS</span> <span class='op'>&lt;-</span> <span class='fu'>phyloregion</span><span class='fu'>:::</span><span class='fu'>hue</span><span class='op'>(</span><span class='va'>m</span><span class='op'>$</span><span class='va'>K</span><span class='op'>)</span>
+<span class='fu'><a href='plot_pie.html'>plot_pie</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>$</span><span class='va'>omega</span>, shp <span class='op'>=</span> <span class='va'>africa</span><span class='op'>$</span><span class='va'>polys</span>, col<span class='op'>=</span><span class='va'>COLRS</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has no comment</span></div><div class='img'><img src='fitgom-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

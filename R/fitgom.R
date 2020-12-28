@@ -1,12 +1,21 @@
 #' Fits Grade of membership models for biogeographic regionalization
 #'
-#' This function generates grade of membership, “admixture”,
-#' “topic” or “Latent Dirichlet Allocation” models, for
-#' clustering regions based on attributes.
-#'
-#' @param counts A matrix of multinomial response counts in
-#' ncol(counts) phrases/categories for nrow(counts)
-#' documents/observations. It can also be a simple matrix.
+#' Generates grade of membership, “admixture”, “topic”
+#' or “Latent Dirichlet Allocation” models, by representing sampling units
+#' as partial memberships in multiple groups. It can group regions
+#' based on phylogenetic information or functional traits.
+#' @param x A community data in long format with one column representing
+#' sites labeled \dQuote{grids} and another column representing species
+#' labeled \dQuote{species}.
+#' @param trait A data frame or matrix object with the first column
+#' labeled \dQuote{species} containing the taxonomic groups to be
+#' evaluated whereas the remaining columns have the various functional
+#' traits. The variables must be a mix of numeric and categorical values.
+#' @param phy is a dated phylogenetic tree with branch lengths stored
+#' as a phylo object (as in the ape package).
+#' @param cut The slice time for the phylogenetic tree.
+#' @param bin The desired number of clusters or bins.
+#' @param na.rm Logical, whether NA values should be removed or not.
 #' @param K The number of latent topics. If length(K)>1,
 #' topics will find the Bayes factor (vs a null single topic model)
 #' for each element and return parameter estimates for the highest
@@ -36,6 +45,9 @@
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname fitgom
 #' @keywords bioregion
+#' @importFrom clustMixType kproto
+#' @importFrom Matrix Matrix
+#' @importFrom ape keep.tip
 #' @importFrom maptpx topics
 #' @return An topics object list with entries
 #' \itemize{
@@ -52,12 +64,70 @@
 #'   dispersion parameter (which should be near one for the multinomial),
 #'   degrees of freedom, and p-value for a test of whether the true dispersion
 #'   is >1.
-#'   \item \code{X} The input count matrix, in dgTMatrix format.
+#'   \item \code{X} The input community matrix as a sparse matrix.
 #' }
+#' @examples
+#' data(africa)
+#' names(africa)
+#' m <- fitgom(x=sparse2long(africa$comm), K=5)
+#'
+#' COLRS <- phyloregion:::hue(m$K)
+#' plot_pie(m$omega, shp = africa$polys, col=COLRS)
 #' @export
-fitgom <- function(counts, K, shape = NULL, initopics = NULL, tol = 0.1,
-                      bf = TRUE, kill = 2, ord = TRUE, verb = 1, ...) {
-    res <- topics(counts, K, shape = shape, initopics = initopics, tol = tol,
-                  bf = bf, kill = kill, ord = ord, verb = verb, ...)
-    return(res)
+fitgom <- function (x, trait = NULL, cut = NULL, phy = NULL, bin = 10,
+                    na.rm = FALSE, K, shape = NULL, initopics = NULL, tol = 0.1,
+                    bf = TRUE, kill = 2, ord = TRUE, verb = 1, ...)
+{
+
+  x$species <- gsub(" ", "_", x$species)
+
+  if (!is.null(phy)) {
+    subphy <- keep.tip(phy, intersect(phy$tip.label, x$species))
+    submat <- subset(x, x$species %in% intersect(phy$tip.label, x$species))
+    tx <- get_clades(subphy, cut = cut, k = bin)
+    z <- length(tx)
+    memb <- rep(seq_len(z), lengths(tx))
+    sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
+                       dimnames=list(unlist(tx), as.character(seq_len(z))))
+    M <- long2sparse(submat)
+    mx <- M %*% sp
+  } else if (!is.null(trait)) {
+    trait <- as.data.frame(trait)
+    trait <- trait[!duplicated(trait[ , "species"]),]
+    trait$species <- gsub(" ", "_", trait$species)
+    index <- intersect(x$species, trait$species)
+    trait <- subset(trait, trait$species %in% index)
+
+    row.names(trait) <- trait$species
+    trait <- trait[ , !colnames(trait) %in% "species"]
+
+    x1 <- Filter(is.character, trait)
+    x1[] <- lapply(x1, as.factor)
+
+    x2 <- Filter(is.numeric, trait)
+    x2[] <- apply(x2, 2, as.numeric)
+    m <- data.frame(x1, x2)
+
+    # apply k-prototypes
+    m <- kproto(m, bin = bin, na.rm = na.rm)
+
+    memb <- m$cluster
+    #    names(memb) <- labels(g1)
+    #    memb <- memb[!(memb==0)]
+    z <- length(unique(memb))
+
+    sp <- sparseMatrix(seq_along(memb), j = memb, dims=c(length(memb),z),
+                       dimnames=list(labels(memb), as.character(seq_len(z))))
+
+    submat <- subset(x, x$species %in% index)
+    M <- long2sparse(submat)
+    mx <- M %*% sp
+  } else {
+    mx <- long2sparse(x)
+  }
+
+  res <- topics(mx, K, shape = shape, initopics = initopics, tol = tol,
+                bf = bf, kill = kill, ord = ord, verb = verb, ...)
+  return(res)
+
 }

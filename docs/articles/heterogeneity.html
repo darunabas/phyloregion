@@ -64,6 +64,9 @@
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/ed.html">Fast Evolutionary Distinctiveness in R</a>
+    </li>
+    <li>
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
@@ -98,7 +101,8 @@
 
       
 
-      </header><script src="heterogeneity_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="heterogeneity_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="heterogeneity_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="heterogeneity_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Endemism patterns are scale dependent</h1>
@@ -123,8 +127,8 @@
 <h2 class="hasAnchor">
 <a href="#environmental-heterogeneity" class="anchor"></a>2. Environmental heterogeneity</h2>
 <p>To measure environmental heterogeneity, for each cell and across grain sizes (50, 100, 200, 400 and 800 km), we extracted the standard deviation of the four environmental variables (temperature, precipitation, elevation and productivity) using the function <code>extract_climate</code> in the R package <code>phyloregionExtras</code>:<span class="citation"><sup>3</sup></span></p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">extract_climate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">val</span> <span class="op">=</span> <span class="st">"val"</span>, <span class="va">FUN</span> <span class="op">=</span> <span class="va">sd</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">extract_climate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">val</span> <span class="op">=</span> <span class="st">"val"</span>, <span class="va">FUN</span> <span class="op">=</span> <span class="va">sd</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span>
   <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/projectRaster.html">projectRaster</a></span><span class="op">(</span><span class="va">x</span>, crs <span class="op">=</span> <span class="op">(</span><span class="st">'+proj=longlat'</span><span class="op">)</span><span class="op">)</span>
   <span class="va">ras</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/projectRaster.html">projectRaster</a></span><span class="op">(</span><span class="va">x</span>, crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">proj4string</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, over <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
   <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/extract.html">extract</a></span><span class="op">(</span><span class="va">ras</span>, <span class="va">y</span>, <span class="va">...</span><span class="op">)</span>
@@ -138,7 +142,7 @@
 <span class="co"># x: A raster file of the environmental variable</span>
 <span class="co"># y: Spatial polygons corresponding to the study area to extract the variable.</span>
 <span class="co"># val: String to rename the column with the extracted variable.</span>
-<span class="co"># FUN: The function to summarize the values (e.g. sd, mean)</span></pre></div>
+<span class="co"># FUN: The function to summarize the values (e.g. sd, mean)</span></code></pre></div>
 </div>
 <div id="linear-mixed-effects-model" class="section level2">
 <h2 class="hasAnchor">
@@ -148,12 +152,12 @@
 <p>The linear mixed-effects model was fit in <code>R</code> v.3.6.3 with the <code>lme</code> function in the R package <code>nlme</code><span class="citation"><sup>6</sup></span>. The variations of environmental variables on endemism are presented as estimated coefficients of the fixed effects and their 95% confidence intervals in the <code>R</code> package <code>nlme</code><span class="citation"><sup>6</sup></span>.</p>
 <p>In order to illustrate the process we have added all codes below for the analyses:</p>
 <p>First, load the packages for the analysis:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">spdep</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/">spdep</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/nlme">nlme</a></span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># Function for computing environmental heterogeneity</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/nlme/">nlme</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Function for computing environmental heterogeneity</span>
 <span class="va">clim_heterogeneity</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span> <span class="op">=</span><span class="st">"y"</span>, <span class="va">nbs</span> <span class="op">=</span> <span class="fl">2000000</span>,
                           <span class="va">x1</span> <span class="op">=</span> <span class="st">"x1"</span>, <span class="va">x2</span> <span class="op">=</span> <span class="st">"x2"</span>, <span class="va">x3</span> <span class="op">=</span> <span class="st">"x3"</span>, <span class="va">x4</span> <span class="op">=</span> <span class="st">"x4"</span>,
                           <span class="va">lon</span><span class="op">=</span><span class="st">"lon"</span>, <span class="va">lat</span><span class="op">=</span><span class="st">"lat"</span>, <span class="va">continent</span> <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span> <span class="op">{</span>
@@ -172,7 +176,7 @@
   <span class="va">coords.mtrx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 
   <span class="co"># 2. Compute the autocovariate based on distance and weight above</span>
-  <span class="va">x</span><span class="op">$</span><span class="va">ac</span> <span class="op">&lt;-</span> <span class="fu">autocov_dist</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.vector</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>, <span class="va">coords.mtrx</span>, nbs <span class="op">=</span> <span class="va">nbs</span>,
+  <span class="va">x</span><span class="op">$</span><span class="va">ac</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spdep/man/autocov_dist.html">autocov_dist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.vector</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>, <span class="va">coords.mtrx</span>, nbs <span class="op">=</span> <span class="va">nbs</span>,
                      type <span class="op">=</span> <span class="st">"inverse.squared"</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
   <span class="co"># 3. LME with autocovariate as additional predictor &amp; continent as random effects</span>
@@ -215,10 +219,10 @@
               destfile <span class="op">=</span> <span class="st">"extras-master.zip"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span>zipfile <span class="op">=</span> <span class="st">"extras-master.zip"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span>dir <span class="op">=</span> <span class="st">"extras-master"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "ENVIRONMENT" "mergedSA"    "shapefile"</code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">'ENVIRONMENT/birds/WE'</span>, pattern<span class="op">=</span><span class="st">"*.csv"</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">'ENVIRONMENT/birds/WE'</span>, pattern<span class="op">=</span><span class="st">"*.csv"</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">'ENVIRONMENT/birds/PE'</span>, pattern<span class="op">=</span><span class="st">"*.csv"</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">t3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">'ENVIRONMENT/amphibians/WE'</span>, pattern<span class="op">=</span><span class="st">"*.csv"</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">t4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">'ENVIRONMENT/amphibians/PE'</span>, pattern<span class="op">=</span><span class="st">"*.csv"</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
@@ -234,7 +238,7 @@
 <span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">t3</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">x</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="va">d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">t4</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">x</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">d1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">d1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>##    grids        WE    sd_ALT    sd_MAP   sd_MAT       sd_NPP      lon      lat
 ## 1 v10084  340.2460  562.8624   71.9370 3.848896  15284319418 -7052646 -1737713
 ## 2 v10088  606.7684  404.9584   50.2280 2.356266  32349944611 -6852646 -1737713
@@ -249,8 +253,8 @@
 <div id="environmental-heterogeneity-and-bird-weighted-endemism" class="section level3">
 <h3 class="hasAnchor">
 <a href="#environmental-heterogeneity-and-bird-weighted-endemism" class="anchor"></a>4.1. Environmental heterogeneity and bird weighted endemism</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">spo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">d1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">clim_heterogeneity</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="st">"WE"</span>, x1 <span class="op">=</span> <span class="st">"sd_ALT"</span>,
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">d1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">clim_heterogeneity</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="st">"WE"</span>, x1 <span class="op">=</span> <span class="st">"sd_ALT"</span>,
                                                  x2 <span class="op">=</span> <span class="st">"sd_MAP"</span>, x3 <span class="op">=</span> <span class="st">"sd_MAT"</span>,
                                                  x4 <span class="op">=</span> <span class="st">"sd_NPP"</span>, nbs <span class="op">=</span> <span class="fl">2000000</span><span class="op">)</span><span class="op">)</span>
 <span class="va">ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">spo</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span>
@@ -267,7 +271,7 @@
                   position <span class="op">=</span> <span class="va">pd</span><span class="op">)</span><span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimated effects"</span><span class="op">)</span></pre></div>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimated effects"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="bird_WE.png" alt=""><p class="caption">Plot of environmental heterogeneity on bird weighted endemism</p>
 </div>
@@ -275,8 +279,8 @@
 <div id="environmental-heterogeneity-and-bird-phylogenetic-endemism" class="section level3">
 <h3 class="hasAnchor">
 <a href="#environmental-heterogeneity-and-bird-phylogenetic-endemism" class="anchor"></a>4.2. Environmental heterogeneity and bird phylogenetic endemism</h3>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">spo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">d2</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">clim_heterogeneity</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="st">"PE"</span>, x1 <span class="op">=</span> <span class="st">"sd_ALT"</span>,
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">d2</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">clim_heterogeneity</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="st">"PE"</span>, x1 <span class="op">=</span> <span class="st">"sd_ALT"</span>,
                                                  x2 <span class="op">=</span> <span class="st">"sd_MAP"</span>, x3 <span class="op">=</span> <span class="st">"sd_MAT"</span>,
                                                  x4 <span class="op">=</span> <span class="st">"sd_NPP"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">spo</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span>
@@ -293,7 +297,7 @@
                   position <span class="op">=</span> <span class="va">pd</span><span class="op">)</span><span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></pre></div>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="bird_PE.png" alt=""><p class="caption">Plot of environmental heterogeneity on bird phylogenetic endemism</p>
 </div>
@@ -301,8 +305,8 @@
 <div id="environmental-heterogeneity-and-amphibian-weighted-endemism" class="section level3">
 <h3 class="hasAnchor">
 <a href="#environmental-heterogeneity-and-amphibian-weighted-endemism" class="anchor"></a>4.3. Environmental heterogeneity and amphibian weighted endemism</h3>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">spo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">d3</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">clim_heterogeneity</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="st">"WE"</span>, x1 <span class="op">=</span> <span class="st">"sd_ALT"</span>,
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">d3</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">clim_heterogeneity</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="st">"WE"</span>, x1 <span class="op">=</span> <span class="st">"sd_ALT"</span>,
                                                  x2 <span class="op">=</span> <span class="st">"sd_MAP"</span>, x3 <span class="op">=</span> <span class="st">"sd_MAT"</span>,
                                                  x4 <span class="op">=</span> <span class="st">"sd_NPP"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">spo</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span>
@@ -319,7 +323,7 @@
                   position <span class="op">=</span> <span class="va">pd</span><span class="op">)</span><span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></pre></div>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="amphibian_WE.png" alt=""><p class="caption">Plot of environmental heterogeneity on amphibian weighted endemism</p>
 </div>
@@ -327,8 +331,8 @@
 <div id="environmental-heterogeneity-and-amphibian-phylogenetic-endemism" class="section level3">
 <h3 class="hasAnchor">
 <a href="#environmental-heterogeneity-and-amphibian-phylogenetic-endemism" class="anchor"></a>4.4. Environmental heterogeneity and amphibian phylogenetic endemism</h3>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="va">spo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">d4</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">clim_heterogeneity</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="st">"PE"</span>, x1 <span class="op">=</span> <span class="st">"sd_ALT"</span>,
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">d4</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">clim_heterogeneity</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="st">"PE"</span>, x1 <span class="op">=</span> <span class="st">"sd_ALT"</span>,
                                                  x2 <span class="op">=</span> <span class="st">"sd_MAP"</span>, x3 <span class="op">=</span> <span class="st">"sd_MAT"</span>,
                                                  x4 <span class="op">=</span> <span class="st">"sd_NPP"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">spo</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span>
@@ -345,7 +349,7 @@
                   position <span class="op">=</span> <span class="va">pd</span><span class="op">)</span><span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></pre></div>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="amphibian_PE.png" alt=""><p class="caption">Plot of environmental heterogeneity on amphibian phylogenetic endemism</p>
 </div>
@@ -354,8 +358,8 @@
 <div id="session-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session Information</h2>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
 ## Running under: macOS Mojave 10.14.6
