@@ -38,13 +38,13 @@ select_linkage <- function(x) {
                   "ward.D", "ward.D2", "mcquitty",
                   "median", "centroid")
 
-  z <- sapply(methods_hc, function(y){
+  z <- vapply(methods_hc, function(y){
 
     clust_methods <- hclust(dist_x, method = y)
 
     cor(dist_x, cophenetic(clust_methods), use="complete.obs")
 
-  } )
+  }, double(length = 1))
 
   z <- setNames(z, c('UPGMA', 'Single', 'Complete',
                      'ward.D', 'ward.D2', 'WPGMA',
