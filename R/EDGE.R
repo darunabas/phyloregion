@@ -55,4 +55,5 @@ EDGE <- function(x, phy, Redlist="Redlist", species="species", ...){
   my_EDGE <- (log(1+ED[index]) + (Redlist[index] * log(2)))
   names(my_EDGE) <- index
   my_EDGE
+
 }

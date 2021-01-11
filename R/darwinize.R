@@ -14,11 +14,13 @@
 #'
 #' @author Barnabas H. Daru \email{darunabas@@gmail.com}
 #' @examples
+#' require(ape)
 #' data(africa)
 #' tree <- africa$phylo
+#' set.seed(1809)
 #' y <- sample(tree$tip.label, 10, replace = TRUE)
 #'
-#' darwinize(y, tree, 100)
+#' darwinize(x = y, phy = tree, iter = 100)
 #'
 #' @export
 darwinize <- function(x, phy, iter){
