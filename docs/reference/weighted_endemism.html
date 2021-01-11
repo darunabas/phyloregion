@@ -107,6 +107,9 @@ by species ranges." />
       <a href="../articles/Benchmark.html">Benchmarking phyloregion</a>
     </li>
     <li>
+      <a href="../articles/ed.html">Fast Evolutionary Distinctiveness in R</a>
+    </li>
+    <li>
       <a href="../articles/heterogeneity.html">Endemism patterns are scale dependent</a>
     </li>
     <li>
@@ -183,8 +186,9 @@ patterns are scale dependent. <em>Nature Communications</em> <strong>11</strong>
 <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/merge.html'>merge</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>polys</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>grids<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/names.html'>names</a></span><span class='op'>(</span><span class='va'>Endm</span><span class='op'>)</span>, WE<span class='op'>=</span><span class='va'>Endm</span><span class='op'>)</span>, by<span class='op'>=</span><span class='st'>"grids"</span><span class='op'>)</span>
 <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='va'>m</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>@</span><span class='va'>data</span><span class='op'>$</span><span class='va'>WE</span><span class='op'>)</span>,<span class='op'>]</span>
 
-<span class='fu'><a href='plot_swatch.html'>plot_swatch</a></span><span class='op'>(</span><span class='va'>m</span>, values <span class='op'>=</span> <span class='va'>m</span><span class='op'>$</span><span class='va'>WE</span>, k<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>
-</div><div class='img'><img src='weighted_endemism-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot_swatch.html'>plot_swatch</a></span><span class='op'>(</span><span class='va'>m</span>, values <span class='op'>=</span> <span class='va'>m</span><span class='op'>$</span><span class='va'>WE</span>,
+            col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>hcl.colors</a></span><span class='op'>(</span><span class='fl'>20</span>, palette <span class='op'>=</span> <span class='st'>"Blue-Red 3"</span>, rev<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has no comment</span></div><div class='img'><img src='weighted_endemism-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

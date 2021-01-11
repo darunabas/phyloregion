@@ -5,7 +5,12 @@
 \title{Fits Grade of membership models for biogeographic regionalization}
 \usage{
 fitgom(
-  counts,
+  x,
+  trait = NULL,
+  cut = NULL,
+  phy = NULL,
+  bin = 10,
+  na.rm = FALSE,
   K,
   shape = NULL,
   initopics = NULL,
@@ -18,9 +23,23 @@ fitgom(
 )
 }
 \arguments{
-\item{counts}{A matrix of multinomial response counts in
-ncol(counts) phrases/categories for nrow(counts)
-documents/observations. It can also be a simple matrix.}
+\item{x}{A community data in long format with one column representing
+sites labeled \dQuote{grids} and another column representing species
+labeled \dQuote{species}.}
+
+\item{trait}{A data frame or matrix object with the first column
+labeled \dQuote{species} containing the taxonomic groups to be
+evaluated whereas the remaining columns have the various functional
+traits. The variables must be a mix of numeric and categorical values.}
+
+\item{cut}{The slice time for the phylogenetic tree.}
+
+\item{phy}{is a dated phylogenetic tree with branch lengths stored
+as a phylo object (as in the ape package).}
+
+\item{bin}{The desired number of clusters or bins.}
+
+\item{na.rm}{Logical, whether NA values should be removed or not.}
 
 \item{K}{The number of latent topics. If length(K)>1,
 topics will find the Bayes factor (vs a null single topic model)
@@ -74,12 +93,21 @@ An topics object list with entries
   dispersion parameter (which should be near one for the multinomial),
   degrees of freedom, and p-value for a test of whether the true dispersion
   is >1.
-  \item \code{X} The input count matrix, in dgTMatrix format.
+  \item \code{X} The input community matrix as a sparse matrix.
 }
 }
 \description{
-This function generates grade of membership, “admixture”,
-“topic” or “Latent Dirichlet Allocation” models, for
-clustering regions based on attributes.
+Generates grade of membership, “admixture”, “topic”
+or “Latent Dirichlet Allocation” models, by representing sampling units
+as partial memberships in multiple groups. It can group regions
+based on phylogenetic information or functional traits.
+}
+\examples{
+data(africa)
+names(africa)
+m <- fitgom(x=sparse2long(africa$comm), K=5)
+
+COLRS <- phyloregion:::hue(m$K)
+plot_pie(m$omega, shp = africa$polys, col=COLRS)
 }
 \keyword{bioregion}

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/darunabas/phyloregion.svg?branch=master)](https://travis-ci.org/darunabas/phyloregion)
+[![R-CMD-check](https://github.com/darunabas/phyloregion/workflows/R-CMD-check/badge.svg)](https://github.com/darunabas/phyloregion/actions)
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/phyloregion)](https://cran.r-project.org/package=phyloregion)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/phyloregion)](https://cran.r-project.org/package=phyloregion)
 [![codecov](https://codecov.io/gh/darunabas/phyloregion/branch/master/graph/badge.svg)](https://codecov.io/gh/darunabas/phyloregion)
