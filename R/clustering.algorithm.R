@@ -46,9 +46,11 @@ select_linkage <- function(x) {
 
   } )
 
-  z <- setNames(z, c('UPGMA', 'Single', 'Complete',
-                     'ward.D', 'ward.D2', 'WPGMA',
-                     'WPGMC', 'UPGMC'))
+#  z <- setNames(z, c('UPGMA', 'Single', 'Complete',
+#                     'ward.D', 'ward.D2', 'WPGMA',
+#                     'WPGMC', 'UPGMC'))
+  names(z) <- c('UPGMA', 'Single', 'Complete', 'ward.D', 'ward.D2', 'WPGMA',
+                'WPGMC', 'UPGMC')
 
   cat("\nA good clustering algorithm for the distance matrix is:\n",
       names(z[which.max(z)]),
