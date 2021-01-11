@@ -8,6 +8,8 @@
 #' @param prob The threshold quantile for representing the lowest
 #' (\code{coldspots}) or highest (\code{hotspots}) proportion of biodiversity in
 #' an area. By default, the threshold is set to \code{prob = 2.5} percent.
+#' @param na.rm	 logical; if true, any NA and NaN's are removed from x before
+#' the quantiles are computed.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname coldspots
 #' @keywords phyloregion

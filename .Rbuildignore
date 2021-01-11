@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^\.httr-oauth$
 ^\Comments.txt
+^\.github$
 ^docs$
 ^_pkgdown\.yml$
 ^inst/extdata$
