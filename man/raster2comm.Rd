@@ -8,7 +8,7 @@
 \usage{
 raster2comm(files)
 
-polys2comm(dat, res = 1, species = "species", trace = 1, ...)
+polys2comm(dat, res = 1, species = "species", trace = 1, shp.grids = NULL, ...)
 
 points2comm(
   dat,
@@ -41,6 +41,9 @@ Default = \dQuote{species}.}
 
 \item{trace}{Trace the function; trace = 2 or higher will be more voluminous.}
 
+\item{shp.grids}{if specified, the polygon shapefile of grid cells
+with a column labeled \dQuote{grids}.}
+
 \item{\dots}{Further arguments passed to or from other methods.}
 
 \item{mask}{Only applicable to \code{points2comm}. If supplied, a polygon
@@ -49,9 +52,6 @@ shapefile covering the boundary of the survey region.}
 \item{lon}{character with the column name of the longitude.}
 
 \item{lat}{character with the column name of the latitude.}
-
-\item{shp.grids}{if specified, the polygon shapefile of grid cells
-with a column labeled \dQuote{grids}.}
 }
 \value{
 Each of these functions generate a list of two objects as follows:

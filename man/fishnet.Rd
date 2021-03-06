@@ -4,12 +4,15 @@
 \alias{fishnet}
 \title{Create a fishnet of regular grids}
 \usage{
-fishnet(mask, res = 0.5)
+fishnet(mask, res = 0.5, type = "square")
 }
 \arguments{
 \item{mask}{a polygon shapefile covering the boundary of the survey region.}
 
 \item{res}{the grain size of the grid cells in decimal degrees (default).}
+
+\item{type}{the type of grid cell; either \dQuote{square} (default) for
+square grids, or \dQuote{hexagon} for hexagonal grids.}
 }
 \value{
 A spatial polygon object of equal area grid cells covering the

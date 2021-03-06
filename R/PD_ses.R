@@ -26,7 +26,7 @@ rt <- function (phy) {
 #'
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname PD_ses
-#' @importFrom stats sd
+#' @importFrom stats sd var
 #' @importFrom ape keep.tip
 #' @references
 #' Proches, S., Wilson, J.R.U. & Cowling, R.M. (2006) How much evolutionary
@@ -74,14 +74,14 @@ PD_ses <- function(x, phy,
 
     y <- do.call(rbind, pd.rand)
     pd_rand_mean <- apply(X = y, MARGIN = 2, FUN = mean, na.rm = TRUE)
-    pd_rand_sd <- apply(X = y, MARGIN = 2, FUN = sd, na.rm = TRUE)
-    pd_rand_sd[pd_rand_sd == 0] <- 1
-    pd_obs_z <- (PD_obs - pd_rand_mean)/pd_rand_sd
+    pd_rand_sd <- apply(X = y, MARGIN = 2, FUN = var, na.rm = TRUE)
+    #pd_rand_sd[pd_rand_sd == 0] <- 1
+    zscore <- (PD_obs - pd_rand_mean)/sqrt(pd_rand_sd)
     pd_obs_rank <- apply(X = rbind(PD_obs, y), MARGIN = 2, FUN = rank)[1, ]
     pd_obs_rank <- ifelse(is.na(pd_rand_mean), NA, pd_obs_rank)
 
     m <- data.frame(grids=rownames(x), PD_obs, pd_rand_mean, pd_rand_sd,
-                    pd_obs_rank, pd_obs_z,
+                    pd_obs_rank, zscore,
                     pd_obs_p = pd_obs_rank/(reps + 1), reps = reps,
                     row.names = row.names(x))
 
