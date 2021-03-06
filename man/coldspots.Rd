@@ -5,9 +5,9 @@
 \alias{hotspots}
 \title{Computes biodiversity coldspots and hotspots}
 \usage{
-coldspots(x, prob = 2.5, ...)
+coldspots(x, prob = 2.5, na.rm = TRUE, ...)
 
-hotspots(x, prob = 2.5, ...)
+hotspots(x, prob = 2.5, na.rm = TRUE, ...)
 }
 \arguments{
 \item{x}{a vector on which to compute coldspots}
@@ -15,6 +15,9 @@ hotspots(x, prob = 2.5, ...)
 \item{prob}{The threshold quantile for representing the lowest
 (\code{coldspots}) or highest (\code{hotspots}) proportion of biodiversity in
 an area. By default, the threshold is set to \code{prob = 2.5} percent.}
+
+\item{na.rm}{logical; if true, any NA and NaN's are removed from x before
+the quantiles are computed.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }

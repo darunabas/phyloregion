@@ -1,8 +1,8 @@
-^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.httr-oauth$
 ^\Comments.txt
+^\.github$
 ^docs$
 ^_pkgdown\.yml$
 ^inst/extdata$
@@ -21,3 +21,4 @@
 ^vignettes/3national.*
 ^R/darwinize.*
 ^R/admixture.R
+^R/fitgom.R

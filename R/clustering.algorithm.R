@@ -30,30 +30,33 @@
 #' barplot(y, horiz = TRUE, las = 1)
 #'
 #' @export select_linkage
-select_linkage <- function(x){
-  hc1 <- hclust(as.dist(x), method="average")
-  hc2 <- hclust(as.dist(x), method="single")
-  hc3 <- hclust(as.dist(x), method="complete")
-  hc4 <- hclust(as.dist(x), method="ward.D")
-  hc5 <- hclust(as.dist(x), method="ward.D2")
-  hc6 <- hclust(as.dist(x), method="mcquitty")
-  hc7 <- hclust(as.dist(x), method="median")
-  hc8 <- hclust(as.dist(x), method="centroid")
+select_linkage <- function(x) {
 
-  z <- c(UPGMA=cor(as.dist(x), cophenetic(hc1), use="complete.obs"),
-    Single=cor(as.dist(x), cophenetic(hc2), use="complete.obs"),
-    Complete=cor(as.dist(x), cophenetic(hc3), use="complete.obs"),
-    ward.D=cor(as.dist(x), cophenetic(hc4), use="complete.obs"),
-    ward.D2=cor(as.dist(x), cophenetic(hc5), use="complete.obs"),
-    WPGMA=cor(as.dist(x), cophenetic(hc6), use="complete.obs"),
-    WPGMC=cor(as.dist(x), cophenetic(hc7), use="complete.obs"),
-    UPGMC=cor(as.dist(x), cophenetic(hc8), use="complete.obs"))
+  dist_x <- as.dist(x)
+
+  methods_hc <- c("average", "single", "complete",
+                  "ward.D", "ward.D2", "mcquitty",
+                  "median", "centroid")
+
+  z <- sapply(methods_hc, function(y){
+
+    clust_methods <- hclust(dist_x, method = y)
+
+    cor(dist_x, cophenetic(clust_methods), use="complete.obs")
+
+  } )
+
+#  z <- setNames(z, c('UPGMA', 'Single', 'Complete',
+#                     'ward.D', 'ward.D2', 'WPGMA',
+#                     'WPGMC', 'UPGMC'))
+  names(z) <- c('UPGMA', 'Single', 'Complete', 'ward.D', 'ward.D2', 'WPGMA',
+                'WPGMC', 'UPGMC')
 
   cat("\nA good clustering algorithm for the distance matrix is:\n",
       names(z[which.max(z)]),
       "with cophenetic correlation =",
       z[which.max(z)],
       "\n\n")
+
   return(z)
 }
-

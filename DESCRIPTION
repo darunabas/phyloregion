@@ -5,18 +5,19 @@ Version: 1.0.5
 Authors@R: c(person("Barnabas H.", "Daru", email= "darunabas@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-2115-0257")),
              person("Piyal", "Karunarathne", role = c("aut")),
              person("Klaus", "Schliep", email="klaus.schliep@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0003-2941-0161")),
-             person("Xiaobei", "Zhao", role=c("ctb")), 
-             person("Albin", "Sandelin", role=c("ctb")))
-Description: Computational infrastructure for biogeography, community ecology, 
-    and biodiversity conservation (Daru et al. 2020) <doi:10.1111/2041-210X.13478>. 
-    It is based on the methods described in Daru et al. (2020) <doi:10.1038/s41467-020-15921-6>. 
-    The original conceptual work is described in Daru et al. (2017) <doi:10.1016/j.tree.2017.08.013> 
-    on patterns and processes of biogeographical regionalization. Additionally, the package 
-    contains fast and efficient functions to compute more standard conservation measures 
-    such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness 
-    and global endangerment, as well as compositional turnover (e.g., beta diversity). 
+             person("Xiaobei", "Zhao", role=c("ctb")),
+             person("Albin", "Sandelin", role=c("ctb")),
+             person("Luciano", "Pataro", role=c("ctb")))
+Description: Computational infrastructure for biogeography, community ecology,
+    and biodiversity conservation (Daru et al. 2020) <doi:10.1111/2041-210X.13478>.
+    It is based on the methods described in Daru et al. (2020) <doi:10.1038/s41467-020-15921-6>.
+    The original conceptual work is described in Daru et al. (2017) <doi:10.1016/j.tree.2017.08.013>
+    on patterns and processes of biogeographical regionalization. Additionally, the package
+    contains fast and efficient functions to compute more standard conservation measures
+    such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
+    and global endangerment, as well as compositional turnover (e.g., beta diversity).
 Imports: ape, phangorn, Matrix, betapart, parallel, methods, raster, colorspace,
-         vegan, sp, igraph, rgdal, rgeos, clustMixType, maptpx
+         vegan, sp, igraph, rgdal, rgeos, clustMixType
 Suggests: tinytest, knitr, rmarkdown, mapproj
 VignetteBuilder: knitr
 URL: https://github.com/darunabas/phyloregion, https://darunabas.github.io/phyloregion/index.html

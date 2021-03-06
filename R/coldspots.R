@@ -8,6 +8,8 @@
 #' @param prob The threshold quantile for representing the lowest
 #' (\code{coldspots}) or highest (\code{hotspots}) proportion of biodiversity in
 #' an area. By default, the threshold is set to \code{prob = 2.5} percent.
+#' @param na.rm	 logical; if true, any NA and NaN's are removed from x before
+#' the quantiles are computed.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname coldspots
 #' @keywords phyloregion
@@ -55,9 +57,9 @@
 #' plot(m[(m@data$hot == 1), ], col = "red", add = TRUE, border = NA)
 #' legend("bottomleft", fill = c("blue", "red", "yellow", "green"),
 #'   legend = c("coldspots", "hotspots"), bty = "n", inset = .092)
-coldspots <- function(x, prob = 2.5, ...) {
+coldspots <- function(x, prob = 2.5, na.rm = TRUE, ...) {
   quant <- prob / 100
-  r <- quantile(x, quant, na.rm = TRUE)
+  r <- quantile(x, quant, na.rm = na.rm, ...)
   x[which(x < r[[1]])] <- NA
   x[which(x > r[[1]])] <- 0
   x[which(x == r[[1]])] <- NA
@@ -68,9 +70,9 @@ coldspots <- function(x, prob = 2.5, ...) {
 
 #' @rdname coldspots
 #' @export
-hotspots <- function(x, prob = 2.5,...) {
+hotspots <- function(x, prob = 2.5, na.rm = TRUE, ...) {
   quant <- (1 - (prob / 100))
-  r <- quantile(x, quant, na.rm = TRUE)
+  r <- quantile(x, quant, na.rm = na.rm, ...)
   x[which(x < r[[1]])] <- NA
   x[which(x > r[[1]])] <- 1
   x[which(x == r[[1]])] <- 1
