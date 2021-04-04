@@ -1,7 +1,7 @@
 make_poly <- function(file){
     dd <- raster(file)
     pol <- rasterToPolygons(dd, fun=NULL, dissolve=FALSE, na.rm=FALSE)
-    proj4string(pol) <- crs(dd)
+    suppressWarnings(invisible(proj4string(pol) <- crs(dd)))
     pol$grids <- paste0("v", seq_len(nrow(pol)))
     xx <- as.data.frame(xyFromCell(dd, cell=seq_len(ncell(dd))))
     #Make dataframe of all xy coordinates
@@ -220,7 +220,7 @@ points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
     coordinates(dat) <- ~ lon + lat
 
     if (length(shp.grids) == 0) {
-        if (length(mask) == 0) {
+        if (is.null(mask)) {
             e <- raster::extent(c(xmin = -180, xmax = 180, ymin = -90, ymax = 90))
             p <- as(e, "SpatialPolygons")
             m <- sp::SpatialPolygonsDataFrame(p, data.frame(sp = "x"))
