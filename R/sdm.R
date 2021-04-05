@@ -189,7 +189,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
   if (!is.null(pol)) {
       x <- x[pol,]
   }
-  pol <- buffer(MCP(x), width=.2)
+  pol <- buffer(MCP(x), width=.5)
   pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
                                   match.ID = FALSE)
 
@@ -211,6 +211,9 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     fold <- dismo::kfold(occ, k=2)
     pres_train <- occ[fold != 1, ]
     pres_test <- occ[fold == 1, ]
+
+    predictors <- raster::crop(predictors, pol)
+
     # only run if the maxent.jar file is available, in the right folder
     jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
 
