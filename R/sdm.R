@@ -194,6 +194,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                                   match.ID = FALSE)
 
   x1 <- x[pol,]
+  gc()
 
   if (length(x1) > 0) {
     if(length(x1) < 20){
@@ -213,6 +214,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     pres_test <- occ[fold == 1, ]
 
     predictors <- raster::crop(predictors, pol)
+    gc()
 
     # only run if the maxent.jar file is available, in the right folder
     jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
@@ -254,6 +256,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     tpr_rf <- cm_rf$tp / (cm_rf$tp + cm_rf$fn)
     tnr_rf <- cm_rf$tn / (cm_rf$fp + cm_rf$tn)
     tss_rf <- median(tpr_rf + tnr_rf - 1)
+    gc()
 
     # 2. GLM
     gm <- suppressWarnings(invisible(glm(Formula, family = "binomial", data=envtrain)))
@@ -269,6 +272,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     tpr_gl <- cm_gl$tp / (cm_gl$tp + cm_gl$fn)
     tnr_gl <- cm_gl$tn / (cm_gl$fp + cm_gl$tn)
     tss_glm <- median(tpr_gl + tnr_gl - 1)
+    gc()
 
     # 3. Maxent
     xm <- maxent(predictors, pres_train)
@@ -284,6 +288,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     tpr_mx <- cm_mx$tp / (cm_mx$tp + cm_mx$fn)
     tnr_mx <- cm_mx$tn / (cm_mx$fp + cm_mx$tn)
     tss_mx <- median(tpr_mx + tnr_mx - 1)
+    gc()
 
     # 4. Generalised boosted models, GBMs
     gbm_mod <- suppressWarnings(invisible(dismo::gbm.step(data = envtrain, gbm.x = Preds,
@@ -310,6 +315,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     tpr_gb <- cm_gb$tp / (cm_gb$tp + cm_gb$fn)
     tnr_gb <- cm_gb$tn / (cm_gb$fp + cm_gb$tn)
     tss_gbm <- median(tpr_gb + tnr_gb - 1)
+    gc()
 
     models <- stack(RF, GLM, MX, GBM)
     names(models) <- c("RF", "GLM", "MAXENT", "GBM")
