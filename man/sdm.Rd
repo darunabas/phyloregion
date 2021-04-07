@@ -61,6 +61,23 @@ This function computes species distribution models using
 four modelling algorithms: generalized linear models,
 generalized boosted models, random forests, and maximum entropy.
 }
+\examples{
+\donttest{
+library(raster)
+library(gbm)
+require(survival)
+# get predictor variables
+f <- list.files(path=paste(system.file(package="phyloregion"), '/ex', sep=''),
+                     pattern='.tif', full.names=TRUE )
+preds <- stack(f)
+#plot(preds)
+# get species occurrences
+d <- read.csv(system.file("ex/Bombax.csv", package="phyloregion"))
+
+# fit ensemble model for four algorithms
+mod <- sdm(d, predictors = preds)
+}
+}
 \references{
 Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy
 modeling of species geographic distributions. \emph{Ecological Modelling}

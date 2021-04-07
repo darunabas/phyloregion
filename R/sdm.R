@@ -165,6 +165,23 @@ blank_raster <- function(x, res=NULL) {
 #' Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy
 #' modeling of species geographic distributions. \emph{Ecological Modelling}
 #' \strong{190}: 231-259.
+#' @examples
+#' \donttest{
+#' library(raster)
+#' library(gbm)
+#' require(survival)
+#' # get predictor variables
+#' f <- list.files(path=paste(system.file(package="phyloregion"), '/ex', sep=''),
+#'                      pattern='.tif', full.names=TRUE )
+#' preds <- stack(f)
+#' #plot(preds)
+#' # get species occurrences
+#' d <- read.csv(system.file("ex/Bombax.csv", package="phyloregion"))
+#'
+#' # fit ensemble model for four algorithms
+#' mod <- sdm(d, predictors = preds)
+#' }
+
 #' @export
 sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                 lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees) {
