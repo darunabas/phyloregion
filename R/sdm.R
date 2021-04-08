@@ -109,18 +109,6 @@ sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
     res
 }
 
-blank_raster <- function(x, res=NULL) {
-    e <- raster::extent(c(xmin = -180, xmax = 180, ymin = -90, ymax = 90))
-    p <- as(e, "SpatialPolygons")
-    r <- raster(ncol = 180, nrow = 180, resolution = res)
-    extent(r) <- extent(p)
-    r1 <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
-    r1 <- resample(x, r1)
-    # set all values to zero
-    r1[!is.na(r1)] <- 0
-    return(r1)
-}
-
 
 #' Species distribution models for a range of algorithms
 #'
@@ -191,14 +179,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     names(x) <- c("species", "lon", "lat")
     name.sp <- unique(x$species)
 
-
-
     if (is.null(predictors)) {
         stop("you need to specify RasterStack of environmental variables \non which the models will be projected")
-    }
-
-    if (is.null(blank)) {
-        blank <- blank_raster(predictors[[1]], res = res)
     }
 
     x <- x[, c("lon", "lat")]
@@ -215,6 +197,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         x <- x[is.na(over(x, herb_pol)),]
     }
 
+    fam_pol <- pol
 
     if (!is.null(pol)) {
         x <- x[pol,]
@@ -225,6 +208,18 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
 
     x1 <- x[pol,]
     gc()
+
+    if (is.null(blank)) {
+        e <- raster::extent(pol)+1
+        p <- as(e, "SpatialPolygons")
+        r <- raster(ncol = 180, nrow = 180, resolution = res)
+        extent(r) <- extent(p)
+        r1 <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
+        blank <- resample(predictors[[1]], r1)
+        # set all values to zero
+        blank[!is.na(blank)] <- 0
+    }
+
 
     if (length(x1) > 0) {
         if(length(x1) < 20){
@@ -239,26 +234,32 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         # OCCURRENCE POINTS
         occ_csv <- as.data.frame(x1)
         occ <- occ_csv[, c("lon", "lat")]
-        fold <- dismo::kfold(occ, k=2)
-        pres_train <- occ[fold != 1, ]
-        pres_test <- occ[fold == 1, ]
+        fold <- dismo::kfold(occ, k=5)
+        test <- 3
+        pres_train <- occ[fold != test, ]
+        pres_test <- occ[fold == test, ]
 
-        predictors <- raster::crop(predictors, pol)
+        if (!is.null(fam_pol)) {
+            predictors <- raster::crop(predictors, fam_pol)
+        } else {
+            predictors <- raster::crop(predictors, pol)
+        }
+
         gc()
 
         # only run if the maxent.jar file is available, in the right folder
         jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
 
         set.seed(10)
-        backg <- suppressWarnings(invisible(dismo::randomPoints(mask=predictors, n=1000,
-                                                                ext=extent(pol), extf = 1.1)))
+        backg <- dismo::randomPoints(mask=predictors, n=nrow(occ)*3,
+                                     ext=extent(pol), extf = 1.1, warn = 0, p = occ)
 
         colnames(backg) = c('lon', 'lat')
 
         set.seed(0)
-        group <- dismo::kfold(backg, k=2)
-        backg_train <- backg[group != 1, ]
-        backg_test <- backg[group == 1, ]
+        group <- dismo::kfold(backg, k=5)
+        backg_train <- backg[group != test, ]
+        backg_test <- backg[group == test, ]
 
         train <- rbind(pres_train, backg_train)
         pb_train <- c(rep(1, nrow(pres_train)), rep(0, nrow(backg_train)))
