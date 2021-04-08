@@ -14,7 +14,8 @@ sdm(
   lr = 0.001,
   bf = 0.75,
   n.trees = 50,
-  step.size = n.trees
+  step.size = n.trees,
+  herbarium.rm = TRUE
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ the models will be projected}
 \item{n.trees}{Number of initial trees to fit. Set at 50 by default}
 
 \item{step.size}{Number of trees to add at each cycle}
+
+\item{herbarium.rm}{Logical, remove points within 50 km of herbaria.}
 }
 \value{
 A list with the following objects:
@@ -64,8 +67,6 @@ generalized boosted models, random forests, and maximum entropy.
 \examples{
 \donttest{
 library(raster)
-library(gbm)
-require(survival)
 # get predictor variables
 f <- list.files(path=paste(system.file(package="phyloregion"), '/ex', sep=''),
                      pattern='.tif', full.names=TRUE )
