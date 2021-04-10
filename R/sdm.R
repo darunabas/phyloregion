@@ -102,10 +102,10 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 }
 
 
-sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
+sampleBuffer <- function(x, n_points=20, width=2000, limits=NULL){
     cc <- buffer(x, width=width)
     if(!is.null(limits)) cc <- crop(cc, limits)
-    res <- spsample(cc, n_points, type="random")
+    res <- suppressWarnings(invisible(spsample(cc, n_points, type="random")))
     res
 }
 
@@ -131,6 +131,7 @@ sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
 #' @param lr Learning rate. Sets the weight applied to individual trees
 #' @param bf Bag fraction. Sets the proportion of observations used in selecting variables
 #' @param n.trees Number of initial trees to fit. Set at 50 by default
+#' @param k Number of groups
 #' @param step.size Number of trees to add at each cycle
 #' @param herbarium.rm Logical, remove points within 50 km of herbaria.
 #' @rdname sdm
@@ -173,7 +174,7 @@ sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
 
 #' @export
 sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
-                lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees,
+                lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees, k=5,
                 herbarium.rm = TRUE) {
     x <- x[, c("species", "lon", "lat")]
     names(x) <- c("species", "lon", "lat")
@@ -193,7 +194,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     if (herbarium.rm) {
         coordinates(dx)=~lon+lat
         proj4string(dx) = CRS("+proj=longlat +datum=WGS84")
-        herb_pol <- raster::buffer(dx, width=50000, dissolve=TRUE)
+        herb_pol <- buffer(dx, width=5000)
         x <- x[is.na(over(x, herb_pol)),]
     }
 
@@ -202,7 +203,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     if (!is.null(pol)) {
         x <- x[pol,]
     }
-    pol <- buffer(MCP(x), width=.5)
+    pol <- buffer(MCP(x), width=500)
     pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
                                     match.ID = FALSE)
 
@@ -222,8 +223,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
 
 
     if (length(x1) > 0) {
-        if(length(x1) < 20){
-            vv <- sampleBuffer(x1, 20 - length(x1), limits=pol)
+        if(length(x1) < 30){
+            vv <- sampleBuffer(x1, 30 - length(x1), limits=pol)
             vv <- data.frame(vv)
             vv$source <- "random"
             names(vv)[c(1,2)] <- c("lon", "lat")
@@ -234,7 +235,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         # OCCURRENCE POINTS
         occ_csv <- as.data.frame(x1)
         occ <- occ_csv[, c("lon", "lat")]
-        fold <- dismo::kfold(occ, k=5)
+        fold <- dismo::kfold(occ, k=k)
         test <- 3
         pres_train <- occ[fold != test, ]
         pres_test <- occ[fold == test, ]
@@ -257,7 +258,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         colnames(backg) = c('lon', 'lat')
 
         set.seed(0)
-        group <- dismo::kfold(backg, k=5)
+        group <- dismo::kfold(backg, k=k)
         backg_train <- backg[group != test, ]
         backg_test <- backg[group == test, ]
 

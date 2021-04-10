@@ -15,6 +15,7 @@ sdm(
   bf = 0.75,
   n.trees = 50,
   step.size = n.trees,
+  k = 5,
   herbarium.rm = TRUE
 )
 }
@@ -44,6 +45,8 @@ the models will be projected}
 \item{n.trees}{Number of initial trees to fit. Set at 50 by default}
 
 \item{step.size}{Number of trees to add at each cycle}
+
+\item{k}{Number of groups}
 
 \item{herbarium.rm}{Logical, remove points within 50 km of herbaria.}
 }
