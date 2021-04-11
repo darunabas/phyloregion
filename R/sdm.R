@@ -102,8 +102,8 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 }
 
 
-sampleBuffer <- function(x, n_points=20, width=2000, limits=NULL){
-    cc <- buffer(x, width=width)
+sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
+    cc <- gBuffer(x, width=width)
     if(!is.null(limits)) cc <- crop(cc, limits)
     res <- suppressWarnings(invisible(spsample(cc, n_points, type="random")))
     res
@@ -143,6 +143,7 @@ sampleBuffer <- function(x, n_points=20, width=2000, limits=NULL){
 #' @importFrom randomForest randomForest
 #' @importFrom stats glm median formula
 #' @importFrom grDevices chull
+#' @importFrom rgeos gBuffer
 #' @return A list with the following objects:
 #' \itemize{
 #'   \item \code{ensemble_raster} The ensembled raster that predicts
@@ -194,7 +195,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     if (herbarium.rm) {
         coordinates(dx)=~lon+lat
         proj4string(dx) = CRS("+proj=longlat +datum=WGS84")
-        herb_pol <- buffer(dx, width=5000)
+        herb_pol <- rgeos::gBuffer(dx, width=0.5)
         x <- x[is.na(over(x, herb_pol)),]
     }
 
@@ -203,7 +204,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     if (!is.null(pol)) {
         x <- x[pol,]
     }
-    pol <- buffer(MCP(x), width=500)
+    pol <- rgeos::gBuffer(MCP(x), width=1)
     pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
                                     match.ID = FALSE)
 
@@ -211,7 +212,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     gc()
 
     if (is.null(blank)) {
-        e <- raster::extent(pol)+1
+        e <- raster::extent(pol)*1.5
         p <- as(e, "SpatialPolygons")
         r <- raster(ncol = 180, nrow = 180, resolution = res)
         extent(r) <- extent(p)
