@@ -26,7 +26,7 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
         stop("xy should be of class SpatialPoints")
     if (ncol(coordinates(xy)) > 2)
         stop("xy should be defined in two dimensions")
-    pfs <- suppressWarnings(invisible(proj4string(xy)))
+    pfs <- proj4string(xy)
     if (length(percent) > 1)
         stop("only one value is required for percent")
     if (percent > 100) {
@@ -105,7 +105,7 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
     cc <- gBuffer(x, width=width)
     if(!is.null(limits)) cc <- crop(cc, limits)
-    res <- suppressWarnings(invisible(spsample(cc, n_points, type="random")))
+    res <- spsample(cc, n_points, type="random")
     res
 }
 
@@ -189,13 +189,13 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     x <- x[!is.na(x$lon) & !is.na(x$lat),]
     x$source <- "raw"
     coordinates(x)=~lon+lat
-    proj4string(x) = CRS("+proj=longlat +datum=WGS84")
+    proj4string(x) <- CRS("+proj=longlat +datum=WGS84")
 
     # Remove points within 50 km of herbaria
     if (herbarium.rm) {
         coordinates(dx)=~lon+lat
-        proj4string(dx) = CRS("+proj=longlat +datum=WGS84")
-        herb_pol <- rgeos::gBuffer(dx, width=0.5)
+        proj4string(dx) <- CRS("+proj=longlat +datum=WGS84")
+        herb_pol <- gBuffer(dx, width=0.5)
         x <- x[is.na(over(x, herb_pol)),]
     }
 
@@ -204,7 +204,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     if (!is.null(pol)) {
         x <- x[pol,]
     }
-    pol <- rgeos::gBuffer(MCP(x), width=1)
+    pol <- gBuffer(MCP(x), width=1)
     pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
                                     match.ID = FALSE)
 
