@@ -52,7 +52,7 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
         percent <- 100
     }
     if (min(table(id)) < 5)
-        stop("At least 5 relocations are required to fit an home range")
+        stop("At least 5 locations are required to fit a home range")
     id <- factor(id)
     xy <- as.data.frame(coordinates(xy))
     r <- split(xy, id)
@@ -102,7 +102,7 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 }
 
 
-sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
+sampleBuffer <- function(x, n_points, width=2, limits=NULL){
     cc <- gBuffer(x, width=width)
     if(!is.null(limits)) cc <- crop(cc, limits)
     res <- spsample(cc, n_points, type="random")
@@ -134,9 +134,12 @@ sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
 #' @param k Number of groups
 #' @param step.size Number of trees to add at each cycle
 #' @param herbarium.rm Logical, remove points within 50 km of herbaria.
+#' @param n_points Minimum number of points required to successfully run
+#' a species distribution model
 #' @rdname sdm
 #' @importFrom raster values extent res<- crop extract predict resample merge
 #' @importFrom raster stack calc buffer mask setValues extent<- nlayers maxValue
+#' @importFrom raster crs<-
 #' @importFrom sp coordinates CRS proj4string spsample HexPoints2SpatialPolygons
 #' @importFrom sp Polygon SpatialPolygons polygons
 #' @importFrom dismo kfold randomPoints evaluate threshold maxent gbm.step
@@ -176,7 +179,7 @@ sampleBuffer <- function(x, n_points=20, width=2, limits=NULL){
 #' @export
 sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                 lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees, k=5,
-                herbarium.rm = TRUE) {
+                herbarium.rm = TRUE, n_points = 30) {
     x <- x[, c("species", "lon", "lat")]
     names(x) <- c("species", "lon", "lat")
     name.sp <- unique(x$species)
@@ -204,7 +207,15 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     if (!is.null(pol)) {
         x <- x[pol,]
     }
-    pol <- gBuffer(MCP(x), width=1)
+
+    if (nrow(x) < 5) {
+        e <- as(extent(x), "SpatialPolygons")
+        crs(e) <- "+proj=longlat +datum=WGS84"
+        pol <- suppressWarnings(invisible(gBuffer(e, width=1)))
+    } else {
+        pol <- suppressWarnings(invisible(gBuffer(MCP(x), width=1)))
+    }
+    #pol <- gBuffer(x, width=1)
     pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
                                     match.ID = FALSE)
 
@@ -224,8 +235,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
 
 
     if (length(x1) > 0) {
-        if(length(x1) < 30){
-            vv <- sampleBuffer(x1, 30 - length(x1), limits=pol)
+        if(length(x1) < n_points){
+            vv <- sampleBuffer(x1, n_points - length(x1), limits=pol)
             vv <- data.frame(vv)
             vv$source <- "random"
             names(vv)[c(1,2)] <- c("lon", "lat")

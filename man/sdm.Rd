@@ -16,7 +16,8 @@ sdm(
   n.trees = 50,
   step.size = n.trees,
   k = 5,
-  herbarium.rm = TRUE
+  herbarium.rm = TRUE,
+  n_points = 30
 )
 }
 \arguments{
@@ -49,6 +50,9 @@ the models will be projected}
 \item{k}{Number of groups}
 
 \item{herbarium.rm}{Logical, remove points within 50 km of herbaria.}
+
+\item{n_points}{Minimum number of points required to successfully run
+a species distribution model}
 }
 \value{
 A list with the following objects:
