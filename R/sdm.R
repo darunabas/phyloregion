@@ -211,9 +211,9 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     if (nrow(x) < 5) {
         e <- as(extent(x), "SpatialPolygons")
         crs(e) <- "+proj=longlat +datum=WGS84"
-        pol <- suppressWarnings(invisible(gBuffer(e, width=1)))
+        pol <- suppressWarnings(invisible(gBuffer(e, width=2)))
     } else {
-        pol <- suppressWarnings(invisible(gBuffer(MCP(x), width=1)))
+        pol <- suppressWarnings(invisible(gBuffer(MCP(x), width=2)))
     }
     #pol <- gBuffer(x, width=1)
     pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
