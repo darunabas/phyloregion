@@ -3,17 +3,26 @@ make_poly <- function(file){
     pol <- rasterToPolygons(dd, fun=NULL, dissolve=FALSE, na.rm=FALSE)
     suppressWarnings(invisible(proj4string(pol) <- crs(dd)))
     pol$grids <- paste0("v", seq_len(nrow(pol)))
-    xx <- as.data.frame(xyFromCell(dd, cell=seq_len(ncell(dd))))
+    xx <- as.data.frame(dd, xy=TRUE)
     #Make dataframe of all xy coordinates
     xx$grids <- paste0("v", seq_len(nrow(xx)))
     m <- merge(pol, xx, by = "grids")
-    #names(m)[2] <- "richness"
-    names(m)[3] <- "lon"
-    names(m)[4] <- "lat"
-    m <- m[, c("grids", "lon", "lat")]
+    m <- m[, c("grids", "x", "y")]
     m
 }
 
+foo <- function(file, rast=NULL) {
+    dd <- raster(file)
+    if(!is.null(rast)) {
+        if(!raster::compareRaster(dd, rast)) stop("Raster objects are different")
+    }
+    y <- raster::as.data.frame(dd, xy=TRUE, na.rm=TRUE, long=TRUE)
+    y$grids <- paste0("v", seq_len(nrow(y)))
+    y <- y[y$value>0,, drop=FALSE]
+    y <- y[, c("grids", "layer")]
+    names(y)[2] <- "species"
+    return(y)
+}
 
 progress <- function(x, FUN, ...) {
     env <- environment()
@@ -67,7 +76,7 @@ progress <- function(x, FUN, ...) {
 #' latitude and longitude into projected coordinates system.
 #' \code{\link{long2sparse}} for conversion of community data.
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
-#' @importFrom raster values crs
+#' @importFrom raster values crs as.data.frame compareRaster
 #' @importFrom sp CRS proj4string<-
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @return Each of these functions generate a list of two objects as follows:
@@ -86,30 +95,15 @@ progress <- function(x, FUN, ...) {
 #'
 #' @export
 raster2comm <- function(files) {
-    poly <- make_poly(files[1])
-    tmp <- raster(files[1])
-    fg <- as.data.frame(xyFromCell(tmp, cell=1:ncell(tmp)))
-    ind1 <- paste(as.character(fg$x), as.character(fg$y), sep="_")
-    ind2 <- paste(as.character(poly$lon), as.character(poly$lat), sep="_")
-    index <- match(ind1, ind2)
-    res <- NULL
-    cells <- as.character(poly$grids)
-    if (interactive()){
-        pb <- txtProgressBar(min = 0, max = length(files), style = 3,
-                             width = getOption("width")/2L)
-    }
-
-    for(i in seq_along(files)) {
-        obj <- raster(files[i])
-        tmp <- values(obj)
-        tmp <- cells[index[tmp > 0]]
-        tmp <- tmp[!is.na(tmp)]
-        if(length(tmp) > 0) res <- rbind(res, cbind(tmp, names(obj)))
-        if (interactive()) setTxtProgressBar(pb, i)
-    }
-    if(length(tmp) > 0) colnames(res) <- c("grids", "species")
-    y <- long2sparse(as.data.frame(res))
-    return(list(comm_dat = y, poly_shp = poly))
+    m <- progress(files, foo, rast=raster(files[1]))
+    res <- do.call("rbind", m)
+    y <- long2sparse(res)
+    pol <- make_poly(files[1])
+    pol <- pol[, "grids"]
+    tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
+    z <- sp::merge(pol, tmp, by = "grids")
+    z <- z[!is.na(z@data$richness), ]
+    return(list(comm_dat = y, poly_shp = z))
 }
 
 
@@ -158,9 +152,9 @@ polys2comm <- function(dat, res = 1, species = "species", trace = 1, shp.grids =
         s <- split(dat, f = dat$species)
         w <- rasterize(s[[1]], e)
         poly <- make_poly(w)
-        fg <- as.data.frame(xyFromCell(w, cell = 1:ncell(w)))
+        fg <- as.data.frame(w, xy=TRUE)
         ind1 <- paste(as.character(fg$x), as.character(fg$y), sep = "_")
-        ind2 <- paste(as.character(poly$lon), as.character(poly$lat), sep = "_")
+        ind2 <- paste(as.character(poly$x), as.character(poly$y), sep = "_")
         index <- match(ind1, ind2)
         r <- NULL
         cells <- as.character(poly$grids)[index]
