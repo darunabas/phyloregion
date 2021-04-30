@@ -26,4 +26,4 @@ License: AGPL-3
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Depends: R (>= 3.6.0)
+Depends: R (>= 4.0.0)
