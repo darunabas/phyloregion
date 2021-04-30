@@ -1,9 +1,9 @@
 make_poly <- function(file){
-    dd <- raster(file)
-    pol <- rasterToPolygons(dd, fun=NULL, dissolve=FALSE, na.rm=FALSE)
-    suppressWarnings(invisible(proj4string(pol) <- crs(dd)))
+    if (!inherits(file, "RasterLayer")) file <- raster(file)
+    pol <- rasterToPolygons(file, fun=NULL, dissolve=FALSE, na.rm=TRUE)
+    suppressWarnings(invisible(proj4string(pol) <- crs(file)))
     pol$grids <- paste0("v", seq_len(nrow(pol)))
-    xx <- as.data.frame(dd, xy=TRUE)
+    xx <- as.data.frame(file, xy=TRUE, na.rm=TRUE)
     #Make dataframe of all xy coordinates
     xx$grids <- paste0("v", seq_len(nrow(xx)))
     m <- merge(pol, xx, by = "grids")
@@ -12,11 +12,11 @@ make_poly <- function(file){
 }
 
 foo <- function(file, rast=NULL) {
-    dd <- raster(file)
+    if (!inherits(file, "RasterLayer")) file <- raster(file)
     if(!is.null(rast)) {
-        if(!raster::compareRaster(dd, rast)) stop("Raster objects are different")
+        if(!raster::compareRaster(file, rast)) stop("Raster objects are different")
     }
-    y <- raster::as.data.frame(dd, xy=TRUE, na.rm=TRUE, long=TRUE)
+    y <- raster::as.data.frame(file, xy=TRUE, na.rm=TRUE, long=TRUE)
     y$grids <- paste0("v", seq_len(nrow(y)))
     y <- y[y$value>0,, drop=FALSE]
     y <- y[, c("grids", "layer")]
@@ -42,6 +42,20 @@ progress <- function(x, FUN, ...) {
     close(pb)
     r
 }
+
+blank <- function(x, res=NULL) {
+    e <- raster::extent(c(-180, 180, -90, 90))
+    p <- as(e, "SpatialPolygons")
+    r <- raster(ncol = 180, nrow = 180, resolution = res)
+    extent(r) <- extent(p)
+    r1 <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
+    r1[!is.na(r1)] <- 0
+    rp <- rasterize(x, r, field=1)
+    res <- merge(rp, r1)
+    names(res) <- x[[1]]
+    return(res)
+}
+
 
 #' Convert raw input distribution data to community
 #'
@@ -77,6 +91,7 @@ progress <- function(x, FUN, ...) {
 #' \code{\link{long2sparse}} for conversion of community data.
 #' @importFrom raster raster rasterToPolygons xyFromCell ncell
 #' @importFrom raster values crs as.data.frame compareRaster
+#' @importFrom raster rasterize setValues extent merge
 #' @importFrom sp CRS proj4string<-
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @return Each of these functions generate a list of two objects as follows:
@@ -95,11 +110,11 @@ progress <- function(x, FUN, ...) {
 #'
 #' @export
 raster2comm <- function(files) {
+    pol <- make_poly(files[1])
+    pol <- pol[, "grids"]
     m <- progress(files, foo, rast=raster(files[1]))
     res <- do.call("rbind", m)
     y <- long2sparse(res)
-    pol <- make_poly(files[1])
-    pol <- pol[, "grids"]
     tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
     z <- sp::merge(pol, tmp, by = "grids")
     z <- z[!is.na(z@data$richness), ]
@@ -113,17 +128,16 @@ raster2comm <- function(files) {
 #' @importFrom methods as
 #' @importFrom utils txtProgressBar setTxtProgressBar object.size
 #' @importFrom raster raster res rasterize xyFromCell getValues
-#' @param trace Trace the function; trace = 2 or higher will be more voluminous.
 #' @examples
 #' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 #' sp <- random_species(100, species=5, shp=s)
-#' pol <- polys2comm(dat = sp, species = "species", trace=0)
+#' pol <- polys2comm(dat = sp, species = "species")
 #' head(pol[[1]])
 #' }
 #'
 #' @export
-polys2comm <- function(dat, res = 1, species = "species", trace = 1, shp.grids = NULL, ...) {
+polys2comm <- function(dat, res = 1, species = "species", shp.grids = NULL, ...) {
 
     dat <- dat[, species, drop = FALSE]
     names(dat) <- "species"
@@ -147,36 +161,15 @@ polys2comm <- function(dat, res = 1, species = "species", trace = 1, shp.grids =
         z <- sp::merge(m, tmp, by = "grids")
         z <- z[!is.na(z@data$richness), ]
     } else {
-        e <- raster(dat)
-        res(e) <- res
         s <- split(dat, f = dat$species)
-        w <- rasterize(s[[1]], e)
-        poly <- make_poly(w)
-        fg <- as.data.frame(w, xy=TRUE)
-        ind1 <- paste(as.character(fg$x), as.character(fg$y), sep = "_")
-        ind2 <- paste(as.character(poly$x), as.character(poly$y), sep = "_")
-        index <- match(ind1, ind2)
-        r <- NULL
-        cells <- as.character(poly$grids)[index]
-        if (object.size(dat) > 150000L && interactive() && trace > 0) {
-            m <- progress(s, function(x) {
-                obj <- rasterize(x, e)
-                tmp <- getValues(obj)
-                cells[!is.na(tmp) & (tmp>0)]
-            })
-        } else {
-            m <- lapply(s, function(x) {
-                obj <- rasterize(x, e)
-                tmp <- getValues(obj)
-                cells[!is.na(tmp) & (tmp>0)]
-            })
-        }
-
-        spo <- data.frame(grids = unlist(m), species = rep(labels(s), lengths(m)))
+        files <- lapply(s, function(x) blank(x, res = res))
+        pol <- make_poly(files[[1]])
+        pol <- pol[, "grids"]
+        m <- progress(files, foo, rast=raster(files[[1]]))
+        spo <- do.call("rbind", m)
         y <- long2sparse(spo)
-
-        z <- data.frame(grids = row.names(y), richness = rowSums(y > 0))
-        z <- sp::merge(poly, z, by = "grids")
+        tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
+        z <- sp::merge(pol, tmp, by = "grids")
         z <- z[!is.na(z@data$richness), ]
     }
 

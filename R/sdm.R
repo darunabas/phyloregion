@@ -1,5 +1,3 @@
-dx <- read.csv(system.file("ex/IHfeb20.csv", package="phyloregion"))
-
 .arcp <- function (xy)
 {
     if (nrow(xy) < 3)
@@ -196,6 +194,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
 
     # Remove points within 50 km of herbaria
     if (herbarium.rm) {
+        dx <- read.csv(system.file("ex/IHfeb20.csv", package="phyloregion"))
         coordinates(dx)=~lon+lat
         proj4string(dx) <- CRS("+proj=longlat +datum=WGS84")
         herb_pol <- gBuffer(dx, width=0.5)
