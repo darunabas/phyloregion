@@ -3,9 +3,6 @@
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/phyloregion)](https://cran.r-project.org/package=phyloregion)
 [![codecov](https://codecov.io/gh/darunabas/phyloregion/branch/master/graph/badge.svg)](https://codecov.io/gh/darunabas/phyloregion)
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-
 # phyloregion <img src='man/figures/logo.png' align="right" width="120" />
 
 An R package for biogeographic regionalization (the classification of geographical areas in terms of their biotas) and macroecology. With macroecological datasets of ever increasing size and complexity, `phyloregion` offers the possibility of handling and executing very large scale analysis of biogeographic regionalization. It also allows fast and memory efficient analysis of standard conservation measures such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness and global endangerment. `phyloregion` can run on any operating system (Mac, Linux, Windows or even high performance computing cluster) with `R` 3.6.0 (or higher) installed.

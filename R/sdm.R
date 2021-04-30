@@ -189,13 +189,13 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     x <- x[, c("lon", "lat")]
     x <- x[!is.na(x$lon) & !is.na(x$lat),]
     x$source <- "raw"
-    coordinates(x)=~lon+lat
+    coordinates(x) <- ~lon+lat
     proj4string(x) <- CRS("+proj=longlat +datum=WGS84")
 
     # Remove points within 50 km of herbaria
     if (herbarium.rm) {
         dx <- read.csv(system.file("ex/IHfeb20.csv", package="phyloregion"))
-        coordinates(dx)=~lon+lat
+        coordinates(dx) <- ~lon+lat
         proj4string(dx) <- CRS("+proj=longlat +datum=WGS84")
         herb_pol <- gBuffer(dx, width=0.5)
         x <- x[is.na(over(x, herb_pol)),]
@@ -266,7 +266,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         backg <- dismo::randomPoints(mask=predictors, n=nrow(occ)*3,
                                      ext=extent(pol), extf = 1.1, warn = 0, p = occ)
 
-        colnames(backg) = c('lon', 'lat')
+        colnames(backg) <- c('lon', 'lat')
 
         set.seed(0)
         group <- dismo::kfold(backg, k=k)

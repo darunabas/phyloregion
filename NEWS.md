@@ -1,6 +1,10 @@
-# [October 16, 2020] Changes in `phyloregion` version 1.0.5
+# [April 30, 2021] Changes in `phyloregion` version 1.0.5
 
 * Revised `plot_swatch` to use `col` instead of palette argument.
+
+* Added new function, `sdm`, for species distribution modelling.
+
+* Improved functions for transforming converting input data.
 
 
 # [July 19, 2020] Changes in `phyloregion` version 1.0.3

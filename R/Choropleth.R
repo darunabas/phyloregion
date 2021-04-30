@@ -6,7 +6,7 @@ JENKS <- function(x, k){
     mat2[2:length(d), 1:k] <- .Machine$double.xmax
     v <- 0
     for (l in 2:length(d)) {
-        s1 = s2 = w = 0
+        s1 <- s2 <- w <- 0
         for (m in 1:l) {
             i3 <- l - m + 1
             val <- d[i3]

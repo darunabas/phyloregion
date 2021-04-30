@@ -35,7 +35,7 @@ indicators <- function (theta, top_indicators = 5,
   if (method == "poisson") {
     KL_score <- lapply(1:dim(theta)[2], function(n) {
       out <- t(apply(theta, 1, function(x) {
-        y = x[n] * log(x[n]/x) + x - x[n]
+        y <- x[n] * log(x[n]/x) + x - x[n]
         return(y)
       }))
       return(out)
@@ -44,15 +44,15 @@ indicators <- function (theta, top_indicators = 5,
   if (method == "bernoulli") {
     KL_score <- lapply(1:dim(theta)[2], function(n) {
       out <- t(apply(theta, 1, function(x) {
-        y = x[n] * log(x[n]/x) + (1 - x[n]) * log((1 -
+        y <- x[n] * log(x[n]/x) + (1 - x[n]) * log((1 -
                                                      x[n])/(1 - x))
         return(y)
       }))
       return(out)
     })
   }
-  indices_mat = matrix(0, dim(theta)[2], top_indicators)
-  scores_mat = matrix(0, dim(theta)[2], top_indicators)
+  indices_mat <- matrix(0, dim(theta)[2], top_indicators)
+  scores_mat <- matrix(0, dim(theta)[2], top_indicators)
   if (dim(theta)[2] == 2) {
     for (k in 1:dim(theta)[2]) {
       temp_mat <- KL_score[[k]][, -k]
@@ -101,8 +101,8 @@ indicators <- function (theta, top_indicators = 5,
       flag <- counter
       while (flag <= top_indicators) {
         if (counter > dim(theta)[1]) {
-          indices_mat[k, (flag:top_indicators)] = NA
-          scores_mat[k, (flag:top_indicators)] = NA
+          indices_mat[k, (flag:top_indicators)] <- NA
+          scores_mat[k, (flag:top_indicators)] <- NA
           break
         }
         if (!shared) {

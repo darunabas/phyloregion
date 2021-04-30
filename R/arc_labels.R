@@ -14,8 +14,8 @@ getYmult <- function ()
 
 
 draw_arc <- function (x = 1, y = NULL, radius = 1, angle1 = deg1 * pi/180,
-                      angle2 = deg2 * pi/180, deg1 = 0, deg2 = 45, n = 0.05, col = NA,
-                      lwd = NA, ...)
+                      angle2 = deg2 * pi/180, deg1 = 0, deg2 = 45, n = 0.05,
+                      col = NA, lwd = NA, ...)
 {
   if (all(is.na(col)))
     col <- par("col")
@@ -34,10 +34,10 @@ draw_arc <- function (x = 1, y = NULL, radius = 1, angle1 = deg1 * pi/180,
     angleE <- c(angleS[-1], angle2)
     if (n > 1) {
       half.lwd.user <- (lwd/2) * (xylim[2] - xylim[1])/devunits[1]
-      adj.angle = delta.angle * half.lwd.user/(2 * (radius +
+      adj.angle <- delta.angle * half.lwd.user/(2 * (radius +
                                                       half.lwd.user))
-      angleS[2:n] = angleS[2:n] - adj.angle
-      angleE[1:(n - 1)] = angleE[1:(n - 1)] + adj.angle
+      angleS[2:n] <- angleS[2:n] - adj.angle
+      angleE[1:(n - 1)] <- angleE[1:(n - 1)] + adj.angle
     }
     p1x <- x + radius * cos(angleS)
     p1y <- y + radius * sin(angleS) * ymult
@@ -54,13 +54,14 @@ draw_arc <- function (x = 1, y = NULL, radius = 1, angle1 = deg1 * pi/180,
   angle2 <- a2
   args <- data.frame(x, y, radius, angle1, angle2, n, col,
                      lwd, stringsAsFactors = FALSE)
-  for (i in 1:nrow(args)) do.call("draw.arc.0", c(args[i,
+  for (i in seq_len(nrow(args))) do.call("draw.arc.0", c(args[i,
   ], ...))
   invisible(args)
 }
 
-arctext <- function (x, center = c(0, 0), radius = 1, start = NULL, middle = pi/2,
-                     end = NULL, stretch = 1, clockwise = TRUE, cex = NULL, ...)
+arctext <- function (x, center = c(0, 0), radius = 1, start = NULL,
+                     middle = pi/2, end = NULL, stretch = 1, clockwise = TRUE,
+                     cex = NULL, ...)
 {
   oldcex <- par("cex")
   if (is.null(cex))
@@ -226,9 +227,9 @@ arc_labels.default <- function (phy = NULL, tips, text, plot_singletons = TRUE,
         }
         x0 <- lab.offset * cos(label_degree * pi/180) * h
         y0 <- lab.offset * sin(label_degree * pi/180) * h
-        graphics::text(x = x0, y = y0, label = text, adj = c(if (x0 >=
-                                                                 0) 0 else 1, if (y0 >= 0) 0 else 1), offset = 0,
-                       cex = cex)
+        graphics::text(x = x0, y = y0, label = text,
+                       adj = c(if (x0 >=0) 0 else 1, if (y0 >= 0) 0 else 1),
+                       offset = 0, cex = cex)
       }
     }
   }
@@ -240,5 +241,6 @@ arc_labels.default <- function (phy = NULL, tips, text, plot_singletons = TRUE,
 # #' @rdname arclabels
 # #' @method arclabels list
 # #' @export
-# arclabels.list <- function (phy = NULL, text, tips, plot_singletons = TRUE, ln.offset = 1.02, lab.offset = 1.06,
+# arclabels.list <- function (phy = NULL, text, tips, plot_singletons = TRUE,
+# ln.offset = 1.02, lab.offset = 1.06,
 #     cex = 1, orientation = "horizontal", ...){

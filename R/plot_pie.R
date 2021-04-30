@@ -199,7 +199,7 @@ plot_pie <- function (omega, shp, r = 1, col=hcl.colors(5),
                  col = col, ncol = 2, pch = 19, pt.cex = 1.5, ...)
         }
         if (isTRUE(legend_pie)) {
-            rl = (sqrt(sapply(slot(s[1,], "polygons"),
+            rl <- (sqrt(sapply(slot(s[1,], "polygons"),
                               function(i) slot(i, "area")))*r)*2
             legend_pie("left", labels=colnames(omega), rd=rl, bty="n",
                        col=col, cex=0.5, label.dist=1.3, border = NA)

@@ -43,8 +43,8 @@ fishnet <- function(mask, res = 0.5, type = "square"){
                   f <- HexPoints2SpatialPolygons(r)
 
                   spo <- SpatialPolygonsDataFrame(f,
-                                                  data.frame(grids=paste0("v",1:length(f))),
-                                                  match.ID = FALSE)
+                        data.frame(grids=paste0("v", seq_along(f))),
+                        match.ID = FALSE)
                 })
   return(res)
 }
