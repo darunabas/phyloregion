@@ -41,7 +41,8 @@ the models will be projected}
 
 \item{lr}{Learning rate. Sets the weight applied to individual trees}
 
-\item{bf}{Bag fraction. Sets the proportion of observations used in selecting variables}
+\item{bf}{Bag fraction. Sets the proportion of observations used in selecting
+variables}
 
 \item{n.trees}{Number of initial trees to fit. Set at 50 by default}
 
@@ -69,7 +70,9 @@ A list with the following objects:
 \description{
 This function computes species distribution models using
 four modelling algorithms: generalized linear models,
-generalized boosted models, random forests, and maximum entropy.
+generalized boosted models, random forests, and maximum entropy (if
+\code{rJava} is available. Note: this is an experimental function, and
+may change in the future.
 }
 \examples{
 \donttest{

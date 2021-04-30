@@ -4,7 +4,6 @@ author: "Barnabas H. Daru, Piyal Karunarathne & Klaus Schliep"
 date: "July 19, 2020"
 output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
-csl: nature-communications.csl
 vignette: >
    %\VignetteIndexEntry{Benchmarking phyloregion}
    %\VignetteEngine{knitr::rmarkdown}

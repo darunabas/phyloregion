@@ -1,3 +1,7 @@
+# write functions for each model
+# model=c("RF", "GLM", "MAXENT", "GBM") to choose models
+# run bioclim to generate points for species with limited sampling.
+
 .arcp <- function (xy)
 {
     if (nrow(xy) < 3)
@@ -112,7 +116,9 @@ sampleBuffer <- function(x, n_points, width=2, limits=NULL){
 #'
 #' This function computes species distribution models using
 #' four modelling algorithms: generalized linear models,
-#' generalized boosted models, random forests, and maximum entropy.
+#' generalized boosted models, random forests, and maximum entropy (if
+#' \code{rJava} is available. Note: this is an experimental function, and
+#' may change in the future.
 #'
 #' @param x A dataframe containing the species occurrences
 #' and geographic coordinates. Column 1 labeled as "species", column 2 "lon",
@@ -127,7 +133,8 @@ sampleBuffer <- function(x, n_points, width=2, limits=NULL){
 #' the input data frame of species occurrences.
 #' @param tc Integer. Tree complexity. Sets the complexity of individual trees
 #' @param lr Learning rate. Sets the weight applied to individual trees
-#' @param bf Bag fraction. Sets the proportion of observations used in selecting variables
+#' @param bf Bag fraction. Sets the proportion of observations used in selecting
+#' variables
 #' @param n.trees Number of initial trees to fit. Set at 50 by default
 #' @param k Number of groups
 #' @param step.size Number of trees to add at each cycle
@@ -183,7 +190,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     name.sp <- unique(x$species)
 
     if (is.null(predictors)) {
-        stop("you need to specify RasterStack of environmental variables \non which the models will be projected")
+        stop("you need to specify RasterStack of environmental variables")
     }
 
     x <- x[, c("lon", "lat")]
@@ -318,19 +325,24 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         gc()
 
         # 3. Maxent
-        xm <- maxent(predictors, pres_train)
-        xe <- evaluate(pres_test, backg_test, xm, predictors)
-        mx <- predict(predictors, xm, ext=extent(pol), progress='')
-        mr <- threshold(xe, 'spec_sens')
-        mt <- raster::crop((mx > mr), pol)
-        # use the mask function
-        mt1 <- resample(mask(mt, pol), blank, method = "ngb")
-        MX <- merge(mt1, blank)
-        # TSS
-        cm_mx <- data.frame(xe@confusion)
-        tpr_mx <- cm_mx$tp / (cm_mx$tp + cm_mx$fn)
-        tnr_mx <- cm_mx$tn / (cm_mx$fp + cm_mx$tn)
-        tss_mx <- median(tpr_mx + tnr_mx - 1)
+        maxent_available <- FALSE
+        if (maxent()) {
+            maxent_available <- TRUE
+            xm <- maxent(predictors, pres_train)
+            xe <- evaluate(pres_test, backg_test, xm, predictors)
+            mx <- predict(predictors, xm, ext=extent(pol), progress='')
+            mr <- threshold(xe, 'spec_sens')
+            mt <- raster::crop((mx > mr), pol)
+            # use the mask function
+            mt1 <- resample(mask(mt, pol), blank, method = "ngb")
+            MX <- merge(mt1, blank)
+            # TSS
+            cm_mx <- data.frame(xe@confusion)
+            tpr_mx <- cm_mx$tp / (cm_mx$tp + cm_mx$fn)
+            tnr_mx <- cm_mx$tn / (cm_mx$fp + cm_mx$tn)
+            tss_mx <- median(tpr_mx + tnr_mx - 1)
+        }
+
         gc()
 
         # 4. Generalised boosted models, GBMs
@@ -360,26 +372,52 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         tss_gbm <- median(tpr_gb + tnr_gb - 1)
         gc()
 
-        models <- stack(RF, GLM, MX, GBM)
-        names(models) <- c("RF", "GLM", "MAXENT", "GBM")
-        m <- models[[which(!maxValue(models)==0)]]
-        if (nlayers(m) > 1) {
-            m <- calc(m, median, forceapply=TRUE)
+        if (maxent_available) {
+            models <- stack(RF, GLM, MX, GBM)
+            names(models) <- c("RF", "GLM", "MAXENT", "GBM")
+            m <- models[[which(!maxValue(models)==0)]]
+            if (nlayers(m) > 1) {
+                m <- calc(m, median, forceapply=TRUE)
+            }
+            spo <- m==1
+
+            aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_MAXENT=xe@auc,
+                      auc_GBM=egb@auc)
+            m_auc <- median(aucs)
+
+            indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm, TSS_MAXENT=tss_mx,
+                           TSS_GBM=tss_gbm)
+            TSS <- median(indiv_TSS)
+
+            occ_csv$species <- name.sp
+            occ_csv$AUC <- m_auc
+            occ_csv$TSS <- TSS
+            occ_csv <- occ_csv[, c("species", "lon", "lat", "source", "AUC",
+                                   "TSS")]
+        } else {
+            models <- stack(RF, GLM, GBM)
+            names(models) <- c("RF", "GLM", "GBM")
+            m <- models[[which(!maxValue(models)==0)]]
+            if (nlayers(m) > 1) {
+                m <- calc(m, median, forceapply=TRUE)
+            }
+            spo <- m==1
+
+            aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_GBM=egb@auc)
+            m_auc <- median(aucs)
+
+            indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
+            TSS <- median(indiv_TSS)
+
+            occ_csv$species <- name.sp
+            occ_csv$AUC <- m_auc
+            occ_csv$TSS <- TSS
+            occ_csv <- occ_csv[, c("species", "lon", "lat", "source", "AUC",
+                                   "TSS")]
         }
-        spo <- m==1
 
-        aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_MAXENT=xe@auc, auc_GBM=egb@auc)
-        m_auc <- median(aucs)
-
-        indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm, TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
-        TSS <- median(indiv_TSS)
-
-        occ_csv$species <- name.sp
-        occ_csv$AUC <- m_auc
-        occ_csv$TSS <- TSS
-        occ_csv <- occ_csv[, c("species", "lon", "lat", "source", "AUC", "TSS")]
-
-        return(list(ensemble_raster = spo, ensemble_AUC = m_auc, ensemble_TSS=TSS, data=occ_csv,
+        return(list(ensemble_raster = spo, ensemble_AUC = m_auc,
+                    ensemble_TSS=TSS, data=occ_csv,
                     indiv_models=models, indiv_AUCs=aucs, indiv_TSS=indiv_TSS))
         gc()
     }

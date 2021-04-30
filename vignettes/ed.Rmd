@@ -4,7 +4,6 @@ author: "Barnabas H. Daru"
 date: "December 12, 2020"
 output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
-csl: nature-communications.csl
 vignette: >
    %\VignetteIndexEntry{Fast Evolutionary Distinctiveness in R}
    %\VignetteEngine{knitr::rmarkdown}

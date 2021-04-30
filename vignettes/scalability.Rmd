@@ -4,7 +4,6 @@ author: "Barnabas H. Daru, Piyal Karunarathne & Klaus Schliep"
 date: "July 17, 2020"
 output: rmarkdown::html_vignette
 bibliography: phyloregion.bib
-csl: nature-communications.csl
 vignette: >
    %\VignetteIndexEntry{Scalability of phyloregion}
    %\VignetteEngine{knitr::rmarkdown}
