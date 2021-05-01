@@ -17,7 +17,7 @@ sdm(
   step.size = n.trees,
   k = 5,
   herbarium.rm = TRUE,
-  n_points = 30
+  n.points = 80
 )
 }
 \arguments{
@@ -52,7 +52,7 @@ variables}
 
 \item{herbarium.rm}{Logical, remove points within 50 km of herbaria.}
 
-\item{n_points}{Minimum number of points required to successfully run
+\item{n.points}{Minimum number of points required to successfully run
 a species distribution model}
 }
 \value{
@@ -78,8 +78,9 @@ may change in the future.
 \donttest{
 library(raster)
 # get predictor variables
-f <- list.files(path=paste(system.file(package="phyloregion"), '/ex', sep=''),
-                     pattern='.tif', full.names=TRUE )
+f <- list.files(path=paste(system.file(package="phyloregion"),
+                '/ex', sep=''), pattern='.tif', full.names=TRUE)
+
 preds <- stack(f)
 #plot(preds)
 # get species occurrences

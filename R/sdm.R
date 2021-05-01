@@ -104,13 +104,34 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 }
 
 
-sampleBuffer <- function(x, n_points, width=2, limits=NULL){
-    cc <- gBuffer(x, width=width)
-    if(!is.null(limits)) cc <- crop(cc, limits)
-    res <- spsample(cc, n_points, type="random")
-    res
+#sampleBuffer <- function(x, n_points, width=2, limits=NULL){
+#    cc <- gBuffer(x, width=width)
+#    if(!is.null(limits)) cc <- crop(cc, limits)
+#    res <- spsample(cc, n_points, type="random")
+#    res
+#}
+
+.blank_raster <- function(res) {
+    e <- raster::extent(c(-180, 180, -90, 90))
+    p <- as(e, "SpatialPolygons")
+    r <- raster(ncol = 180, nrow = 180, resolution = res)
+    extent(r) <- extent(p)
+    blank <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
+    # set all values to zero
+    blank[!is.na(blank)] <- 0
+    return(blank)
 }
 
+.more_points <- function(pts, preds) {
+    x <- as.data.frame(pts)
+    bc <- dismo::bioclim(preds, pts)
+    p <- predict(preds, bc)
+    vv <- as.data.frame(randomPoints(p, n=80, prob=TRUE))
+    vv$source <- "random"
+    names(vv)[c(1,2)] <- c("lon", "lat")
+    res <- rbind(x, vv)
+    res
+}
 
 #' Species distribution models for a range of algorithms
 #'
@@ -139,7 +160,7 @@ sampleBuffer <- function(x, n_points, width=2, limits=NULL){
 #' @param k Number of groups
 #' @param step.size Number of trees to add at each cycle
 #' @param herbarium.rm Logical, remove points within 50 km of herbaria.
-#' @param n_points Minimum number of points required to successfully run
+#' @param n.points Minimum number of points required to successfully run
 #' a species distribution model
 #' @rdname sdm
 #' @importFrom raster values extent res<- crop extract predict resample merge
@@ -170,8 +191,9 @@ sampleBuffer <- function(x, n_points, width=2, limits=NULL){
 #' \donttest{
 #' library(raster)
 #' # get predictor variables
-#' f <- list.files(path=paste(system.file(package="phyloregion"), '/ex', sep=''),
-#'                      pattern='.tif', full.names=TRUE )
+#' f <- list.files(path=paste(system.file(package="phyloregion"),
+#'                 '/ex', sep=''), pattern='.tif', full.names=TRUE)
+#'
 #' preds <- stack(f)
 #' #plot(preds)
 #' # get species occurrences
@@ -180,17 +202,16 @@ sampleBuffer <- function(x, n_points, width=2, limits=NULL){
 #' # fit ensemble model for four algorithms
 #' mod <- sdm(d, predictors = preds)
 #' }
-
 #' @export
 sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                 lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees, k=5,
-                herbarium.rm = TRUE, n_points = 30) {
+                herbarium.rm = TRUE, n.points = 80) {
     x <- x[, c("species", "lon", "lat")]
     names(x) <- c("species", "lon", "lat")
     name.sp <- unique(x$species)
 
     if (is.null(predictors)) {
-        stop("you need to specify RasterStack of environmental variables")
+        stop("you need to specify RasterStack of environmental data")
     }
 
     x <- x[, c("lon", "lat")]
@@ -208,13 +229,17 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         x <- x[is.na(over(x, herb_pol)),]
     }
 
+    if(length(x) < n.points){
+        x <- .more_points(pts = x, preds = predictors)
+    }
+
     fam_pol <- pol
 
     if (!is.null(pol)) {
         x <- x[pol,]
     }
 
-    if (nrow(x) < 5) {
+    if (nrow(x) < n.points) {
         e <- as(extent(x), "SpatialPolygons")
         crs(e) <- "+proj=longlat +datum=WGS84"
         pol <- suppressWarnings(invisible(gBuffer(e, width=2)))
@@ -229,26 +254,14 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
     gc()
 
     if (is.null(blank)) {
-        e <- raster::extent(pol)*1.5
-        p <- as(e, "SpatialPolygons")
-        r <- raster(ncol = 180, nrow = 180, resolution = res)
-        extent(r) <- extent(p)
-        r1 <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
-        blank <- resample(predictors[[1]], r1)
-        # set all values to zero
-        blank[!is.na(blank)] <- 0
+        blank <- .blank_raster(res=res)
     }
 
 
     if (length(x1) > 0) {
-        if(length(x1) < n_points){
-            vv <- sampleBuffer(x1, n_points - length(x1), limits=pol)
-            vv <- data.frame(vv)
-            vv$source <- "random"
-            names(vv)[c(1,2)] <- c("lon", "lat")
-            x1 <- as.data.frame(x1)
-            x1 <- rbind(x1, vv)
-        }
+        #if(length(x1) < n.points){
+        #    x1 <- more_points(pts = x1, preds = predictors)
+        #}
 
         # OCCURRENCE POINTS
         occ_csv <- as.data.frame(x1)
@@ -260,8 +273,10 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
 
         if (!is.null(fam_pol)) {
             predictors <- raster::crop(predictors, fam_pol)
-        } else {
+        } else if (!is.null(pol)) {
             predictors <- raster::crop(predictors, pol)
+        } else {
+            predictors <- predictors
         }
 
         gc()
@@ -271,7 +286,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
 
         set.seed(10)
         backg <- dismo::randomPoints(mask=predictors, n=nrow(occ)*3,
-                                     ext=extent(pol), extf = 1.1, warn = 0, p = occ)
+                                     ext=extent(pol), extf = 1.1, warn = 0,
+                                     p = occ)
 
         colnames(backg) <- c('lon', 'lat')
 
@@ -295,7 +311,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                                  collapse = " + ")))
 
         # 1. Random Forest
-        rf1 <- suppressWarnings(invisible(randomForest::randomForest(Formula, data=envtrain)))
+        rf1 <- suppressWarnings(invisible(randomForest::randomForest(Formula,
+                                        data=envtrain)))
         erf <- dismo::evaluate(testpres, testbackg, rf1)
         px <- raster::predict(predictors, rf1, ext=extent(pol))
         tr <- threshold(erf, 'spec_sens')
@@ -311,7 +328,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         gc()
 
         # 2. GLM
-        gm <- suppressWarnings(invisible(glm(Formula, family = "binomial", data=envtrain)))
+        gm <- suppressWarnings(invisible(glm(Formula, family = "binomial",
+                                             data=envtrain)))
         ge <- dismo::evaluate(testpres, testbackg, gm)
         pg <- predict(predictors, gm, ext=extent(pol))
         gtr <- threshold(ge, 'spec_sens')
@@ -348,17 +366,15 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         gc()
 
         # 4. Generalised boosted models, GBMs
-        gbm_mod <- suppressWarnings(invisible(dismo::gbm.step(data = envtrain, gbm.x = Preds,
-                                                              gbm.y=y, family = "bernoulli",
-                                                              tree.complexity = tc,
-                                                              learning.rate = lr,
-                                                              bag.fraction = bf,
-                                                              verbose = TRUE, silent = TRUE,
-                                                              plot.main = FALSE,
-                                                              step.size = step.size,
-                                                              n.trees = n.trees)))
+        gbm_mod <- suppressWarnings(invisible(dismo::gbm.step(data = envtrain,
+                    gbm.x = Preds, gbm.y=y, family = "bernoulli",
+                    tree.complexity = tc, learning.rate = lr,
+                    bag.fraction = bf, verbose = TRUE, silent = TRUE,
+                    plot.main = FALSE, step.size = step.size,
+                    n.trees = n.trees)))
 
-        egb <- suppressMessages(invisible(evaluate(testpres, testbackg, gbm_mod)))
+        egb <- suppressMessages(invisible(evaluate(testpres, testbackg,
+                                                   gbm_mod)))
         pred_gb <- raster::predict(object = predictors, model = gbm_mod,
                                    n.trees = gbm_mod$gbm.call$best.trees,
                                    type = "response", na.rm = TRUE)
