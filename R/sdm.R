@@ -116,8 +116,8 @@ sampleBuffer <- function(x, n_points, width=2, limits=NULL){
 #'
 #' This function computes species distribution models using
 #' four modelling algorithms: generalized linear models,
-#' generalized boosted models, random forests, and maximum entropy (if
-#' \code{rJava} is available. Note: this is an experimental function, and
+#' generalized boosted models, random forests, and maximum entropy (only if
+#' \code{rJava} is available). Note: this is an experimental function, and
 #' may change in the future.
 #'
 #' @param x A dataframe containing the species occurrences
@@ -290,7 +290,9 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
 
         Preds <- names(envtrain)[-1]
         y <- names(envtrain)[1]
-        Formula <- formula(paste(y," ~ ", paste(Preds, collapse=" + ")))
+        Formula <- formula(paste(y," ~ ", paste(Preds, collapse=" + "),'+',
+                           paste("I(", Preds, "^2)", sep = "",
+                                 collapse = " + ")))
 
         # 1. Random Forest
         rf1 <- suppressWarnings(invisible(randomForest::randomForest(Formula, data=envtrain)))

@@ -147,7 +147,7 @@ NULL
 #' @aliases phyloregion-package
 #' @docType package
 #' @author \href{https://barnabasdaru.com/}{Barnabas H. Daru}, Piyal Karunarathne,
-#' \href{https://kschliep.netlify.com/}{Klaus Schliep}
+#' \href{https://kschliep.netlify.app/}{Klaus Schliep}
 #'
 #' @keywords package
 NULL

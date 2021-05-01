@@ -70,8 +70,8 @@ A list with the following objects:
 \description{
 This function computes species distribution models using
 four modelling algorithms: generalized linear models,
-generalized boosted models, random forests, and maximum entropy (if
-\code{rJava} is available. Note: this is an experimental function, and
+generalized boosted models, random forests, and maximum entropy (only if
+\code{rJava} is available). Note: this is an experimental function, and
 may change in the future.
 }
 \examples{
