@@ -125,8 +125,9 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 .more_points <- function(pts, preds) {
     x <- as.data.frame(pts)
     bc <- dismo::bioclim(preds, pts)
-    p <- predict(preds, bc)
-    vv <- as.data.frame(randomPoints(p, n=80, prob=TRUE))
+    p <- predict(preds, bc, tail='high')
+    vv <- suppressWarnings(invisible(as.data.frame(randomPoints(mask=p,
+                            n=80, prob=TRUE))))
     vv$source <- "random"
     names(vv)[c(1,2)] <- c("lon", "lat")
     res <- rbind(x, vv)
@@ -225,19 +226,30 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         dx <- read.csv(system.file("ex/IHfeb20.csv", package="phyloregion"))
         coordinates(dx) <- ~lon+lat
         proj4string(dx) <- CRS("+proj=longlat +datum=WGS84")
-        herb_pol <- gBuffer(dx, width=0.5)
+        herb_pol <- suppressWarnings(invisible(gBuffer(dx, width=0.5)))
         x <- x[is.na(over(x, herb_pol)),]
-    }
-
-    if(length(x) < n.points){
-        x <- .more_points(pts = x, preds = predictors)
     }
 
     fam_pol <- pol
 
+    if(nrow(x) < n.points){
+        x <- .more_points(pts = x, preds = predictors)
+        coordinates(x) <- ~lon+lat
+        proj4string(x) <- CRS("+proj=longlat +datum=WGS84")
+    }
+
+    #fam_pol <- pol
+
     if (!is.null(pol)) {
         x <- x[pol,]
-    }
+    } #else {
+        #e <- raster::extent(c(-180, 180, -90, 90))
+        #pol <- as(e, "SpatialPolygons")
+        #proj4string(pol) <- proj4string(x)
+        #pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
+        #                                match.ID = FALSE)
+        #x1 <- x[pol,]
+    #}
 
     if (nrow(x) < n.points) {
         e <- as(extent(x), "SpatialPolygons")
@@ -251,7 +263,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                                     match.ID = FALSE)
 
     x1 <- x[pol,]
-    gc()
+    #gc()
 
     if (is.null(blank)) {
         blank <- .blank_raster(res=res)
@@ -271,6 +283,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         pres_train <- occ[fold != test, ]
         pres_test <- occ[fold == test, ]
 
+        #predictors <- raster::crop(predictors, pol)
+
         if (!is.null(fam_pol)) {
             predictors <- raster::crop(predictors, fam_pol)
         } else if (!is.null(pol)) {
@@ -279,7 +293,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
             predictors <- predictors
         }
 
-        gc()
+        #gc()
 
         # only run if the maxent.jar file is available, in the right folder
         jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
@@ -391,7 +405,9 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         gc()
 
         if (maxent_available) {
-            models <- stack(RF, GLM, MX, GBM)
+
+            models <- list(RF, GLM, MX, GBM)
+            models <- do.call(stack, models)
             names(models) <- c("RF", "GLM", "MAXENT", "GBM")
             m <- models[[which(!maxValue(models)==0)]]
             if (nlayers(m) > 1) {
@@ -413,8 +429,10 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
             occ_csv <- occ_csv[, c("species", "lon", "lat", "source", "AUC",
                                    "TSS")]
         } else {
-            models <- stack(RF, GLM, GBM)
+            models <- list(RF, GLM, GBM)
+            models <- do.call(stack, models)
             names(models) <- c("RF", "GLM", "GBM")
+
             m <- models[[which(!maxValue(models)==0)]]
             if (nlayers(m) > 1) {
                 m <- calc(m, median, forceapply=TRUE)
