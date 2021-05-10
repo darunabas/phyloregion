@@ -91,7 +91,10 @@ mod <- sdm(d, predictors = preds)
 }
 }
 \references{
-Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy
-modeling of species geographic distributions. \emph{Ecological Modelling}
-\strong{190}: 231-259.
+Zurell, D., Franklin, J., König, C., Bouchet, P.J., Dormann, C.F., Elith, J.,
+Fandos, G., Feng, X., Guillera‐Arroita, G., Guisan, A., Lahoz‐Monfort, J.J.,
+Leitão, P.J., Park, D.S., Peterson, A.T., Rapacciuolo, G., Schmatz, D.R.,
+Schröder, B., Serra‐Diaz, J.M., Thuiller, W., Yates, K.L., Zimmermann, N.E.
+and Merow, C. (2020), A standard protocol for reporting species distribution
+models. \emph{Ecography}, \strong{43}: 1261-1277.
 }

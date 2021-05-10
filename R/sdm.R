@@ -1,3 +1,21 @@
+.matchnames <- function(x) {
+    x <- as.data.frame(x)
+    nat <- colnames(x)
+    X <- paste(c("\\blongitude\\b", "\\bdecimalLongitude\\b", "\\bLong\\b",
+                 "\\bx\\b", "\\blon\\b"), collapse = "|")
+    Y <- paste(c("\\blatitude\\b", "\\bdecimalLatitude\\b", "\\bLati\\b",
+                 "\\by\\b", "\\lat\\b"), collapse = "|")
+    SP <- paste(c("\\bspecies\\b", "\\bbinomial\\b", "\\bbinomil\\b",
+                  "\\btaxon\\b"), collapse = "|")
+
+    lon <- nat[grepl(X, nat, ignore.case = TRUE)]
+    lat <- nat[grepl(Y, nat, ignore.case = TRUE)]
+    species <- nat[grepl(SP, nat, ignore.case = TRUE)]
+    x <- x[, c(species, lon, lat)]
+    names(x) <- c("species", "lon", "lat")
+    return(x)
+}
+
 # write functions for each model
 # model=c("RF", "GLM", "MAXENT", "GBM") to choose models
 # run bioclim to generate points for species with limited sampling.
@@ -185,9 +203,12 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 #'   \item \code{single_AUCs} The AUCs for the seperate models.
 #' }
 #' @references
-#' Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy
-#' modeling of species geographic distributions. \emph{Ecological Modelling}
-#' \strong{190}: 231-259.
+#' Zurell, D., Franklin, J., König, C., Bouchet, P.J., Dormann, C.F., Elith, J.,
+#' Fandos, G., Feng, X., Guillera‐Arroita, G., Guisan, A., Lahoz‐Monfort, J.J.,
+#' Leitão, P.J., Park, D.S., Peterson, A.T., Rapacciuolo, G., Schmatz, D.R.,
+#' Schröder, B., Serra‐Diaz, J.M., Thuiller, W., Yates, K.L., Zimmermann, N.E.
+#' and Merow, C. (2020), A standard protocol for reporting species distribution
+#' models. \emph{Ecography}, \strong{43}: 1261-1277.
 #' @examples
 #' \donttest{
 #' library(raster)
@@ -207,8 +228,7 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                 lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees, k=5,
                 herbarium.rm = TRUE, n.points = 80) {
-    x <- x[, c("species", "lon", "lat")]
-    names(x) <- c("species", "lon", "lat")
+    x <- .matchnames(x)
     name.sp <- unique(x$species)
 
     if (is.null(predictors)) {
