@@ -110,12 +110,12 @@ blank <- function(x, res=NULL) {
 #'
 #' @export
 raster2comm <- function(files) {
-    pol <- make_poly(files[1])
-    pol <- pol[, "grids"]
     m <- progress(files, foo, rast=raster(files[1]))
     res <- do.call("rbind", m)
     y <- long2sparse(res)
     tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
+    pol <- make_poly(files[1])
+    pol <- pol[, "grids"]
     z <- sp::merge(pol, tmp, by = "grids")
     z <- z[!is.na(z@data$richness), ]
     return(list(comm_dat = y, poly_shp = z))
