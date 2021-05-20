@@ -30,6 +30,9 @@ phylo_community <- function(x, phy) {
 #'
 #' \code{phylobeta} returns a list with three phylogenetic dissimilarity
 #' matrices. See \code{\link{phylo.beta.pair}} for details.
+#' @references
+#' Lozupone C, Knight R. (2005) UniFrac: a new phylogenetic method for comparing
+#' microbial communities. \emph{Appl Environ Microbiol.} \strong{71 (12)}:8228--35.
 #' @keywords phyloregion
 #' @seealso \code{\link{read.community}}, \code{\link{phylo.betapart.core}},
 #' \code{\link{beta_core}}
@@ -91,6 +94,14 @@ phylobeta <- function(x, phy, index.family = "sorensen") {
   res <- phylobeta_core(x, phy)
   p <- phylo.beta.pair(res, index.family = index.family)
   return(p)
+}
+
+
+#' @rdname phylobeta
+#' @export
+unifrac <- function(x, phy) {
+  pbc <- phylobeta_core(x, phy)
+  pbc$sum.not.shared / (pbc$sum.not.shared + pbc$shared)
 }
 
 
