@@ -16,7 +16,7 @@ sdm(
   n.trees = 50,
   step.size = n.trees,
   k = 5,
-  herbarium.rm = TRUE,
+  herbarium.rm = FALSE,
   n.points = 80
 )
 }

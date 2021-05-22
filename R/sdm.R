@@ -227,7 +227,7 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 #' @export
 sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                 lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees, k=5,
-                herbarium.rm = TRUE, n.points = 80) {
+                herbarium.rm = FALSE, n.points = 80) {
     x <- .matchnames(x)
     name.sp <- unique(x$species)
 
@@ -271,15 +271,17 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         #x1 <- x[pol,]
     #}
 
-    if (nrow(x) < n.points) {
-        e <- as(extent(x), "SpatialPolygons")
-        crs(e) <- "+proj=longlat +datum=WGS84"
-        pol <- suppressWarnings(invisible(gBuffer(e, width=2)))
-    } else {
-        pol <- suppressWarnings(invisible(gBuffer(MCP(x), width=2)))
-    }
+    #if (nrow(x) < n.points) {
+        #pol <- as(extent(x), "SpatialPolygons")
+        #crs(pol) <- "+proj=longlat +datum=WGS84"
+        #pol <- suppressWarnings(invisible(gBuffer(e, width=2)))
+    #} #else {
+        #pol <- suppressWarnings(invisible(gBuffer(MCP(x), width=2)))
+    #}
     #pol <- gBuffer(x, width=1)
-    pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
+    pol <- as(extent(x), "SpatialPolygons")
+    crs(pol) <- "+proj=longlat +datum=WGS84"
+    pol <- SpatialPolygonsDataFrame(pol, data.frame(id = 1:length(pol)),
                                     match.ID = FALSE)
 
     x1 <- x[pol,]
@@ -319,8 +321,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
 
         set.seed(10)
-        backg <- dismo::randomPoints(mask=predictors, n=nrow(occ)*3,
-                                     ext=extent(pol), extf = 1.1, warn = 0,
+        backg <- dismo::randomPoints(mask = predictors, n = nrow(occ)*3,
+                                     ext = extent(pol), extf = 1.1, warn = 0,
                                      p = occ)
 
         colnames(backg) <- c('lon', 'lat')
@@ -333,7 +335,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         train <- rbind(pres_train, backg_train)
         pb_train <- c(rep(1, nrow(pres_train)), rep(0, nrow(backg_train)))
         envtrain <- extract(predictors, train)
-        envtrain <- na.omit(data.frame(cbind(pa=pb_train, envtrain)))
+        envtrain <- na.omit(data.frame(cbind(pa = pb_train, envtrain)))
 
         testpres <- data.frame(extract(predictors, pres_test) )
         testbackg <- data.frame(extract(predictors, backg_test))
@@ -348,7 +350,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
         rf1 <- suppressWarnings(invisible(randomForest::randomForest(Formula,
                                         data=envtrain)))
         erf <- dismo::evaluate(testpres, testbackg, rf1)
-        px <- raster::predict(predictors, rf1, ext=extent(pol))
+        px <- raster::predict(predictors, rf1, ext = extent(pol))
         tr <- threshold(erf, 'spec_sens')
         trf <- raster::crop((px > tr), pol)
         # use the mask function
