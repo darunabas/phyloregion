@@ -14,7 +14,7 @@
 #' @rawNamespace export(plot.sparse)
 plot.sparse <- function(x, col = c("red", "yellow"), lwd = 1, ...) {
   x <- as.matrix(x)
-  x <- x[nrow(x):1, ]
+  #x <- x[nrow(x):1, ]
   plot(1, 1, xlab = NA, ylab = NA, ylim = c(0,1), xlim = c(0, ncol(x)),
        type = "n", xaxt = "n", yaxt = "n", ...)
   usr <- par("usr")
