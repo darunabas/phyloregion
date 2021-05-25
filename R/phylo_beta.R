@@ -53,6 +53,15 @@ phylo_community <- function(x, phy) {
 #' @importFrom Matrix tril tcrossprod Diagonal
 #' @export
 phylobeta_core <- function(x, phy) {
+  if(inherits(x, "phyloseq")){
+    if (requireNamespace("phyloseq", quietly = TRUE)) {
+      if(missing(phy)) phy <- phyloseq::phy_tree(x)
+      otu <- as(phyloseq::otu_table(x), "matrix")
+      if (phyloseq::taxa_are_rows(x)) otu <- t(otu)
+      x <- Matrix(otu, sparse = TRUE)
+    }
+  }
+  if(inherits(x, "matrix") && ncol(x)>2) x <- Matrix(x, sparse=TRUE)
   if(!is(x, "sparseMatrix")) stop("x needs to be a sparse matrix!")
   if (!identical(sort(colnames(x)), sort(phy$tip.label)))
     stop("Labels of community matrix and tree differ!")
