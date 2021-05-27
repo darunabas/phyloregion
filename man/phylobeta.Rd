@@ -3,14 +3,11 @@
 \name{phylobeta_core}
 \alias{phylobeta_core}
 \alias{phylobeta}
-\alias{unifrac}
 \title{Phylogenetic beta diversity}
 \usage{
 phylobeta_core(x, phy)
 
 phylobeta(x, phy, index.family = "sorensen")
-
-unifrac(x, phy)
 }
 \arguments{
 \item{x}{an object of class Matrix or matrix}
@@ -43,10 +40,6 @@ com
 
 pbc <- phylobeta_core(com, tree)
 pb <- phylobeta(com, tree)
-}
-\references{
-Lozupone C, Knight R. (2005) UniFrac: a new phylogenetic method for comparing
-microbial communities. \emph{Appl Environ Microbiol.} \strong{71 (12)}:8228--35.
 }
 \seealso{
 \code{\link{read.community}}, \code{\link{phylo.betapart.core}},

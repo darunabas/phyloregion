@@ -30,9 +30,6 @@ phylo_community <- function(x, phy) {
 #'
 #' \code{phylobeta} returns a list with three phylogenetic dissimilarity
 #' matrices. See \code{\link{phylo.beta.pair}} for details.
-#' @references
-#' Lozupone C, Knight R. (2005) UniFrac: a new phylogenetic method for comparing
-#' microbial communities. \emph{Appl Environ Microbiol.} \strong{71 (12)}:8228--35.
 #' @keywords phyloregion
 #' @seealso \code{\link{read.community}}, \code{\link{phylo.betapart.core}},
 #' \code{\link{beta_core}}
@@ -106,7 +103,31 @@ phylobeta <- function(x, phy, index.family = "sorensen") {
 }
 
 
-#' @rdname phylobeta
+
+
+
+#' UniFrac distance
+#'
+#' \code{unifrac} calculates the unweighted UniFrac distance between commuities.
+#'
+#' @param x a community matrix, i.e. an object of class matrix or Matrix, or an
+#' object of class phyloseq.
+#' @param phy a phylogenetic tree (object of class phylo).
+#' @return a dist object.
+#' @keywords cluster
+#' @seealso \code{\link{PD}}, \code{\link{phylobeta}}
+#' @references
+#' Lozupone C, Knight R. (2005) UniFrac: a new phylogenetic method for comparing
+#' microbial communities. \emph{Appl Environ Microbiol.} \strong{71 (12)}:8228--35.
+#' \emph{BMC Bioinformatics} 7:371.
+#' @examples
+#' tree <- ape::read.tree(text ="((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")
+#' com <- Matrix::sparseMatrix(c(1,3,4,1,4,5,1,2,3,4,5,6,3,4,6),
+#'   c(1,1,1,2,2,2,3,3,3,3,3,3,4,4,4),x=1,
+#'   dimnames = list(paste0("g", 1:6), tree$tip.label))
+#'
+#' unifrac(com, tree)
+#' @rdname unifrac
 #' @export
 unifrac <- function(x, phy) {
   pbc <- phylobeta_core(x, phy)
