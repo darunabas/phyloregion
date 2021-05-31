@@ -16,7 +16,8 @@ object of class phyloseq.}
 a dist object.
 }
 \description{
-\code{unifrac} calculates the unweighted UniFrac distance between commuities.
+\code{unifrac} calculates the unweighted UniFrac distance between
+communities.
 }
 \examples{
 tree <- ape::read.tree(text ="((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;")

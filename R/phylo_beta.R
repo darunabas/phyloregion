@@ -108,7 +108,8 @@ phylobeta <- function(x, phy, index.family = "sorensen") {
 
 #' UniFrac distance
 #'
-#' \code{unifrac} calculates the unweighted UniFrac distance between commuities.
+#' \code{unifrac} calculates the unweighted UniFrac distance between
+#' communities.
 #'
 #' @param x a community matrix, i.e. an object of class matrix or Matrix, or an
 #' object of class phyloseq.

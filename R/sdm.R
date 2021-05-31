@@ -129,16 +129,16 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 #    res
 #}
 
-.blank_raster <- function(res) {
-    e <- raster::extent(c(-180, 180, -90, 90))
-    p <- as(e, "SpatialPolygons")
-    r <- raster(ncol = 180, nrow = 180, resolution = res)
-    extent(r) <- extent(p)
-    blank <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
-    # set all values to zero
-    blank[!is.na(blank)] <- 0
-    return(blank)
-}
+#.blank_raster <- function(res) {
+#    e <- raster::extent(c(-180, 180, -90, 90))
+#    p <- as(e, "SpatialPolygons")
+#    r <- raster(ncol = 180, nrow = 180, resolution = res)
+#    extent(r) <- extent(p)
+#    blank <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
+#    # set all values to zero
+#    blank[!is.na(blank)] <- 0
+#    return(blank)
+#}
 
 .more_points <- function(pts, preds) {
     x <- as.data.frame(pts)
@@ -285,10 +285,10 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
                                     match.ID = FALSE)
 
     x1 <- x[pol,]
-    #gc()
 
     if (is.null(blank)) {
-        blank <- .blank_raster(res=res)
+        blank <- predictors[[1]]
+        blank[!is.na(blank)] <- 0
     }
 
 
