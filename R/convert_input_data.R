@@ -112,6 +112,7 @@ blank <- function(x, res=NULL) {
 raster2comm <- function(files) {
     m <- progress(files, foo, rast=raster(files[1]))
     res <- do.call("rbind", m)
+    if(!(nrow(res) > 0)) stop("Raster files probably empty!")
     y <- long2sparse(res)
     tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
     pol <- make_poly(files[1])

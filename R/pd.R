@@ -30,7 +30,7 @@ PD <- function(x, phy){
       x <- Matrix(otu, sparse = TRUE)
     }
   }
-  if(inherits(x, "matrix") && ncol(x)>2) x <- Matrix(x, sparse=TRUE)
+  if(inherits(x, "matrix") && ncol(x)>2) x <- Matrix(x, sparse = TRUE)
   if(!is(x, "sparseMatrix")) stop("x needs to be a sparse matrix!")
   if(length(setdiff(colnames(x), phy$tip.label)) > 0)
     stop("There are species labels in community matrix missing in the tree!")
