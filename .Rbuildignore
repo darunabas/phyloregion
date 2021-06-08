@@ -21,4 +21,3 @@
 ^vignettes/3national.*
 ^R/darwinize.*
 ^R/admixture.R
-^R/fitgom.R
