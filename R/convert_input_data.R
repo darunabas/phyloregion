@@ -1,9 +1,9 @@
 make_poly <- function(file){
     if (!inherits(file, "RasterLayer")) file <- raster(file)
-    pol <- rasterToPolygons(file, fun=NULL, dissolve=FALSE, na.rm=TRUE)
+    pol <- rasterToPolygons(file, fun=NULL, dissolve=FALSE, na.rm=FALSE)
     suppressWarnings(invisible(proj4string(pol) <- crs(file)))
     pol$grids <- paste0("v", seq_len(nrow(pol)))
-    xx <- as.data.frame(file, xy=TRUE, na.rm=TRUE)
+    xx <- as.data.frame(file, xy=TRUE, na.rm=FALSE)
     #Make dataframe of all xy coordinates
     xx$grids <- paste0("v", seq_len(nrow(xx)))
     m <- merge(pol, xx, by = "grids")
@@ -117,7 +117,7 @@ raster2comm <- function(files) {
     if(!(nrow(res) > 0)) stop("Raster files probably empty!")
     y <- long2sparse(res)
     tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-    if(ncell(r) > 100L) {
+    if(ncell(r) > 10000L) {
         r <- raster(files[1])
         r[1:ncell(r)] <- paste0("v", seq_len(ncell(r)))
         index <- match(values(r), tmp$grids)
