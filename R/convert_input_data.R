@@ -16,8 +16,9 @@ foo <- function(file, rast=NULL) {
     if(!is.null(rast)) {
         if(!raster::compareRaster(file, rast)) stop("Raster objects are different")
     }
-    y <- raster::as.data.frame(file, xy=TRUE, na.rm=TRUE, long=TRUE)
+    y <- raster::as.data.frame(file, xy=TRUE, na.rm=FALSE, long=TRUE)
     y$grids <- paste0("v", seq_len(nrow(y)))
+    y <- na.omit(y)
     y <- y[y$value>0,, drop=FALSE]
     y <- y[, c("grids", "layer")]
     names(y)[2] <- "species"
@@ -110,15 +111,24 @@ blank <- function(x, res=NULL) {
 #'
 #' @export
 raster2comm <- function(files) {
+    r <- raster(files[1])
     m <- progress(files, foo, rast=raster(files[1]))
     res <- do.call("rbind", m)
     if(!(nrow(res) > 0)) stop("Raster files probably empty!")
     y <- long2sparse(res)
     tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-    pol <- make_poly(files[1])
-    pol <- pol[, "grids"]
-    z <- sp::merge(pol, tmp, by = "grids")
-    z <- z[!is.na(z@data$richness), ]
+    if(ncell(r) > 100L) {
+        r <- raster(files[1])
+        r[1:ncell(r)] <- paste0("v", seq_len(ncell(r)))
+        index <- match(values(r), tmp$grids)
+        z <- setValues(r, tmp$richness[index])
+        z[is.na(z)] <- 0
+    } else {
+        pol <- make_poly(files[1]) # no makepoly <<----
+        pol <- pol[, "grids"]
+        z <- sp::merge(pol, tmp, by = "grids")
+        z <- z[!is.na(z@data$richness), ]
+    }
     return(list(comm_dat = y, poly_shp = z))
 }
 
