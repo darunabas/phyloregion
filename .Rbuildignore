@@ -3,7 +3,7 @@
 ^\.httr-oauth$
 ^\Comments.txt
 ^\.github$
-^docs$
+# ^docs$
 ^_pkgdown\.yml$
 ^inst/extdata$
 ^vignettes/Benchmark_cache$
