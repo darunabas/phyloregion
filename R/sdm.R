@@ -166,8 +166,6 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 #' @param predictors RasterStack of environmental descriptors on which
 #' the models will be projected
 #' @param blank A blank raster upon which the prediction layer is aggregated to.
-#' @param res Desired resolution of the predicted potential species distribution
-#' (if blank raster is not specified).
 #' @param pol A polygon shapefile specifying the boundary to restrict the
 #' prediction. If not specified, a minimum convex polygon is estimated using
 #' the input data frame of species occurrences.
@@ -225,7 +223,7 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 #' mod <- sdm(d, predictors = preds)
 #' }
 #' @export
-sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, res = 1, tc = 2,
+sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees, k=5,
                 herbarium.rm = FALSE, n.points = 80) {
     x <- .matchnames(x)

@@ -119,10 +119,17 @@ raster2comm <- function(files) {
     tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
     if(ncell(r) > 10000L) {
         r <- raster(files[1])
+        xy <- as.data.frame(r, na.rm = FALSE, long = TRUE)
+        xy$grids <- paste0("v", seq_len(nrow(xy)))
+        xy <- na.omit(xy)
+        xy <- xy[, "grids", drop = FALSE]
+        xy$richness <- 0L
+        ind1 <- rbind(tmp, xy)
+        ind1 = ind1[!duplicated(ind1$grids), ]
+
         r[1:ncell(r)] <- paste0("v", seq_len(ncell(r)))
-        index <- match(values(r), tmp$grids)
-        z <- setValues(r, tmp$richness[index])
-        z[is.na(z)] <- 0
+        index <- match(values(r), ind1$grids)
+        z <- setValues(r, ind1$richness[index])
     } else {
         pol <- make_poly(files[1]) # no makepoly <<----
         pol <- pol[, "grids"]

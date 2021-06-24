@@ -9,7 +9,6 @@ sdm(
   pol = NULL,
   predictors = NULL,
   blank = NULL,
-  res = 1,
   tc = 2,
   lr = 0.001,
   bf = 0.75,
@@ -33,9 +32,6 @@ the input data frame of species occurrences.}
 the models will be projected}
 
 \item{blank}{A blank raster upon which the prediction layer is aggregated to.}
-
-\item{res}{Desired resolution of the predicted potential species distribution
-(if blank raster is not specified).}
 
 \item{tc}{Integer. Tree complexity. Sets the complexity of individual trees}
 
