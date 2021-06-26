@@ -25,5 +25,6 @@ BugReports: https://github.com/darunabas/phyloregion/issues
 License: AGPL-3
 Encoding: UTF-8
 RoxygenNote: 7.1.1
+biocViews: Software
 NeedsCompilation: no
 Depends: R (>= 4.0.0)
