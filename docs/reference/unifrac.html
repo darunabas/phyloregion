@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Biogeographic regionalization and spatial conservation — phyloregion-package • phyloregion</title>
+<title>UniFrac distance — unifrac • phyloregion</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,21 +46,9 @@
 
 
 
-<meta property="og:title" content="Biogeographic regionalization and spatial conservation — phyloregion-package" />
-<meta property="og:description" content="This document describes the phyloregion package for the R software.
-phyloregion is a computational infrastructure for biogeographic regionalization
-(the classification of geographical areas in terms of their biotas) and
-spatial conservation in the R scientific computing environment. Previous
-analyses of biogeographical regionalization were either focused on smaller
-datasets or slower particularly when the number of species or geographic scale
-is very large. With macroecological datasets of ever increasing size and complexity,
-phyloregion offers the possibility of handling and executing large scale
-biogeographic regionalization efficiently and with extreme speed. It also
-allows fast and efficient for analysis of more standard conservation measures
-such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
-and global endangerment. phyloregion can run on any operating system
-(Mac, Linux, Windows or even high performance computing cluster) with
-R 3.6.0 (or higher) installed." />
+<meta property="og:title" content="UniFrac distance — unifrac" />
+<meta property="og:description" content="unifrac calculates the unweighted UniFrac distance between
+communities." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -159,87 +147,57 @@ R 3.6.0 (or higher) installed." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Biogeographic regionalization and spatial conservation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/phyloregion-package.R'><code>R/phyloregion-package.R</code></a></small>
-    <div class="hidden name"><code>phyloregion-package.Rd</code></div>
+    <h1>UniFrac distance</h1>
+    <small class="dont-index">Source: <a href='https://github.com/darunabas/phyloregion/blob/master/R/phylo_beta.R'><code>R/phylo_beta.R</code></a></small>
+    <div class="hidden name"><code>unifrac.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This document describes the <code>phyloregion</code> package for the R software.
-<code>phyloregion</code> is a computational infrastructure for biogeographic regionalization
-(the classification of geographical areas in terms of their biotas) and
-spatial conservation in the R scientific computing environment. Previous
-analyses of biogeographical regionalization were either focused on smaller
-datasets or slower particularly when the number of species or geographic scale
-is very large. With macroecological datasets of ever increasing size and complexity,
-<code>phyloregion</code> offers the possibility of handling and executing large scale
-biogeographic regionalization efficiently and with extreme speed. It also
-allows fast and efficient for analysis of more standard conservation measures
-such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
-and global endangerment. <code>phyloregion</code> can run on any operating system
-(Mac, Linux, Windows or even high performance computing cluster) with
-R 3.6.0 (or higher) installed.</p>
+    <p><code>unifrac</code> calculates the unweighted UniFrac distance between
+communities.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>unifrac</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>phy</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>a community matrix, i.e. an object of class matrix or Matrix, or an
+object of class phyloseq.</p></td>
+    </tr>
+    <tr>
+      <th>phy</th>
+      <td><p>a phylogenetic tree (object of class phylo).</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="how-to-cite-phyloregion"><a class="anchor" href="#how-to-cite-phyloregion"></a>How to cite <code>phyloregion</code></h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>a dist object.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    <p>Lozupone C, Knight R. (2005) UniFrac: a new phylogenetic method for comparing
+microbial communities. <em>Appl Environ Microbiol.</em> <strong>71 (12)</strong>:8228--35.
+<em>BMC Bioinformatics</em> 7:371.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-<p>The original implementation of phyloregion is described in:</p>
-<ul>
-<li><p>Daru B.H., Karunarathne, P. &amp; Schliep, K. (2020) phyloregion:
-  R package for biogeographic regionalization and spatial
-  conservation. <em>bioRxiv</em> 2020.02.12.945691 doi: 10.1101/2020.02.12.945691</p></li>
-</ul>
+    <div class='dont-index'><p><code><a href='PD.html'>PD</a></code>, <code><a href='phylobeta_core.html'>phylobeta</a></code></p></div>
 
-<p>It is based on the method described in:</p>
-<ul>
-<li><p>Daru, B.H., Farooq, H., Antonelli, A. &amp; Faurby, S. (2020) Endemism
-  patterns are scale dependent. <em>Coming soon</em>.</p></li>
-</ul>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>tree</span> <span class='op'>&lt;-</span> <span class='fu'>ape</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>read.tree</a></span><span class='op'>(</span>text <span class='op'>=</span><span class='st'>"((t1:1,t2:1)N2:1,(t3:1,t4:1)N3:1)N1;"</span><span class='op'>)</span>
+<span class='va'>com</span> <span class='op'>&lt;-</span> <span class='fu'>Matrix</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/sparseMatrix.html'>sparseMatrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>1</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>6</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span><span class='op'>)</span>,x<span class='op'>=</span><span class='fl'>1</span>,
+  dimnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"g"</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>, <span class='va'>tree</span><span class='op'>$</span><span class='va'>tip.label</span><span class='op'>)</span><span class='op'>)</span>
 
-<p>The original conceptual is described in:</p>
-<ul>
-<li><p>Daru, B.H., Elliott, T.L., Park, D.S. &amp; Davies, T.J. (2017)
-  Understanding the processes underpinning patterns of phylogenetic
-  regionalization. <em>Trends in Ecology and Evolution</em> <strong>32</strong>: 845-860.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="feedback"><a class="anchor" href="#feedback"></a>Feedback</h2>
-
-    
-
-
-<p>If you have any questions, suggestions or issues regarding the package,
-please add them to <a href='https://github.com/darunabas/phyloregion/issues'>GitHub issues</a></p>
-    <h2 class="hasAnchor" id="installation"><a class="anchor" href="#installation"></a>Installation</h2>
-
-    
-
-
-<p><code>phyloregion</code> is an open-source and free package hosted on
-<a href='https://github.com/darunabas/phyloregion'>GitHub</a>.
-You will need to install the <code>devtools</code> package. In <code>R</code>, type:</p>
-<p><code>if (!requireNamespace("devtools", quietly = TRUE))
-    install.packages("devtools")</code></p>
-<p>Then:</p>
-<p><code><a href='https://devtools.r-lib.org//reference/remote-reexports.html'>devtools::install_github("darunabas/phyloregion")</a></code></p>
-<p>Load the phyloregion package:</p>
-<p><code><a href='https://github.com/darunabas/phyloregion'>library(phyloregion)</a></code></p>
-    <h2 class="hasAnchor" id="acknowledgments"><a class="anchor" href="#acknowledgments"></a>Acknowledgments</h2>
-
-    
-
-<p>Barnabas Daru thanks Texas A&amp;M University-Corpus Christi for financial
-and logistic support.</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p><a href='https://barnabasdaru.com/'>Barnabas H. Daru</a>, Piyal Karunarathne,
-<a href='https://kschliep.netlify.app/'>Klaus Schliep</a></p>
-
+<span class='fu'>unifrac</span><span class='op'>(</span><span class='va'>com</span>, <span class='va'>tree</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           g1        g2        g3        g4        g5
+#&gt; g2 0.6000000                                        
+#&gt; g3 0.3333333 0.6000000                              
+#&gt; g4 0.1666667 0.6666667 0.1666667                    
+#&gt; g5 0.2000000 0.5000000 0.5000000 0.3333333          
+#&gt; g6 0.6666667 0.3333333 0.4000000 0.5000000 0.6000000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

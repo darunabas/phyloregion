@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +87,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/darunabas/phyloregion/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,8 +101,7 @@
 
       
 
-      </header><script src="Benchmark_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="Benchmark_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="Benchmark_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="Benchmark_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Benchmarking phyloregion</h1>
@@ -125,17 +124,17 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/">Matrix</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-lib/bench">bench</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">bench</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="co"># packages we benchmark</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/darunabas/phyloregion">phyloregion</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">betapart</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">picante</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://cran.r-project.org">vegan</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/anttonalberdi/hilldiv">hilldiv</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">hilldiv</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BAT</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">pez</span><span class="op">)</span></code></pre></div>
-<p>We will use a small data set which comes with <code>phyloregion</code>. This dataset consists of a dated phylogeny of the woody plant species of southern Africa along with their geographical distributions. The dataset comes from a study that maps tree diversity hotspots in southern Africa.<span class="citation"><sup>1</sup></span></p>
+<p>We will use a small data set which comes with <code>phyloregion</code>. This dataset consists of a dated phylogeny of the woody plant species of southern Africa along with their geographical distributions. The dataset comes from a study that maps tree diversity hotspots in southern Africa <span class="citation">(Daru, Bank, and Davies 2015)</span>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">africa</span><span class="op">)</span>
 <span class="co"># subset matrix</span>
@@ -152,7 +151,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/dimensions.html">dim</a></span><span class="op">(</span><span class="va">X_sparse</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1]  30 401</code></pre>
-<p>To make results comparable, it is often desirable to make sure that the taxa in different datasets match each other.<span class="citation"><sup>2</sup></span> For example, the community matrix in the <code>hilldiv</code> package<span class="citation"><sup>3</sup></span> needs to be transposed. These transformations can influence the execution times of the function, often only marginally. Thus, to benchmark <code>phyloregion</code> against other packages, we here use the package <code>bench</code><span class="citation"><sup>4</sup></span> because it returns execution times and provides estimates of memory allocations for each computation.</p>
+<p>To make results comparable, it is often desirable to make sure that the taxa in different datasets match each other <span class="citation">(Kembel et al. 2010)</span>. For example, the community matrix in the <code>hilldiv</code> package <span class="citation">(Alberdi 2019)</span> needs to be transposed. These transformations can influence the execution times of the function, often only marginally. Thus, to benchmark <code>phyloregion</code> against other packages, we here use the package <code>bench</code> <span class="citation">(Hester 2020)</span> because it returns execution times and provides estimates of memory allocations for each computation.</p>
 </div>
 <div id="analysis-of-alpha-diversity" class="section level2">
 <h2 class="hasAnchor">
@@ -160,7 +159,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-diversity" class="anchor"></a>1.1. Benchmarking <code>phyloregion</code> for analysis of phylogenetic diversity</h4>
-<p>For analysis of alpha diversity commonly used in conservation such as phylogenetic diversity - the sum of all phylogenetic branch lengths within an area<span class="citation"><sup>5</sup></span> - <code>phyloregion</code> is 31 to 284 times faster and 67 to 192 times memory efficient, compared to other packages!</p>
+<p>For analysis of alpha diversity commonly used in conservation such as phylogenetic diversity - the sum of all phylogenetic branch lengths within an area <span class="citation">(Faith 1992)</span> - <code>phyloregion</code> is 31 to 284 times faster and 67 to 192 times memory efficient, compared to other packages!</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">phylo</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">X_sparse</span><span class="op">)</span><span class="op">)</span>
@@ -172,16 +171,16 @@
 <span class="op">}</span>
 
 <span class="va">pd_pez</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span><span class="op">{</span>
-    <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">pez</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pez/man/comparative.comm.html">comparative.comm</a></span><span class="op">(</span><span class="va">tree</span>, <span class="va">x</span><span class="op">)</span>
-    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pez</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pez/man/pez.metrics.html">.pd</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
+    <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">pez</span><span class="fu">::</span><span class="fu">comparative.comm</span><span class="op">(</span><span class="va">tree</span>, <span class="va">x</span><span class="op">)</span>
+    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pez</span><span class="fu">::</span><span class="fu">.pd</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
     <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
     <span class="va">res</span>
 <span class="op">}</span>
 
-<span class="va">pd_hilldiv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fu">hilldiv</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/hilldiv/man/index_div.html">index_div</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span>, index<span class="op">=</span><span class="st">"faith"</span><span class="op">)</span>
+<span class="va">pd_hilldiv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fu">hilldiv</span><span class="fu">::</span><span class="fu">index_div</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span>, index<span class="op">=</span><span class="st">"faith"</span><span class="op">)</span>
 <span class="va">pd_phyloregion</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fu">phyloregion</span><span class="fu">::</span><span class="fu"><a href="../reference/PD.html">PD</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span>
 
-<span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bench/man/mark.html">mark</a></span><span class="op">(</span>picante<span class="op">=</span><span class="fu">pd_picante</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
+<span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu">mark</span><span class="op">(</span>picante<span class="op">=</span><span class="fu">pd_picante</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
           hilldiv<span class="op">=</span><span class="fu">pd_hilldiv</span><span class="op">(</span><span class="va">Xt_dense</span>,tree<span class="op">=</span><span class="va">tree</span><span class="op">)</span>,
           pez<span class="op">=</span><span class="fu">pd_pez</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
           phyloregion<span class="op">=</span><span class="fu">pd_phyloregion</span><span class="op">(</span><span class="va">X_sparse</span>, <span class="va">tree</span><span class="op">)</span><span class="op">)</span>
@@ -196,27 +195,27 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">res1</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="benchmark-phylo_diversity-1.png" alt=""><p class="caption">plot of chunk phylo_diversity</p>
+<img src="../../../../../Google%20Drive/TAMUCC/phyloregion%20R%20package/phyloregion/vignettes/benchmark-phylo_diversity-1.png" alt=""><p class="caption">plot of chunk phylo_diversity</p>
 </div>
 </div>
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-endemism" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-endemism" class="anchor"></a>1.2. Benchmarking <code>phyloregion</code> for analysis of phylogenetic endemism</h4>
-<p>Another benchmark for <code>phyloregion</code> is in the analysis of phylogenetic endemism, the degree to which phylogenetic diversity is restricted to any given area.<span class="citation"><sup>6</sup></span> Here, we found that <code>phyloregion</code> is 160 times faster and 489 times efficient in memory allocation.</p>
+<p>Another benchmark for <code>phyloregion</code> is in the analysis of phylogenetic endemism, the degree to which phylogenetic diversity is restricted to any given area <span class="citation">(Rosauer et al. 2009)</span>. Here, we found that <code>phyloregion</code> is 160 times faster and 489 times efficient in memory allocation.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">africa</span><span class="op">$</span><span class="va">phylo</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">keep.tip</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">X_sparse</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">pe_pez</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span><span class="op">{</span>
-    <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">pez</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pez/man/comparative.comm.html">comparative.comm</a></span><span class="op">(</span><span class="va">tree</span>, <span class="va">x</span><span class="op">)</span>
-    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pez</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pez/man/pez.endemism.html">pez.endemism</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
+    <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">pez</span><span class="fu">::</span><span class="fu">comparative.comm</span><span class="op">(</span><span class="va">tree</span>, <span class="va">x</span><span class="op">)</span>
+    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pez</span><span class="fu">::</span><span class="fu">pez.endemism</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
     <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
     <span class="va">res</span>
 <span class="op">}</span>
 
 <span class="va">pe_phyloregion</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fu">phyloregion</span><span class="fu">::</span><span class="fu"><a href="../reference/phylo_endemism.html">phylo_endemism</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span>
 
-<span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bench/man/mark.html">mark</a></span><span class="op">(</span>pez<span class="op">=</span><span class="fu">pe_pez</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
+<span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu">mark</span><span class="op">(</span>pez<span class="op">=</span><span class="fu">pe_pez</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
           phyloregion<span class="op">=</span><span class="fu">pe_phyloregion</span><span class="op">(</span><span class="va">X_sparse</span>, <span class="va">tree</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res2</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 6
@@ -227,7 +226,7 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">res2</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="benchmark-phylo_endemism-1.png" alt=""><p class="caption">plot of chunk phylo_endemism</p>
+<img src="../../../../../Google%20Drive/TAMUCC/phyloregion%20R%20package/phyloregion/vignettes/benchmark-phylo_endemism-1.png" alt=""><p class="caption">plot of chunk phylo_endemism</p>
 </div>
 </div>
 </div>
@@ -237,7 +236,7 @@
 <div id="benchmarking-phyloregion-for-analysis-of-taxonomic-beta-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-taxonomic-beta-diversity" class="anchor"></a>2.1. Benchmarking <code>phyloregion</code> for analysis of taxonomic beta diversity</h4>
-<p>For analysis of taxonomic beta diversity, which compares diversity between communities,<span class="citation"><sup>7</sup></span> <code>phyloregion</code> has marginal advantage over other packages. Nonetheless, it is 1-39 times faster and allocates 2 to 110 times less memory than other packages.</p>
+<p>For analysis of taxonomic beta diversity, which compares diversity between communities <span class="citation">(Koleff, Gaston, and Lennon 2003)</span>, <code>phyloregion</code> has marginal advantage over other packages. Nonetheless, it is 1-39 times faster and allocates 2 to 110 times less memory than other packages.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">chk_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">target</span>, <span class="va">current</span><span class="op">)</span>
     <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">target</span>, <span class="va">current</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
@@ -245,8 +244,8 @@
 <span class="va">fun_phyloregion</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu">phyloregion</span><span class="fu">::</span><span class="fu"><a href="../reference/beta_core.html">beta_diss</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="va">fun_betapart</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu">betapart</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/betapart/man/beta.pair.html">beta.pair</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="va">fun_vegan</span>  <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu">vegan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/vegan/man/vegdist.html">vegdist</a></span><span class="op">(</span><span class="va">x</span>, binary<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="va">fun_BAT</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu">BAT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BAT/man/beta.html">beta</a></span><span class="op">(</span><span class="va">x</span>, func <span class="op">=</span> <span class="st">"Soerensen"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-<span class="va">res3</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bench/man/mark.html">mark</a></span><span class="op">(</span>phyloregion<span class="op">=</span><span class="fu">fun_phyloregion</span><span class="op">(</span><span class="va">X_sparse</span><span class="op">)</span>,
+<span class="va">fun_BAT</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu">BAT</span><span class="fu">::</span><span class="fu">beta</span><span class="op">(</span><span class="va">x</span>, func <span class="op">=</span> <span class="st">"Soerensen"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="va">res3</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu">mark</span><span class="op">(</span>phyloregion<span class="op">=</span><span class="fu">fun_phyloregion</span><span class="op">(</span><span class="va">X_sparse</span><span class="op">)</span>,
                     betapart<span class="op">=</span><span class="fu">fun_betapart</span><span class="op">(</span><span class="va">X_dense</span><span class="op">)</span>,
                     vegan<span class="op">=</span><span class="fu">fun_vegan</span><span class="op">(</span><span class="va">X_dense</span><span class="op">)</span>,
                     BAT<span class="op">=</span><span class="fu">fun_BAT</span><span class="op">(</span><span class="va">X_dense</span><span class="op">)</span>, check<span class="op">=</span><span class="va">chk_fun</span><span class="op">)</span>
@@ -261,23 +260,23 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">res3</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="benchmark-beta_diversity-1.png" alt=""><p class="caption">plot of chunk beta_diversity</p>
+<img src="../../../../../Google%20Drive/TAMUCC/phyloregion%20R%20package/phyloregion/vignettes/benchmark-beta_diversity-1.png" alt=""><p class="caption">plot of chunk beta_diversity</p>
 </div>
 </div>
 <div id="benchmarking-phyloregion-for-analysis-of-phylogenetic-beta-diversity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#benchmarking-phyloregion-for-analysis-of-phylogenetic-beta-diversity" class="anchor"></a>2.2. Benchmarking <code>phyloregion</code> for analysis of phylogenetic beta diversity</h4>
-<p>For analysis of phylogenetic turnover (beta-diversity) among communities - the proportion of shared phylogenetic branch lengths between communities<span class="citation"><sup>8</sup></span> - <code>phyloregion</code> is 300-400 times faster and allocates 100-600 times less memory!</p>
+<p>For analysis of phylogenetic turnover (beta-diversity) among communities - the proportion of shared phylogenetic branch lengths between communities <span class="citation">(Graham and Fine 2008)</span> - <code>phyloregion</code> is 300-400 times faster and allocates 100-600 times less memory!</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fun_phyloregion</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fu">phyloregion</span><span class="fu">::</span><span class="fu"><a href="../reference/phylobeta_core.html">phylobeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>
 <span class="va">fun_betapart</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fu">betapart</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/betapart/man/phylo.beta.pair.html">phylo.beta.pair</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>
 <span class="va">fun_picante</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu">picante</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/picante/man/phylosor.html">phylosor</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span>
-<span class="va">fun_BAT</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fu">BAT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BAT/man/beta.html">beta</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span>, func <span class="op">=</span> <span class="st">"Soerensen"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">fun_BAT</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span><span class="op">)</span> <span class="fu">BAT</span><span class="fu">::</span><span class="fu">beta</span><span class="op">(</span><span class="va">x</span>, <span class="va">tree</span>, func <span class="op">=</span> <span class="st">"Soerensen"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 
 <span class="va">chk_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">target</span>, <span class="va">current</span><span class="op">)</span>
     <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">target</span>, <span class="va">current</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="va">res4</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bench/man/mark.html">mark</a></span><span class="op">(</span>picante<span class="op">=</span><span class="fu">fun_picante</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
+<span class="va">res4</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu">mark</span><span class="op">(</span>picante<span class="op">=</span><span class="fu">fun_picante</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
                        betapart<span class="op">=</span><span class="fu">fun_betapart</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
                        BAT<span class="op">=</span><span class="fu">fun_BAT</span><span class="op">(</span><span class="va">X_dense</span>, <span class="va">tree</span><span class="op">)</span>,
                        phyloregion<span class="op">=</span><span class="fu">fun_phyloregion</span><span class="op">(</span><span class="va">X_sparse</span>, <span class="va">tree</span><span class="op">)</span>, check<span class="op">=</span><span class="va">chk_fun</span><span class="op">)</span>
@@ -292,7 +291,7 @@
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">res4</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="benchmark-phylobeta-1.png" alt=""><p class="caption">plot of chunk phylobeta</p>
+<img src="../../../../../Google%20Drive/TAMUCC/phyloregion%20R%20package/phyloregion/vignettes/benchmark-phylobeta-1.png" alt=""><p class="caption">plot of chunk phylobeta</p>
 </div>
 <p>Note that for this test, <code>picante</code> returns a similarity matrix while <code>betapart</code>, and <code>phyloregion</code> return a dissimilarity matrix.</p>
 </div>
@@ -387,29 +386,29 @@
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>REFERENCES</h2>
 <div id="refs" class="references">
-<div id="ref-Daru2015ddi">
-<p>1. Daru, B. H., Bank, M. van der &amp; Davies, T. J. Spatial incongruence among hotspots and complementary areas of tree diversity in southern africa. <em>Diversity and Distributions</em> <strong>21</strong>, 769–780 (2015).</p>
-</div>
-<div id="ref-Kembel2010">
-<p>2. Kembel, S. W. <em>et al.</em> Picante: R tools for integrating phylogenies and ecology. <em>Bioinformatics</em> <strong>26</strong>, 1463–1464 (2010).</p>
-</div>
 <div id="ref-hilldiv">
-<p>3. Alberdi, A. Hilldiv: An r package for the integral analysis of diversity based on hill numbers. <em>bioRxiv</em> (2019).</p>
+<p>Alberdi, Antton. 2019. “Hilldiv: An R Package for the Integral Analysis of Diversity Based on Hill Numbers.” <em>bioRxiv</em>. <a href="https://www.biorxiv.org/content/10.1101/545665v1">https://www.biorxiv.org/content/10.1101/545665v1</a>.</p>
 </div>
-<div id="ref-bench2020">
-<p>4. Hester, J. <em>Bench: High precision timing of r expressions</em>. (2020).</p>
+<div id="ref-Daru2015ddi">
+<p>Daru, Barnabas H., Michelle van der Bank, and T. Jonathan Davies. 2015. “Spatial Incongruence Among Hotspots and Complementary Areas of Tree Diversity in Southern Africa.” <em>Diversity and Distributions</em> 21 (7): 769–80. <a href="https://doi.org/10.1111/ddi.12290">https://doi.org/10.1111/ddi.12290</a>.</p>
 </div>
 <div id="ref-Faith1992">
-<p>5. Faith, D. P. Conservation evaluation and phylogenetic diversity. <em>Biological Conservation</em> <strong>61</strong>, 1–10 (1992).</p>
-</div>
-<div id="ref-Rosauer2009">
-<p>6. Rosauer, D., Laffan, S. W., Crisp, M. D., Donnellan, S. C. &amp; Cook, L. G. Phylogenetic endemism: A new approach for identifying geographical concentrations of evolutionary history. <em>Molecular Ecology</em> <strong>18</strong>, 4061–4072 (2009).</p>
-</div>
-<div id="ref-Koleff2003">
-<p>7. Koleff, P., Gaston, K. J. &amp; Lennon, J. J. Measuring beta diversity for presence–absence data. <em>Journal of Animal Ecology</em> <strong>72</strong>, 367–382 (2003).</p>
+<p>Faith, Daniel P. 1992. “Conservation Evaluation and Phylogenetic Diversity.” <em>Biological Conservation</em> 61 (1): 1–10. <a href="https://doi.org/10.1016/0006-3207(92)91201-3">https://doi.org/10.1016/0006-3207(92)91201-3</a>.</p>
 </div>
 <div id="ref-Graham2008">
-<p>8. Graham, C. H. &amp; Fine, P. V. A. Phylogenetic beta diversity: Linking ecological and evolutionary processes across space in time. <em>Ecology Letters</em> <strong>11</strong>, 1265–1277 (2008).</p>
+<p>Graham, Catherine H., and Paul V. A. Fine. 2008. “Phylogenetic Beta Diversity: Linking Ecological and Evolutionary Processes Across Space in Time.” <em>Ecology Letters</em> 11 (12): 1265–77. <a href="https://doi.org/10.1111/j.1461-0248.2008.01256.x">https://doi.org/10.1111/j.1461-0248.2008.01256.x</a>.</p>
+</div>
+<div id="ref-bench2020">
+<p>Hester, Jim. 2020. <em>Bench: High Precision Timing of R Expressions</em>. <a href="https://CRAN.R-project.org/package=bench">https://CRAN.R-project.org/package=bench</a>.</p>
+</div>
+<div id="ref-Kembel2010">
+<p>Kembel, S. W., P. D. Cowan, M. R. Helmus, W. K. Cornwell, H. Morlon, D. D. Ackerly, S. P. Blomberg, and C. O. Webb. 2010. “Picante: R Tools for Integrating Phylogenies and Ecology.” <em>Bioinformatics</em> 26: 1463–4.</p>
+</div>
+<div id="ref-Koleff2003">
+<p>Koleff, Patricia, Kevin J. Gaston, and Jack J. Lennon. 2003. “Measuring Beta Diversity for Presence–Absence Data.” <em>Journal of Animal Ecology</em> 72 (3): 367–82. <a href="https://doi.org/10.1046/j.1365-2656.2003.00710.x">https://doi.org/10.1046/j.1365-2656.2003.00710.x</a>.</p>
+</div>
+<div id="ref-Rosauer2009">
+<p>Rosauer, Dan, Shawn W. Laffan, Michael D. Crisp, Stephen C. Donnellan, and Lyn G. Cook. 2009. “Phylogenetic Endemism: A New Approach for Identifying Geographical Concentrations of Evolutionary History.” <em>Molecular Ecology</em> 18 (19): 4061–72. <a href="https://doi.org/10.1111/j.1365-294X.2009.04311.x">https://doi.org/10.1111/j.1365-294X.2009.04311.x</a>.</p>
 </div>
 </div>
 </div>
