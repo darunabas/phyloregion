@@ -13,7 +13,7 @@ pie.col<-function(cols,d.mat){ # create pie slice colors according to number of 
     return(new.col)
 }
 
-#' Plot hexagonal pies using an omega matrix to dipict different hierarchical regions.
+#' Visualize biogeographic regions using hexagonal pie charts
 #'
 #' @description Similar to plot_pie function, this function takes a SpatialPolygonsDataframe with an omega matrix and plots biogreographic patterns using hexagona pies for a more aesthetic appeal.
 #'
