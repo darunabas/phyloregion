@@ -57,6 +57,15 @@ blank <- function(x, res=NULL) {
     return(res)
 }
 
+.matchnms <- function(x) {
+    nat <- names(x)
+    SP <- paste(c("\\bspecies\\b", "\\bbinomial\\b", "\\bbinomil\\b",
+                  "\\btaxon\\b"), collapse = "|")
+    species <- nat[grepl(SP, nat, ignore.case = TRUE)]
+    x <- x[, species, drop = FALSE]
+    names(x) <- "species"
+    return(x)
+}
 
 #' Convert raw input distribution data to community
 #'
@@ -77,10 +86,6 @@ blank <- function(x, res=NULL) {
 #'   \item Column 3: \code{decimallatitude} (corresponding to decimal latitude)
 #' }
 #' @param res the grain size of the grid cells in decimal degrees (default).
-#' @param species a character string. The column with the species or taxon name.
-#' Default = \dQuote{species}.
-#' @param lon character with the column name of the longitude.
-#' @param lat character with the column name of the latitude.
 #' @param mask Only applicable to \code{points2comm}. If supplied, a polygon
 #' shapefile covering the boundary of the survey region.
 #' @param shp.grids if specified, the polygon shapefile of grid cells
@@ -146,6 +151,7 @@ raster2comm <- function(files) {
 #' @importFrom methods as
 #' @importFrom utils txtProgressBar setTxtProgressBar object.size
 #' @importFrom raster raster res rasterize xyFromCell getValues
+#' @param trace Trace the function; trace = 2 or higher will be more voluminous.
 #' @examples
 #' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
@@ -155,10 +161,9 @@ raster2comm <- function(files) {
 #' }
 #'
 #' @export
-polys2comm <- function(dat, res = 1, species = "species", shp.grids = NULL, ...) {
+polys2comm <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
 
-    dat <- dat[, species, drop = FALSE]
-    names(dat) <- "species"
+    dat <- .matchnms(dat)
 
     if (!is.null(shp.grids)) {
         shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
@@ -169,10 +174,32 @@ polys2comm <- function(dat, res = 1, species = "species", shp.grids = NULL, ...)
         suppressWarnings(invisible(proj4string(dat) <- CRS("+proj=longlat +datum=WGS84")))
         dat <- spTransform(dat, CRS(pj))
 
-        spo <- sp::over(dat, m, returnList = TRUE)
-        spo <- lapply(spo, unlist)
-        ll <- lengths(spo)
-        y <- data.frame(grids=unlist(spo), species=rep(dat@data$species, ll))
+        s <- split(dat, f = dat$species)
+
+        if (object.size(dat) > 150000L && interactive() && trace > 0) {
+            f <- progress(s, function(x) {
+                tryCatch({
+                spo <- sp::over(x, m, returnList = TRUE)
+                spo <- lapply(spo, unlist)
+                ll <- lengths(spo)
+                data.frame(grids=unlist(spo), species=rep(x@data$species, ll))
+                }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+            })
+            result <- Filter(Negate(is.null), f)
+            y <- do.call(rbind, result)
+
+        } else {
+            f <- lapply(s, function(x) {
+                tryCatch({
+                spo <- sp::over(x, m, returnList = TRUE)
+                spo <- lapply(spo, unlist)
+                ll <- lengths(spo)
+                data.frame(grids=unlist(spo), species=rep(x@data$species, ll))
+                }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+            })
+            result <- Filter(Negate(is.null), f)
+            y <- do.call(rbind, result)
+        }
 
         y <- long2sparse(unique(y[, c("grids", "species")]))
         tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
@@ -180,11 +207,19 @@ polys2comm <- function(dat, res = 1, species = "species", shp.grids = NULL, ...)
         z <- z[!is.na(z@data$richness), ]
     } else {
         s <- split(dat, f = dat$species)
-        files <- lapply(s, function(x) blank(x, res = res))
-        pol <- make_poly(files[[1]])
-        pol <- pol[, "grids"]
-        m <- progress(files, foo, rast=raster(files[[1]]))
-        spo <- do.call("rbind", m)
+        if (object.size(dat) > 150000L && interactive() && trace > 0) {
+            files <- progress(s, function(x) blank(x, res = res))
+            pol <- make_poly(files[[1]])
+            pol <- pol[, "grids"]
+            m <- progress(files, foo, rast=raster(files[[1]]))
+            spo <- do.call("rbind", m)
+        } else {
+            files <- lapply(s, function(x) blank(x, res = res))
+            pol <- make_poly(files[[1]])
+            pol <- pol[, "grids"]
+            m <- lapply(files, foo, rast=raster(files[[1]]))
+            spo <- do.call("rbind", m)
+        }
         y <- long2sparse(spo)
         tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
         z <- sp::merge(pol, tmp, by = "grids")
@@ -213,12 +248,12 @@ polys2comm <- function(dat, res = 1, species = "species", shp.grids = NULL, ...)
 #'             species = "taxon") # Note, this generates a list of two objects
 #' head(pt[[1]])
 #' @export
-points2comm <- function(dat, mask = NULL, res = 1, lon = "decimallongitude",
-                        lat = "decimallatitude", species = "species",
-                        shp.grids = NULL, ...) {
-    dat <- as.data.frame(dat)
-    dat <- dat[, c(species, lon, lat)]
-    names(dat) <- c("species", "lon", "lat")
+points2comm <- function(dat, mask = NULL, res = 1, shp.grids = NULL, ...) {
+    dat <- .matchnames(dat)
+
+    #dat <- as.data.frame(dat)
+    #dat <- dat[, c(species, lon, lat)]
+    #names(dat) <- c("species", "lon", "lat")
 
     dat <- dat[complete.cases(dat), ]
 

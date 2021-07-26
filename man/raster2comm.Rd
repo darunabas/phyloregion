@@ -8,18 +8,9 @@
 \usage{
 raster2comm(files)
 
-polys2comm(dat, res = 1, species = "species", shp.grids = NULL, ...)
+polys2comm(dat, res = 1, shp.grids = NULL, trace = 1, ...)
 
-points2comm(
-  dat,
-  mask = NULL,
-  res = 1,
-  lon = "decimallongitude",
-  lat = "decimallatitude",
-  species = "species",
-  shp.grids = NULL,
-  ...
-)
+points2comm(dat, mask = NULL, res = 1, shp.grids = NULL, ...)
 }
 \arguments{
 \item{files}{list of raster layer objects with the same spatial
@@ -36,20 +27,15 @@ with at least three columns:
 
 \item{res}{the grain size of the grid cells in decimal degrees (default).}
 
-\item{species}{a character string. The column with the species or taxon name.
-Default = \dQuote{species}.}
-
 \item{shp.grids}{if specified, the polygon shapefile of grid cells
 with a column labeled \dQuote{grids}.}
+
+\item{trace}{Trace the function; trace = 2 or higher will be more voluminous.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 
 \item{mask}{Only applicable to \code{points2comm}. If supplied, a polygon
 shapefile covering the boundary of the survey region.}
-
-\item{lon}{character with the column name of the longitude.}
-
-\item{lat}{character with the column name of the latitude.}
 }
 \value{
 Each of these functions generate a list of two objects as follows:
