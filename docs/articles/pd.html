@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +87,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/darunabas/phyloregion/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,8 +101,7 @@
 
       
 
-      </header><script src="pd_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="pd_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="pd_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="pd_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Phylogenetic Diversity for Large Datasets</h1>
@@ -133,7 +132,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BIEN/man/BIEN_ranges_genus.html">BIEN_ranges_genus</a></span><span class="op">(</span><span class="st">"Pinus"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">BIEN_ranges_genus</span><span class="op">(</span><span class="st">"Pinus"</span><span class="op">)</span></code></pre></div>
 <p>Because downloading large number of species using the <code>BIEN</code> R package can take a long time, we previously downloaded the shapefiles and saved to file:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
@@ -151,7 +150,7 @@
 <a href="#read-in-the-phylogeny" class="anchor"></a>Read in the phylogeny</h3>
 <p>We will download the complete BIEN phylogenies for 81,274 plant species.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BIEN/man/BIEN_phylogeny_complete.html">BIEN_phylogeny_complete</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu">BIEN_phylogeny_complete</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="va">tree</span></code></pre></div>
 <pre><code>## 
 ## Phylogenetic tree with 81274 tips and 81273 internal nodes.

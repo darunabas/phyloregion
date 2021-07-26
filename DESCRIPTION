@@ -3,7 +3,7 @@ Type: Package
 Title: Biogeographic Regionalization and Macroecology
 Version: 1.0.7
 Authors@R: c(person("Barnabas H.", "Daru", email= "darunabas@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-2115-0257")),
-             person("Piyal", "Karunarathne", role = c("aut")),
+             person("Piyal", "Karunarathne", role = c("aut"), comment = c(ORCID = "0000-0002-1934-145X")),
              person("Klaus", "Schliep", email="klaus.schliep@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0003-2941-0161")),
              person("Xiaobei", "Zhao", role=c("ctb")),
              person("Albin", "Sandelin", role=c("ctb")),
@@ -25,5 +25,6 @@ BugReports: https://github.com/darunabas/phyloregion/issues
 License: AGPL-3
 Encoding: UTF-8
 RoxygenNote: 7.1.1
+biocViews: Software
 NeedsCompilation: no
 Depends: R (>= 4.0.0)

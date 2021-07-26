@@ -81,7 +81,7 @@ the study area at various grain sizes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ the study area at various grain sizes." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -130,7 +130,7 @@ the study area at various grain sizes." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/darunabas/phyloregion/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -157,7 +157,7 @@ the study area at various grain sizes." />
 the study area at various grain sizes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fishnet</span><span class='op'>(</span><span class='va'>mask</span>, res <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>fishnet</span><span class='op'>(</span><span class='va'>mask</span>, res <span class='op'>=</span> <span class='fl'>0.5</span>, type <span class='op'>=</span> <span class='st'>"square"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,6 +169,11 @@ the study area at various grain sizes.</p>
     <tr>
       <th>res</th>
       <td><p>the grain size of the grid cells in decimal degrees (default).</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>the type of grid cell; either &#8220;square&#8221; (default) for
+square grids, or &#8220;hexagon&#8221; for hexagonal grids.</p></td>
     </tr>
     </table>
 

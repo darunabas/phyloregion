@@ -82,7 +82,7 @@ species richness, species endemism or degree of threat." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@ species richness, species endemism or degree of threat." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -131,7 +131,7 @@ species richness, species endemism or degree of threat." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/darunabas/phyloregion/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -159,9 +159,9 @@ or highest values, respectively, of a biodiversity metric e.g.
 species richness, species endemism or degree of threat.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>coldspots</span><span class='op'>(</span><span class='va'>x</span>, prob <span class='op'>=</span> <span class='fl'>2.5</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>coldspots</span><span class='op'>(</span><span class='va'>x</span>, prob <span class='op'>=</span> <span class='fl'>2.5</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>hotspots</span><span class='op'>(</span><span class='va'>x</span>, prob <span class='op'>=</span> <span class='fl'>2.5</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>hotspots</span><span class='op'>(</span><span class='va'>x</span>, prob <span class='op'>=</span> <span class='fl'>2.5</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,6 +175,11 @@ species richness, species endemism or degree of threat.</p>
       <td><p>The threshold quantile for representing the lowest
 (<code>coldspots</code>) or highest (<code>hotspots</code>) proportion of biodiversity in
 an area. By default, the threshold is set to <code>prob = 2.5</code> percent.</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>logical; if true, any NA and NaN's are removed from x before
+the quantiles are computed.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -223,7 +228,7 @@ hotspots and complementary areas of tree diversity in southern Africa.
 
 <span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>africa</span><span class='op'>$</span><span class='va'>polys</span>, border <span class='op'>=</span> <span class='st'>"grey"</span>, col <span class='op'>=</span> <span class='st'>"lightgrey"</span>,
   main <span class='op'>=</span> <span class='st'>"Weighted Endemism Hotspots and Coldspots"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has no comment</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>[</span><span class='op'>(</span><span class='va'>m</span><span class='op'>@</span><span class='va'>data</span><span class='op'>$</span><span class='va'>cold</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>, <span class='op'>]</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span>, border <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>[</span><span class='op'>(</span><span class='va'>m</span><span class='op'>@</span><span class='va'>data</span><span class='op'>$</span><span class='va'>cold</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>, <span class='op'>]</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span>, border <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>[</span><span class='op'>(</span><span class='va'>m</span><span class='op'>@</span><span class='va'>data</span><span class='op'>$</span><span class='va'>hot</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>, <span class='op'>]</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span>, border <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"bottomleft"</span>, fill <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"yellow"</span>, <span class='st'>"green"</span><span class='op'>)</span>,
   legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"coldspots"</span>, <span class='st'>"hotspots"</span><span class='op'>)</span>, bty <span class='op'>=</span> <span class='st'>"n"</span>, inset <span class='op'>=</span> <span class='fl'>.092</span><span class='op'>)</span>

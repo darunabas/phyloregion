@@ -84,7 +84,7 @@ and extents for downstream analyses." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ and extents for downstream analyses." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -133,7 +133,7 @@ and extents for downstream analyses." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/darunabas/phyloregion/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -165,7 +165,7 @@ and extents for downstream analyses.</p>
 
     <pre class="usage"><span class='fu'>raster2comm</span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span>
 
-<span class='fu'>polys2comm</span><span class='op'>(</span><span class='va'>dat</span>, res <span class='op'>=</span> <span class='fl'>1</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, trace <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>polys2comm</span><span class='op'>(</span><span class='va'>dat</span>, res <span class='op'>=</span> <span class='fl'>1</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, shp.grids <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>points2comm</span><span class='op'>(</span>
   <span class='va'>dat</span>,
@@ -206,8 +206,9 @@ with at least three columns:</p><ul>
 Default = &#8220;species&#8221;.</p></td>
     </tr>
     <tr>
-      <th>trace</th>
-      <td><p>Trace the function; trace = 2 or higher will be more voluminous.</p></td>
+      <th>shp.grids</th>
+      <td><p>if specified, the polygon shapefile of grid cells
+with a column labeled &#8220;grids&#8221;.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -226,11 +227,6 @@ shapefile covering the boundary of the survey region.</p></td>
       <th>lat</th>
       <td><p>character with the column name of the latitude.</p></td>
     </tr>
-    <tr>
-      <th>shp.grids</th>
-      <td><p>if specified, the polygon shapefile of grid cells
-with a column labeled &#8220;grids&#8221;.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -242,7 +238,7 @@ with a column labeled &#8220;grids&#8221;.</p></td>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/mapproj/man/mapproject.html'>mapproject</a></code> for conversion of
+    <div class='dont-index'><p><code>mapproject</code> for conversion of
 latitude and longitude into projected coordinates system.
 <code><a href='long2sparse.html'>long2sparse</a></code> for conversion of community data.</p></div>
 
@@ -251,29 +247,44 @@ latitude and longitude into projected coordinates system.
 <span class='va'>fdir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"NGAplants"</span>, package<span class='op'>=</span><span class='st'>"phyloregion"</span><span class='op'>)</span>
 <span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>fdir</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='va'>fdir</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>ras</span> <span class='op'>&lt;-</span> <span class='fu'>raster2comm</span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span> <span class='co'># Note, this function generates</span>
-     <span class='co'># a list of two objects</span>
+</div><div class='output co'>#&gt;   |                                                |                                        |   0%  |                                                |=====                                   |  12%  |                                                |==========                              |  25%  |                                                |===============                         |  38%  |                                                |====================                    |  50%  |                                                |=========================               |  62%  |                                                |==============================          |  75%  |                                                |===================================     |  88%  |                                                |========================================| 100%</div><div class='input'>     <span class='co'># a list of two objects</span>
 <span class='fu'><a href='https://rdrr.io/pkg/raster/man/headtail.html'>head</a></span><span class='op'>(</span><span class='va'>ras</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 6 x 16 sparse Matrix of class "dgCMatrix"</div><div class='output co'>#&gt; <span class='message'>   [[ suppressing 16 column names ‘Chytranthus_gilletii’, ‘Commelina_ramulosa’, ‘Cymbopogon_caesius’ ... ]]</span></div><div class='output co'>#&gt;                                     
-#&gt; v100 . . . 1 . . . . . . . . . . . .
-#&gt; v101 . . . 1 . . . . . . . . . . . .
-#&gt; v102 . . . 1 . . . . . . . . . . . .
-#&gt; v103 . . . 1 . . . . . . . . . . . .
-#&gt; v104 . . . 1 . . . . . . . . . . . .
-#&gt; v105 . . . 1 . . . . . . . . . . . .</div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; 6 x 8 sparse Matrix of class "dgCMatrix"
+#&gt;      Chytranthus_gilletii Commelina_ramulosa Cymbopogon_caesius
+#&gt; v100                    .                  .                  .
+#&gt; v101                    .                  .                  .
+#&gt; v102                    .                  .                  .
+#&gt; v103                    .                  .                  .
+#&gt; v104                    .                  .                  .
+#&gt; v105                    .                  .                  .
+#&gt;      Dalechampia_ipomoeifolia Grewia_barombiensis Indigofera_berhautiana
+#&gt; v100                        1                   .                      .
+#&gt; v101                        1                   .                      .
+#&gt; v102                        1                   .                      .
+#&gt; v103                        1                   .                      .
+#&gt; v104                        1                   .                      .
+#&gt; v105                        1                   .                      .
+#&gt;      Indigofera_erecta Indigofera_oubanguiensis
+#&gt; v100                 .                        .
+#&gt; v101                 .                        .
+#&gt; v102                 .                        .
+#&gt; v103                 .                        .
+#&gt; v104                 .                        .
+#&gt; v105                 .                        .</div><div class='input'><span class='co'># }</span>
 
 <span class='co'># \donttest{</span>
 <span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"nigeria/nigeria.rds"</span>, package<span class='op'>=</span><span class='st'>"phyloregion"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>sp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='random_species.html'>random_species</a></span><span class='op'>(</span><span class='fl'>100</span>, species<span class='op'>=</span><span class='fl'>5</span>, shp<span class='op'>=</span><span class='va'>s</span><span class='op'>)</span>
-<span class='va'>pol</span> <span class='op'>&lt;-</span> <span class='fu'>polys2comm</span><span class='op'>(</span>dat <span class='op'>=</span> <span class='va'>sp</span>, species <span class='op'>=</span> <span class='st'>"species"</span>, trace<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/raster/man/headtail.html'>head</a></span><span class='op'>(</span><span class='va'>pol</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>pol</span> <span class='op'>&lt;-</span> <span class='fu'>polys2comm</span><span class='op'>(</span>dat <span class='op'>=</span> <span class='va'>sp</span>, species <span class='op'>=</span> <span class='st'>"species"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   |                                                |                                        |   0%  |                                                |========                                |  20%  |                                                |================                        |  40%  |                                                |========================                |  60%  |                                                |================================        |  80%  |                                                |========================================| 100%</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/raster/man/headtail.html'>head</a></span><span class='op'>(</span><span class='va'>pol</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 6 x 5 sparse Matrix of class "dgCMatrix"
-#&gt;     species1 species2 species3 species4 species5
-#&gt; v10        1        1        .        1        1
-#&gt; v11        1        .        .        .        1
-#&gt; v13        1        .        .        1        1
-#&gt; v14        1        1        1        1        1
-#&gt; v15        1        1        1        1        1
-#&gt; v16        1        1        1        1        1</div><div class='input'><span class='co'># }</span>
+#&gt;        species1 species2 species3 species4 species5
+#&gt; v27905        1        .        .        1        1
+#&gt; v27906        1        1        1        1        1
+#&gt; v27907        1        1        1        1        1
+#&gt; v27908        1        1        1        1        1
+#&gt; v27909        1        1        1        1        1
+#&gt; v27910        1        1        1        1        1</div><div class='input'><span class='co'># }</span>
 
 <span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"nigeria/nigeria.rds"</span>, package <span class='op'>=</span> <span class='st'>"phyloregion"</span><span class='op'>)</span><span class='op'>)</span>
 

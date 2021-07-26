@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">phyloregion</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +87,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/darunabas/phyloregion/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,8 +101,7 @@
 
       
 
-      </header><script src="heterogeneity_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="heterogeneity_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="heterogeneity_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="heterogeneity_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Endemism patterns are scale dependent</h1>
@@ -120,13 +119,13 @@
 <div id="environmental-data-and-heterogeneity" class="section level2">
 <h2 class="hasAnchor">
 <a href="#environmental-data-and-heterogeneity" class="anchor"></a>1. Environmental data and heterogeneity</h2>
-<p>We selected key environmental factors that are commonly used to examine biodiversity-environment associations. These variables included mean annual temperature, mean annual precipitation, annual net primary productivity and elevation. Mean annual temperature, mean annual precipitation and elevation were downloaded as raster layers from the WorldClim database<span class="citation"><sup>1</sup></span> at a resolution of 2.5’. Annual net primary productivity was downloaded from NASA Moderate Resolution Imaging Spectroradiometer (MODIS) at a resolution of 1 km and calculated using the MOD17 algorithm. These variables were converted to Behrmann equal-area projection using the function <code>projectRaster</code> in the <code>R</code> package <code>raster</code>.<span class="citation"><sup>2</sup></span></p>
+<p>We selected key environmental factors that are commonly used to examine biodiversity-environment associations. These variables included mean annual temperature, mean annual precipitation, annual net primary productivity and elevation. Mean annual temperature, mean annual precipitation and elevation were downloaded as raster layers from the WorldClim database<span class="citation">(Hijmans et al. 2005)</span> at a resolution of 2.5’. Annual net primary productivity was downloaded from NASA Moderate Resolution Imaging Spectroradiometer (MODIS) at a resolution of 1 km and calculated using the MOD17 algorithm. These variables were converted to Behrmann equal-area projection using the function <code>projectRaster</code> in the <code>R</code> package <code>raster</code> <span class="citation">(Hijmans 2020)</span>.</p>
 <p>We defined ‘environmental heterogeneity’ as the variation of environmental factors in each cell, obtained by taking the standard deviation of the environmental variables (temperature, precipitation, elevation and productivity) in each cell and across grain sizes (50, 100, 200, 400 and 800 km). Henceforth, we refer to the standard deviation of these four environmental variables i.e., mean annual temperature, mean annual precipitation, annual net primary productivity and elevation, as temperature variation, precipitation variation, productivity variation and elevation variation, respectively.</p>
 </div>
 <div id="environmental-heterogeneity" class="section level2">
 <h2 class="hasAnchor">
 <a href="#environmental-heterogeneity" class="anchor"></a>2. Environmental heterogeneity</h2>
-<p>To measure environmental heterogeneity, for each cell and across grain sizes (50, 100, 200, 400 and 800 km), we extracted the standard deviation of the four environmental variables (temperature, precipitation, elevation and productivity) using the function <code>extract_climate</code> in the R package <code>phyloregionExtras</code>:<span class="citation"><sup>3</sup></span></p>
+<p>To measure environmental heterogeneity, for each cell and across grain sizes (50, 100, 200, 400 and 800 km), we extracted the standard deviation of the four environmental variables (temperature, precipitation, elevation and productivity) using the function <code>extract_climate</code> in the R package <code>phyloregionExtras</code> <span class="citation">(Daru, Karunarathne, and Schliep 2020)</span>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">extract_climate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">val</span> <span class="op">=</span> <span class="st">"val"</span>, <span class="va">FUN</span> <span class="op">=</span> <span class="va">sd</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span>
   <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/projectRaster.html">projectRaster</a></span><span class="op">(</span><span class="va">x</span>, crs <span class="op">=</span> <span class="op">(</span><span class="st">'+proj=longlat'</span><span class="op">)</span><span class="op">)</span>
@@ -147,15 +146,15 @@
 <div id="linear-mixed-effects-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#linear-mixed-effects-model" class="anchor"></a>3. Linear mixed-effects model</h2>
-<p>We fit a single linear mixed-effects model to analyse the effect of environmental heterogeneity on patterns of endemism (PE or WE) across grain sizes. A linear mixed-effects model allows the modeling of data as a combination of fixed effects, random effects and independent random error, and are especially useful when there is non-independence in the data.<span class="citation"><sup>4</sup></span> The standard form of a linear mixed-effects model is expressed as: <span class="math display">\[Y_i = x_i\beta + s_i + Ɛ_i\]</span> where <span class="math inline">\(Y_i\)</span> represents the response variable at grid cell or location <span class="math inline">\(i\)</span>, <span class="math inline">\(x_i\)</span> is a vector containing spatially referenced nonrandom predictors, and <span class="math inline">\(\beta\)</span> is a vector of the fixed effect parameters, <span class="math inline">\(s_i\)</span> is a spatially correlated random effect and <span class="math inline">\(Ɛ_i\)</span> is the random measurement error. All explanatory variables were standardised prior to statistical analyses so that all variables had a standard deviation of 1 and a mean of 0. This ensures that the estimated coefficients are all on the same scale and for easier comparison of effect sizes.</p>
-<p>The linear mixed-effects model was fit as a single model with all the variables in one model predicting endemism (PE or WE) as a function of the four environmental variables (temperature variation, precipitation variation, elevation variation and productivity variation), with continent identity of grid cells as a random effect, allowing us to include any idiosyncratic differences between continents. The model also includes a spatial covariate of geographical coordinates as an additional predictor variable to account for spatial autocorrelation. The spatial covariate was created as a matrix of the coordinates of each cell’s centroid corresponding to the geographical Cartesian <span class="math inline">\(x/y-\)</span> coordinates (longitude and latitude)and was calculated with the function <code>autocov_dist</code> in the <code>R</code> package <code>spdep</code>.<span class="citation"><sup>5</sup></span> For each focal cell, we varied the weighting function and neighbourhood sizes using the next one to two cell neighbours to remove spatial autocorrelation (function <code>nb2listw</code> in spdep<span class="citation"><sup>5</sup></span>). We used the maximum likelihood optimization criterion over restricted maximum likelihood, to allow significance testing via model comparison.</p>
-<p>The linear mixed-effects model was fit in <code>R</code> v.3.6.3 with the <code>lme</code> function in the R package <code>nlme</code><span class="citation"><sup>6</sup></span>. The variations of environmental variables on endemism are presented as estimated coefficients of the fixed effects and their 95% confidence intervals in the <code>R</code> package <code>nlme</code><span class="citation"><sup>6</sup></span>.</p>
+<p>We fit a single linear mixed-effects model to analyse the effect of environmental heterogeneity on patterns of endemism (PE or WE) across grain sizes. A linear mixed-effects model allows the modeling of data as a combination of fixed effects, random effects and independent random error, and are especially useful when there is non-independence in the data <span class="citation">(Verbeke and Molenberghs 2000)</span>. The standard form of a linear mixed-effects model is expressed as: <span class="math display">\[Y_i = x_i\beta + s_i + Ɛ_i\]</span> where <span class="math inline">\(Y_i\)</span> represents the response variable at grid cell or location <span class="math inline">\(i\)</span>, <span class="math inline">\(x_i\)</span> is a vector containing spatially referenced nonrandom predictors, and <span class="math inline">\(\beta\)</span> is a vector of the fixed effect parameters, <span class="math inline">\(s_i\)</span> is a spatially correlated random effect and <span class="math inline">\(Ɛ_i\)</span> is the random measurement error. All explanatory variables were standardised prior to statistical analyses so that all variables had a standard deviation of 1 and a mean of 0. This ensures that the estimated coefficients are all on the same scale and for easier comparison of effect sizes.</p>
+<p>The linear mixed-effects model was fit as a single model with all the variables in one model predicting endemism (PE or WE) as a function of the four environmental variables (temperature variation, precipitation variation, elevation variation and productivity variation), with continent identity of grid cells as a random effect, allowing us to include any idiosyncratic differences between continents. The model also includes a spatial covariate of geographical coordinates as an additional predictor variable to account for spatial autocorrelation. The spatial covariate was created as a matrix of the coordinates of each cell’s centroid corresponding to the geographical Cartesian <span class="math inline">\(x/y-\)</span> coordinates (longitude and latitude)and was calculated with the function <code>autocov_dist</code> in the <code>R</code> package <code>spdep</code> <span class="citation">(Bivand and Wong 2018)</span>. For each focal cell, we varied the weighting function and neighbourhood sizes using the next one to two cell neighbours to remove spatial autocorrelation (function <code>nb2listw</code> in spdep <span class="citation">(Bivand and Wong 2018)</span>). We used the maximum likelihood optimization criterion over restricted maximum likelihood, to allow significance testing via model comparison.</p>
+<p>The linear mixed-effects model was fit in <code>R</code> v.3.6.3 with the <code>lme</code> function in the R package <code>nlme</code><span class="citation">(Pinheiro et al. 2020)</span>. The variations of environmental variables on endemism are presented as estimated coefficients of the fixed effects and their 95% confidence intervals in the <code>R</code> package <code>nlme</code><span class="citation">(Pinheiro et al. 2020)</span>.</p>
 <p>In order to illustrate the process we have added all codes below for the analyses:</p>
 <p>First, load the packages for the analysis:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/">spdep</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/nlme/">nlme</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/nlme">nlme</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Function for computing environmental heterogeneity</span>
 <span class="va">clim_heterogeneity</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span> <span class="op">=</span><span class="st">"y"</span>, <span class="va">nbs</span> <span class="op">=</span> <span class="fl">2000000</span>,
@@ -273,7 +272,7 @@
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimated effects"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="bird_WE.png" alt=""><p class="caption">Plot of environmental heterogeneity on bird weighted endemism</p>
+<img src="../../../../../Google%20Drive/TAMUCC/phyloregion%20R%20package/phyloregion/vignettes/bird_WE.png" alt=""><p class="caption">Plot of environmental heterogeneity on bird weighted endemism</p>
 </div>
 </div>
 <div id="environmental-heterogeneity-and-bird-phylogenetic-endemism" class="section level3">
@@ -299,7 +298,7 @@
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="bird_PE.png" alt=""><p class="caption">Plot of environmental heterogeneity on bird phylogenetic endemism</p>
+<img src="../../../../../Google%20Drive/TAMUCC/phyloregion%20R%20package/phyloregion/vignettes/bird_PE.png" alt=""><p class="caption">Plot of environmental heterogeneity on bird phylogenetic endemism</p>
 </div>
 </div>
 <div id="environmental-heterogeneity-and-amphibian-weighted-endemism" class="section level3">
@@ -325,7 +324,7 @@
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="amphibian_WE.png" alt=""><p class="caption">Plot of environmental heterogeneity on amphibian weighted endemism</p>
+<img src="../../../../../Google%20Drive/TAMUCC/phyloregion%20R%20package/phyloregion/vignettes/amphibian_WE.png" alt=""><p class="caption">Plot of environmental heterogeneity on amphibian weighted endemism</p>
 </div>
 </div>
 <div id="environmental-heterogeneity-and-amphibian-phylogenetic-endemism" class="section level3">
@@ -351,7 +350,7 @@
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'#1b9e77'</span>,<span class="st">'#d95f02'</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Estimates of fixed effects"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="amphibian_PE.png" alt=""><p class="caption">Plot of environmental heterogeneity on amphibian phylogenetic endemism</p>
+<img src="../../../../../Google%20Drive/TAMUCC/phyloregion%20R%20package/phyloregion/vignettes/amphibian_PE.png" alt=""><p class="caption">Plot of environmental heterogeneity on amphibian phylogenetic endemism</p>
 </div>
 </div>
 </div>
@@ -398,23 +397,23 @@
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>REFERENCES</h2>
 <div id="refs" class="references">
-<div id="ref-Hijmans2005">
-<p>1. Hijmans, R. J., Cameron, S. E., Parra, J. L., Jones, P. G. &amp; Jarvis, A. Very high resolution interpolated climate surfaces for global land areas. <em>International Journal of Climatology</em> <strong>25</strong>, 1965–1978 (2005).</p>
-</div>
-<div id="ref-raster">
-<p>2. Hijmans, R. J. <em>Raster: Geographic data analysis and modeling</em>. (2020).</p>
+<div id="ref-spdep">
+<p>Bivand, Roger, and David W. S. Wong. 2018. “Comparing Implementations of Global and Local Indicators of Spatial Association.” <em>TEST</em> 27 (3): 716–48. <a href="https://doi.org/10.1007/s11749-018-0599-x">https://doi.org/10.1007/s11749-018-0599-x</a>.</p>
 </div>
 <div id="ref-phyloregionExtras">
-<p>3. Daru, B. H., Karunarathne, P. &amp; Schliep, K. <em>PhyloregionExtras: Extras for biogeographic regionalization and spatial conservation</em>. (2020).</p>
+<p>Daru, Barnabas H., Piyal Karunarathne, and Klaus Schliep. 2020. <em>PhyloregionExtras: Extras for Biogeographic Regionalization and Spatial Conservation</em>. <a href="https://github.com/darunabas/phyloregion">https://github.com/darunabas/phyloregion</a>.</p>
 </div>
-<div id="ref-verbeke2000">
-<p>4. Verbeke, G. &amp; Molenberghs, G. Linear mixed models for longitudinal data. in <em>Linear mixed models in practice</em> 63–153 (Springer-Verlag, 2000).</p>
+<div id="ref-raster">
+<p>Hijmans, Robert J. 2020. <em>Raster: Geographic Data Analysis and Modeling</em>. <a href="https://CRAN.R-project.org/package=raster">https://CRAN.R-project.org/package=raster</a>.</p>
 </div>
-<div id="ref-spdep">
-<p>5. Bivand, R. &amp; Wong, D. W. S. Comparing implementations of global and local indicators of spatial association. <em>TEST</em> <strong>27</strong>, 716–748 (2018).</p>
+<div id="ref-Hijmans2005">
+<p>Hijmans, Robert J., Susan E. Cameron, Juan L. Parra, Peter G. Jones, and Andy Jarvis. 2005. “Very High Resolution Interpolated Climate Surfaces for Global Land Areas.” <em>International Journal of Climatology</em> 25 (15): 1965–78. <a href="https://doi.org/10.1002/joc.1276">https://doi.org/10.1002/joc.1276</a>.</p>
 </div>
 <div id="ref-nlme">
-<p>6. Pinheiro, J., Bates, D., DebRoy, S., Sarkar, D. &amp; R Core Team. <em>nlme: Linear and nonlinear mixed effects models</em>. (2020).</p>
+<p>Pinheiro, Jose, Douglas Bates, Saikat DebRoy, Deepayan Sarkar, and R Core Team. 2020. <em>nlme: Linear and Nonlinear Mixed Effects Models</em>. <a href="https://CRAN.R-project.org/package=nlme">https://CRAN.R-project.org/package=nlme</a>.</p>
+</div>
+<div id="ref-verbeke2000">
+<p>Verbeke, Geert, and Geert Molenberghs. 2000. “Linear Mixed Models for Longitudinal Data.” In <em>Linear Mixed Models in Practice</em>, 63–153. Springer-Verlag.</p>
 </div>
 </div>
 </div>
