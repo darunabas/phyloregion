@@ -6,7 +6,7 @@
 \alias{text_NMDS}
 \title{Visualize biogeographic patterns}
 \usage{
-\method{plot}{phyloregion}(x, shp = NULL, palette = "NMDS", col = NULL, ...)
+\method{plot}{phyloregion}(x, shp = NULL, palette = "NMDS", col = NULL, label = FALSE, ...)
 
 plot_NMDS(x, ...)
 
@@ -24,6 +24,8 @@ system. The name is matched to the list of available color palettes from
 the \code{hcl.colors} function in the \code{grDevices} package.}
 
 \item{col}{vector of colors of length equal to the number of phyloregions.}
+
+\item{label}{Logical, whether to print cluster names or not}
 
 \item{\dots}{arguments passed among methods.}
 }

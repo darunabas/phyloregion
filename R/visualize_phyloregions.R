@@ -37,6 +37,7 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' the \code{hcl.colors} function in the \code{grDevices} package.
 #' @param col vector of colors of length equal to the number of phyloregions.
 #' @param shp a polygon shapefile of grid cells.
+#' @param label Logical, whether to print cluster names or not
 #' @param \dots arguments passed among methods.
 #' @return No return value, called for plotting.
 #' @rdname plot.phyloregion
@@ -46,7 +47,8 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' @importFrom graphics plot plot.default
 #' @rawNamespace export(plot.phyloregion)
 #' @export
-plot.phyloregion <- function(x, shp=NULL, palette="NMDS", col=NULL, ...) {
+plot.phyloregion <- function(x, shp=NULL, palette="NMDS",
+                             col=NULL, label = FALSE, ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
   if(is.null(shp)) shp <- x$shp
@@ -62,7 +64,7 @@ plot.phyloregion <- function(x, shp=NULL, palette="NMDS", col=NULL, ...) {
     else stop("Expect 'col' of length x$k!")
   }
   plot(shp, col = col, ...)
-  text(shp, labels = as.character(shp@data$cluster), ...)
+  if (label == TRUE) text(shp, labels = as.character(shp@data$cluster), ...)
 }
 
 #' @rdname plot.phyloregion

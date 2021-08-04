@@ -2,7 +2,7 @@
 % Please edit documentation in R/hex_pie.R
 \name{hex.pie}
 \alias{hex.pie}
-\title{Plot hexagonal pies using an omega matrix to dipict different hierarchical regions.}
+\title{Visualize biogeographic regions using hexagonal pie charts}
 \usage{
 hex.pie(poly.df)
 }
@@ -13,7 +13,7 @@ hex.pie(poly.df)
 A hexagonal pies plot on a map in geographic space
 }
 \description{
-Plot hexagonal pies using an omega matrix to dipict different hierarchical regions.
+Similar to plot_pie function, this function takes a SpatialPolygonsDataframe with an omega matrix and plots biogreographic patterns using hexagona pies for a more aesthetic appeal.
 }
 \examples{
 require(sp)

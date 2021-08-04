@@ -1,3 +1,12 @@
+.matchgrids <- function(x) {
+    nat <- names(x)
+    SP <- paste(c("\\bSite\\b", "\\bSites\\b", "\\bgrids\\b", "\\bgrid\\b",
+                  "\\blocality\\b", "\\blocation\\b"), collapse = "|")
+    grids <- nat[grepl(SP, nat, ignore.case = TRUE)]
+    x <- x[, grids, drop = FALSE]
+    names(x) <- "grids"
+    return(x)
+}
 #dissolve_poly <- function(x){
   # Now the dissolve
 #  x <- x[!is.na(x@data$cluster),]
@@ -24,7 +33,7 @@
 #' unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{single},
 #' \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA), \dQuote{median}
 #' (= WPGMC) or \dQuote{centroid} (= UPGMC).
-#' @param shp a polygon shapefile of grid cells.
+#' @param shp a polygon shapefile of grid cells or spatial points.
 #' @param ... Further arguments passed to or from other methods.
 #' @rdname phyloregion
 #' @keywords phyloregion
@@ -106,42 +115,52 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
     class(r) <- c("phyloregion")
     r
   } else {
+      shp <- .matchgrids(shp)
+      m <- sp::merge(shp, dx, by = "grids")
+      if (inherits(m, "SpatialPoints")) {
+          region <- m[!is.na(m@data$cluster), ]
+          m1 <- cbind(region, evol_distinct$ED[match(region$cluster,
+                                                     evol_distinct$cluster)])
+          names(m1)[3] <- "ED"
+          proj4string(m1) <- proj4string(shp)
+          c1 <- vegan::metaMDS(region.dist, trace = 0)
+          v <- data.frame(hex2RGB(hexcols(c1))@coords)
+          v$r <- v$R * 255
+          v$g <- v$G * 255
+          v$b <- v$B * 255
 
-    m <- sp::merge(shp, dx, by = "grids")
-    if (!inherits(m, "SpatialPolygons")) {
-      stop("Invalid geometry, may only be applied to polygons")
-    }
-    m <- m[!is.na(m@data$cluster), ]
+          v$COLOURS <- rgb(v$r, v$g, v$b, maxColorValue = 255)
+          v$cluster <- rownames(v)
+          y <- cbind(m1, v[match(m1$cluster, v$cluster),])
+          y <- y[-ncol(y)]
+          z <- as.data.frame(y)
+          r <- list(membership=dx, k=k, shp = y,
+                    region.dist = region.dist, region.df = z, NMDS = c1)
+          class(r) <- "phyloregion"
+      } else if (inherits(m, "SpatialPolygons")) {
+          m <- m[!is.na(m@data$cluster), ]
+          region <- raster::aggregate(m, by = 'cluster')
+          m1 <- sp::merge(region, evol_distinct, by = "cluster")
+          proj4string(m1) <- proj4string(shp)
+          c1 <- vegan::metaMDS(region.dist, trace = 0)
+          v <- data.frame(hex2RGB(hexcols(c1))@coords)
+          v$r <- v$R * 255
+          v$g <- v$G * 255
+          v$b <- v$B * 255
+          v$COLOURS <- rgb(v$r, v$g, v$b, maxColorValue = 255)
+          v$cluster <- rownames(v)
 
-    region <- raster::aggregate(m, by = 'cluster')
+          y <- Reduce(function(x, y) merge(x, y, by = "cluster", all = TRUE),
+                      list(region, v, m1))
+          index <- match(dx$cluster, y$cluster)
+          z <- cbind(dx, ED = y$ED[index], COLOURS = y$COLOURS[index])
 
-    #region <- dissolve_poly(m)
-
-    m1 <- sp::merge(region, evol_distinct, by = "cluster")
-    proj4string(m1) <- proj4string(shp)
-
-    c1 <- vegan::metaMDS(region.dist, trace = 0)
-
-    v <- data.frame(hex2RGB(hexcols(c1))@coords)
-    v$r <- v$R * 255
-    v$g <- v$G * 255
-    v$b <- v$B * 255
-
-    v$COLOURS <- rgb(v$r, v$g, v$b, maxColorValue = 255)
-    v$cluster <- rownames(v)
-
-    y <- Reduce(function(x, y) merge(x, y, by = "cluster", all = TRUE),
-      list(region, v, m1))
-
-    index <- match(dx$cluster, y$cluster)
-    z <- cbind(dx, ED = y$ED[index], COLOURS = y$COLOURS[index])
-
-    # membership
-
-    r <- list(membership=dx, k=k, shp = y,
-              region.dist = region.dist, region.df = z, NMDS = c1)
-    class(r) <- "phyloregion"
-    r
+          # membership
+          r <- list(membership=dx, k=k, shp = y,
+                    region.dist = region.dist, region.df = z, NMDS = c1)
+          class(r) <- "phyloregion"
+      } else stop("Invalid geometry, needs polygons or spatial points")
+    return(r)
   }
 }
 

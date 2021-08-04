@@ -20,7 +20,7 @@ unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{s
 \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA), \dQuote{median}
 (= WPGMC) or \dQuote{centroid} (= UPGMC).}
 
-\item{shp}{a polygon shapefile of grid cells.}
+\item{shp}{a polygon shapefile of grid cells or spatial points.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }
