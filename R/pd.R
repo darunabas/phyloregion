@@ -2,7 +2,8 @@
 #'
 #' \code{PD} calculates Faith's (1992) phylogenetic diversity.
 #'
-#' @param x a community matrix, i.e. an object of class matrix or Matrix.
+#' @param x a community matrix, i.e. an object of class matrix or Matrix or an
+#' object of class phyloseq.
 #' @param phy a phylogenetic tree (object of class phylo).
 #' @return a vector with the PD for all samples.
 #' @keywords cluster

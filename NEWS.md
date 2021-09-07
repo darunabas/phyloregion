@@ -1,3 +1,9 @@
+# [] Changes in `phyloregion` version 1.0.7
+
+* pd and beta diversity functions now accepts a community matrix of class matrix
+  
+  or an phyloseq object as input.
+
 # [April 30, 2021] Changes in `phyloregion` version 1.0.5
 
 * Revised `plot_swatch` to use `col` instead of palette argument.

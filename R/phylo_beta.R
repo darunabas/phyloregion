@@ -20,7 +20,7 @@ phylo_community <- function(x, phy) {
 #' pairwise and multiple-site phylogenetic dissimilarities.
 #'
 #' @aliases phylobeta phylobeta_core
-#' @param x an object of class Matrix or matrix
+#' @param x an object of class Matrix, matrix or phyloseq
 #' @param phy a phylogenetic tree (object of class phylo)
 #' @param index.family family of dissimilarity indices, partial match of
 #' "sorensen" or "jaccard".
