@@ -11,6 +11,7 @@ make_poly <- function(file){
     m
 }
 
+
 foo <- function(file, rast=NULL) {
     if (!inherits(file, "RasterLayer")) file <- raster(file)
     if(!is.null(rast)) {
