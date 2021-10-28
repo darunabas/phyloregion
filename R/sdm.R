@@ -490,10 +490,11 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                                             data=envtrain)))
             erf <- dismo::evaluate(testpres, testbackg, rf1)
             px <- raster::predict(predictors, rf1, ext = extent(pol))
-            tr <- threshold(erf, 'spec_sens')
-            trf <- raster::crop(px, pol)
+            #tr <- threshold(erf, 'spec_sens')
+            #trf <- raster::crop(px, pol)
             # use the mask function
-            zrf <- resample(mask(trf, pol), blank, method = "ngb")
+            zrf <- resample(px, blank, method = "ngb")
+            #zrf <- resample(mask(trf, pol), blank, method = "ngb")
             RF <- merge(zrf, blank)
             # TSS
             cm_rf <- data.frame(erf@confusion)
@@ -508,10 +509,10 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                     data=envtrain)))
             ge <- dismo::evaluate(testpres, testbackg, gm)
             pg <- predict(predictors, gm, ext=extent(pol))
-            gtr <- threshold(ge, 'spec_sens')
-            gt <- raster::crop(pg, pol)
+            #gtr <- threshold(ge, 'spec_sens')
+            #gt <- raster::crop(pg, pol)
             # use the mask function
-            gt1 <- resample(mask(gt, pol), blank, method = "ngb")
+            gt1 <- resample(pg, blank, method = "ngb")
             GLM <- merge(gt1, blank)
             # TSS
             cm_gl <- data.frame(ge@confusion)
@@ -527,10 +528,10 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 xm <- maxent(predictors, pres_train)
                 xe <- evaluate(pres_test, backg_test, xm, predictors)
                 mx <- predict(predictors, xm, ext=extent(pol), progress='')
-                mr <- threshold(xe, 'spec_sens')
-                mt <- raster::crop(mx, pol)
+                #mr <- threshold(xe, 'spec_sens')
+                #mt <- raster::crop(mx, pol)
                 # use the mask function
-                mt1 <- resample(mask(mt, pol), blank, method = "ngb")
+                mt1 <- resample(mx, blank, method = "ngb")
                 MX <- merge(mt1, blank)
                 # TSS
                 cm_mx <- data.frame(xe@confusion)
@@ -553,10 +554,10 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
             pred_gb <- raster::predict(object = predictors, model = gbm_mod,
                                        n.trees = gbm_mod$gbm.call$best.trees,
                                        type = "response", na.rm = TRUE)
-            gb <- gbm_mod$cv.statistics$cv.threshold
-            gbf <- raster::crop(pred_gb, pol)
+            #gb <- gbm_mod$cv.statistics$cv.threshold
+            #gbf <- raster::crop(pred_gb, pol)
             # use the mask function
-            gbm1 <- resample(mask(gbf, pol), blank, method = "ngb")
+            gbm1 <- resample(pred_gb, blank, method = "ngb")
             GBM <- merge(gbm1, blank)
             # TSS
             cm_gb <- data.frame(egb@confusion)
