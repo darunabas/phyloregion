@@ -7,7 +7,8 @@
 PD(x, phy)
 }
 \arguments{
-\item{x}{a community matrix, i.e. an object of class matrix or Matrix.}
+\item{x}{a community matrix, i.e. an object of class matrix or Matrix or an
+object of class phyloseq.}
 
 \item{phy}{a phylogenetic tree (object of class phylo).}
 }

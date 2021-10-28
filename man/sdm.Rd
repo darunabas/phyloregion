@@ -16,7 +16,8 @@ sdm(
   step.size = n.trees,
   k = 5,
   herbarium.rm = FALSE,
-  n.points = 80
+  n.points = 80,
+  prob_method = "presab"
 )
 }
 \arguments{
@@ -50,6 +51,10 @@ variables}
 
 \item{n.points}{Minimum number of points required to successfully run
 a species distribution model}
+
+\item{prob_method}{Transform probabilities of presence into presence and
+absence ("presab", the default) for binary transformation or "raw" f
+overall projection.}
 }
 \value{
 A list with the following objects:

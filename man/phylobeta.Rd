@@ -10,7 +10,7 @@ phylobeta_core(x, phy)
 phylobeta(x, phy, index.family = "sorensen")
 }
 \arguments{
-\item{x}{an object of class Matrix or matrix}
+\item{x}{an object of class Matrix, matrix or phyloseq}
 
 \item{phy}{a phylogenetic tree (object of class phylo)}
 
