@@ -180,7 +180,7 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 #' @param n.points Minimum number of points required to successfully run
 #' a species distribution model
 #' @param prob_method Transform probabilities of presence into presence and
-#' absence ("presab", the default) for binary transformation or "raw" f
+#' absence ("presab", the default) for binary transformation or "raw" for
 #' overall projection.
 #' @rdname sdm
 #' @importFrom raster values extent res<- crop extract predict resample merge

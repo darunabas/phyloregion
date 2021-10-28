@@ -53,7 +53,7 @@ variables}
 a species distribution model}
 
 \item{prob_method}{Transform probabilities of presence into presence and
-absence ("presab", the default) for binary transformation or "raw" f
+absence ("presab", the default) for binary transformation or "raw" for
 overall projection.}
 }
 \value{
