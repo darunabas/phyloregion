@@ -280,12 +280,13 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
         #pol <- suppressWarnings(invisible(gBuffer(MCP(x), width=2)))
     #}
     #pol <- gBuffer(x, width=1)
-    pol <- as(extent(x), "SpatialPolygons")
-    crs(pol) <- "+proj=longlat +datum=WGS84"
-    pol <- SpatialPolygonsDataFrame(pol, data.frame(id = 1:length(pol)),
-                                    match.ID = FALSE)
+    #pol <- as(extent(x), "SpatialPolygons") ##<-----
+    #crs(pol) <- "+proj=longlat +datum=WGS84"
+    #pol <- SpatialPolygonsDataFrame(pol, data.frame(id = 1:length(pol)),
+                                    #match.ID = FALSE)
 
-    x1 <- x[pol,]
+    #x1 <- x[pol,]
+    x1 <- x
 
     if (is.null(blank)) {
         blank <- predictors[[1]]
@@ -323,8 +324,10 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
 
         set.seed(10)
         backg <- dismo::randomPoints(mask = predictors, n = nrow(occ)*3,
-                                     ext = extent(pol), extf = 1.1, warn = 0,
-                                     p = occ)
+                        ext = if (!is.null(pol)) extent(pol) else NULL,
+                        extf = 1.1, warn = 0, p = occ)
+
+
 
         colnames(backg) <- c('lon', 'lat')
 
@@ -354,11 +357,12 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
         rf1 <- suppressWarnings(invisible(randomForest::randomForest(Formula,
                                                             data=envtrain)))
             erf <- dismo::evaluate(testpres, testbackg, rf1)
-            px <- raster::predict(predictors, rf1, ext = extent(pol))
+            px <- raster::predict(predictors, rf1,
+                            ext = if (!is.null(pol)) extent(pol) else NULL)
             tr <- threshold(erf, 'spec_sens')
-            trf <- raster::crop((px > tr), pol)
+            trf <- px > tr
             # use the mask function
-            zrf <- resample(mask(trf, pol), blank, method = "ngb")
+            zrf <- resample(trf, blank, method = "ngb")
             RF <- merge(zrf, blank)
             # TSS
             cm_rf <- data.frame(erf@confusion)
@@ -372,11 +376,12 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                         family = gaussian(link="identity"),
                                         data=envtrain)))
             ge <- dismo::evaluate(testpres, testbackg, gm)
-            pg <- predict(predictors, gm, ext=extent(pol))
+            pg <- predict(predictors, gm,
+                          ext = if (!is.null(pol)) extent(pol) else NULL)
             gtr <- threshold(ge, 'spec_sens')
-            gt <- raster::crop((pg > gtr), pol)
+            gt <- pg > gtr
             # use the mask function
-            gt1 <- resample(mask(gt, pol), blank, method = "ngb")
+            gt1 <- resample(gt, blank, method = "ngb")
             GLM <- merge(gt1, blank)
             # TSS
             cm_gl <- data.frame(ge@confusion)
@@ -391,11 +396,13 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 maxent_available <- TRUE
                 xm <- maxent(predictors, pres_train)
                 xe <- evaluate(pres_test, backg_test, xm, predictors)
-                mx <- predict(predictors, xm, ext=extent(pol), progress='')
+                mx <- predict(predictors, xm,
+                              ext = if (!is.null(pol)) extent(pol) else NULL,
+                              progress='')
                 mr <- threshold(xe, 'spec_sens')
-                mt <- raster::crop((mx > mr), pol)
+                mt <- mx > mr
                 # use the mask function
-                mt1 <- resample(mask(mt, pol), blank, method = "ngb")
+                mt1 <- resample(mt, blank, method = "ngb")
                 MX <- merge(mt1, blank)
                 # TSS
                 cm_mx <- data.frame(xe@confusion)
@@ -419,9 +426,9 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                        n.trees = gbm_mod$gbm.call$best.trees,
                                        type = "response", na.rm = TRUE)
             gb <- gbm_mod$cv.statistics$cv.threshold
-            gbf <- raster::crop((pred_gb > gb), pol)
+            gbf <- pred_gb > gb
             # use the mask function
-            gbm1 <- resample(mask(gbf, pol), blank, method = "ngb")
+            gbm1 <- resample(gbf, blank, method = "ngb")
             GBM <- merge(gbm1, blank)
             # TSS
             cm_gb <- data.frame(egb@confusion)
@@ -489,7 +496,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
         rf1 <- suppressWarnings(invisible(randomForest::randomForest(Formula,
                                                             data=envtrain)))
             erf <- dismo::evaluate(testpres, testbackg, rf1)
-            px <- raster::predict(predictors, rf1, ext = extent(pol))
+            px <- raster::predict(predictors, rf1,
+                            ext = if (!is.null(pol)) extent(pol) else NULL)
             #tr <- threshold(erf, 'spec_sens')
             #trf <- raster::crop(px, pol)
             # use the mask function
@@ -508,7 +516,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                     family = gaussian(link="identity"),
                                     data=envtrain)))
             ge <- dismo::evaluate(testpres, testbackg, gm)
-            pg <- predict(predictors, gm, ext=extent(pol))
+            pg <- predict(predictors, gm,
+                          ext = if (!is.null(pol)) extent(pol) else NULL)
             #gtr <- threshold(ge, 'spec_sens')
             #gt <- raster::crop(pg, pol)
             # use the mask function
@@ -527,7 +536,9 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 maxent_available <- TRUE
                 xm <- maxent(predictors, pres_train)
                 xe <- evaluate(pres_test, backg_test, xm, predictors)
-                mx <- predict(predictors, xm, ext=extent(pol), progress='')
+                mx <- predict(predictors, xm,
+                              ext = if (!is.null(pol)) extent(pol) else NULL,
+                              progress='')
                 #mr <- threshold(xe, 'spec_sens')
                 #mt <- raster::crop(mx, pol)
                 # use the mask function
