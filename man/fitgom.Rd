@@ -102,6 +102,23 @@ or “Latent Dirichlet Allocation” models, by representing sampling units
 as partial memberships in multiple groups. It can group regions
 based on phylogenetic information or functional traits.
 }
+\details{
+Mapping phylogenetic regions (phyloregions) involves successively slicing
+the phylogenetic tree at various time depths (e.g., from 1, 2, 3, to 5
+million years ago (Ma)), collapsing nodes and ranges that originated at
+each time depth, and generating a new community matrix based on the presence
+or absence of each lineage in a grid cell. A grade of membership model is
+then fitted to the reduced community matrix. To map functional trait regions
+(traitregions), the function uses k-means to cluster species based on their
+functional traits, often for mixed-type data including categorical and
+numeric functional traits. The ranges for each species in each resulting
+cluster are collapsed to generate a new community matrix based on the
+presence or absence of cluster representative in a grid cell. A grade of
+membership model is then fitted to the new reduced community matrix. Mapping
+bioregions for taxonomic diversity is based on fitting a grade of
+membership model directly to the original community matrix that is often
+represented with species in the columns and sites as rows.
+}
 \examples{
 data(africa)
 names(africa)
