@@ -96,6 +96,9 @@ fitgom <- function (x, trait = NULL, cut = NULL, phy = NULL, bin = 10,
                     bf = TRUE, kill = 2, ord = TRUE, verb = 1, ...)
 {
 
+  if(is(x, "sparseMatrix")) {
+    x <- sparse2long(x)
+  }
   x$species <- gsub(" ", "_", x$species)
 
   if (!is.null(phy)) {
@@ -105,9 +108,9 @@ fitgom <- function (x, trait = NULL, cut = NULL, phy = NULL, bin = 10,
 
     # SPECIES THAT CAN BE LUMPED
     m <- do.call(rbind, lapply(tx, function(y) cbind(species=y,
-                                                    cluster=parent.frame()$i[],
-                                                    grouping="lumper",
-                                                    ntax=length(y))))
+                                                     cluster=parent.frame()$i[],
+                                                     grouping="lumper",
+                                                     ntax=length(y))))
     r <- data.frame(m[m[, "ntax"] > 1,])
     # MASTER_DISTINCT -- SPECIES WHICH ARE DISTINCT AND CAN'T BE LUMPED
     w <- submat[!submat$species %in% as.vector(r$species), ]
@@ -153,9 +156,9 @@ fitgom <- function (x, trait = NULL, cut = NULL, phy = NULL, bin = 10,
     }
     d <- foox(memb)
     m <- do.call(rbind, lapply(d, function(y) cbind(species=y,
-                                                     cluster=parent.frame()$i[],
-                                                     grouping="lumper",
-                                                     ntax=length(y))))
+                                                    cluster=parent.frame()$i[],
+                                                    grouping="lumper",
+                                                    ntax=length(y))))
     r <- data.frame(m[m[, "ntax"] > 1,])
     # MASTER_DISTINCT -- SPECIES WHICH ARE DISTINCT AND CAN'T BE LUMPED
     w <- submat[!submat$species %in% as.vector(r$species), ]
