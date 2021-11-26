@@ -109,9 +109,22 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
     data.frame(evol_distinct, row.names = NULL))
 
   if (length(shp) == 0) {
+
+    c1 <- vegan::metaMDS(region.dist, trace = 0)
+    v <- data.frame(hex2RGB(hexcols(c1))@coords)
+    v$r <- v$R * 255
+    v$g <- v$G * 255
+    v$b <- v$B * 255
+
+    v$COLOURS <- rgb(v$r, v$g, v$b, maxColorValue = 255)
+    v$cluster <- rownames(v)
+    y <- cbind(dx, v[match(dx$cluster, v$cluster),])
+    y <- y[-ncol(y)]
+    z <- as.data.frame(y)
+
     r <- list(membership=dx, k=k,
-      evol_distinct = evol_distinct, region.dist = region.dist,
-      region.df = dx)
+              evol_distinct = evol_distinct, region.dist = region.dist,
+              region.df = z)
     class(r) <- c("phyloregion")
     r
   } else {
