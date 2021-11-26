@@ -124,7 +124,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
 
     r <- list(membership=dx, k=k,
               evol_distinct = evol_distinct, region.dist = region.dist,
-              region.df = z)
+              region.df = z, NMDS = c1)
     class(r) <- c("phyloregion")
     r
   } else {
