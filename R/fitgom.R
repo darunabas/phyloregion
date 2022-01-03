@@ -6,7 +6,7 @@
 #' based on phylogenetic information or functional traits.
 #'
 #' Mapping phylogenetic regions (phyloregions) involves successively slicing
-#' the phylogenetic tree at various time depths (e.g., from 1, 2, 3, to 5
+#' the phylogenetic tree at various time depths (e.g., from 1, 2, 3, 4, to 5
 #' million years ago (Ma)), collapsing nodes and ranges that originated at
 #' each time depth, and generating a new community matrix based on the presence
 #' or absence of each lineage in a grid cell. A grade of membership model is
