@@ -45,7 +45,6 @@ phylo_community <- function(x, phy) {
 #' pb <- phylobeta(com, tree)
 #' @rdname phylobeta
 #' @author Klaus Schliep
-#' @importFrom betapart phylo.beta.multi phylo.beta.pair
 #' @importFrom phangorn getRoot
 #' @importFrom Matrix tril tcrossprod Diagonal
 #' @export
@@ -98,7 +97,7 @@ phylobeta_core <- function(x, phy) {
 #' @export
 phylobeta <- function(x, phy, index.family = "sorensen") {
   res <- phylobeta_core(x, phy)
-  p <- phylo.beta.pair(res, index.family = index.family)
+  p <- betapart::phylo.beta.pair(res, index.family = index.family)
   return(p)
 }
 
@@ -202,7 +201,6 @@ match_phylo_comm <- function(phy, comm, delete_empty_rows=TRUE) {
 #' \code{beta_diss} returns a list with three dissimilarity matrices. See
 #' \code{\link{beta.pair}} for details.
 #' @importFrom Matrix Matrix tcrossprod colSums
-#' @importFrom betapart beta.pair beta.multi
 #' @seealso \code{\link{betapart.core}}, \code{\link{betapart}},
 #' \code{\link{phylobeta}}
 #' @author Klaus Schliep
@@ -236,6 +234,6 @@ beta_core <- function(x) {
 #' @export
 beta_diss <- function(x, index.family = "sorensen") {
   computations <- beta_core(x)
-  res <- beta.pair(computations, index.family = index.family)
+  res <- betapart::beta.pair(computations, index.family = index.family)
   return(res)
 }
