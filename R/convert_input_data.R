@@ -256,7 +256,7 @@ points2comm <- function(dat, mask = NULL, res = 1, shp.grids = NULL, ...) {
     #dat <- dat[, c(species, lon, lat)]
     #names(dat) <- c("species", "lon", "lat")
 
-    dat <- dat[complete.cases(dat), ]
+    dat <- na.omit(dat)
 
     coordinates(dat) <- ~ lon + lat
 
@@ -266,12 +266,24 @@ points2comm <- function(dat, mask = NULL, res = 1, shp.grids = NULL, ...) {
             p <- as(e, "SpatialPolygons")
             m <- sp::SpatialPolygonsDataFrame(p, data.frame(sp = "x"))
             m <- fishnet(mask = m, res = res)
-        } else (m <- fishnet(mask = mask, res = res))
-    } else m <- shp.grids
-    proj4string(dat) <- proj4string(m)
+            proj4string(dat) <- proj4string(m)
+        } else {
+            m <- fishnet(mask = mask, res = res)
+            proj4string(dat) <- proj4string(m)
+        }
+    } else {
+        shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
+        m <- shp.grids
+        pj <- suppressWarnings(invisible(proj4string(m)[[1]]))
+        suppressWarnings(invisible(proj4string(m) <- CRS(pj)))
+        suppressWarnings(invisible(proj4string(dat) <- CRS("+proj=longlat +datum=WGS84")))
+        dat <- spTransform(dat, CRS(pj))
+    }
+
+    #proj4string(dat) <- proj4string(m)
     x <- over(dat, m)
     y <- cbind(as.data.frame(dat), x)
-    y <- y[complete.cases(y), ]
+    y <- na.omit(y)
     Y <- long2sparse(y)
     tmp <- data.frame(grids=row.names(Y), abundance=rowSums(Y),
                       richness=rowSums(Y>0))
