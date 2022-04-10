@@ -20,107 +20,6 @@
 # model=c("RF", "GLM", "MAXENT", "GBM") to choose models
 # run bioclim to generate points for species with limited sampling.
 
-.arcp <- function (xy)
-{
-    if (nrow(xy) < 3)
-        return(0)
-    x.segmat <- cbind(xy, rbind(xy[2:nrow(xy), ], xy[1, ]))
-    abs(sum(x.segmat[, 1] * x.segmat[, 4] - x.segmat[, 3] *
-                x.segmat[, 2]))/2
-}
-
-
-.arcpspdf <- function (spdf)
-{
-    lar <- unlist(lapply(polygons(spdf)@polygons, function(x) unlist(lapply(x@Polygons,
-                                                                            function(y) .arcp(y@coords)))))
-    lhol <- unlist(lapply(polygons(spdf)@polygons, function(x) unlist(lapply(x@Polygons,
-                                                                             function(y) y@hole))))
-    sum(lar[!lhol]) - sum(lar[lhol])
-}
-
-MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
-                                                                  "km2", "m2"))
-{
-    if (!inherits(xy, "SpatialPoints"))
-        stop("xy should be of class SpatialPoints")
-    if (ncol(coordinates(xy)) > 2)
-        stop("xy should be defined in two dimensions")
-    pfs <- proj4string(xy)
-    if (length(percent) > 1)
-        stop("only one value is required for percent")
-    if (percent > 100) {
-        warning("The MCP is estimated using all relocations (percent>100)")
-        percent <- 100
-    }
-    unin <- match.arg(unin)
-    unout <- match.arg(unout)
-    if (inherits(xy, "SpatialPointsDataFrame")) {
-        if (ncol(xy) != 1) {
-            warning("xy should contain only one column (the id of the animals), id ignored")
-            id <- factor(rep("a", nrow(as.data.frame(xy))))
-        }
-        else {
-            id <- xy[[1]]
-        }
-    }
-    else {
-        id <- factor(rep("a", nrow(as.data.frame(xy))))
-    }
-    if (percent > 100) {
-        warning("The MCP is estimated using all relocations (percent>100)")
-        percent <- 100
-    }
-    if (min(table(id)) < 5)
-        stop("At least 5 locations are required to fit a home range")
-    id <- factor(id)
-    xy <- as.data.frame(coordinates(xy))
-    r <- split(xy, id)
-    est.cdg <- function(xy) apply(xy, 2, mean)
-    cdg <- lapply(r, est.cdg)
-    levid <- levels(id)
-    res <- SpatialPolygons(lapply(1:length(r), function(i) {
-        k <- levid[i]
-        df.t <- r[[levid[i]]]
-        cdg.t <- cdg[[levid[i]]]
-        dist.cdg <- function(xyt) {
-            d <- sqrt(((xyt[1] - cdg.t[1])^2) + ((xyt[2] - cdg.t[2])^2))
-            return(d)
-        }
-        di <- apply(df.t, 1, dist.cdg)
-        key <- c(1:length(di))
-        acons <- key[di <= quantile(di, percent/100)]
-        xy.t <- df.t[acons, ]
-        coords.t <- chull(xy.t[, 1], xy.t[, 2])
-        xy.bord <- xy.t[coords.t, ]
-        xy.bord <- rbind(xy.bord[nrow(xy.bord), ], xy.bord)
-        so <- Polygons(list(Polygon(as.matrix(xy.bord))), k)
-        return(so)
-    }))
-    are <- unlist(lapply(1:length(res), function(i) {
-        .arcpspdf(res[i, ])
-    }))
-    if (unin == "m") {
-        if (unout == "ha")
-            are <- are/10000
-        if (unout == "km2")
-            are <- are/1e+06
-    }
-    if (unin == "km") {
-        if (unout == "ha")
-            are <- are * 100
-        if (unout == "m2")
-            are <- are * 1e+06
-    }
-    df <- data.frame(id = unlist(lapply(1:nlevels(id), function(i) res[i]@polygons[[1]]@ID)),
-                     area = are)
-    row.names(df) <- df[, 1]
-    res <- SpatialPolygonsDataFrame(res, df)
-    if (!is.na(pfs))
-        proj4string(res) <- CRS(pfs)
-    return(res)
-}
-
 
 #sampleBuffer <- function(x, n_points, width=2, limits=NULL){
 #    cc <- gBuffer(x, width=width)
@@ -141,11 +40,13 @@ MCP <- function (xy, percent = 95, unin = c("m", "km"), unout = c("ha",
 #}
 
 .more_points <- function(pts, preds) {
+    e <- extent(pts)
     x <- as.data.frame(pts)
     bc <- dismo::bioclim(preds, pts)
-    p <- predict(preds, bc, tail='high')
+    p <- dismo::predict(preds, bc, tail='high', ext = e)
+    set.seed(20220410)
     vv <- suppressWarnings(invisible(as.data.frame(randomPoints(mask=p,
-                            n=80, prob=TRUE))))
+                            n=nrow(x), prob=TRUE, ext = e))))
     vv$source <- "random"
     names(vv)[c(1,2)] <- c("lon", "lat")
     res <- rbind(x, vv)
@@ -259,33 +160,11 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
         proj4string(x) <- CRS("+proj=longlat +datum=WGS84")
     }
 
-    #fam_pol <- pol
 
     if (!is.null(pol)) {
         x <- x[pol,]
-    } #else {
-        #e <- raster::extent(c(-180, 180, -90, 90))
-        #pol <- as(e, "SpatialPolygons")
-        #proj4string(pol) <- proj4string(x)
-        #pol <- SpatialPolygonsDataFrame(pol, data.frame(id=1:length(pol)),
-        #                                match.ID = FALSE)
-        #x1 <- x[pol,]
-    #}
+    }
 
-    #if (nrow(x) < n.points) {
-        #pol <- as(extent(x), "SpatialPolygons")
-        #crs(pol) <- "+proj=longlat +datum=WGS84"
-        #pol <- suppressWarnings(invisible(gBuffer(e, width=2)))
-    #} #else {
-        #pol <- suppressWarnings(invisible(gBuffer(MCP(x), width=2)))
-    #}
-    #pol <- gBuffer(x, width=1)
-    #pol <- as(extent(x), "SpatialPolygons") ##<-----
-    #crs(pol) <- "+proj=longlat +datum=WGS84"
-    #pol <- SpatialPolygonsDataFrame(pol, data.frame(id = 1:length(pol)),
-                                    #match.ID = FALSE)
-
-    #x1 <- x[pol,]
     x1 <- x
 
     if (is.null(blank)) {
@@ -295,19 +174,30 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
 
 
     if (length(x1) > 0) {
-        #if(length(x1) < n.points){
-        #    x1 <- more_points(pts = x1, preds = predictors)
-        #}
 
         # OCCURRENCE POINTS
         occ_csv <- as.data.frame(x1)
         occ <- occ_csv[, c("lon", "lat")]
-        fold <- dismo::kfold(occ, k=k)
-        test <- 3
+
+        set.seed(20220410)
+        backg <- dismo::randomPoints(mask = predictors, n = nrow(occ)*3,
+                                     ext = extent(x),
+                                     extf = 1.25, warn = 0, p = occ)
+        colnames(backg) <- c('lon', 'lat')
+
+        # Arbitrarily assign group 1 as the testing data group
+        test <- 1
+        # Create vector of group memberships
+        fold <- dismo::kfold(x = occ, k = k) # kfold is in dismo package
+
+        # Separate observations into training and testing groups
         pres_train <- occ[fold != test, ]
         pres_test <- occ[fold == test, ]
 
-        #predictors <- raster::crop(predictors, pol)
+        # Repeat the process for pseudo-absence points
+        group <- dismo::kfold(x = backg, k = k)
+        backg_train <- backg[group != test, ]
+        backg_test <- backg[group == test, ]
 
         if (!is.null(fam_pol)) {
             predictors <- raster::crop(predictors, fam_pol)
@@ -317,31 +207,15 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
             predictors <- predictors
         }
 
-        #gc()
-
         # only run if the maxent.jar file is available, in the right folder
         jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
-
-        set.seed(10)
-        backg <- dismo::randomPoints(mask = predictors, n = nrow(occ)*3,
-                        ext = if (!is.null(pol)) extent(pol) else NULL,
-                        extf = 1.1, warn = 0, p = occ)
-
-
-
-        colnames(backg) <- c('lon', 'lat')
-
-        set.seed(0)
-        group <- dismo::kfold(backg, k=k)
-        backg_train <- backg[group != test, ]
-        backg_test <- backg[group == test, ]
 
         train <- rbind(pres_train, backg_train)
         pb_train <- c(rep(1, nrow(pres_train)), rep(0, nrow(backg_train)))
         envtrain <- extract(predictors, train)
         envtrain <- na.omit(data.frame(cbind(pa = pb_train, envtrain)))
 
-        testpres <- data.frame(extract(predictors, pres_test) )
+        testpres <- data.frame(extract(predictors, pres_test))
         testbackg <- data.frame(extract(predictors, backg_test))
 
         Preds <- names(envtrain)[-1]
