@@ -16,7 +16,7 @@ sdm(
   step.size = n.trees,
   k = 5,
   herbarium.rm = FALSE,
-  n.points = 80,
+  n.points = 10,
   prob_method = "presab"
 )
 }

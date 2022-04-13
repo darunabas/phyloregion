@@ -43,13 +43,12 @@
     e <- extent(pts)
     x <- as.data.frame(pts)
     bc <- dismo::bioclim(preds, pts)
-    p <- dismo::predict(preds, bc, tail='high', ext = e)
-    set.seed(20220410)
-    vv <- suppressWarnings(invisible(as.data.frame(randomPoints(mask=p,
-                            n=nrow(x), prob=TRUE, ext = e))))
-    vv$source <- "random"
-    names(vv)[c(1,2)] <- c("lon", "lat")
-    res <- rbind(x, vv)
+    p <- dismo::predict(preds, bc, tail='both', ext = e)
+    v <- suppressWarnings(invisible(as.data.frame(randomPoints(mask=p,
+                                        n=nrow(x), prob=TRUE, ext = e, extf=1.25))))
+    v$source <- "random"
+    names(v)[c(1,2)] <- c("lon", "lat")
+    res <- rbind(x, v)
     res
 }
 
@@ -129,7 +128,7 @@
 #' @export
 sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 lr = 0.001, bf = 0.75, n.trees = 50, step.size = n.trees, k=5,
-                herbarium.rm = FALSE, n.points = 80, prob_method = "presab") {
+                herbarium.rm = FALSE, n.points = 10, prob_method = "presab") {
     x <- .matchnames(x)
     name.sp <- unique(x$species)
 
@@ -138,7 +137,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
     }
 
     x <- x[, c("lon", "lat")]
-    x <- x[!is.na(x$lon) & !is.na(x$lat),]
+    x <- unique(na.omit(x))
     x$source <- "raw"
     coordinates(x) <- ~lon+lat
     proj4string(x) <- CRS("+proj=longlat +datum=WGS84")
@@ -174,15 +173,14 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
 
 
     if (length(x1) > 0) {
-
         # OCCURRENCE POINTS
         occ_csv <- as.data.frame(x1)
         occ <- occ_csv[, c("lon", "lat")]
 
-        set.seed(20220410)
-        backg <- dismo::randomPoints(mask = predictors, n = nrow(occ)*3,
-                                     ext = extent(x),
-                                     extf = 1.25, warn = 0, p = occ)
+        #set.seed(20220410)
+        backg <- suppressWarnings(invisible(dismo::randomPoints(mask=predictors,
+            n = nrow(occ), ext = extent(x), extf = 1.25, warn = 0, p = occ)))
+
         colnames(backg) <- c('lon', 'lat')
 
         # Arbitrarily assign group 1 as the testing data group
@@ -204,7 +202,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
         } else if (!is.null(pol)) {
             predictors <- raster::crop(predictors, pol)
         } else {
-            predictors <- predictors
+            predictors <- raster::crop(predictors, extent(x))
         }
 
         # only run if the maxent.jar file is available, in the right folder
@@ -227,206 +225,265 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
         Formula <- formula(paste(y," ~ ", paste(Preds, collapse=" + ")))
 
         if (prob_method == "presab") {
+            models <- list()
             # 1. Random Forest
+            tryCatch({
+                RF1 <- FALSE
         rf1 <- suppressWarnings(invisible(randomForest::randomForest(Formula,
                                                             data=envtrain)))
-            erf <- dismo::evaluate(testpres, testbackg, rf1)
-            px <- raster::predict(predictors, rf1,
-                            ext = if (!is.null(pol)) extent(pol) else NULL)
-            tr <- threshold(erf, 'spec_sens')
-            trf <- px > tr
-            # use the mask function
-            zrf <- resample(trf, blank, method = "ngb")
-            RF <- merge(zrf, blank)
-            # TSS
-            cm_rf <- data.frame(erf@confusion)
-            tpr_rf <- cm_rf$tp / (cm_rf$tp + cm_rf$fn)
-            tnr_rf <- cm_rf$tn / (cm_rf$fp + cm_rf$tn)
-            tss_rf <- median(tpr_rf + tnr_rf - 1)
-            gc()
+                erf <- dismo::evaluate(testpres, testbackg, rf1)
+                px <- raster::predict(predictors, rf1,
+                                ext = if (!is.null(pol)) extent(pol) else NULL)
+                tr <- threshold(erf, 'spec_sens')
+                trf <- px > tr
+                # use the mask function
+                zrf <- resample(trf, blank, method = "ngb")
+                RF <- merge(zrf, blank)
+                RF1 <- TRUE
+                if (RF1) models[[1]] <- RF
+                names(models[[1]]) <- "RF"
+                # TSS
+                #cm_rf <- data.frame(erf@confusion)
+                #tpr_rf <- cm_rf$tp / (cm_rf$tp + cm_rf$fn)
+                #tnr_rf <- cm_rf$tn / (cm_rf$fp + cm_rf$tn)
+                #tss_rf <- median(tpr_rf + tnr_rf - 1)
+                #gc()
+            }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+
+
 
             # 2. GLM
-            gm <- suppressWarnings(invisible(glm(Formula,
-                                        family = gaussian(link="identity"),
-                                        data=envtrain)))
-            ge <- dismo::evaluate(testpres, testbackg, gm)
-            pg <- predict(predictors, gm,
-                          ext = if (!is.null(pol)) extent(pol) else NULL)
-            gtr <- threshold(ge, 'spec_sens')
-            gt <- pg > gtr
-            # use the mask function
-            gt1 <- resample(gt, blank, method = "ngb")
-            GLM <- merge(gt1, blank)
-            # TSS
-            cm_gl <- data.frame(ge@confusion)
-            tpr_gl <- cm_gl$tp / (cm_gl$tp + cm_gl$fn)
-            tnr_gl <- cm_gl$tn / (cm_gl$fp + cm_gl$tn)
-            tss_glm <- median(tpr_gl + tnr_gl - 1)
-            gc()
+            tryCatch({
+                GLM1 <- FALSE
+                gm <- suppressWarnings(invisible(glm(Formula,
+                                family = gaussian(link="identity"),
+                                                     data=envtrain)))
+                ge <- dismo::evaluate(testpres, testbackg, gm)
+                pg <- predict(predictors, gm,
+                              ext = if (!is.null(pol)) extent(pol) else NULL)
+                gtr <- threshold(ge, 'spec_sens')
+                gt <- pg > gtr
+                # use the mask function
+                gt1 <- resample(gt, blank, method = "ngb")
+                GLM <- merge(gt1, blank)
+                GLM1 <- TRUE
+                if (GLM1) models[[2]] <- GLM
+                names(models[[2]]) <- "GLM"
+                # TSS
+                #cm_gl <- data.frame(ge@confusion)
+                #tpr_gl <- cm_gl$tp / (cm_gl$tp + cm_gl$fn)
+                #tnr_gl <- cm_gl$tn / (cm_gl$fp + cm_gl$tn)
+                #tss_glm <- median(tpr_gl + tnr_gl - 1)
+                #gc()
+            }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
             # 3. Maxent
-            maxent_available <- FALSE
-            if (maxent()) {
-                maxent_available <- TRUE
-                xm <- maxent(predictors, pres_train)
-                xe <- evaluate(pres_test, backg_test, xm, predictors)
-                mx <- predict(predictors, xm,
-                              ext = if (!is.null(pol)) extent(pol) else NULL,
-                              progress='')
-                mr <- threshold(xe, 'spec_sens')
-                mt <- mx > mr
-                # use the mask function
-                mt1 <- resample(mt, blank, method = "ngb")
-                MX <- merge(mt1, blank)
-                # TSS
-                cm_mx <- data.frame(xe@confusion)
-                tpr_mx <- cm_mx$tp / (cm_mx$tp + cm_mx$fn)
-                tnr_mx <- cm_mx$tn / (cm_mx$fp + cm_mx$tn)
-                tss_mx <- median(tpr_mx + tnr_mx - 1)
-            }
-            gc()
+            tryCatch({
+                MX1 <- FALSE
+                maxent_available <- FALSE
+                if (maxent()) {
+                    maxent_available <- TRUE
+                    xm <- maxent(predictors, pres_train)
+                    xe <- evaluate(pres_test, backg_test, xm, predictors)
+                    mx <- predict(predictors, xm,
+                                ext = if (!is.null(pol)) extent(pol) else NULL,
+                                  progress='')
+                    mr <- threshold(xe, 'spec_sens')
+                    mt <- mx > mr
+                    # use the mask function
+                    mt1 <- resample(mt, blank, method = "ngb")
+                    MX <- merge(mt1, blank)
+                    MX1 <- TRUE
+                    if (MX1) models[[3]] <- MX
+                    names(models[[3]]) <- "MX"
+                    # TSS
+                    #cm_mx <- data.frame(xe@confusion)
+                    #tpr_mx <- cm_mx$tp / (cm_mx$tp + cm_mx$fn)
+                    #tnr_mx <- cm_mx$tn / (cm_mx$fp + cm_mx$tn)
+                    #tss_mx <- median(tpr_mx + tnr_mx - 1)
+                }
+                #gc()
+            }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+
 
             # 4. Generalised boosted models, GBMs
+            tryCatch({
+                GBM1 <- FALSE
         gbm_mod <- suppressWarnings(invisible(dismo::gbm.step(data = envtrain,
-                            gbm.x = Preds, gbm.y=y, family = "bernoulli",
+                            bm.x = Preds, gbm.y=y, family = "bernoulli",
                             tree.complexity = tc, learning.rate = lr,
                             bag.fraction = bf, verbose = TRUE, silent = TRUE,
                             plot.main = FALSE, step.size = step.size,
                             n.trees = n.trees)))
 
-            egb <- suppressMessages(invisible(evaluate(testpres, testbackg,
-                                                       gbm_mod)))
-            pred_gb <- raster::predict(object = predictors, model = gbm_mod,
-                                       n.trees = gbm_mod$gbm.call$best.trees,
-                                       type = "response", na.rm = TRUE)
-            gb <- gbm_mod$cv.statistics$cv.threshold
-            gbf <- pred_gb > gb
-            # use the mask function
-            gbm1 <- resample(gbf, blank, method = "ngb")
-            GBM <- merge(gbm1, blank)
-            # TSS
-            cm_gb <- data.frame(egb@confusion)
-            tpr_gb <- cm_gb$tp / (cm_gb$tp + cm_gb$fn)
-            tnr_gb <- cm_gb$tn / (cm_gb$fp + cm_gb$tn)
-            tss_gbm <- median(tpr_gb + tnr_gb - 1)
-            gc()
+                egb <- suppressMessages(invisible(evaluate(testpres, testbackg,
+                                                           gbm_mod)))
+                pred_gb <- raster::predict(object = predictors, model = gbm_mod,
+                                         n.trees = gbm_mod$gbm.call$best.trees,
+                                         type = "response", na.rm = TRUE)
+                gb <- gbm_mod$cv.statistics$cv.threshold
+                gbf <- pred_gb > gb
+                # use the mask function
+                gbm1 <- resample(gbf, blank, method = "ngb")
+                GBM <- merge(gbm1, blank)
+                GBM1 <- TRUE
+                if (GBM1) models[[4]] <- GBM
+                names(models[[4]]) <- "GBM"
+                # TSS
+                #cm_gb <- data.frame(egb@confusion)
+                #tpr_gb <- cm_gb$tp / (cm_gb$tp + cm_gb$fn)
+                #tnr_gb <- cm_gb$tn / (cm_gb$fp + cm_gb$tn)
+                #tss_gbm <- median(tpr_gb + tnr_gb - 1)
+                #gc()
+            }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
-            if (maxent_available) {
-
-                models <- list(RF, GLM, MX, GBM)
-                models <- do.call(stack, models)
-                names(models) <- c("RF", "GLM", "MAXENT", "GBM")
-                m <- models[[which(!maxValue(models)==0)]]
-                if (nlayers(m) > 1) {
-                    m <- calc(m, median, forceapply=TRUE)
-                }
-                spo <- m==1
-
-                aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_MAXENT=xe@auc,
-                          auc_GBM=egb@auc)
-                m_auc <- median(aucs)
-
-                indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm,
-                               TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
-                TSS <- median(indiv_TSS)
-
-                occ_csv$species <- name.sp
-                occ_csv$AUC <- m_auc
-                occ_csv$TSS <- TSS
-                occ_csv <- occ_csv[, c("species", "lon", "lat", "source",
-                                       "AUC", "TSS")]
-                occ_csv <- cbind(occ_csv, auc_RF=erf@auc, auc_GLM=ge@auc,
-                                 auc_MAXENT=xe@auc, auc_GBM=egb@auc,
-                                 TSS_RF=tss_rf, TSS_GLM=tss_glm,
-                                 TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
-            } else {
-                models <- list(RF, GLM, GBM)
-                models <- do.call(stack, models)
-                names(models) <- c("RF", "GLM", "GBM")
-
-                m <- models[[which(!maxValue(models)==0)]]
-                if (nlayers(m) > 1) {
-                    m <- calc(m, median, forceapply=TRUE)
-                }
-                spo <- m==1
-
-                aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_GBM=egb@auc)
-                m_auc <- median(aucs)
-
-                indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
-                TSS <- median(indiv_TSS)
-
-                occ_csv$species <- name.sp
-                occ_csv$AUC <- m_auc
-                occ_csv$TSS <- TSS
-                occ_csv <- occ_csv[, c("species", "lon", "lat", "source",
-                                       "AUC", "TSS")]
-                occ_csv <- cbind(occ_csv, auc_RF=erf@auc, auc_GLM=ge@auc,
-                                 auc_GBM=egb@auc, TSS_RF=tss_rf,
-                                 TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
+            models <- do.call(stack, models)
+            #names(models) <- c("RF", "GLM", "MAXENT", "GBM")
+            m <- models[[which(!maxValue(models)==0)]]
+            if (nlayers(m) > 1) {
+                m <- calc(m, median, forceapply=TRUE)
             }
+            spo <- m==1
+
+            #if (maxent_available) {
+
+                #models <- list(RF, GLM, MX, GBM)
+                #models <- do.call(stack, models)
+                #names(models) <- c("RF", "GLM", "MAXENT", "GBM")
+                #m <- models[[which(!maxValue(models)==0)]]
+                #if (nlayers(m) > 1) {
+                #    m <- calc(m, median, forceapply=TRUE)
+                #}
+                #spo <- m==1
+
+                #aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_MAXENT=xe@auc,
+                #          auc_GBM=egb@auc)
+                #m_auc <- median(aucs)
+
+                #indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm,
+                #               TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
+                #TSS <- median(indiv_TSS)
+
+                occ_csv$species <- name.sp
+                #occ_csv$AUC <- m_auc
+                #occ_csv$TSS <- TSS
+                #occ_csv <- occ_csv[, c("species", "lon", "lat", "source",
+                #                       "AUC", "TSS")]
+                #occ_csv <- cbind(occ_csv, auc_RF=erf@auc, auc_GLM=ge@auc,
+                #                 auc_MAXENT=xe@auc, auc_GBM=egb@auc,
+                #                 TSS_RF=tss_rf, TSS_GLM=tss_glm,
+                #                 TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
+            #} else {
+                #models <- list(RF, GLM, GBM)
+                #models <- do.call(stack, models)
+                #names(models) <- c("RF", "GLM", "GBM")
+
+                #m <- models[[which(!maxValue(models)==0)]]
+                #if (nlayers(m) > 1) {
+                #    m <- calc(m, median, forceapply=TRUE)
+                #}
+                #spo <- m==1
+
+                #aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_GBM=egb@auc)
+                #m_auc <- median(aucs)
+
+                #indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
+                #TSS <- median(indiv_TSS)
+
+                #occ_csv$species <- name.sp
+                #occ_csv$AUC <- m_auc
+                #occ_csv$TSS <- TSS
+                #occ_csv <- occ_csv[, c("species", "lon", "lat", "source",
+                #                       "AUC", "TSS")]
+                #occ_csv <- cbind(occ_csv, auc_RF=erf@auc, auc_GLM=ge@auc,
+                #                 auc_GBM=egb@auc, TSS_RF=tss_rf,
+                #                 TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
+            #}
         } else if (prob_method == "raw") {
+            models <- list()
             # 1. Random Forest
+            tryCatch({
+                RF1 <- FALSE
         rf1 <- suppressWarnings(invisible(randomForest::randomForest(Formula,
                                                             data=envtrain)))
-            erf <- dismo::evaluate(testpres, testbackg, rf1)
-            px <- raster::predict(predictors, rf1,
-                            ext = if (!is.null(pol)) extent(pol) else NULL)
-            #tr <- threshold(erf, 'spec_sens')
-            #trf <- raster::crop(px, pol)
-            # use the mask function
-            zrf <- resample(px, blank, method = "ngb")
-            #zrf <- resample(mask(trf, pol), blank, method = "ngb")
-            RF <- merge(zrf, blank)
-            # TSS
-            cm_rf <- data.frame(erf@confusion)
-            tpr_rf <- cm_rf$tp / (cm_rf$tp + cm_rf$fn)
-            tnr_rf <- cm_rf$tn / (cm_rf$fp + cm_rf$tn)
-            tss_rf <- median(tpr_rf + tnr_rf - 1)
-            gc()
+                erf <- dismo::evaluate(testpres, testbackg, rf1)
+                px <- raster::predict(predictors, rf1,
+                                ext = if (!is.null(pol)) extent(pol) else NULL)
+                #tr <- threshold(erf, 'spec_sens')
+                #trf <- raster::crop(px, pol)
+                # use the mask function
+                zrf <- resample(px, blank, method = "ngb")
+                #zrf <- resample(mask(trf, pol), blank, method = "ngb")
+                RF <- merge(zrf, blank)
+                RF1 <- TRUE
+                if (RF1) models[[1]] <- RF
+                names(models[[1]]) <- "RF"
+                # TSS
+                #cm_rf <- data.frame(erf@confusion)
+                #tpr_rf <- cm_rf$tp / (cm_rf$tp + cm_rf$fn)
+                #tnr_rf <- cm_rf$tn / (cm_rf$fp + cm_rf$tn)
+                #tss_rf <- median(tpr_rf + tnr_rf - 1)
+                #gc()
+            }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
             # 2. GLM
-            gm <- suppressWarnings(invisible(glm(Formula,
-                                    family = gaussian(link="identity"),
-                                    data=envtrain)))
-            ge <- dismo::evaluate(testpres, testbackg, gm)
-            pg <- predict(predictors, gm,
-                          ext = if (!is.null(pol)) extent(pol) else NULL)
-            #gtr <- threshold(ge, 'spec_sens')
-            #gt <- raster::crop(pg, pol)
-            # use the mask function
-            gt1 <- resample(pg, blank, method = "ngb")
-            GLM <- merge(gt1, blank)
-            # TSS
-            cm_gl <- data.frame(ge@confusion)
-            tpr_gl <- cm_gl$tp / (cm_gl$tp + cm_gl$fn)
-            tnr_gl <- cm_gl$tn / (cm_gl$fp + cm_gl$tn)
-            tss_glm <- median(tpr_gl + tnr_gl - 1)
-            gc()
+            tryCatch({
+                GLM1 <- FALSE
+                gm <- suppressWarnings(invisible(glm(Formula,
+                                            family = gaussian(link="identity"),
+                                                     data=envtrain)))
+                ge <- dismo::evaluate(testpres, testbackg, gm)
+                pg <- predict(predictors, gm,
+                              ext = if (!is.null(pol)) extent(pol) else NULL)
+                #gtr <- threshold(ge, 'spec_sens')
+                #gt <- raster::crop(pg, pol)
+                # use the mask function
+                gt1 <- resample(pg, blank, method = "ngb")
+                GLM <- merge(gt1, blank)
+                GLM1 <- TRUE
+                if (GLM1) models[[2]] <- GLM
+                names(models[[2]]) <- "GLM"
+                # TSS
+                #cm_gl <- data.frame(ge@confusion)
+                #tpr_gl <- cm_gl$tp / (cm_gl$tp + cm_gl$fn)
+                #tnr_gl <- cm_gl$tn / (cm_gl$fp + cm_gl$tn)
+                #tss_glm <- median(tpr_gl + tnr_gl - 1)
+                #gc()
+            }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+
 
             # 3. Maxent
-            maxent_available <- FALSE
-            if (maxent()) {
-                maxent_available <- TRUE
-                xm <- maxent(predictors, pres_train)
-                xe <- evaluate(pres_test, backg_test, xm, predictors)
-                mx <- predict(predictors, xm,
-                              ext = if (!is.null(pol)) extent(pol) else NULL,
-                              progress='')
-                #mr <- threshold(xe, 'spec_sens')
-                #mt <- raster::crop(mx, pol)
-                # use the mask function
-                mt1 <- resample(mx, blank, method = "ngb")
-                MX <- merge(mt1, blank)
-                # TSS
-                cm_mx <- data.frame(xe@confusion)
-                tpr_mx <- cm_mx$tp / (cm_mx$tp + cm_mx$fn)
-                tnr_mx <- cm_mx$tn / (cm_mx$fp + cm_mx$tn)
-                tss_mx <- median(tpr_mx + tnr_mx - 1)
-            }
-            gc()
+            tryCatch({
+                MX1 <- FALSE
+                maxent_available <- FALSE
+                if (maxent()) {
+                    maxent_available <- TRUE
+                    xm <- maxent(predictors, pres_train)
+                    xe <- evaluate(pres_test, backg_test, xm, predictors)
+                    mx <- predict(predictors, xm,
+                                ext = if (!is.null(pol)) extent(pol) else NULL,
+                                  progress='')
+                    #mr <- threshold(xe, 'spec_sens')
+                    #mt <- raster::crop(mx, pol)
+                    # use the mask function
+                    mt1 <- resample(mx, blank, method = "ngb")
+                    MX <- merge(mt1, blank)
+                    MX1 <- TRUE
+                    if (MX1) models[[3]] <- MX
+                    names(models[[3]]) <- "MX"
+                    # TSS
+                    #cm_mx <- data.frame(xe@confusion)
+                    #tpr_mx <- cm_mx$tp / (cm_mx$tp + cm_mx$fn)
+                    #tnr_mx <- cm_mx$tn / (cm_mx$fp + cm_mx$tn)
+                    #tss_mx <- median(tpr_mx + tnr_mx - 1)
+                }
+                #gc()
+            }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+
 
             # 4. Generalised boosted models, GBMs
+            tryCatch({
+                GBM1 <- FALSE
             gbm_mod <- suppressWarnings(invisible(dismo::gbm.step(data=envtrain,
                             gbm.x = Preds, gbm.y=y, family = "bernoulli",
                             tree.complexity = tc, learning.rate = lr,
@@ -434,81 +491,93 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                             plot.main = FALSE, step.size = step.size,
                             n.trees = n.trees)))
 
-            egb <- suppressMessages(invisible(evaluate(testpres, testbackg,
-                                                       gbm_mod)))
-            pred_gb <- raster::predict(object = predictors, model = gbm_mod,
-                                       n.trees = gbm_mod$gbm.call$best.trees,
-                                       type = "response", na.rm = TRUE)
-            #gb <- gbm_mod$cv.statistics$cv.threshold
-            #gbf <- raster::crop(pred_gb, pol)
-            # use the mask function
-            gbm1 <- resample(pred_gb, blank, method = "ngb")
-            GBM <- merge(gbm1, blank)
-            # TSS
-            cm_gb <- data.frame(egb@confusion)
-            tpr_gb <- cm_gb$tp / (cm_gb$tp + cm_gb$fn)
-            tnr_gb <- cm_gb$tn / (cm_gb$fp + cm_gb$tn)
-            tss_gbm <- median(tpr_gb + tnr_gb - 1)
-            gc()
+                egb <- suppressMessages(invisible(evaluate(testpres, testbackg,
+                                                           gbm_mod)))
+                pred_gb <- raster::predict(object = predictors, model = gbm_mod,
+                                          n.trees = gbm_mod$gbm.call$best.trees,
+                                          type = "response", na.rm = TRUE)
+                #gb <- gbm_mod$cv.statistics$cv.threshold
+                #gbf <- raster::crop(pred_gb, pol)
+                # use the mask function
+                gbm1 <- resample(pred_gb, blank, method = "ngb")
+                GBM <- merge(gbm1, blank)
+                GBM1 <- TRUE
+                if (GBM1) models[[4]] <- GBM
+                names(models[[4]]) <- "GBM"
+                # TSS
+                #cm_gb <- data.frame(egb@confusion)
+                #tpr_gb <- cm_gb$tp / (cm_gb$tp + cm_gb$fn)
+                #tnr_gb <- cm_gb$tn / (cm_gb$fp + cm_gb$tn)
+                #tss_gbm <- median(tpr_gb + tnr_gb - 1)
+                #gc()
 
-            if (maxent_available) {
-                models <- list(RF, GLM, MX, GBM)
-                models <- do.call(stack, models)
-                names(models) <- c("RF", "GLM", "MAXENT", "GBM")
-                m <- models[[which(!maxValue(models)==0)]]
-                if (nlayers(m) > 1) {
-                    m <- calc(m, median, forceapply=TRUE)
-                }
-                spo <- m
+            }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
-                aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_MAXENT=xe@auc,
-                          auc_GBM=egb@auc)
-                m_auc <- median(aucs)
-
-                indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm,
-                               TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
-                TSS <- median(indiv_TSS)
-
-                occ_csv$species <- name.sp
-                occ_csv$AUC <- m_auc
-                occ_csv$TSS <- TSS
-                occ_csv <- occ_csv[, c("species", "lon", "lat", "source",
-                                       "AUC", "TSS")]
-                occ_csv <- cbind(occ_csv, auc_RF=erf@auc, auc_GLM=ge@auc,
-                                 auc_MAXENT=xe@auc, auc_GBM=egb@auc,
-                                 TSS_RF=tss_rf, TSS_GLM=tss_glm,
-                                 TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
-            } else {
-                models <- list(RF, GLM, GBM)
-                models <- do.call(stack, models)
-                names(models) <- c("RF", "GLM", "GBM")
-
-                m <- models[[which(!maxValue(models)==0)]]
-                if (nlayers(m) > 1) {
-                    m <- calc(m, median, forceapply=TRUE)
-                }
-                spo <- m
-
-                aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_GBM=egb@auc)
-                m_auc <- median(aucs)
-
-                indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
-                TSS <- median(indiv_TSS)
-
-                occ_csv$species <- name.sp
-                occ_csv$AUC <- m_auc
-                occ_csv$TSS <- TSS
-                occ_csv <- occ_csv[, c("species", "lon", "lat", "source",
-                                       "AUC", "TSS")]
-                occ_csv <- cbind(occ_csv, auc_RF=erf@auc, auc_GLM=ge@auc,
-                                 auc_GBM=egb@auc, TSS_RF=tss_rf,
-                                 TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
+            models <- do.call(stack, models)
+            #names(models) <- c("RF", "GLM", "MAXENT", "GBM")
+            m <- models[[which(!maxValue(models)==0)]]
+            if (nlayers(m) > 1) {
+                m <- calc(m, median, forceapply=TRUE)
             }
+            spo <- m
+
+
+            #if (maxent_available) {
+                #models <- list(RF, GLM, MX, GBM)
+                #models <- do.call(stack, models)
+                #names(models) <- c("RF", "GLM", "MAXENT", "GBM")
+                #m <- models[[which(!maxValue(models)==0)]]
+                #if (nlayers(m) > 1) {
+                #    m <- calc(m, median, forceapply=TRUE)
+                #}
+                #spo <- m
+
+                #aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_MAXENT=xe@auc,
+                #          auc_GBM=egb@auc)
+                #m_auc <- median(aucs)
+
+                #indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm,
+                #               TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
+                #TSS <- median(indiv_TSS)
+
+                occ_csv$species <- name.sp
+                #occ_csv$AUC <- m_auc
+                #occ_csv$TSS <- TSS
+                #occ_csv <- occ_csv[, c("species", "lon", "lat", "source",
+                #                       "AUC", "TSS")]
+                #occ_csv <- cbind(occ_csv, auc_RF=erf@auc, auc_GLM=ge@auc,
+                #                 auc_MAXENT=xe@auc, auc_GBM=egb@auc,
+                #                 TSS_RF=tss_rf, TSS_GLM=tss_glm,
+                #                 TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
+            #} else {
+                #models <- list(RF, GLM, GBM)
+                #models <- do.call(stack, models)
+                #names(models) <- c("RF", "GLM", "GBM")
+
+                #m <- models[[which(!maxValue(models)==0)]]
+                #if (nlayers(m) > 1) {
+                #    m <- calc(m, median, forceapply=TRUE)
+                #}
+                #spo <- m
+
+                #aucs <- c(auc_RF=erf@auc, auc_GLM=ge@auc, auc_GBM=egb@auc)
+                #m_auc <- median(aucs)
+
+                #indiv_TSS <- c(TSS_RF=tss_rf, TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
+                #TSS <- median(indiv_TSS)
+
+                #occ_csv$species <- name.sp
+                #occ_csv$AUC <- m_auc
+                #occ_csv$TSS <- TSS
+                #occ_csv <- occ_csv[, c("species", "lon", "lat", "source",
+                #                       "AUC", "TSS")]
+                #occ_csv <- cbind(occ_csv, auc_RF=erf@auc, auc_GLM=ge@auc,
+                #                 auc_GBM=egb@auc, TSS_RF=tss_rf,
+                #                 TSS_GLM=tss_glm, TSS_GBM=tss_gbm)
+            #}
         }
 
-        return(list(ensemble_raster = spo, ensemble_AUC = m_auc,
-                    ensemble_TSS=TSS, data=occ_csv,
-                    indiv_models=models, indiv_AUCs=aucs, indiv_TSS=indiv_TSS))
+        return(list(ensemble_raster = spo, data=occ_csv, indiv_models=models))
         gc()
     }
 }
