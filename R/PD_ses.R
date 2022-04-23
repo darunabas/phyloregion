@@ -57,7 +57,7 @@ rt <- function (phy) {
 #' @export
 PD_ses <- function(x, phy,
                    model = c("tipshuffle", "rowwise", "colwise"),
-                   reps = 1000, ...) {
+                   reps = 10, ...) {
 
     colnames(x) <- gsub(" ", "_", colnames(x))
     p <- keep.tip(phy, intersect(phy$tip.label, colnames(x)))

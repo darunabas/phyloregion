@@ -4,7 +4,7 @@
 \alias{PD_ses}
 \title{Phylogenetic diversity standardized for species richness}
 \usage{
-PD_ses(x, phy, model = c("tipshuffle", "rowwise", "colwise"), reps = 1000, ...)
+PD_ses(x, phy, model = c("tipshuffle", "rowwise", "colwise"), reps = 10, ...)
 }
 \arguments{
 \item{x}{a (sparse) community matrix, i.e. an object of class matrix or Matrix.}
