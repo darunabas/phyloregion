@@ -23,7 +23,7 @@
 
 #sampleBuffer <- function(x, n_points, width=2, limits=NULL){
 #    cc <- gBuffer(x, width=width)
-#    if(!is.null(limits)) cc <- crop(cc, limits)
+#    if(!is.null(limits)) cc <- raster::crop(cc, limits)
 #    res <- spsample(cc, n_points, type="random")
 #    res
 #}
@@ -32,15 +32,15 @@
 #    e <- raster::extent(c(-180, 180, -90, 90))
 #    p <- as(e, "SpatialPolygons")
 #    r <- raster(ncol = 180, nrow = 180, resolution = res)
-#    extent(r) <- extent(p)
-#    blank <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
+#    raster::extent(r) <- raster::extent(p)
+#    blank <- raster::setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
 #    # set all values to zero
 #    blank[!is.na(blank)] <- 0
 #    return(blank)
 #}
 
 .more_points <- function(pts, preds) {
-    e <- extent(pts)
+    e <- raster::extent(pts)
     x <- as.data.frame(pts)
     bc <- dismo::bioclim(preds, pts)
     p <- dismo::predict(preds, bc, tail='both', ext = e)
@@ -83,9 +83,6 @@
 #' absence ("presab", the default) for binary transformation or "raw" for
 #' overall projection.
 #' @rdname sdm
-#' @importFrom raster values extent res<- crop extract predict resample merge
-#' @importFrom raster stack calc buffer mask setValues extent<- nlayers maxValue
-#' @importFrom raster crs<-
 #' @importFrom sp coordinates CRS proj4string spsample HexPoints2SpatialPolygons
 #' @importFrom sp Polygon SpatialPolygons polygons
 #' @importFrom dismo kfold randomPoints evaluate threshold maxent gbm.step
@@ -117,7 +114,7 @@
 #' f <- list.files(path=paste(system.file(package="phyloregion"),
 #'                 '/ex', sep=''), pattern='.tif', full.names=TRUE)
 #'
-#' preds <- stack(f)
+#' preds <- raster::stack(f)
 #' #plot(preds)
 #' # get species occurrences
 #' d <- read.csv(system.file("ex/Bombax.csv", package="phyloregion"))
@@ -179,7 +176,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
 
         #set.seed(20220410)
         backg <- suppressWarnings(invisible(dismo::randomPoints(mask=predictors,
-            n = nrow(occ), ext = extent(x), extf = 1.25, warn = 0, p = occ)))
+            n = nrow(occ), ext = raster::extent(x), extf = 1.25, warn = 0, p = occ)))
 
         colnames(backg) <- c('lon', 'lat')
 
@@ -202,7 +199,7 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
         } else if (!is.null(pol)) {
             predictors <- raster::crop(predictors, pol)
         } else {
-            predictors <- raster::crop(predictors, extent(x))
+            predictors <- raster::crop(predictors, raster::extent(x))
         }
 
         # only run if the maxent.jar file is available, in the right folder
@@ -210,11 +207,11 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
 
         train <- rbind(pres_train, backg_train)
         pb_train <- c(rep(1, nrow(pres_train)), rep(0, nrow(backg_train)))
-        envtrain <- extract(predictors, train)
+        envtrain <- raster::extract(predictors, train)
         envtrain <- na.omit(data.frame(cbind(pa = pb_train, envtrain)))
 
-        testpres <- data.frame(extract(predictors, pres_test))
-        testbackg <- data.frame(extract(predictors, backg_test))
+        testpres <- data.frame(raster::extract(predictors, pres_test))
+        testbackg <- data.frame(raster::extract(predictors, backg_test))
 
         Preds <- names(envtrain)[-1]
         y <- names(envtrain)[1]
@@ -233,12 +230,12 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                                             data=envtrain)))
                 erf <- dismo::evaluate(testpres, testbackg, rf1)
                 px <- raster::predict(predictors, rf1,
-                                ext = if (!is.null(pol)) extent(pol) else NULL)
+                                ext = if (!is.null(pol)) raster::extent(pol) else NULL)
                 tr <- threshold(erf, 'spec_sens')
                 trf <- px > tr
                 # use the mask function
-                zrf <- resample(trf, blank, method = "ngb")
-                RF <- merge(zrf, blank)
+                zrf <- raster::resample(trf, blank, method = "ngb")
+                RF <- raster::merge(zrf, blank)
                 RF1 <- TRUE
                 if (RF1) models[[1]] <- RF
                 names(models[[1]]) <- "RF"
@@ -259,13 +256,13 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                 family = gaussian(link="identity"),
                                                      data=envtrain)))
                 ge <- dismo::evaluate(testpres, testbackg, gm)
-                pg <- predict(predictors, gm,
-                              ext = if (!is.null(pol)) extent(pol) else NULL)
+                pg <- raster::predict(predictors, gm,
+                              ext = if (!is.null(pol)) raster::extent(pol) else NULL)
                 gtr <- threshold(ge, 'spec_sens')
                 gt <- pg > gtr
                 # use the mask function
-                gt1 <- resample(gt, blank, method = "ngb")
-                GLM <- merge(gt1, blank)
+                gt1 <- raster::resample(gt, blank, method = "ngb")
+                GLM <- raster::merge(gt1, blank)
                 GLM1 <- TRUE
                 if (GLM1) models[[2]] <- GLM
                 names(models[[2]]) <- "GLM"
@@ -285,14 +282,14 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                     maxent_available <- TRUE
                     xm <- maxent(predictors, pres_train)
                     xe <- evaluate(pres_test, backg_test, xm, predictors)
-                    mx <- predict(predictors, xm,
-                                ext = if (!is.null(pol)) extent(pol) else NULL,
+                    mx <- raster::predict(predictors, xm,
+                                ext = if (!is.null(pol)) raster::extent(pol) else NULL,
                                   progress='')
                     mr <- threshold(xe, 'spec_sens')
                     mt <- mx > mr
                     # use the mask function
-                    mt1 <- resample(mt, blank, method = "ngb")
-                    MX <- merge(mt1, blank)
+                    mt1 <- raster::resample(mt, blank, method = "ngb")
+                    MX <- raster::merge(mt1, blank)
                     MX1 <- TRUE
                     if (MX1) models[[3]] <- MX
                     names(models[[3]]) <- "MX"
@@ -324,8 +321,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 gb <- gbm_mod$cv.statistics$cv.threshold
                 gbf <- pred_gb > gb
                 # use the mask function
-                gbm1 <- resample(gbf, blank, method = "ngb")
-                GBM <- merge(gbm1, blank)
+                gbm1 <- raster::resample(gbf, blank, method = "ngb")
+                GBM <- raster::merge(gbm1, blank)
                 GBM1 <- TRUE
                 if (GBM1) models[[4]] <- GBM
                 names(models[[4]]) <- "GBM"
@@ -337,22 +334,22 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 #gc()
             }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
-            models <- do.call(stack, models)
+            models <- do.call(raster::stack, models)
             #names(models) <- c("RF", "GLM", "MAXENT", "GBM")
-            m <- models[[which(!maxValue(models)==0)]]
-            if (nlayers(m) > 1) {
-                m <- calc(m, median, forceapply=TRUE)
+            m <- models[[which(!raster::maxValue(models)==0)]]
+            if (raster::nlayers(m) > 1) {
+                m <- raster::calc(m, median, forceapply=TRUE)
             }
             spo <- m==1
 
             #if (maxent_available) {
 
                 #models <- list(RF, GLM, MX, GBM)
-                #models <- do.call(stack, models)
+                #models <- do.call(raster::stack, models)
                 #names(models) <- c("RF", "GLM", "MAXENT", "GBM")
-                #m <- models[[which(!maxValue(models)==0)]]
-                #if (nlayers(m) > 1) {
-                #    m <- calc(m, median, forceapply=TRUE)
+                #m <- models[[which(!raster::maxValue(models)==0)]]
+                #if (raster::nlayers(m) > 1) {
+                #    m <- raster::calc(m, median, forceapply=TRUE)
                 #}
                 #spo <- m==1
 
@@ -375,12 +372,12 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 #                 TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
             #} else {
                 #models <- list(RF, GLM, GBM)
-                #models <- do.call(stack, models)
+                #models <- do.call(raster::stack, models)
                 #names(models) <- c("RF", "GLM", "GBM")
 
-                #m <- models[[which(!maxValue(models)==0)]]
-                #if (nlayers(m) > 1) {
-                #    m <- calc(m, median, forceapply=TRUE)
+                #m <- models[[which(!raster::maxValue(models)==0)]]
+                #if (raster::nlayers(m) > 1) {
+                #    m <- raster::calc(m, median, forceapply=TRUE)
                 #}
                 #spo <- m==1
 
@@ -408,13 +405,13 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                                             data=envtrain)))
                 erf <- dismo::evaluate(testpres, testbackg, rf1)
                 px <- raster::predict(predictors, rf1,
-                                ext = if (!is.null(pol)) extent(pol) else NULL)
+                                ext = if (!is.null(pol)) raster::extent(pol) else NULL)
                 #tr <- threshold(erf, 'spec_sens')
                 #trf <- raster::crop(px, pol)
                 # use the mask function
-                zrf <- resample(px, blank, method = "ngb")
-                #zrf <- resample(mask(trf, pol), blank, method = "ngb")
-                RF <- merge(zrf, blank)
+                zrf <- raster::resample(px, blank, method = "ngb")
+                #zrf <- raster::resample(raster::mask(trf, pol), blank, method = "ngb")
+                RF <- raster::merge(zrf, blank)
                 RF1 <- TRUE
                 if (RF1) models[[1]] <- RF
                 names(models[[1]]) <- "RF"
@@ -433,13 +430,13 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                                             family = gaussian(link="identity"),
                                                      data=envtrain)))
                 ge <- dismo::evaluate(testpres, testbackg, gm)
-                pg <- predict(predictors, gm,
-                              ext = if (!is.null(pol)) extent(pol) else NULL)
+                pg <- raster::predict(predictors, gm,
+                              ext = if (!is.null(pol)) raster::extent(pol) else NULL)
                 #gtr <- threshold(ge, 'spec_sens')
                 #gt <- raster::crop(pg, pol)
                 # use the mask function
-                gt1 <- resample(pg, blank, method = "ngb")
-                GLM <- merge(gt1, blank)
+                gt1 <- raster::resample(pg, blank, method = "ngb")
+                GLM <- raster::merge(gt1, blank)
                 GLM1 <- TRUE
                 if (GLM1) models[[2]] <- GLM
                 names(models[[2]]) <- "GLM"
@@ -460,14 +457,14 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                     maxent_available <- TRUE
                     xm <- maxent(predictors, pres_train)
                     xe <- evaluate(pres_test, backg_test, xm, predictors)
-                    mx <- predict(predictors, xm,
-                                ext = if (!is.null(pol)) extent(pol) else NULL,
+                    mx <- raster::predict(predictors, xm,
+                                ext = if (!is.null(pol)) raster::extent(pol) else NULL,
                                   progress='')
                     #mr <- threshold(xe, 'spec_sens')
                     #mt <- raster::crop(mx, pol)
                     # use the mask function
-                    mt1 <- resample(mx, blank, method = "ngb")
-                    MX <- merge(mt1, blank)
+                    mt1 <- raster::resample(mx, blank, method = "ngb")
+                    MX <- raster::merge(mt1, blank)
                     MX1 <- TRUE
                     if (MX1) models[[3]] <- MX
                     names(models[[3]]) <- "MX"
@@ -499,8 +496,8 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 #gb <- gbm_mod$cv.statistics$cv.threshold
                 #gbf <- raster::crop(pred_gb, pol)
                 # use the mask function
-                gbm1 <- resample(pred_gb, blank, method = "ngb")
-                GBM <- merge(gbm1, blank)
+                gbm1 <- raster::resample(pred_gb, blank, method = "ngb")
+                GBM <- raster::merge(gbm1, blank)
                 GBM1 <- TRUE
                 if (GBM1) models[[4]] <- GBM
                 names(models[[4]]) <- "GBM"
@@ -513,22 +510,22 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
 
             }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
-            models <- do.call(stack, models)
+            models <- do.call(raster::stack, models)
             #names(models) <- c("RF", "GLM", "MAXENT", "GBM")
-            m <- models[[which(!maxValue(models)==0)]]
-            if (nlayers(m) > 1) {
-                m <- calc(m, median, forceapply=TRUE)
+            m <- models[[which(!raster::maxValue(models)==0)]]
+            if (raster::nlayers(m) > 1) {
+                m <- raster::calc(m, median, forceapply=TRUE)
             }
             spo <- m
 
 
             #if (maxent_available) {
                 #models <- list(RF, GLM, MX, GBM)
-                #models <- do.call(stack, models)
+                #models <- do.call(raster::stack, models)
                 #names(models) <- c("RF", "GLM", "MAXENT", "GBM")
-                #m <- models[[which(!maxValue(models)==0)]]
-                #if (nlayers(m) > 1) {
-                #    m <- calc(m, median, forceapply=TRUE)
+                #m <- models[[which(!raster::maxValue(models)==0)]]
+                #if (raster::nlayers(m) > 1) {
+                #    m <- raster::calc(m, median, forceapply=TRUE)
                 #}
                 #spo <- m
 
@@ -551,12 +548,12 @@ sdm <- function(x, pol = NULL, predictors = NULL, blank = NULL, tc = 2,
                 #                 TSS_MAXENT=tss_mx, TSS_GBM=tss_gbm)
             #} else {
                 #models <- list(RF, GLM, GBM)
-                #models <- do.call(stack, models)
+                #models <- do.call(raster::stack, models)
                 #names(models) <- c("RF", "GLM", "GBM")
 
-                #m <- models[[which(!maxValue(models)==0)]]
-                #if (nlayers(m) > 1) {
-                #    m <- calc(m, median, forceapply=TRUE)
+                #m <- models[[which(!raster::maxValue(models)==0)]]
+                #if (raster::nlayers(m) > 1) {
+                #    m <- raster::calc(m, median, forceapply=TRUE)
                 #}
                 #spo <- m
 

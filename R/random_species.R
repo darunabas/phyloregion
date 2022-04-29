@@ -15,7 +15,6 @@
 #' @importFrom sp spsample SpatialPolygonsDataFrame Polygon
 #' @importFrom sp Polygons SpatialPolygons
 #' @importFrom grDevices chull
-#' @importFrom raster bind
 #'
 #' @return A polygon shapefile of species' extent of occurrence ranges.
 #'

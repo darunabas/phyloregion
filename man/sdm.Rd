@@ -82,7 +82,7 @@ library(raster)
 f <- list.files(path=paste(system.file(package="phyloregion"),
                 '/ex', sep=''), pattern='.tif', full.names=TRUE)
 
-preds <- stack(f)
+preds <- raster::stack(f)
 #plot(preds)
 # get species occurrences
 d <- read.csv(system.file("ex/Bombax.csv", package="phyloregion"))

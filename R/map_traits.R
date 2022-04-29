@@ -16,7 +16,6 @@
 #'
 #' @rdname map_trait
 #' @keywords phyloregion
-#' @importFrom raster values
 #' @importFrom stats aggregate
 #'
 #' @return A data frame of species traits by site.

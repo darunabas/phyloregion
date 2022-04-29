@@ -1,19 +1,19 @@
 make_poly <- function(file){
-    if (!inherits(file, "RasterLayer")) file <- raster(file)
-    pol <- rasterToPolygons(file, fun=NULL, dissolve=FALSE, na.rm=FALSE)
-    suppressWarnings(invisible(proj4string(pol) <- crs(file)))
+    if (!inherits(file, "RasterLayer")) file <- raster::raster(file)
+    pol <- raster::rasterToPolygons(file, fun=NULL, dissolve=FALSE, na.rm=FALSE)
+    suppressWarnings(invisible(proj4string(pol) <- raster::crs(file)))
     pol$grids <- paste0("v", seq_len(nrow(pol)))
-    xx <- as.data.frame(file, xy=TRUE, na.rm=FALSE)
+    xx <- raster::as.data.frame(file, xy=TRUE, na.rm=FALSE)
     #Make dataframe of all xy coordinates
     xx$grids <- paste0("v", seq_len(nrow(xx)))
-    m <- merge(pol, xx, by = "grids")
+    m <- raster::merge(pol, xx, by = "grids")
     m <- m[, c("grids", "x", "y")]
     m
 }
 
 
 foo <- function(file, rast=NULL) {
-    if (!inherits(file, "RasterLayer")) file <- raster(file)
+    if (!inherits(file, "RasterLayer")) file <- raster::raster(file)
     if(!is.null(rast)) {
         if(!raster::compareRaster(file, rast)) stop("Raster objects are different")
     }
@@ -48,12 +48,12 @@ progress <- function(x, FUN, ...) {
 blank <- function(x, res=NULL) {
     e <- raster::extent(c(-180, 180, -90, 90))
     p <- as(e, "SpatialPolygons")
-    r <- raster(ncol = 180, nrow = 180, resolution = res)
-    extent(r) <- extent(p)
-    r1 <- setValues(r, sample(x = 0:1, size = ncell(r), replace = TRUE))
+    r <- raster::raster(ncol = 180, nrow = 180, resolution = res)
+    raster::extent(r) <- raster::extent(p)
+    r1 <- raster::setValues(r, sample(x = 0:1, size = raster::ncell(r), replace = TRUE))
     r1[!is.na(r1)] <- 0
-    rp <- rasterize(x, r, field=1)
-    res <- merge(rp, r1)
+    rp <- raster::rasterize(x, r, field=1)
+    res <- raster::merge(rp, r1)
     names(res) <- x[[1]]
     return(res)
 }
@@ -96,9 +96,6 @@ blank <- function(x, res=NULL) {
 #' @seealso \code{\link[mapproj]{mapproject}} for conversion of
 #' latitude and longitude into projected coordinates system.
 #' \code{\link{long2sparse}} for conversion of community data.
-#' @importFrom raster raster rasterToPolygons xyFromCell ncell
-#' @importFrom raster values crs as.data.frame compareRaster
-#' @importFrom raster rasterize setValues extent merge
 #' @importFrom sp CRS proj4string<-
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @return Each of these functions generate a list of two objects as follows:
@@ -117,15 +114,15 @@ blank <- function(x, res=NULL) {
 #'
 #' @export
 raster2comm <- function(files) {
-    r <- raster(files[1])
-    m <- progress(files, foo, rast=raster(files[1]))
+    r <- raster::raster(files[1])
+    m <- progress(files, foo, rast=raster::raster(files[1]))
     res <- do.call("rbind", m)
     if(!(nrow(res) > 0)) stop("Raster files probably empty!")
     y <- long2sparse(res)
     tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-    if(ncell(r) > 10000L) {
-        r <- raster(files[1])
-        xy <- as.data.frame(r, na.rm = FALSE, long = TRUE)
+    if(raster::ncell(r) > 10000L) {
+        r <- raster::raster(files[1])
+        xy <- raster::as.data.frame(r, na.rm = FALSE, long = TRUE)
         xy$grids <- paste0("v", seq_len(nrow(xy)))
         xy <- na.omit(xy)
         xy <- xy[, "grids", drop = FALSE]
@@ -133,9 +130,9 @@ raster2comm <- function(files) {
         ind1 <- rbind(tmp, xy)
         ind1 = ind1[!duplicated(ind1$grids), ]
 
-        r[1:ncell(r)] <- paste0("v", seq_len(ncell(r)))
-        index <- match(values(r), ind1$grids)
-        z <- setValues(r, ind1$richness[index])
+        r[1:raster::ncell(r)] <- paste0("v", seq_len(raster::ncell(r)))
+        index <- match(raster::values(r), ind1$grids)
+        z <- raster::setValues(r, ind1$richness[index])
     } else {
         pol <- make_poly(files[1]) # no makepoly <<----
         pol <- pol[, "grids"]
@@ -151,7 +148,6 @@ raster2comm <- function(files) {
 #' @importFrom sp spTransform
 #' @importFrom methods as
 #' @importFrom utils txtProgressBar setTxtProgressBar object.size
-#' @importFrom raster raster res rasterize xyFromCell getValues
 #' @param trace Trace the function; trace = 2 or higher will be more voluminous.
 #' @examples
 #' \donttest{
@@ -212,13 +208,13 @@ polys2comm <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
             files <- progress(s, function(x) blank(x, res = res))
             pol <- make_poly(files[[1]])
             pol <- pol[, "grids"]
-            m <- progress(files, foo, rast=raster(files[[1]]))
+            m <- progress(files, foo, rast=raster::raster(files[[1]]))
             spo <- do.call("rbind", m)
         } else {
             files <- lapply(s, function(x) blank(x, res = res))
             pol <- make_poly(files[[1]])
             pol <- pol[, "grids"]
-            m <- lapply(files, foo, rast=raster(files[[1]]))
+            m <- lapply(files, foo, rast=raster::raster(files[[1]]))
             spo <- do.call("rbind", m)
         }
         y <- long2sparse(spo)
@@ -235,7 +231,6 @@ polys2comm <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
 #' @importFrom sp coordinates<- over CRS proj4string merge
 #' @importFrom sp coordinates<- CRS proj4string<- SpatialPolygonsDataFrame
 #' @importFrom stats complete.cases
-#' @importFrom raster extent
 #' @examples
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package = "phyloregion"))
 #'
@@ -252,7 +247,7 @@ polys2comm <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
 points2comm <- function(dat, mask = NULL, res = 1, shp.grids = NULL, ...) {
     dat <- .matchnames(dat)
 
-    #dat <- as.data.frame(dat)
+    #dat <- raster::as.data.frame(dat)
     #dat <- dat[, c(species, lon, lat)]
     #names(dat) <- c("species", "lon", "lat")
 
@@ -282,7 +277,7 @@ points2comm <- function(dat, mask = NULL, res = 1, shp.grids = NULL, ...) {
 
     #proj4string(dat) <- proj4string(m)
     x <- over(dat, m)
-    y <- cbind(as.data.frame(dat), x)
+    y <- cbind(raster::as.data.frame(dat), x)
     y <- na.omit(y)
     Y <- long2sparse(y)
     tmp <- data.frame(grids=row.names(Y), abundance=rowSums(Y),

@@ -9,8 +9,6 @@
 #' square grids, or \dQuote{hexagon} for hexagonal grids.
 #' @rdname fishnet
 #' @keywords bioregion
-#' @importFrom raster raster rasterToPolygons xyFromCell ncell
-#' @importFrom raster values extent res<-
 #' @importFrom sp CRS proj4string spsample HexPoints2SpatialPolygons
 #' @importFrom sp SpatialPolygonsDataFrame
 #' @return A spatial polygon object of equal area grid cells covering the
@@ -28,10 +26,10 @@ fishnet <- function(mask, res = 0.5, type = "square"){
 
   res <- switch(type,
                 square = {
-                  s <- raster(extent(mask))
-                  res(s) <- res
+                  s <- raster::raster(raster::extent(mask))
+                  raster::res(s) <- res
                   suppressWarnings(invisible(proj4string(s) <- proj4string(mask)))
-                  m <- rasterToPolygons(s)
+                  m <- raster::rasterToPolygons(s)
                   m$grids <- paste0("v", seq_len(nrow(m)))
                   m <- m[, "grids"]
                   spo <- m[subset(mask), ]
