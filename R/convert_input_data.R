@@ -179,6 +179,45 @@ polys2comm_new <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
 
     dat <- .matchnms(dat)
 
+    # METHOD 1
+    s <- base::split(dat, f = dat$species)
+    r <- rast(res=res, ext(dat))
+    spo <- lapply(s, function(x) {
+        y <- rasterize(x, r)
+        which(values(y)==1)
+    })
+    z <- lengths(spo)
+    row_nam <- factor(paste0("v", unlist(spo)))
+    y <- sparseMatrix(as.integer(row_nam), rep(seq_along(spo), z), x = 1L,
+                      dimnames = list(levels(row_nam), names(spo)))
+    g <- rowSums(y)
+    values(r) <- paste0("v", seq_len(ncell(r)))
+    i <- match(as.data.frame(r)[[1]], names(g))
+    zz <- setValues(r, g[i])
+
+
+    # METHOD 2 Grid cells
+    m <- sf::st_as_sf(m)
+    dat <- st_as_sf(dat)
+    vv <- as.data.frame(st_join(dat, m, join = st_intersects))
+    zz <- long2sparse(vv)
+
+    g <- rowSums(zz)
+    i <- match(m$grids, names(g))
+    zz <- cbind(m, richness=g[i])
+    vv <- vect(zz) # weird addition!
+
+
+
+
+    zz <- long2sparse(vv)
+
+    g <- rowSums(zz)
+    i <- match(m$grids, names(g))
+    zz <- cbind(m, richness=g[i])
+    vv <- vect(zz) # weird addition!
+
+
     if (!is.null(shp.grids)) {
         shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
         m <- shp.grids
@@ -188,7 +227,13 @@ polys2comm_new <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
         suppressWarnings(invisible(proj4string(dat) <- CRS("+proj=longlat +datum=WGS84")))
         dat <- spTransform(dat, CRS(pj))
 
-        s <- split(dat, f = dat$species)
+        s <- base::split(dat, f = dat$species)
+        r <- rast(nrows=31, ncols=31, xmin=0, xmax=15, ymin=0, ymax=15)
+
+        r <- rast(res=0.5)
+        lp <- lapply(s, function(x) {
+            y <- rasterize(x, )
+        })
 
         if (object.size(dat) > 150000L && interactive() && trace > 0) {
             f <- progress(s, function(x) {
@@ -220,12 +265,12 @@ polys2comm_new <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
         z <- sp::merge(m, tmp, by = "grids")
         z <- z[!is.na(z@data$richness), ]
     } else {
-        s <- split(dat, f = dat$species)
+        s <- base::split(dat, f=dat$species)
         if (object.size(dat) > 150000L && interactive() && trace > 0) {
             files <- progress(s, function(x) blank(x, res = res))
 
-            r <- rast(nrows=19, ncols=24, nlyrs=2, res=0.5)
-            xv <- rasterize(f, r)
+            r <- rast()
+            xv <- rasterize(s[[1]], r)
 
 
 
@@ -235,14 +280,7 @@ polys2comm_new <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
 
 
 
-            rast2comm <- function(files) {
-                x <- terra::rast(files)
-                ind <- which(values(x)==1, arr.ind=TRUE)
-                row_nam <- factor(paste0("v", ind[,1]))
-                y <- sparseMatrix(as.integer(row_nam), ind[,2], x=1L,
-                                  dimnames = list(levels(row_nam), names(x)))
-                return(list(comm_dat = y, poly_shp = NULL))
-            }
+
 
 
 
