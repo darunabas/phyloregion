@@ -143,6 +143,17 @@ raster2comm <- function(files) {
 }
 
 
+#' @export
+rast2comm <- function(files) {
+    x <- terra::rast(files)
+    ind <- which(values(x)==1, arr.ind=TRUE)
+    row_nam <- factor(paste0("v", ind[,1]))
+    y <- sparseMatrix(as.integer(row_nam), ind[,2], x=1L,
+                      dimnames = list(levels(row_nam), names(x)))
+    return(list(comm_dat = y, poly_shp = NULL))
+}
+
+
 #' @rdname raster2comm
 #' @importFrom sp coordinates over CRS proj4string merge split merge
 #' @importFrom sp spTransform
