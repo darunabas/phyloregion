@@ -155,7 +155,6 @@ rast2comm <- function(files) {
     values(blank) <- paste0("v", seq_len(ncell(blank)))
     i <- match(as.data.frame(blank)[[1]], names(g))
     z <- setValues(blank, g[i])
-
     return(list(comm_dat = y, raster = z))
 }
 
@@ -175,9 +174,78 @@ rast2comm <- function(files) {
 #' }
 #'
 #' @export
-polys2comm_new <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
-
+vect2comm <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
     dat <- .matchnms(dat)
+
+    if (!is.null(shp.grids)) {
+        shp.grids <- shp.grids[, grep("grids", names(shp.grids)), drop=FALSE]
+        m <- shp.grids
+        pj <- crs(m, proj=TRUE)
+        m <- project(m, pj)
+        crs(dat) <- "+proj=longlat +datum=WGS84"
+        dat <- project(dat, pj)
+        dat <- sf::st_as_sf(dat)
+        m <- sf::st_as_sf(m)
+        s <- base::split(dat, f = dat$species)
+
+        if (object.size(dat) > 150000L && interactive() && trace > 0) {
+            f <- progress(s, function(x) {
+                tryCatch({
+                    l <- as.data.frame(sf::st_join(x, m, join = st_intersects))
+                    l[-3]
+                }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+            })
+            result <- Filter(Negate(is.null), f)
+            y <- do.call(rbind, result)
+
+        } else {
+            f <- lapply(s, function(x) {
+                tryCatch({
+                    l <- as.data.frame(sf::st_join(x, m, join = st_intersects))
+                    l[-3]
+                }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+            })
+            result <- Filter(Negate(is.null), f)
+            y <- do.call(rbind, result)
+        }
+
+        tmp <- long2sparse(y)
+        g <- rowSums(tmp)
+        i <- match(m$grids, names(g))
+        tmp <- cbind(m, richness=g[i])
+        z <- vect(tmp) # weird addition!
+
+    } else {
+        s <- base::split(dat, f = dat$species)
+        r <- rast(res=res, ext(dat))
+        if (object.size(dat) > 150000L && interactive() && trace > 0) {
+            files <- progress(s, function(x) {
+                ras <- rasterize(x, r)
+                which(values(ras)==1)
+            })
+        } else {
+            files <- progress(s, function(x) {
+                ras <- rasterize(x, r)
+                which(values(ras)==1)
+            })
+        }
+        l <- lengths(files)
+        row_nam <- factor(paste0("v", unlist(files)))
+        y <- sparseMatrix(as.integer(row_nam), rep(seq_along(files), l), x = 1L,
+                          dimnames = list(levels(row_nam), names(files)))
+        g <- rowSums(y)
+        values(r) <- paste0("v", seq_len(ncell(r)))
+        i <- match(as.data.frame(r)[[1]], names(g))
+        z <- setValues(r, g[i])
+    }
+
+    return(list(comm_dat = y, raster = z))
+
+
+
+
+
+
 
     # METHOD 1
     s <- base::split(dat, f = dat$species)
@@ -209,98 +277,6 @@ polys2comm_new <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
 
 
 
-
-    zz <- long2sparse(vv)
-
-    g <- rowSums(zz)
-    i <- match(m$grids, names(g))
-    zz <- cbind(m, richness=g[i])
-    vv <- vect(zz) # weird addition!
-
-
-    if (!is.null(shp.grids)) {
-        shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
-        m <- shp.grids
-
-        pj <- suppressWarnings(invisible(proj4string(m)[[1]]))
-        suppressWarnings(invisible(proj4string(m) <- CRS(pj)))
-        suppressWarnings(invisible(proj4string(dat) <- CRS("+proj=longlat +datum=WGS84")))
-        dat <- spTransform(dat, CRS(pj))
-
-        s <- base::split(dat, f = dat$species)
-        r <- rast(nrows=31, ncols=31, xmin=0, xmax=15, ymin=0, ymax=15)
-
-        r <- rast(res=0.5)
-        lp <- lapply(s, function(x) {
-            y <- rasterize(x, )
-        })
-
-        if (object.size(dat) > 150000L && interactive() && trace > 0) {
-            f <- progress(s, function(x) {
-                tryCatch({
-                spo <- sp::over(x, m, returnList = TRUE)
-                spo <- lapply(spo, unlist)
-                ll <- lengths(spo)
-                data.frame(grids=unlist(spo), species=rep(x@data$species, ll))
-                }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
-            })
-            result <- Filter(Negate(is.null), f)
-            y <- do.call(rbind, result)
-
-        } else {
-            f <- lapply(s, function(x) {
-                tryCatch({
-                spo <- sp::over(x, m, returnList = TRUE)
-                spo <- lapply(spo, unlist)
-                ll <- lengths(spo)
-                data.frame(grids=unlist(spo), species=rep(x@data$species, ll))
-                }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
-            })
-            result <- Filter(Negate(is.null), f)
-            y <- do.call(rbind, result)
-        }
-
-        y <- long2sparse(unique(y[, c("grids", "species")]))
-        tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-        z <- sp::merge(m, tmp, by = "grids")
-        z <- z[!is.na(z@data$richness), ]
-    } else {
-        s <- base::split(dat, f=dat$species)
-        if (object.size(dat) > 150000L && interactive() && trace > 0) {
-            files <- progress(s, function(x) blank(x, res = res))
-
-            r <- rast()
-            xv <- rasterize(s[[1]], r)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            pol <- make_poly(files[[1]])
-            pol <- pol[, "grids"]
-            m <- progress(files, foo, rast=raster::raster(files[[1]]))
-            spo <- do.call("rbind", m)
-        } else {
-            files <- lapply(s, function(x) blank(x, res = res))
-            pol <- make_poly(files[[1]])
-            pol <- pol[, "grids"]
-            m <- lapply(files, foo, rast=raster::raster(files[[1]]))
-            spo <- do.call("rbind", m)
-        }
-        y <- long2sparse(spo)
-        tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-        z <- sp::merge(pol, tmp, by = "grids")
-        z <- z[!is.na(z@data$richness), ]
-    }
 
     return(list(comm_dat = y, poly_shp = z))
 }
