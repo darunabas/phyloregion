@@ -70,7 +70,7 @@ blank <- function(x, res=NULL) {
 
 #' Convert raw input distribution data to community
 #'
-#' The functions \code{points2comm}, \code{polys2comm}, \code{raster2comm}
+#' The functions \code{points2comm}, \code{vect2comm}, \code{rast2comm}
 #' provide convenient interfaces to convert raw distribution data often
 #' available as point records, polygons and raster layers,
 #' respectively, to a community composition data frame at varying spatial grains
@@ -92,7 +92,7 @@ blank <- function(x, res=NULL) {
 #' @param shp.grids if specified, the polygon shapefile of grid cells
 #' with a column labeled \dQuote{grids}.
 #' @param \dots Further arguments passed to or from other methods.
-#' @rdname raster2comm
+#' @rdname rast2comm
 #' @seealso \code{\link[mapproj]{mapproject}} for conversion of
 #' latitude and longitude into projected coordinates system.
 #' \code{\link{long2sparse}} for conversion of community data.
@@ -107,42 +107,11 @@ blank <- function(x, res=NULL) {
 #' \donttest{
 #' fdir <- system.file("NGAplants", package="phyloregion")
 #' files <- file.path(fdir, dir(fdir))
-#' ras <- raster2comm(files) # Note, this function generates
+#' ras <- rast2comm(files) # Note, this function generates
 #'      # a list of two objects
 #' head(ras[[1]])
 #' }
 #'
-#' @export
-raster2comm <- function(files) {
-    r <- raster::raster(files[1])
-    m <- progress(files, foo, rast=raster::raster(files[1]))
-    res <- do.call("rbind", m)
-    if(!(nrow(res) > 0)) stop("Raster files probably empty!")
-    y <- long2sparse(res)
-    tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-    if(raster::ncell(r) > 10000L) {
-        r <- raster::raster(files[1])
-        xy <- raster::as.data.frame(r, na.rm = FALSE, long = TRUE)
-        xy$grids <- paste0("v", seq_len(nrow(xy)))
-        xy <- na.omit(xy)
-        xy <- xy[, "grids", drop = FALSE]
-        xy$richness <- 0L
-        ind1 <- rbind(tmp, xy)
-        ind1 = ind1[!duplicated(ind1$grids), ]
-
-        r[1:raster::ncell(r)] <- paste0("v", seq_len(raster::ncell(r)))
-        index <- match(raster::values(r), ind1$grids)
-        z <- raster::setValues(r, ind1$richness[index])
-    } else {
-        pol <- make_poly(files[1]) # no makepoly <<----
-        pol <- pol[, "grids"]
-        z <- sp::merge(pol, tmp, by = "grids")
-        z <- z[!is.na(z@data$richness), ]
-    }
-    return(list(comm_dat = y, poly_shp = z))
-}
-
-
 #' @export
 rast2comm <- function(files) {
     x <- terra::rast(files)
@@ -158,8 +127,10 @@ rast2comm <- function(files) {
     return(list(comm_dat = y, raster = z))
 }
 
-
-#' @rdname raster2comm
+#' @rdname rast2comm
+#' @importFrom terra values values<- ncell setValues buffer extract crs
+#' @importFrom terra project crs<- rasterize
+#' @importFrom sf st_intersects
 #' @importFrom sp coordinates over CRS proj4string merge split merge
 #' @importFrom sp spTransform
 #' @importFrom methods as
@@ -169,7 +140,7 @@ rast2comm <- function(files) {
 #' \donttest{
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 #' sp <- random_species(100, species=5, shp=s)
-#' pol <- polys2comm(dat = sp, species = "species")
+#' pol <- vect2comm(dat = sp, species = "species")
 #' head(pol[[1]])
 #' }
 #'
@@ -240,121 +211,12 @@ vect2comm <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
     }
 
     return(list(comm_dat = y, raster = z))
-
-
-
-
-
-
-
-    # METHOD 1
-    s <- base::split(dat, f = dat$species)
-    r <- rast(res=res, ext(dat))
-    spo <- lapply(s, function(x) {
-        y <- rasterize(x, r)
-        which(values(y)==1)
-    })
-    z <- lengths(spo)
-    row_nam <- factor(paste0("v", unlist(spo)))
-    y <- sparseMatrix(as.integer(row_nam), rep(seq_along(spo), z), x = 1L,
-                      dimnames = list(levels(row_nam), names(spo)))
-    g <- rowSums(y)
-    values(r) <- paste0("v", seq_len(ncell(r)))
-    i <- match(as.data.frame(r)[[1]], names(g))
-    zz <- setValues(r, g[i])
-
-
-    # METHOD 2 Grid cells
-    m <- sf::st_as_sf(m)
-    dat <- st_as_sf(dat)
-    vv <- as.data.frame(st_join(dat, m, join = st_intersects))
-    zz <- long2sparse(vv)
-
-    g <- rowSums(zz)
-    i <- match(m$grids, names(g))
-    zz <- cbind(m, richness=g[i])
-    vv <- vect(zz) # weird addition!
-
-
-
-
-    return(list(comm_dat = y, poly_shp = z))
 }
 
-
-polys2comm <- function(dat, res = 1, shp.grids = NULL, trace = 1,...) {
-
-    dat <- .matchnms(dat)
-
-    if (!is.null(shp.grids)) {
-        shp.grids <- shp.grids[, grepl("grids", names(shp.grids)), drop=FALSE]
-        m <- shp.grids
-
-        pj <- suppressWarnings(invisible(proj4string(m)[[1]]))
-        suppressWarnings(invisible(proj4string(m) <- CRS(pj)))
-        suppressWarnings(invisible(proj4string(dat) <- CRS("+proj=longlat +datum=WGS84")))
-        dat <- spTransform(dat, CRS(pj))
-
-        s <- split(dat, f = dat$species)
-
-        if (object.size(dat) > 150000L && interactive() && trace > 0) {
-            f <- progress(s, function(x) {
-                tryCatch({
-                    spo <- sp::over(x, m, returnList = TRUE)
-                    spo <- lapply(spo, unlist)
-                    ll <- lengths(spo)
-                    data.frame(grids=unlist(spo), species=rep(x@data$species, ll))
-                }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
-            })
-            result <- Filter(Negate(is.null), f)
-            y <- do.call(rbind, result)
-
-        } else {
-            f <- lapply(s, function(x) {
-                tryCatch({
-                    spo <- sp::over(x, m, returnList = TRUE)
-                    spo <- lapply(spo, unlist)
-                    ll <- lengths(spo)
-                    data.frame(grids=unlist(spo), species=rep(x@data$species, ll))
-                }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
-            })
-            result <- Filter(Negate(is.null), f)
-            y <- do.call(rbind, result)
-        }
-
-        y <- long2sparse(unique(y[, c("grids", "species")]))
-        tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-        z <- sp::merge(m, tmp, by = "grids")
-        z <- z[!is.na(z@data$richness), ]
-    } else {
-        s <- split(dat, f = dat$species)
-        if (object.size(dat) > 150000L && interactive() && trace > 0) {
-            files <- progress(s, function(x) blank(x, res = res))
-            pol <- make_poly(files[[1]])
-            pol <- pol[, "grids"]
-            m <- progress(files, foo, rast=raster::raster(files[[1]]))
-            spo <- do.call("rbind", m)
-        } else {
-            files <- lapply(s, function(x) blank(x, res = res))
-            pol <- make_poly(files[[1]])
-            pol <- pol[, "grids"]
-            m <- lapply(files, foo, rast=raster::raster(files[[1]]))
-            spo <- do.call("rbind", m)
-        }
-        y <- long2sparse(spo)
-        tmp <- data.frame(grids=row.names(y), richness=rowSums(y>0))
-        z <- sp::merge(pol, tmp, by = "grids")
-        z <- z[!is.na(z@data$richness), ]
-    }
-
-    return(list(comm_dat = y, poly_shp = z))
-}
-
-
-#' @rdname raster2comm
+#' @rdname rast2comm
 #' @importFrom sp coordinates<- over CRS proj4string merge
 #' @importFrom sp coordinates<- CRS proj4string<- SpatialPolygonsDataFrame
-#' @importFrom stats complete.cases
+#' @importFrom stats complete.cases predict
 #' @examples
 #' s <- readRDS(system.file("nigeria/nigeria.rds", package = "phyloregion"))
 #'

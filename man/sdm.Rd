@@ -2,22 +2,16 @@
 % Please edit documentation in R/sdm.R
 \name{sdm}
 \alias{sdm}
-\title{Species distribution models for a range of algorithms}
+\title{Species distribution models}
 \usage{
 sdm(
   x,
-  pol = NULL,
   predictors = NULL,
-  blank = NULL,
-  tc = 2,
-  lr = 0.001,
-  bf = 0.75,
-  n.trees = 50,
-  step.size = n.trees,
-  k = 5,
-  herbarium.rm = FALSE,
-  n.points = 10,
-  prob_method = "presab"
+  pol = NULL,
+  mask = TRUE,
+  algorithm = "all",
+  size = 50,
+  width = 50000
 )
 }
 \arguments{
@@ -25,71 +19,48 @@ sdm(
 and geographic coordinates. Column 1 labeled as "species", column 2 "lon",
 column 3 "lat".}
 
-\item{pol}{A polygon shapefile specifying the boundary to restrict the
-prediction. If not specified, a minimum convex polygon is estimated using
-the input data frame of species occurrences.}
+\item{predictors}{A \code{SpatRaster} to extract values from the
+locations in x on which the models will be projected.}
 
-\item{predictors}{RasterStack of environmental descriptors on which
-the models will be projected}
+\item{pol}{A vector polygon specifying the boundary to restrict the
+prediction. If \code{NULL}, the extent of input points is used.}
 
-\item{blank}{A blank raster upon which the prediction layer is aggregated to.}
+\item{mask}{logical. Should x be used to mask?}
 
-\item{tc}{Integer. Tree complexity. Sets the complexity of individual trees}
+\item{algorithm}{Character. The choice of algorithm to run the species
+distribution model. Available algorithms include:
+\itemize{
+\item \dQuote{all}: Calls all available algorithms: RF, GLM, MAXENT, GBM,
+and CTA.
+\item \dQuote{RF}: Calls only Random forest.
+\item \dQuote{GLM}: Calls only Generalized linear model.
+\item \dQuote{MAXENT}: Calls only Maximum entropy.
+\item \dQuote{GBM}: Calls only Generalized boosted regressions model.
+\item \dQuote{CTA}: Calls only Classification tree analysis.}}
 
-\item{lr}{Learning rate. Sets the weight applied to individual trees}
+\item{size}{Minimum number of points required to successfully run
+a species distribution model especially for species with few occurrences.}
 
-\item{bf}{Bag fraction. Sets the proportion of observations used in selecting
-variables}
-
-\item{n.trees}{Number of initial trees to fit. Set at 50 by default}
-
-\item{step.size}{Number of trees to add at each cycle}
-
-\item{k}{Number of groups}
-
-\item{herbarium.rm}{Logical, remove points within 50 km of herbaria.}
-
-\item{n.points}{Minimum number of points required to successfully run
-a species distribution model}
-
-\item{prob_method}{Transform probabilities of presence into presence and
-absence ("presab", the default) for binary transformation or "raw" for
-overall projection.}
+\item{width}{Width of buffer in meter if x is in longitude/latitude CRS.}
 }
 \value{
 A list with the following objects:
 \itemize{
   \item \code{ensemble_raster} The ensembled raster that predicts
-  the potential species distribution.
-  \item \code{ensemble_AUC} The median AUCs of models.
-  \item \code{data} The dataframe that was used to implement the model.
+  the potential species distribution based on the algorithms selected.
+  \item \code{data} The dataframe of occurrences used to implement the model.
+  \item \code{polygon} Map polygons of the predicted distributions
+  analogous to extent-of-occurrence range polygon.
   \item \code{indiv_models} Raster layers for the separate models that
   predict the potential species distribution.
-  \item \code{single_AUCs} The AUCs for the seperate models.
 }
 }
 \description{
 This function computes species distribution models using
-four modelling algorithms: generalized linear models,
-generalized boosted models, random forests, and maximum entropy (only if
-\code{rJava} is available). Note: this is an experimental function, and
-may change in the future.
-}
-\examples{
-\donttest{
-library(raster)
-# get predictor variables
-f <- list.files(path=paste(system.file(package="phyloregion"),
-                '/ex', sep=''), pattern='.tif', full.names=TRUE)
-
-preds <- raster::stack(f)
-#plot(preds)
-# get species occurrences
-d <- read.csv(system.file("ex/Bombax.csv", package="phyloregion"))
-
-# fit ensemble model for four algorithms
-mod <- sdm(d, predictors = preds)
-}
+five modelling algorithms: generalized linear models,
+generalized boosted models, random forests, maximum entropy (only if
+\code{rJava} is available), and classification tree analysis.
+Note: this is an experimental function, and may change in the future.
 }
 \references{
 Zurell, D., Franklin, J., König, C., Bouchet, P.J., Dormann, C.F., Elith, J.,

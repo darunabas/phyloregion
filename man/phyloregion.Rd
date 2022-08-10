@@ -3,7 +3,7 @@
 \name{phyloregion}
 \alias{phyloregion}
 \alias{infomap}
-\title{Calculate evolutionary distinctiveness of phyloregions}
+\title{Compute phylogenetic regionalization and evolutionary distinctiveness of phyloregions}
 \usage{
 phyloregion(x, k = 10, method = "average", shp = NULL, ...)
 

@@ -16,16 +16,16 @@ Description: Computational infrastructure for biogeography, community ecology,
     contains fast and efficient functions to compute more standard conservation measures
     such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
     and global endangerment, as well as compositional turnover (e.g., beta diversity).
-Imports: ape, phangorn, Matrix, betapart, parallel, methods, raster, colorspace,
-         vegan, sp, igraph, clustMixType, dismo, randomForest, rgeos, maptpx, terra,
-         predicts, gbm, rpart
+Imports: ape, phangorn, Matrix, betapart, parallel, methods, sf, colorspace,
+         vegan, sp, igraph, clustMixType, randomForest, rgeos, maptpx, terra,
+         predicts, gbm, rpart, raster, smoothr
 Suggests: tinytest, knitr, rmarkdown, mapproj, survival, rJava, phyloseq
 VignetteBuilder: knitr
 URL: https://github.com/darunabas/phyloregion, https://darunabas.github.io/phyloregion/index.html
 BugReports: https://github.com/darunabas/phyloregion/issues
 License: AGPL-3
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 biocViews: Software
 NeedsCompilation: no
 Depends: R (>= 4.0.0)

@@ -85,7 +85,7 @@
 #'
 phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
 
-    if(class(x) != "dist"){
+    if(!inherits(x, "dist")){
         stop("\n x must be a dist object \n")
     }
     if(is.numeric(k) != TRUE){
@@ -158,7 +158,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
             r <- list(membership=dx, k=k, shp = y,
                       region.dist = region.dist, region.df = z, NMDS = c1)
             class(r) <- "phyloregion"
-        } else if (inherits(m, "SpatialPolygons")) {
+        } else if (inherits(m, "SpatVector")) {
             m <- m[!is.na(m@data$cluster), ]
             # region <- raster::aggregate(m, by = 'cluster')
             region <- terra::aggregate(m, by = "cluster")
@@ -183,7 +183,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
             r <- list(membership=dx, k=k, shp = y,
                       region.dist = region.dist, region.df = z, NMDS = c1)
             class(r) <- "phyloregion"
-        } else stop("Invalid geometry, needs polygons or spatial points")
+        } else stop("Invalid geometry, needs spatial vectors")
         return(r)
     }
 }
