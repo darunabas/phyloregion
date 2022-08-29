@@ -1,3 +1,21 @@
+thin_max <- function(x, cols, npoints){
+    inds <- vector(mode="numeric")
+    this.dist <- as.matrix(dist(x[,cols], upper=TRUE))
+    inds <- c(inds, as.integer(runif(1, 1, length(this.dist[,1]))))
+    inds <- c(inds, which.max(this.dist[,inds]))
+    while(length(inds) < npoints){
+        min.dists <- apply(this.dist[,inds], 1, min)
+        this.ind <- which.max(min.dists)
+        if(length(this.ind) > 1){
+            print("Breaking tie...")
+            this.ind <- this.ind[1]
+        }
+        inds <- c(inds, this.ind)
+    }
+    return(x[inds,])
+}
+
+
 .matchnames <- function(x) {
     x <- as.data.frame(x)
     nat <- colnames(x)
@@ -95,7 +113,6 @@ sampleBuffer <- function(p, size, width) {
 #' locations in x on which the models will be projected.
 #' @param pol A vector polygon specifying the boundary to restrict the
 #' prediction. If \code{NULL}, the extent of input points is used.
-#' @param mask logical. Should x be used to mask?
 #' @param algorithm Character. The choice of algorithm to run the species
 #' distribution model. Available algorithms include:
 #' \itemize{
@@ -109,13 +126,15 @@ sampleBuffer <- function(p, size, width) {
 #'
 #' @param size Minimum number of points required to successfully run
 #' a species distribution model especially for species with few occurrences.
+#' @param thin Whether to thin occurrences
+#' @param thin.size The size of the thin occurrences.
 #' @param width Width of buffer in meter if x is in longitude/latitude CRS.
 #' @rdname sdm
 #' @importFrom terra distance convHull spatSample vect ext window<- rast nlyr
 #' @importFrom terra geom resample crop median deepcopy as.polygons predict
 #' @importFrom predicts make_folds maxentropy pa_evaluate
 #' @importFrom randomForest randomForest tuneRF
-#' @importFrom stats glm median formula gaussian
+#' @importFrom stats glm median formula gaussian dist runif
 #' @importFrom gbm gbm
 #' @importFrom rpart rpart
 #' @importFrom smoothr smooth
@@ -152,10 +171,10 @@ sampleBuffer <- function(p, size, width) {
 #' m <- sdm(d, predictors = preds, algorithm = "all")
 #' # plot(m$ensemble_raster)
 #' # plot(m$polygon, add=TRUE)
-
+#' }
 #' @export
-sdm <- function(x, predictors = NULL, pol = NULL, mask = TRUE,
-                     algorithm = "all", size = 50, width = 50000) {
+sdm <- function(x, predictors = NULL, pol = NULL, thin = TRUE, thin.size = 200,
+                algorithm = "all", size = 50, width = 50000) {
     x <- .matchnames(x)
     name.sp <- unique(x$species)
 
@@ -165,6 +184,10 @@ sdm <- function(x, predictors = NULL, pol = NULL, mask = TRUE,
 
     x <- x[, -1]
     x <- unique(na.omit(x))
+
+    if(thin == TRUE) {
+        x <- thin_max(x=x, cols = c("lat", "lon"), npoints = thin.size)
+    }
     x$source <- "rw"
     x <- vect(x, crs="+proj=longlat +datum=WGS84")
 
