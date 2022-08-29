@@ -8,7 +8,8 @@ sdm(
   x,
   predictors = NULL,
   pol = NULL,
-  mask = TRUE,
+  thin = TRUE,
+  thin.size = 200,
   algorithm = "all",
   size = 50,
   width = 50000
@@ -25,7 +26,9 @@ locations in x on which the models will be projected.}
 \item{pol}{A vector polygon specifying the boundary to restrict the
 prediction. If \code{NULL}, the extent of input points is used.}
 
-\item{mask}{logical. Should x be used to mask?}
+\item{thin}{Whether to thin occurrences}
+
+\item{thin.size}{The size of the thin occurrences.}
 
 \item{algorithm}{Character. The choice of algorithm to run the species
 distribution model. Available algorithms include:
@@ -61,6 +64,24 @@ five modelling algorithms: generalized linear models,
 generalized boosted models, random forests, maximum entropy (only if
 \code{rJava} is available), and classification tree analysis.
 Note: this is an experimental function, and may change in the future.
+}
+\examples{
+\donttest{
+# get predictor variables
+library(predicts)
+f <- system.file("ex/bio.tif", package="predicts")
+preds <- rast(f)
+#plot(preds)
+
+# get species occurrences
+b <- file.path(system.file(package="predicts"), "ex/bradypus.csv")
+d <- read.csv(d)
+
+# fit ensemble model for four algorithms
+m <- sdm(d, predictors = preds, algorithm = "all")
+# plot(m$ensemble_raster)
+# plot(m$polygon, add=TRUE)
+}
 }
 \references{
 Zurell, D., Franklin, J., König, C., Bouchet, P.J., Dormann, C.F., Elith, J.,

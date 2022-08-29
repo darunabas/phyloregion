@@ -2,13 +2,13 @@
 % Please edit documentation in R/convert_input_data.R
 \name{rast2comm}
 \alias{rast2comm}
-\alias{vect2comm}
+\alias{polys2comm}
 \alias{points2comm}
 \title{Convert raw input distribution data to community}
 \usage{
 rast2comm(files)
 
-vect2comm(dat, res = 1, shp.grids = NULL, trace = 1, ...)
+polys2comm(dat, res = 0.25, shp.grids = NULL, trace = 1, ...)
 
 points2comm(dat, mask = NULL, res = 1, shp.grids = NULL, ...)
 }
@@ -45,7 +45,7 @@ Each of these functions generate a list of two objects as follows:
 }
 }
 \description{
-The functions \code{points2comm}, \code{vect2comm}, \code{rast2comm}
+The functions \code{points2comm}, \code{polys2comm}, \code{raster2comm}
 provide convenient interfaces to convert raw distribution data often
 available as point records, polygons and raster layers,
 respectively, to a community composition data frame at varying spatial grains
@@ -55,7 +55,7 @@ and extents for downstream analyses.
 \donttest{
 fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
-ras <- rast2comm(files) # Note, this function generates
+ras <- raster2comm(files) # Note, this function generates
      # a list of two objects
 head(ras[[1]])
 }
@@ -63,7 +63,7 @@ head(ras[[1]])
 \donttest{
 s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
 sp <- random_species(100, species=5, shp=s)
-pol <- vect2comm(dat = sp, species = "species")
+pol <- polys2comm(dat = sp, species = "species")
 head(pol[[1]])
 }
 
