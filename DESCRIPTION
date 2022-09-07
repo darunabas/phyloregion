@@ -17,8 +17,7 @@ Description: Computational infrastructure for biogeography, community ecology,
     such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
     and global endangerment, as well as compositional turnover (e.g., beta diversity).
 Imports: ape, phangorn, Matrix, betapart, parallel, methods, colorspace,
-         vegan, sp, igraph, clustMixType, randomForest, rgeos, maptpx, terra,
-         predicts, gbm, rpart, raster, smoothr
+         vegan, sp, igraph, clustMixType, randomForest, rgeos, maptpx, predicts, terra, gbm, rpart, raster, smoothr
 Suggests: tinytest, knitr, rmarkdown, mapproj, survival, rJava, phyloseq
 VignetteBuilder: knitr
 URL: https://github.com/darunabas/phyloregion, https://darunabas.github.io/phyloregion/index.html
