@@ -157,7 +157,7 @@ sampleBuffer <- function(p, size, width) {
 #'
 #' # get species occurrences
 #' b <- file.path(system.file(package="predicts"), "ex/bradypus.csv")
-#' d <- read.csv(d)
+#' d <- read.csv(b)
 #'
 #' # fit ensemble model for four algorithms
 #' m <- sdm(d, predictors = preds, algorithm = "all")
