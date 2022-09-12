@@ -34,17 +34,17 @@ thin_max <- function(x, cols, npoints){
     return(x)
 }
 
-myRF <- function(x, p, q) {
-    tf <- tuneRF(x[, 2:ncol(x)], x[, "pa"], plot=FALSE)
-    mt <- tf[which.min(tf[,2]), 1]
-    rf1 <- randomForest(x[, 2:ncol(x)], x[, "pa"], mtry=mt, ntree=250,
-                        na.action = na.omit)
-    rp <- terra::predict(p, rf1, na.rm=TRUE)
-    erf <- pa_evaluate(predict(rf1, q[q$pa==1, ]), predict(rf1, q[q$pa==0, ]))
-    tr <- erf@thresholds
-    rf_fnl <- rp > tr$max_spec_sens
-    return(RF = rf_fnl)
-}
+#myRF <- function(x, p, q) {
+#    tf <- tuneRF(x[, 2:ncol(x)], x[, "pa"], plot=FALSE)
+#    mt <- tf[which.min(tf[,2]), 1]
+#    rf1 <- randomForest(x[, 2:ncol(x)], x[, "pa"], mtry=mt, ntree=250,
+#                        na.action = na.omit)
+#    rp <- terra::predict(p, rf1, na.rm=TRUE)
+#    erf <- pa_evaluate(predict(rf1, q[q$pa==1, ]), predict(rf1, q[q$pa==0, ]))
+#    tr <- erf@thresholds
+#    rf_fnl <- rp > tr$max_spec_sens
+#    return(RF = rf_fnl)
+#}
 
 myGLM <- function(f, x, p, q) {
     gm <- glm(f, family = gaussian(link = "identity"), data = x)
@@ -68,26 +68,26 @@ myMAXENT <- function(p, ox, ot, xy) {
     }
 }
 
-myCTA <- function(f, x, p, q) {
-    cm <- rpart(f, data = x)
-    pc <- terra::predict(p, cm)
-    ce <- pa_evaluate(predict(cm, q[q$pa==1, ]), predict(cm, q[q$pa==0, ]))
-    ctr <- ce@thresholds
-    cta_fnl <- pc > ctr$max_spec_sens
-    return(CTA = cta_fnl)
-}
+#myCTA <- function(f, x, p, q) {
+#    cm <- rpart(f, data = x)
+#    pc <- terra::predict(p, cm)
+#    ce <- pa_evaluate(predict(cm, q[q$pa==1, ]), predict(cm, q[q$pa==0, ]))
+#    ctr <- ce@thresholds
+#    cta_fnl <- pc > ctr$max_spec_sens
+#    return(CTA = cta_fnl)
+#}
 
-myGBM <- function(f, x, p, q) {
-    gbm_mod <- gbm::gbm(f, data = x, interaction.depth = 3,
-                        n.minobsinnode = 1, cv.folds = 5)
-
-    pred_gb <- terra::predict(p, gbm_mod, na.rm=TRUE)
-    egb <- predicts::pa_evaluate(predict(gbm_mod, q[q$pa==1, ]),
-                                 predict(gbm_mod, q[q$pa==0, ]))
-    gb <- egb@thresholds
-    gbm_fnl <- pred_gb > gb$max_spec_sens
-    return(GBM = gbm_fnl)
-}
+#myGBM <- function(f, x, p, q) {
+#    gbm_mod <- gbm::gbm(f, data = x, interaction.depth = 3,
+#                        n.minobsinnode = 1, cv.folds = 5)
+#
+#    pred_gb <- terra::predict(p, gbm_mod, na.rm=TRUE)
+#    egb <- predicts::pa_evaluate(predict(gbm_mod, q[q$pa==1, ]),
+#                                 predict(gbm_mod, q[q$pa==0, ]))
+#    gb <- egb@thresholds
+#    gbm_fnl <- pred_gb > gb$max_spec_sens
+#    return(GBM = gbm_fnl)
+#}
 
 sampleBuffer <- function(p, size, width) {
     if (max(distance(p)) > 7000000) {
@@ -101,9 +101,8 @@ sampleBuffer <- function(p, size, width) {
 #' Species distribution models
 #'
 #' This function computes species distribution models using
-#' five modelling algorithms: generalized linear models,
-#' generalized boosted models, random forests, maximum entropy (only if
-#' \code{rJava} is available), and classification tree analysis.
+#' two modelling algorithms: generalized linear models,
+#' and maximum entropy (only if \code{rJava} is available).
 #' Note: this is an experimental function, and may change in the future.
 #'
 #' @param x A dataframe containing the species occurrences
@@ -116,14 +115,10 @@ sampleBuffer <- function(p, size, width) {
 #' @param algorithm Character. The choice of algorithm to run the species
 #' distribution model. Available algorithms include:
 #' \itemize{
-#' \item \dQuote{all}: Calls all available algorithms: RF, GLM, MAXENT, GBM,
-#' and CTA.
-#' \item \dQuote{RF}: Calls only Random forest.
+#' \item \dQuote{all}: Calls all available algorithms: GLM, and MAXENT.
 #' \item \dQuote{GLM}: Calls only Generalized linear model.
 #' \item \dQuote{MAXENT}: Calls only Maximum entropy.
-#' \item \dQuote{GBM}: Calls only Generalized boosted regressions model.
-#' \item \dQuote{CTA}: Calls only Classification tree analysis.}
-#'
+#' }
 #' @param size Minimum number of points required to successfully run
 #' a species distribution model especially for species with few occurrences.
 #' @param thin Whether to thin occurrences
@@ -133,10 +128,7 @@ sampleBuffer <- function(p, size, width) {
 #' @importFrom terra distance convHull spatSample vect ext window<- rast nlyr
 #' @importFrom terra geom resample crop median deepcopy as.polygons predict
 #' @importFrom predicts make_folds maxentropy pa_evaluate
-#' @importFrom randomForest randomForest tuneRF
 #' @importFrom stats glm median formula gaussian dist runif
-#' @importFrom gbm gbm
-#' @importFrom rpart rpart
 #' @importFrom smoothr smooth
 #' @return A list with the following objects:
 #' \itemize{
@@ -173,7 +165,7 @@ sampleBuffer <- function(p, size, width) {
 #' # plot(m$polygon, add=TRUE)
 #' }
 #' @export
-sdm <- function(x, predictors = NULL, pol = NULL, thin = TRUE, thin.size = 200,
+sdm <- function(x, predictors = NULL, pol = NULL, thin = TRUE, thin.size = 500,
                 algorithm = "all", size = 50, width = 50000) {
     x <- .matchnames(x)
     name.sp <- unique(x$species)
@@ -245,15 +237,15 @@ sdm <- function(x, predictors = NULL, pol = NULL, thin = TRUE, thin.size = 200,
         models <- c()
 
         # 1. Random Forest
-        tryCatch({
-            RF1 <- FALSE
-            rf_fnl <- myRF(x = train, p = predictors, q = test)
-            RF1 <- TRUE
-            if (RF1) {
-                names(rf_fnl) <- "RF"
-                models <- c(models, rf_fnl)
-            }
-        }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+        #tryCatch({
+        #    RF1 <- FALSE
+        #    rf_fnl <- myRF(x = train, p = predictors, q = test)
+        #    RF1 <- TRUE
+        #    if (RF1) {
+        #        names(rf_fnl) <- "RF"
+        #        models <- c(models, rf_fnl)
+        #    }
+        #}, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
         # 2. GLM
         tryCatch({
@@ -278,36 +270,37 @@ sdm <- function(x, predictors = NULL, pol = NULL, thin = TRUE, thin.size = 200,
         }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
         # 4. gbm
-        tryCatch({
-            GBM1 <- FALSE
-            gbm_fnl <- myGBM(f = Formula, x = train, p = predictors, q = test)
-            GBM1 <- TRUE
-            if (GBM1) {
-                names(gbm_fnl) <- "GBM"
-                models <- c(models, gbm_fnl)
-            }
-        }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+        #tryCatch({
+        #    GBM1 <- FALSE
+        #    gbm_fnl <- myGBM(f = Formula, x = train, p = predictors, q = test)
+        #    GBM1 <- TRUE
+        #    if (GBM1) {
+        #        names(gbm_fnl) <- "GBM"
+        #        models <- c(models, gbm_fnl)
+        #    }
+        #}, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
         # 5. CTA
-        tryCatch({
-            CTA1 <- FALSE
-            cta_fnl <- myCTA(f = Formula, x = train, p = predictors, q = test)
-            CTA1 <- TRUE
-            if (CTA1) {
-                names(cta_fnl) <- "CTA"
-                models <- c(models, cta_fnl)
-            }
-        }, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
+        #tryCatch({
+        #    CTA1 <- FALSE
+        #    cta_fnl <- myCTA(f = Formula, x = train, p = predictors, q = test)
+        #    CTA1 <- TRUE
+        #    if (CTA1) {
+        #        names(cta_fnl) <- "CTA"
+        #        models <- c(models, cta_fnl)
+        #    }
+        #}, error=function(e){cat("ERROR:",conditionMessage(e),"\n")})
 
         models <- rast(models)
     } else {
         models <- switch(algorithm,
-                         RF = myRF(x = train, p = predictors, q = test),
+                         #RF = myRF(x = train, p = predictors, q = test),
                          GLM = myGLM(f=Formula, x=train, p=predictors, q=test),
                          MAXENT = myMAXENT(p=predictors, ox=occtrain, xy=xy,
                                            ot=occtest),
-                         GBM = myGBM(f=Formula, x=train, p=predictors, q=test),
-                         CTA = myCTA(f=Formula, x=train, p=predictors, q=test))
+                         #GBM = myGBM(f=Formula, x=train, p=predictors, q=test),
+                         #CTA = myCTA(f=Formula, x=train, p=predictors, q=test)
+                         )
         names(models) <- algorithm
     }
     m <- models

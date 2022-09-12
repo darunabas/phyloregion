@@ -41,8 +41,8 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' @param \dots arguments passed among methods.
 #' @return No return value, called for plotting.
 #' @rdname plot.phyloregion
-#' @importMethodsFrom sp plot
-#' @importMethodsFrom raster text
+#' @importMethodsFrom terra plot
+#' @importMethodsFrom terra text
 #' @method plot phyloregion
 #' @importFrom graphics plot plot.default
 #' @rawNamespace export(plot.phyloregion)
@@ -63,8 +63,8 @@ plot.phyloregion <- function(x, shp=NULL, palette="NMDS",
     if(length(col)==k) col <- col[shp$cluster]
     else stop("Expect 'col' of length x$k!")
   }
-  plot(shp, col = col, ...)
-  if (label == TRUE) text(shp, labels = as.character(shp@data$cluster), ...)
+  plot(shp, "cluster", col = col, ...)
+  if (label == TRUE) text(shp, labels = as.character(shp$cluster), ...)
 }
 
 #' @rdname plot.phyloregion
@@ -81,6 +81,7 @@ plot_NMDS <- function(x, ...) {
 #' data(africa)
 #' tree <- africa$phylo
 #' x <- africa$comm
+#' shp <- africa$polys
 #'
 #' subphy <- match_phylo_comm(tree, x)$phy
 #' submat <- match_phylo_comm(tree, x)$com

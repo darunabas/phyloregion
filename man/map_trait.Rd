@@ -31,11 +31,11 @@ in geographic space.
 }
 \examples{
 data(africa)
+library(terra)
 x <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
 y <- map_trait(africa$comm, x, FUN = sd, shp=africa$polys)
 
-plot_swatch(y, y$traits,
-           col = hcl.colors(n=20, palette = "Blue-Red 3", rev=FALSE))
+plot(y, "traits", col = hcl.colors(n=20, palette = "Blue-Red 3", rev=FALSE))
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

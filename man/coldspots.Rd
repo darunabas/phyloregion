@@ -31,7 +31,7 @@ or highest values, respectively, of a biodiversity metric e.g.
 species richness, species endemism or degree of threat.
 }
 \examples{
-library(raster)
+library(terra)
 library(sp)
 data(africa)
 names(africa)
@@ -46,8 +46,8 @@ m <- merge(africa$polys, DF, by = "grids", all = TRUE)
 
 plot(africa$polys, border = "grey", col = "lightgrey",
   main = "Weighted Endemism Hotspots and Coldspots")
-plot(m[(m@data$cold == 1), ], col = "blue", add = TRUE, border = NA)
-plot(m[(m@data$hot == 1), ], col = "red", add = TRUE, border = NA)
+plot(m[(m$cold == 1), ], col = "blue", add = TRUE, border = NA)
+plot(m[(m$hot == 1), ], col = "red", add = TRUE, border = NA)
 legend("bottomleft", fill = c("blue", "red", "yellow", "green"),
   legend = c("coldspots", "hotspots"), bty = "n", inset = .092)
 }

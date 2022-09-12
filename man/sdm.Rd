@@ -9,7 +9,7 @@ sdm(
   predictors = NULL,
   pol = NULL,
   thin = TRUE,
-  thin.size = 200,
+  thin.size = 500,
   algorithm = "all",
   size = 50,
   width = 50000
@@ -33,13 +33,10 @@ prediction. If \code{NULL}, the extent of input points is used.}
 \item{algorithm}{Character. The choice of algorithm to run the species
 distribution model. Available algorithms include:
 \itemize{
-\item \dQuote{all}: Calls all available algorithms: RF, GLM, MAXENT, GBM,
-and CTA.
-\item \dQuote{RF}: Calls only Random forest.
+\item \dQuote{all}: Calls all available algorithms: GLM, and MAXENT.
 \item \dQuote{GLM}: Calls only Generalized linear model.
 \item \dQuote{MAXENT}: Calls only Maximum entropy.
-\item \dQuote{GBM}: Calls only Generalized boosted regressions model.
-\item \dQuote{CTA}: Calls only Classification tree analysis.}}
+}}
 
 \item{size}{Minimum number of points required to successfully run
 a species distribution model especially for species with few occurrences.}
@@ -60,9 +57,8 @@ A list with the following objects:
 }
 \description{
 This function computes species distribution models using
-five modelling algorithms: generalized linear models,
-generalized boosted models, random forests, maximum entropy (only if
-\code{rJava} is available), and classification tree analysis.
+two modelling algorithms: generalized linear models,
+and maximum entropy (only if \code{rJava} is available).
 Note: this is an experimental function, and may change in the future.
 }
 \examples{

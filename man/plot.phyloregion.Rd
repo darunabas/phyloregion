@@ -39,6 +39,7 @@ Visualize biogeographic patterns
 data(africa)
 tree <- africa$phylo
 x <- africa$comm
+shp <- africa$polys
 
 subphy <- match_phylo_comm(tree, x)$phy
 submat <- match_phylo_comm(tree, x)$com

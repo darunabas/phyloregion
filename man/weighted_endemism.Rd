@@ -17,14 +17,13 @@ A data frame of species traits by site.
 by species ranges.
 }
 \examples{
-library(raster)
+library(terra)
 data(africa)
 Endm <- weighted_endemism(africa$comm)
 m <- merge(africa$polys, data.frame(grids=names(Endm), WE=Endm), by="grids")
-m <- m[!is.na(m@data$WE),]
+m <- m[!is.na(m$WE),]
 
-plot_swatch(m, values = m$WE,
-            col = hcl.colors(20, palette = "Blue-Red 3", rev=FALSE))
+plot(m, "WE", col = hcl.colors(20, palette = "Blue-Red 3", rev=FALSE))
 
 }
 \references{

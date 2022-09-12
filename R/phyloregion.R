@@ -39,8 +39,7 @@
 #' @rdname phyloregion
 #' @keywords phyloregion
 #' @importFrom stats as.dist hclust cutree
-#' @importFrom sp SpatialPolygonsDataFrame merge
-#' @importFrom sp CRS proj4string
+#' @importFrom terra merge geomtype aggregate
 #' @importFrom graphics legend par points rect segments strheight strwidth text
 #' xinch yinch lines
 #' @importFrom grDevices rgb hcl.colors as.graphicsAnnot xy.coords
@@ -116,7 +115,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
     evol_distinct <- cbind(cluster = rownames(evol_distinct),
                            data.frame(evol_distinct, row.names = NULL))
 
-    if (length(shp) == 0) {
+    if (is.null(shp)) {
 
         c1 <- vegan::metaMDS(region.dist, trace = 0)
         v <- data.frame(colorspace::hex2RGB(hexcols(c1))@coords)
@@ -137,13 +136,13 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
         r
     } else {
         shp <- .matchgrids(shp)
-        m <- sp::merge(shp, dx, by = "grids")
-        if (inherits(m, "SpatialPoints")) {
-            region <- m[!is.na(m@data$cluster), ]
+        m <- terra::merge(shp, dx, by = "grids")
+        if (geomtype(m)=="points") {
+            region <- m[!is.na(m$cluster), ]
             m1 <- cbind(region, evol_distinct$ED[match(region$cluster,
                                                        evol_distinct$cluster)])
             names(m1)[3] <- "ED"
-            proj4string(m1) <- proj4string(shp)
+            #proj4string(m1) <- proj4string(shp)
             c1 <- vegan::metaMDS(region.dist, trace = 0)
             v <- data.frame(hex2RGB(hexcols(c1))@coords)
             v$r <- v$R * 255
@@ -158,14 +157,12 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
             r <- list(membership=dx, k=k, shp = y,
                       region.dist = region.dist, region.df = z, NMDS = c1)
             class(r) <- "phyloregion"
-        } else if (inherits(m, "SpatVector")) {
-            m <- m[!is.na(m@data$cluster), ]
-            # region <- raster::aggregate(m, by = 'cluster')
+        } else if (geomtype(m)=="polygons") {
+            m <- m[!is.na(m$cluster), ]
             region <- terra::aggregate(m, by = "cluster")
-            # m1 <- sp::merge(region, evol_distinct, by = "cluster")
-            m1 <- terra::merge(region, evol_distinct, by = "cluster")
-            # proj4string(m1) <- sp::proj4string(shp)
-            terra::crs(m1) <- terra::crs(shp)
+            m1 <- base::merge(region, evol_distinct, by = "cluster")
+            m1 <- m1[, c("cluster", "ED")]
+            #terra::crs(m1) <- terra::crs(shp)
             c1 <- vegan::metaMDS(region.dist, trace = 0)
             v <- data.frame(colorspace::hex2RGB(hexcols(c1))@coords)
             v$r <- v$R * 255
@@ -175,7 +172,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
             v$cluster <- rownames(v)
 
             y <- Reduce(function(x, y) merge(x, y, by = "cluster", all = TRUE),
-                        list(region, v, m1))
+                        list(region, m1, v))
             index <- match(dx$cluster, y$cluster)
             z <- cbind(dx, ED = y$ED[index], COLOURS = y$COLOURS[index])
 
@@ -204,7 +201,6 @@ infomap <- function(x, shp = NULL, ...){
     if(!is.null(shp)){
         shp <- terra::merge(shp, dx, by = "grids")
         shp <- terra::aggregate(shp, by = 'cluster')
-        #shp <- dissolve_poly(shp)
     }
     result <- list(membership=dx, k=k, shp=shp)
     class(result) <- "phyloregion"

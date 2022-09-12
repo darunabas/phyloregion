@@ -51,7 +51,7 @@ Specifically for this package, we arranged the dataset into four components:
 data(africa)
 names(africa)
 \donttest{
-library(raster)
+library(terra)
 library(ape)
 plot(africa$polys)
 plot(africa$phylo)

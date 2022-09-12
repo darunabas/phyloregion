@@ -37,7 +37,7 @@
 #' @seealso \code{\link{choropleth}}
 #'
 #' @examples
-#' library(raster)
+#' library(terra)
 #' library(sp)
 #' data(africa)
 #' names(africa)
@@ -49,12 +49,12 @@
 #' ## Merge endemism values to shapefile of grid cells.
 #' DF <- data.frame(grids=names(C), cold=C, hot=H)
 #' m <- merge(africa$polys, DF, by = "grids", all = TRUE)
-## m <- m[!is.na(m@data$values.x), ]
+## m <- m[!is.na(m$values.x), ]
 #'
 #' plot(africa$polys, border = "grey", col = "lightgrey",
 #'   main = "Weighted Endemism Hotspots and Coldspots")
-#' plot(m[(m@data$cold == 1), ], col = "blue", add = TRUE, border = NA)
-#' plot(m[(m@data$hot == 1), ], col = "red", add = TRUE, border = NA)
+#' plot(m[(m$cold == 1), ], col = "blue", add = TRUE, border = NA)
+#' plot(m[(m$hot == 1), ], col = "red", add = TRUE, border = NA)
 #' legend("bottomleft", fill = c("blue", "red", "yellow", "green"),
 #'   legend = c("coldspots", "hotspots"), bty = "n", inset = .092)
 coldspots <- function(x, prob = 2.5, na.rm = TRUE, ...) {
