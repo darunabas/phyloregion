@@ -12,7 +12,8 @@ sdm(
   thin.size = 500,
   algorithm = "all",
   size = 50,
-  width = 50000
+  width = 50000,
+  mask = FALSE
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ distribution model. Available algorithms include:
 a species distribution model especially for species with few occurrences.}
 
 \item{width}{Width of buffer in meter if x is in longitude/latitude CRS.}
+
+\item{mask}{logical. Should y be used to mask? Only used if pol is a SpatVector}
 }
 \value{
 A list with the following objects:

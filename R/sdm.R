@@ -124,6 +124,7 @@ sampleBuffer <- function(p, size, width) {
 #' @param thin Whether to thin occurrences
 #' @param thin.size The size of the thin occurrences.
 #' @param width Width of buffer in meter if x is in longitude/latitude CRS.
+#' @param mask logical. Should y be used to mask? Only used if pol is a SpatVector
 #' @rdname sdm
 #' @importFrom terra distance convHull spatSample vect ext window<- rast nlyr
 #' @importFrom terra geom resample crop median deepcopy as.polygons predict
@@ -166,7 +167,7 @@ sampleBuffer <- function(p, size, width) {
 #' }
 #' @export
 sdm <- function(x, predictors = NULL, pol = NULL, thin = TRUE, thin.size = 500,
-                algorithm = "all", size = 50, width = 50000) {
+                algorithm = "all", size = 50, width = 50000, mask = FALSE) {
     x <- .matchnames(x)
     name.sp <- unique(x$species)
 
@@ -210,7 +211,7 @@ sdm <- function(x, predictors = NULL, pol = NULL, thin = TRUE, thin.size = 500,
         pol <- ext(vect(x, geom = c("x", "y"))) + 1
     }
 
-    predictors <- terra::crop(predictors, pol)
+    predictors <- terra::crop(predictors, pol, mask = mask)
     bg <- spatSample(predictors, size = nrow(x)*100, method = "random",
                      na.rm = TRUE, xy = TRUE, warn = FALSE, ext=ext(pol))
     xy <- bg[, 1:2]
