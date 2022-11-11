@@ -6,8 +6,8 @@
 \usage{
 plot_pie(
   omega,
-  shp,
-  r = 1,
+  pol,
+  radius = 0.55,
   col = hcl.colors(5),
   pie_control = list(),
   legend = FALSE,
@@ -18,10 +18,10 @@ plot_pie(
 \arguments{
 \item{omega}{a matrix of phyloregion of probabilities of each species}
 
-\item{shp}{a polygon shapefile of grid cells with a column labeled
+\item{pol}{a vector polygon of grid cells with a column labeled
 \dQuote{grids}.}
 
-\item{r}{Radius of the pie legend to be displayed}
+\item{radius}{Radius of the pie legend to be displayed}
 
 \item{col}{List of colors for the pies.}
 
@@ -41,9 +41,11 @@ Returns no value, just map color pies in geographic space!
 Visualize biogeographic patterns using pie charts
 }
 \examples{
+library(terra)
 data(africa)
+p <- vect(system.file("ex/sa.json", package = "phyloregion"))
 K <- ncol(africa$omega)
 
-COLRS <- phyloregion:::hue(K)
-plot_pie(africa$omega, shp = africa$polys, col=COLRS)
+CLRS <- hcl.colors(K)
+plot_pie(africa$omega, pol = p, col=CLRS)
 }

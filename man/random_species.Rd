@@ -4,7 +4,7 @@
 \alias{random_species}
 \title{Generate random species distributions in space}
 \usage{
-random_species(n, species, shp, ...)
+random_species(n, species, pol, ...)
 }
 \arguments{
 \item{n}{vector of one or more elements to choose from, or a positive
@@ -12,13 +12,13 @@ integer.}
 
 \item{species}{the desired number of species.}
 
-\item{shp}{the polygon shapefile of the study area for determining the
+\item{pol}{the vector polygon of the study area for determining the
 species distributions}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
-A polygon shapefile of species' extent of occurrence ranges.
+A vector polygon of species' extent of occurrence ranges.
 }
 \description{
 This function generates random species distributions in geographic space as

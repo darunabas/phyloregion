@@ -7,8 +7,7 @@
 selectbylocation(x, y)
 }
 \arguments{
-\item{x}{source layer of the class SpatialPolygonsDataFrame or
-SpatialPointsDataFrame}
+\item{x}{source layer of the class SpatVect}
 
 \item{y}{Target layer or mask extent to subset from.}
 }
@@ -21,16 +20,15 @@ The \code{selectbylocation} function selects features based on
 their location relative to features in another layer.
 }
 \examples{
-library(raster)
-file <- system.file("nigeria/nigeria.rds", package = "phyloregion")
-d <- readRDS(file)
-e <- extent(d)
+library(terra)
+d <- vect(system.file("ex/nigeria.json", package="phyloregion"))
+e <- ext(d)
 
 set.seed(1)
 m <- data.frame(lon = runif(1000, e[1], e[2]),
   lat = runif(1000, e[3], e[4]),
   sites = seq(1000))
-coordinates(m) <- ~ lon + lat
+m <- vect(m)
 z <- selectbylocation(m, d)
 plot(d)
 points(m, col = "blue", pch = "+")

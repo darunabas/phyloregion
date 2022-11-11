@@ -80,10 +80,11 @@ to the new reduced community matrix for further analysis.
 }
 \examples{
 \donttest{
+library(terra)
 data(africa)
-names(africa)
+p <- vect(system.file("ex/sa.json", package = "phyloregion"))
 fb <- functional_beta(x=africa$comm, trait = africa$trait)
-p <- phyloregion(fb[[1]], shp = africa$polys)
+p <- phyloregion(fb[[1]], pol = p)
 plot(p)
 }
 }

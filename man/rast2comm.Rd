@@ -8,12 +8,12 @@
 \usage{
 rast2comm(files)
 
-polys2comm(dat, res = 0.25, shp.grids = NULL, trace = 1, ...)
+polys2comm(dat, res = 0.25, pol.grids = NULL, trace = 1, ...)
 
-points2comm(dat, mask = NULL, res = 1, shp.grids = NULL, ...)
+points2comm(dat, res = 0.25, pol.grids = NULL, trace = 1, ...)
 }
 \arguments{
-\item{files}{list of raster layer objects with the same spatial
+\item{files}{list of SpatRaster layer objects with the same spatial
 extent and resolution.}
 
 \item{dat}{layers of merged maps corresponding to species polygons for
@@ -27,25 +27,23 @@ with at least three columns:
 
 \item{res}{the grain size of the grid cells in decimal degrees (default).}
 
-\item{shp.grids}{if specified, the polygon shapefile of grid cells
+\item{pol.grids}{if specified, the vector polygon of grid cells
 with a column labeled \dQuote{grids}.}
 
 \item{trace}{Trace the function; trace = 2 or higher will be more voluminous.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
-
-\item{mask}{Only applicable to \code{points2comm}. If supplied, a polygon
-shapefile covering the boundary of the survey region.}
 }
 \value{
 Each of these functions generate a list of two objects as follows:
 \itemize{
   \item comm_dat: (sparse) community matrix
-  \item poly_shp: shapefile of grid cells with the values per cell.
+  \item map: vector or raster of grid cells with the values per cell for
+  mapping.
 }
 }
 \description{
-The functions \code{points2comm}, \code{polys2comm}, \code{raster2comm}
+The functions \code{points2comm}, \code{polys2comm}, \code{rast2comm}
 provide convenient interfaces to convert raw distribution data often
 available as point records, polygons and raster layers,
 respectively, to a community composition data frame at varying spatial grains
@@ -55,28 +53,30 @@ and extents for downstream analyses.
 \donttest{
 fdir <- system.file("NGAplants", package="phyloregion")
 files <- file.path(fdir, dir(fdir))
-ras <- raster2comm(files) # Note, this function generates
+ras <- rast2comm(files) # Note, this function generates
      # a list of two objects
 head(ras[[1]])
 }
 
 \donttest{
-s <- readRDS(system.file("nigeria/nigeria.rds", package="phyloregion"))
-sp <- random_species(100, species=5, shp=s)
+require(terra)
+s <- vect(system.file("ex/nigeria.json", package="phyloregion"))
+sp <- random_species(100, species=5, pol=s)
 pol <- polys2comm(dat = sp, species = "species")
 head(pol[[1]])
 }
 
-s <- readRDS(system.file("nigeria/nigeria.rds", package = "phyloregion"))
-
+library(terra)
+s <- vect(system.file("ex/nigeria.json", package="phyloregion"))
 set.seed(1)
-m <- data.frame(sp::spsample(s, 10000, type = "nonaligned"))
+m <- as.data.frame(spatSample(s, 1000, method = "random"),
+                   geom = "XY")[-1]
 names(m) <- c("lon", "lat")
-species <- paste0("sp", sample(1:1000))
+species <- paste0("sp", sample(1:100))
 m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 
-pt <- points2comm(dat = m, mask = s, res = 0.5, lon = "lon", lat = "lat",
-            species = "taxon") # Note, this generates a list of two objects
+pt <- points2comm(dat = m, res = 0.5, lon = "lon", lat = "lat",
+            species = "taxon") # This generates a list of two objects
 head(pt[[1]])
 }
 \seealso{

@@ -5,9 +5,9 @@
 \alias{infomap}
 \title{Compute phylogenetic regionalization and evolutionary distinctiveness of phyloregions}
 \usage{
-phyloregion(x, k = 10, method = "average", shp = NULL, ...)
+phyloregion(x, k = 10, method = "average", pol = NULL, ...)
 
-infomap(x, shp = NULL, ...)
+infomap(x, pol = NULL, ...)
 }
 \arguments{
 \item{x}{A distance matrix}
@@ -16,11 +16,13 @@ infomap(x, shp = NULL, ...)
 \code{optimal_phyloregion}.}
 
 \item{method}{the agglomeration method to be used. This should be (an
-unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{single},
-\dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA), \dQuote{median}
+unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2},
+\dQuote{single},
+\dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA),
+\dQuote{median}
 (= WPGMC) or \dQuote{centroid} (= UPGMC).}
 
-\item{shp}{a polygon shapefile of grid cells or spatial points.}
+\item{pol}{a vector polygon of grid cells or spatial points.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }
@@ -29,7 +31,7 @@ An object of class \code{phyloregion} containing
 \itemize{
   \item a data frame membership with columns grids and cluster
   \item k the number of clusters
-  and additionally there can be an shape file and other bjects.
+  and additionally there can be an shape file and other objects.
   This representation may still change.
 }
 }

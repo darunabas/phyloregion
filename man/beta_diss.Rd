@@ -25,8 +25,8 @@ species.}
 \code{\link{beta.pair}} for details.
 }
 \description{
-Data are assumed to be presence / absence (0 / 1) and all values greater zero
-are assumed to reflect presence.
+Data are assumed to be presence / absence (0 / 1) and all values greater
+zero are assumed to reflect presence.
 }
 \details{
 \code{beta_core} is helper function to compute the basic quantities needed

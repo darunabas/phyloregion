@@ -184,8 +184,8 @@ match_phylo_comm <- function(phy, comm, delete_empty_rows=TRUE) {
 
 #' Taxonomic (non-phylogenetic) beta diversity
 #'
-#' Data are assumed to be presence / absence (0 / 1) and all values greater zero
-#' are assumed to reflect presence.
+#' Data are assumed to be presence / absence (0 / 1) and all values greater
+#' zero are assumed to reflect presence.
 #'
 #' \code{beta_core} is helper function to compute the basic quantities needed
 #' for computing the "sorensen" or "jaccard" index.

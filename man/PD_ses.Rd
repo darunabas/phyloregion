@@ -7,7 +7,8 @@
 PD_ses(x, phy, model = c("tipshuffle", "rowwise", "colwise"), reps = 10, ...)
 }
 \arguments{
-\item{x}{a (sparse) community matrix, i.e. an object of class matrix or Matrix.}
+\item{x}{a (sparse) community matrix, i.e. an object of class matrix or
+Matrix.}
 
 \item{phy}{a phylogenetic tree (object of class phylo).}
 
@@ -34,8 +35,10 @@ A data frame of results for each community or grid cell
   \item pd_rand_mean: Mean PD in null communities
   \item pd_rand_sd: Standard deviation of PD in null communities
   \item pd_obs_rank: Rank of observed PD vs. null communities
-  \item pd_obs_z: Standardized effect size of PD vs. null communities \eqn{= (PD_obs - pd_rand_mean) / pd_rand_sd}
-  \item pd_obs_p: P-value (quantile) of observed PD vs. null communities \eqn{= mpd_obs_rank / iter + 1}
+  \item pd_obs_z: Standardized effect size of PD vs. null communities
+  \eqn{= (PD_obs - pd_rand_mean) / pd_rand_sd}
+  \item pd_obs_p: P-value (quantile) of observed PD vs. null communities
+  \eqn{= mpd_obs_rank / iter + 1}
   \item reps: Number of replicates
 }
 }

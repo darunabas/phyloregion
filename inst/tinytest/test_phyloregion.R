@@ -59,12 +59,6 @@ bc_sparse <- beta_core(M_sparse)
 expect_equal(bc_sparse[-1], bc_dense[-1])
 
 
-# choropleth works (expect high positive correlation)
-x <- rnorm(1000)
-expect_true(cor(x, choropleth(x)) > 0.9)
-
-
-
 # evol_distinct vs evol.distinct
 if(requireNamespace("picante")){
   tree <- rcoal(100)

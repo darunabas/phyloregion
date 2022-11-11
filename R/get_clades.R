@@ -1,6 +1,7 @@
 #' Get descendant nodes of phylogeny at a given time depth
 #'
-#' \code{get_clades} returns the tips that descend from a given node or time depth on a dated phylogenetic tree.
+#' \code{get_clades} returns the tips that descend from a given node or time
+#' depth on a dated phylogenetic tree.
 #'
 #' @param tree is a dated phylogenetic tree with branch lengths stored
 #' as a phylo object (as in the \code{ape} package).

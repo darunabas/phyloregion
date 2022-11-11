@@ -11,7 +11,8 @@ rt <- function (phy) {
 #' efficiently randomize very large community matrices spanning thousands of
 #' taxa and sites.
 #'
-#' @param x  a (sparse) community matrix, i.e. an object of class matrix or Matrix.
+#' @param x  a (sparse) community matrix, i.e. an object of class matrix or
+#' Matrix.
 #' @param phy a phylogenetic tree (object of class phylo).
 #' @param reps Number of replications.
 #' @param model The null model for separating patterns from processes and
@@ -50,8 +51,10 @@ rt <- function (phy) {
 #'   \item pd_rand_mean: Mean PD in null communities
 #'   \item pd_rand_sd: Standard deviation of PD in null communities
 #'   \item pd_obs_rank: Rank of observed PD vs. null communities
-#'   \item pd_obs_z: Standardized effect size of PD vs. null communities \eqn{= (PD_obs - pd_rand_mean) / pd_rand_sd}
-#'   \item pd_obs_p: P-value (quantile) of observed PD vs. null communities \eqn{= mpd_obs_rank / iter + 1}
+#'   \item pd_obs_z: Standardized effect size of PD vs. null communities
+#'   \eqn{= (PD_obs - pd_rand_mean) / pd_rand_sd}
+#'   \item pd_obs_p: P-value (quantile) of observed PD vs. null communities
+#'   \eqn{= mpd_obs_rank / iter + 1}
 #'   \item reps: Number of replicates
 #' }
 #' @export

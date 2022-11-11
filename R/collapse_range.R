@@ -9,7 +9,8 @@
 #' years for dated trees).
 #' @param species If \code{format =} \dQuote{long} (the default),
 #' the column with the species name.
-#' @param grids The column with the sites or grids if \code{format =} \dQuote{long}.
+#' @param grids The column with the sites or grids if \code{format =}
+#' \dQuote{long}.
 #' @param format Format of the community composition data:
 #' \dQuote{long} or \dQuote{wide} with species as columns and sites as rows.
 #' @rdname collapse_range

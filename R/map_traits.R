@@ -11,12 +11,13 @@
 #' @param FUN The function used to aggregate species trait values
 #' in geographic space. By default, if \code{FUN = sum}, the sum of
 #' all species traits per area  or grid cell is calculated.
-#' @param shp a polygon shapefile of grid cells.
+#' @param pol a vector polygon of grid cells.
 #' @param \dots Further arguments passed to or from other methods.
 #'
 #' @rdname map_trait
 #' @keywords phyloregion
 #' @importFrom stats aggregate
+#' @importFrom terra merge geomtype
 #'
 #' @return A data frame of species traits by site.
 #'
@@ -25,12 +26,14 @@
 #' @examples
 #' data(africa)
 #' library(terra)
-#' x <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
-#' y <- map_trait(africa$comm, x, FUN = sd, shp=africa$polys)
+#' p <- vect(system.file("ex/sa.json", package = "phyloregion"))
+#' x <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN",
+#'           species = "Species")
+#' y <- map_trait(africa$comm, x, FUN = sd, pol = p)
 #'
 #' plot(y, "traits", col = hcl.colors(n=20, palette = "Blue-Red 3", rev=FALSE))
 #' @export map_trait
-map_trait <- function(x, trait, FUN = sum, shp = NULL, ...){
+map_trait <- function(x, trait, FUN = sum, pol = NULL, ...){
   if(is(x, "sparseMatrix")) x <- sparse2long(x)
   grids <- NULL
   ind1 <- intersect(x$species, names(trait))
@@ -42,15 +45,14 @@ map_trait <- function(x, trait, FUN = sum, shp = NULL, ...){
     #res <- aggregate(trait ~ grids, data = submat, FUN = FUN)
     #res <- tmp[, FUN(trait), by=grids]
     names(res) <- c("grids", "traits")
-    if(length(shp)==0){
+    if(length(pol)==0){
       m <- res
       m
     } else {
-      m <- sp::merge(shp, res, by="grids")
-      if (!inherits(m, "SpatialPolygons")){
-        stop("Invalid geometry, may only be applied to polygons")
+      m <- terra::merge(pol, res, by="grids")
+      if (!geomtype(m)=="polygons") {
+        stop("Invalid geometry, may only be applied to vector polygons")
       }
-      m <- m[!is.na(m@data$traits),]
       m
     }
 

@@ -24,7 +24,8 @@ years for dated trees).}
 \item{species}{If \code{format =} \dQuote{long} (the default),
 the column with the species name.}
 
-\item{grids}{The column with the sites or grids if \code{format =} \dQuote{long}.}
+\item{grids}{The column with the sites or grids if \code{format =}
+\dQuote{long}.}
 
 \item{format}{Format of the community composition data:
 \dQuote{long} or \dQuote{wide} with species as columns and sites as rows.}

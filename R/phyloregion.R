@@ -31,10 +31,12 @@
 #' @param k The desired number of phyloregions, often as determined by
 #' \code{optimal_phyloregion}.
 #' @param method the agglomeration method to be used. This should be (an
-#' unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2}, \dQuote{single},
-#' \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA), \dQuote{median}
+#' unambiguous abbreviation of) one of \dQuote{ward.D}, \dQuote{ward.D2},
+#' \dQuote{single},
+#' \dQuote{complete}, \dQuote{average} (= UPGMA), \dQuote{mcquitty} (= WPGMA),
+#' \dQuote{median}
 #' (= WPGMC) or \dQuote{centroid} (= UPGMC).
-#' @param shp a polygon shapefile of grid cells or spatial points.
+#' @param pol a vector polygon of grid cells or spatial points.
 #' @param ... Further arguments passed to or from other methods.
 #' @rdname phyloregion
 #' @keywords phyloregion
@@ -49,7 +51,7 @@
 #' \itemize{
 #'   \item a data frame membership with columns grids and cluster
 #'   \item k the number of clusters
-#'   and additionally there can be an shape file and other bjects.
+#'   and additionally there can be an shape file and other objects.
 #'   This representation may still change.
 #' }
 #' @references
@@ -82,7 +84,7 @@
 #' phyloregion(pbc[[1]], k = 3)
 #' @export
 #'
-phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
+phyloregion <- function(x, k = 10, method = "average", pol = NULL, ...) {
 
     if(!inherits(x, "dist")){
         stop("\n x must be a dist object \n")
@@ -115,7 +117,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
     evol_distinct <- cbind(cluster = rownames(evol_distinct),
                            data.frame(evol_distinct, row.names = NULL))
 
-    if (is.null(shp)) {
+    if (is.null(pol)) {
 
         c1 <- vegan::metaMDS(region.dist, trace = 0)
         v <- data.frame(colorspace::hex2RGB(hexcols(c1))@coords)
@@ -129,20 +131,19 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
         y <- y[-ncol(y)]
         z <- as.data.frame(y)
 
-        r <- list(membership=dx, k=k,
+        r <- list(membership = dx, k = k,
                   evol_distinct = evol_distinct, region.dist = region.dist,
                   region.df = z, NMDS = c1)
         class(r) <- c("phyloregion")
         r
     } else {
-        shp <- .matchgrids(shp)
-        m <- terra::merge(shp, dx, by = "grids")
+        pol <- .matchgrids(pol)
+        m <- terra::merge(pol, dx, by = "grids")
         if (geomtype(m)=="points") {
             region <- m[!is.na(m$cluster), ]
             m1 <- cbind(region, evol_distinct$ED[match(region$cluster,
                                                        evol_distinct$cluster)])
             names(m1)[3] <- "ED"
-            #proj4string(m1) <- proj4string(shp)
             c1 <- vegan::metaMDS(region.dist, trace = 0)
             v <- data.frame(hex2RGB(hexcols(c1))@coords)
             v$r <- v$R * 255
@@ -154,7 +155,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
             y <- cbind(m1, v[match(m1$cluster, v$cluster),])
             y <- y[-ncol(y)]
             z <- as.data.frame(y)
-            r <- list(membership=dx, k=k, shp = y,
+            r <- list(membership=dx, k=k, pol = y,
                       region.dist = region.dist, region.df = z, NMDS = c1)
             class(r) <- "phyloregion"
         } else if (geomtype(m)=="polygons") {
@@ -162,7 +163,6 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
             region <- terra::aggregate(m, by = "cluster")
             m1 <- base::merge(region, evol_distinct, by = "cluster")
             m1 <- m1[, c("cluster", "ED")]
-            #terra::crs(m1) <- terra::crs(shp)
             c1 <- vegan::metaMDS(region.dist, trace = 0)
             v <- data.frame(colorspace::hex2RGB(hexcols(c1))@coords)
             v$r <- v$R * 255
@@ -177,7 +177,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
             z <- cbind(dx, ED = y$ED[index], COLOURS = y$COLOURS[index])
 
             # membership
-            r <- list(membership=dx, k=k, shp = y,
+            r <- list(membership=dx, k=k, pol = y,
                       region.dist = region.dist, region.df = z, NMDS = c1)
             class(r) <- "phyloregion"
         } else stop("Invalid geometry, needs spatial vectors")
@@ -190,7 +190,7 @@ phyloregion <- function(x, k = 10, method = "average", shp = NULL, ...) {
 #' @importFrom igraph graph_from_incidence_matrix cluster_infomap communities
 #' @importFrom igraph membership
 #' @export
-infomap <- function(x, shp = NULL, ...){
+infomap <- function(x, pol = NULL, ...){
     x@x[x@x >1e-8] <- 1
     g <- graph_from_incidence_matrix(x)
     imc <- cluster_infomap(g, ...)
@@ -198,11 +198,11 @@ infomap <- function(x, shp = NULL, ...){
     k <- max(ms)
     ind <- names(ms) %in% rownames(x)
     dx <- data.frame(grids=names(ms)[ind], cluster=unname(ms)[ind])
-    if(!is.null(shp)){
-        shp <- terra::merge(shp, dx, by = "grids")
-        shp <- terra::aggregate(shp, by = 'cluster')
+    if(!is.null(pol)){
+        pol <- terra::merge(pol, dx, by = "grids")
+        pol <- terra::aggregate(pol, by = 'cluster')
     }
-    result <- list(membership=dx, k=k, shp=shp)
+    result <- list(membership=dx, k=k, pol=pol)
     class(result) <- "phyloregion"
     result
 }

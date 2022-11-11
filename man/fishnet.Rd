@@ -4,15 +4,12 @@
 \alias{fishnet}
 \title{Create a fishnet of regular grids}
 \usage{
-fishnet(mask, res = 0.5, type = "square")
+fishnet(mask, res = 0.5)
 }
 \arguments{
-\item{mask}{a polygon shapefile covering the boundary of the survey region.}
+\item{mask}{a vector polygon covering the boundary of the survey region.}
 
 \item{res}{the grain size of the grid cells in decimal degrees (default).}
-
-\item{type}{the type of grid cell; either \dQuote{square} (default) for
-square grids, or \dQuote{hexagon} for hexagonal grids.}
 }
 \value{
 A spatial polygon object of equal area grid cells covering the
@@ -23,9 +20,8 @@ The \code{fishnet} function creates a regular grid of locations covering
 the study area at various grain sizes.
 }
 \examples{
-file <- system.file("nigeria/nigeria.rds", package="phyloregion")
-d <- readRDS(file)
-d1 <- fishnet(d, res = 0.75)
+d <- terra::vect(system.file("ex/nigeria.json", package="phyloregion"))
+f <- fishnet(d, res = 0.75)
 }
 \references{
 Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy

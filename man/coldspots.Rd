@@ -32,9 +32,8 @@ species richness, species endemism or degree of threat.
 }
 \examples{
 library(terra)
-library(sp)
 data(africa)
-names(africa)
+p <- vect(system.file("ex/sa.json", package = "phyloregion"))
 
 Endm <- weighted_endemism(africa$comm)
 C <- coldspots(Endm) # coldspots
@@ -42,14 +41,14 @@ H <- hotspots(Endm) # hotspots
 
 ## Merge endemism values to shapefile of grid cells.
 DF <- data.frame(grids=names(C), cold=C, hot=H)
-m <- merge(africa$polys, DF, by = "grids", all = TRUE)
+m <- merge(p, DF, by = "grids", all = TRUE)
 
-plot(africa$polys, border = "grey", col = "lightgrey",
-  main = "Weighted Endemism Hotspots and Coldspots")
+plot(p, border = "grey", col = "lightgrey",
+     main = "Weighted Endemism Hotspots and Coldspots")
 plot(m[(m$cold == 1), ], col = "blue", add = TRUE, border = NA)
 plot(m[(m$hot == 1), ], col = "red", add = TRUE, border = NA)
 legend("bottomleft", fill = c("blue", "red", "yellow", "green"),
-  legend = c("coldspots", "hotspots"), bty = "n", inset = .092)
+       legend = c("coldspots", "hotspots"), bty = "n", inset = .092)
 }
 \references{
 Myers, M., Mittermeier, R.A., Mittermeier, C.G., da Fonseca, G.A.B. &
@@ -67,9 +66,6 @@ threat. \emph{Nature} \strong{436}: 1016–1019.
 Daru, B.H., Van der Bank, M. & Davies, T.J. (2015) Spatial incongruence among
 hotspots and complementary areas of tree diversity in southern Africa.
 \emph{Diversity and Distributions} \strong{21}: 769-780.
-}
-\seealso{
-\code{\link{choropleth}}
 }
 \author{
 Barnabas H. Daru \email{darunabas@gmail.com}

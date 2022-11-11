@@ -36,7 +36,7 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' system. The name is matched to the list of available color palettes from
 #' the \code{hcl.colors} function in the \code{grDevices} package.
 #' @param col vector of colors of length equal to the number of phyloregions.
-#' @param shp a polygon shapefile of grid cells.
+#' @param pol a polygon shapefile of grid cells.
 #' @param label Logical, whether to print cluster names or not
 #' @param \dots arguments passed among methods.
 #' @return No return value, called for plotting.
@@ -47,24 +47,24 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
 #' @importFrom graphics plot plot.default
 #' @rawNamespace export(plot.phyloregion)
 #' @export
-plot.phyloregion <- function(x, shp=NULL, palette="NMDS",
-                             col=NULL, label = FALSE, ...) {
+plot.phyloregion <- function(x, pol = NULL, palette = "NMDS",
+                             col = NULL, label = FALSE, ...) {
   if (!inherits(x, "phyloregion"))
     stop("object \"x\" is not of class \"phyloregion\"")
-  if(is.null(shp)) shp <- x$shp
-  if(is.null(shp)) stop("Need shape file!")
+  if(is.null(pol)) pol <- x$pol
+  if(is.null(pol)) stop("Need vector polygon!")
   k <- x$k
   #l <- length(shp$cluster)
   if(is.null(col)){
-    if(palette=="NMDS") col <- shp$COLOURS
-    else col <- hcl.colors(k, palette)[shp$cluster]
+    if(palette=="NMDS") col <- pol$COLOURS
+    else col <- hcl.colors(k, palette)[pol$cluster]
   }
   else{
-    if(length(col)==k) col <- col[shp$cluster]
+    if(length(col)==k) col <- col[pol$cluster]
     else stop("Expect 'col' of length x$k!")
   }
-  plot(shp, "cluster", col = col, ...)
-  if (label == TRUE) text(shp, labels = as.character(shp$cluster), ...)
+  plot(pol, "cluster", col = col, ...)
+  if (label == TRUE) text(pol, labels = as.character(pol$cluster), ...)
 }
 
 #' @rdname plot.phyloregion
@@ -78,16 +78,17 @@ plot_NMDS <- function(x, ...) {
 
 #' @rdname plot.phyloregion
 #' @examples
+#' library(terra)
 #' data(africa)
 #' tree <- africa$phylo
 #' x <- africa$comm
-#' shp <- africa$polys
+#' p <- vect(system.file("ex/sa.json", package = "phyloregion"))
 #'
 #' subphy <- match_phylo_comm(tree, x)$phy
 #' submat <- match_phylo_comm(tree, x)$com
 #'
 #' pbc <- phylobeta(submat, subphy)
-#' y <- phyloregion(pbc[[1]], shp=africa$polys)
+#' y <- phyloregion(pbc[[1]], pol=p)
 #'
 #' plot_NMDS(y, cex=6)
 #' text_NMDS(y, cex=2)

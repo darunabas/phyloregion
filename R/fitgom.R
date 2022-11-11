@@ -41,7 +41,8 @@
 #' concentration parameter as shape for topic-phrase probabilities.
 #' Defaults to 1/(K*ncol(counts)). For fixed single K, this can also
 #' be a ncol(counts) by K matrix of unique shapes for each topic element.
-#' @param initopics Optional start-location for \eqn{[\theta_1, \ldots, \theta_K]}, the
+#' @param initopics Optional start-location for
+#' \eqn{[\theta_1, \ldots, \theta_K]}, the
 #' topic-phrase probabilities. Dimensions must accord with the smallest
 #' element of K. If NULL, the initial estimates are built by incrementally
 #' adding topics.
@@ -84,12 +85,14 @@
 #'   \item \code{X} The input community matrix as a sparse matrix.
 #' }
 #' @examples
+#' library(terra)
 #' data(africa)
 #' names(africa)
+#' p <- vect(system.file("ex/sa.json", package = "phyloregion"))
 #' m <- fitgom(x=sparse2long(africa$comm), K=5)
 #'
 #' COLRS <- phyloregion:::hue(m$K)
-#' plot_pie(m$omega, shp = africa$polys, col=COLRS)
+#' plot_pie(m$omega, pol = p, col=COLRS)
 #' @export
 fitgom <- function (x, trait = NULL, cut = NULL, phy = NULL, bin = 10,
                     na.rm = FALSE, K, shape = NULL, initopics = NULL, tol = 0.1,

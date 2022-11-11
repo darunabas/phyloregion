@@ -3,8 +3,7 @@
 #' The \code{selectbylocation} function selects features based on
 #' their location relative to features in another layer.
 #'
-#' @param x source layer of the class SpatialPolygonsDataFrame or
-#' SpatialPointsDataFrame
+#' @param x source layer of the class SpatVect
 #' @param y Target layer or mask extent to subset from.
 #' @rdname selectbylocation
 #' @keywords bioregion
@@ -15,27 +14,22 @@
 #' of the target layer.
 #'
 #' @examples
-#' library(raster)
-#' file <- system.file("nigeria/nigeria.rds", package = "phyloregion")
-#' d <- readRDS(file)
-#' e <- extent(d)
+#' library(terra)
+#' d <- vect(system.file("ex/nigeria.json", package="phyloregion"))
+#' e <- ext(d)
 #'
 #' set.seed(1)
 #' m <- data.frame(lon = runif(1000, e[1], e[2]),
 #'   lat = runif(1000, e[3], e[4]),
 #'   sites = seq(1000))
-#' coordinates(m) <- ~ lon + lat
+#' m <- vect(m)
 #' z <- selectbylocation(m, d)
 #' plot(d)
 #' points(m, col = "blue", pch = "+")
 #' points(z, col = "red", pch = "+")
 selectbylocation <- function(x, y) {
-  proj4string(x) <- proj4string(y)
-  if (inherits(x, "SpatialPolygonsDataFrame")) {
-    p <- x[subset(y), ]
-  }
-  else if (inherits(x, "SpatialPointsDataFrame")) {
-    p <- x[y, ]
-  }
-  p
+  pj <- "+proj=longlat +datum=WGS84"
+  x <- suppressWarnings(invisible(project(x, crs="epsg:4326")))
+  crs(y) <- crs(x)
+  x[y, ]
 }

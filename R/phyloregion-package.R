@@ -16,14 +16,14 @@
 #'
 #' @section Details:
 #' \itemize{
-#'   \item comm: This a sparse community composition matrix of each species
+#'   \item comm: This is a sparse community composition matrix of each species
 #'   presences/absences within 50 × 50 km grid cells. A sparse matrix is a
 #'   matrix with a high proportion of zero entries (Duff 1977), of which only
 #'   the non-zero entries are stored and used for downstream analysis.
-#'   \item polys: These are the grid cells covering the geographic extent of study area.
-#'   These can be created using the function \code{\link{fishnet}}. The polys object is
-#'   of class \code{SpatialPolygonsDataFrame} and has a column labeled \dQuote{grids}, with
-#'   the grid identities.
+#'   \item polys: These are the grid cells covering the geographic extent of
+#'   study area. These can be created using the function \code{\link{fishnet}}.
+#'   The polys object is of class \code{SpatVector} and has a column labeled
+#'   \dQuote{grids}, with the grid identities.
 #'    \item phylo: This corresponds to the phylogenetic tree which was
 #'    estimated using Bayesian analysis of 1,400 species and 1,633 bp
 #'    of chloroplast DNA sequences derived from a combination of  \emph{matK}
@@ -33,17 +33,18 @@
 #'    approach by enforcing topological constraints assuming APG III backbone
 #'    from Phylomatic v.3 (Webb & Donoghue, 2005) and 18 fossil calibration
 #'    points from Bell et al. (2010).
-#'    \item mat: This is a distance matrix of phylogenetic beta diversity between
-#'    all grid cells at the 50 × 50 km scale.
+#'    \item mat: This is a distance matrix of phylogenetic beta diversity
+#'    between all grid cells at the 50 × 50 km scale.
 #'    \item IUCN: This is a dataframe of IUCN conservation status of each woody
 #'    species (LC, NT, VU, EN, CR). This is useful for analysis of Evolutionary
-#'    Distinctiveness and Global Endangerment using the function \code{\link{EDGE}}.
+#'    Distinctiveness and Global Endangerment using the function
+#'    \code{\link{EDGE}}.
 #' }
 #' @references
 #'
 #' Bell, C.D., Soltis, D.E., & Soltis, P.S. (2010). The age and diversification
-#' of the angiosperms re-revisited. \emph{American Journal of Botany} \strong{97},
-#' 1296–1303.
+#' of the angiosperms re-revisited. \emph{American Journal of Botany}
+#' \strong{97}, 1296–1303.
 #'
 #' Daru, B.H., Van der Bank, M. & Davies, T.J. (2015) Spatial incongruence
 #' among hotspots and complementary areas of tree diversity in southern Africa.
@@ -68,28 +69,28 @@
 #' \donttest{
 #' library(terra)
 #' library(ape)
-#' plot(africa$polys)
 #' plot(africa$phylo)
 #' }
 NULL
 
 
-#' Biogeographic regionalization and spatial conservation
+#' Biogeographic regionalization and macroecology
 #'
 #' This document describes the \code{phyloregion} package for the R software.
-#' \code{phyloregion} is a computational infrastructure for biogeographic regionalization
+#' \code{phyloregion} is a computational infrastructure for biogeographic
+#' regionalization
 #' (the classification of geographical areas in terms of their biotas) and
 #' spatial conservation in the R scientific computing environment. Previous
 #' analyses of biogeographical regionalization were either focused on smaller
-#' datasets or slower particularly when the number of species or geographic scale
-#' is very large. With macroecological datasets of ever increasing size and complexity,
-#' \code{phyloregion} offers the possibility of handling and executing large scale
-#' biogeographic regionalization efficiently and with extreme speed. It also
-#' allows fast and efficient for analysis of more standard conservation measures
-#' such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
-#' and global endangerment. \code{phyloregion} can run on any operating system
-#' (Mac, Linux, Windows or even high performance computing cluster) with
-#' R 3.6.0 (or higher) installed.
+#' datasets or slower particularly when the number of species or geographic
+#' scale is very large. With macroecological datasets of ever increasing size
+#' and complexity, \code{phyloregion} offers the possibility of handling and
+#' executing large scale biogeographic regionalization efficiently and with
+#' extreme speed. It also allows fast and efficient for analysis of more
+#' standard conservation measures such as phylogenetic diversity, phylogenetic
+#' endemism, evolutionary distinctiveness and global endangerment.
+#' \code{phyloregion} can run on any operating system (Mac, Linux, Windows or
+#' even high performance computing cluster) with R 3.6.0 (or higher) installed.
 #'
 #' @section How to cite \code{phyloregion}:
 #'
@@ -97,15 +98,16 @@ NULL
 #'
 #' \itemize{
 #'   \item Daru B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion:
-#'   R package for biogeographic regionalization and spatial
-#'   conservation. \emph{bioRxiv} 2020.02.12.945691 doi: 10.1101/2020.02.12.945691
+#'   R package for biogeographic regionalization and macroecology.
+#'   \emph{Methods in Ecology and Evolution} \strong{11}, 1483-1491.
 #' }
 #'
 #' It is based on the method described in:
 #'
 #' \itemize{
 #'   \item Daru, B.H., Farooq, H., Antonelli, A. & Faurby, S. (2020) Endemism
-#'   patterns are scale dependent. \emph{Coming soon}.
+#'   patterns are scale dependent. \emph{Nature Communications} \strong{11},
+#'   2115.
 #' }
 #'
 #' The original conceptual is described in:
@@ -146,7 +148,7 @@ NULL
 #' @name phyloregion-package
 #' @aliases phyloregion-package
 #' @docType package
-#' @author \href{https://barnabasdaru.com/}{Barnabas H. Daru}, Piyal Karunarathne,
+#' @author \href{https://darulab.org/}{Barnabas H. Daru}, Piyal Karunarathne,
 #' \href{https://kschliep.netlify.app/}{Klaus Schliep}
 #'
 #' @keywords package

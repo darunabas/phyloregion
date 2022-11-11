@@ -18,7 +18,8 @@ as a phylo object (as in the \code{ape} package).}
 A list of descendants
 }
 \description{
-\code{get_clades} returns the tips that descend from a given node or time depth on a dated phylogenetic tree.
+\code{get_clades} returns the tips that descend from a given node or time
+depth on a dated phylogenetic tree.
 }
 \examples{
 require(ape)

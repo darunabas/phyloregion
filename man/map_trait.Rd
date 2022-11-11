@@ -4,7 +4,7 @@
 \alias{map_trait}
 \title{Map species' trait values in geographic space}
 \usage{
-map_trait(x, trait, FUN = sum, shp = NULL, ...)
+map_trait(x, trait, FUN = sum, pol = NULL, ...)
 }
 \arguments{
 \item{x}{A community data object - a vector (with names matching trait data)
@@ -18,7 +18,7 @@ the trait values.}
 in geographic space. By default, if \code{FUN = sum}, the sum of
 all species traits per area  or grid cell is calculated.}
 
-\item{shp}{a polygon shapefile of grid cells.}
+\item{pol}{a vector polygon of grid cells.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }
@@ -32,8 +32,10 @@ in geographic space.
 \examples{
 data(africa)
 library(terra)
-x <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN", species="Species")
-y <- map_trait(africa$comm, x, FUN = sd, shp=africa$polys)
+p <- vect(system.file("ex/sa.json", package = "phyloregion"))
+x <- EDGE(africa$IUCN, africa$phylo, Redlist = "IUCN",
+          species = "Species")
+y <- map_trait(africa$comm, x, FUN = sd, pol = p)
 
 plot(y, "traits", col = hcl.colors(n=20, palette = "Blue-Red 3", rev=FALSE))
 }
