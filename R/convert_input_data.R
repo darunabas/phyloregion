@@ -22,7 +22,6 @@ progress <- function(x, FUN, ...) {
                   "\\btaxon\\b", grep("Name", names(x),
                                       ignore.case = TRUE, value = TRUE)),
                 collapse = "|")
-    m <- by[, grep("by", names(by)), drop = FALSE]
     species <- nat[grepl(SP, nat, ignore.case = TRUE)]
     x <- x[, species, drop = FALSE]
     names(x) <- "species"
@@ -55,7 +54,6 @@ progress <- function(x, FUN, ...) {
 #' @seealso \code{\link[mapproj]{mapproject}} for conversion of
 #' latitude and longitude into projected coordinates system.
 #' \code{\link{long2sparse}} for conversion of community data.
-#' @importFrom sp CRS proj4string<-
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @return Each of these functions generate a list of two objects as follows:
 #' \itemize{
@@ -98,7 +96,7 @@ rast2comm <- function(files) {
 #' require(terra)
 #' s <- vect(system.file("ex/nigeria.json", package="phyloregion"))
 #' sp <- random_species(100, species=5, pol=s)
-#' pol <- polys2comm(dat = sp, species = "species")
+#' pol <- polys2comm(dat = sp)
 #' head(pol[[1]])
 #' }
 #'

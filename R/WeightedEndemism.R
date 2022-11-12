@@ -20,11 +20,12 @@
 #' @examples
 #' library(terra)
 #' data(africa)
+#' p <- vect(system.file("ex/sa.json", package = "phyloregion"))
 #' Endm <- weighted_endemism(africa$comm)
-#' m <- merge(africa$polys, data.frame(grids=names(Endm), WE=Endm), by="grids")
+#' m <- merge(p, data.frame(grids=names(Endm), WE=Endm), by="grids")
 #' m <- m[!is.na(m$WE),]
 #'
-#' plot(m, "WE", col = hcl.colors(20, palette = "Blue-Red 3", rev=FALSE))
+#' plot(m, "WE", col = hcl.colors(20))
 #'
 #' @export
 weighted_endemism <- function(x){

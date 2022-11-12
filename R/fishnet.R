@@ -7,10 +7,9 @@
 #' @param res the grain size of the grid cells in decimal degrees (default).
 #' @rdname fishnet
 #' @keywords bioregion
-#' @importFrom sp CRS proj4string spsample HexPoints2SpatialPolygons
-#' @importFrom sp SpatialPolygonsDataFrame
-#' @return A spatial polygon object of equal area grid cells covering the
-#' defined area.
+#' @importFrom terra rast crs<- as.polygons crs
+#' @return A spatial vector polygon object of equal area grid cells covering
+#' the defined area.
 #' @references
 #' Phillips, S.J., Anderson, R.P. & Schapire, R.E. (2006) Maximum entropy
 #' modeling of species geographic distributions. \emph{Ecological Modelling}

@@ -12,8 +12,8 @@ fishnet(mask, res = 0.5)
 \item{res}{the grain size of the grid cells in decimal degrees (default).}
 }
 \value{
-A spatial polygon object of equal area grid cells covering the
-defined area.
+A spatial vector polygon object of equal area grid cells covering
+the defined area.
 }
 \description{
 The \code{fishnet} function creates a regular grid of locations covering

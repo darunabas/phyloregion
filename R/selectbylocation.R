@@ -7,7 +7,7 @@
 #' @param y Target layer or mask extent to subset from.
 #' @rdname selectbylocation
 #' @keywords bioregion
-#' @importFrom sp CRS proj4string coordinates<-
+#' @importFrom terra crs<- project crs
 #'
 #' @export
 #' @return A spatial polygons or spatial points object pruned to the extent
@@ -20,8 +20,8 @@
 #'
 #' set.seed(1)
 #' m <- data.frame(lon = runif(1000, e[1], e[2]),
-#'   lat = runif(1000, e[3], e[4]),
-#'   sites = seq(1000))
+#'                 lat = runif(1000, e[3], e[4]),
+#'                 sites = seq(1000))
 #' m <- vect(m)
 #' z <- selectbylocation(m, d)
 #' plot(d)
@@ -29,7 +29,8 @@
 #' points(z, col = "red", pch = "+")
 selectbylocation <- function(x, y) {
   pj <- "+proj=longlat +datum=WGS84"
-  x <- suppressWarnings(invisible(project(x, crs="epsg:4326")))
+  crs(x) <- pj
   crs(y) <- crs(x)
+  y <- project(y, pj)
   x[y, ]
 }

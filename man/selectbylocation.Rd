@@ -26,8 +26,8 @@ e <- ext(d)
 
 set.seed(1)
 m <- data.frame(lon = runif(1000, e[1], e[2]),
-  lat = runif(1000, e[3], e[4]),
-  sites = seq(1000))
+                lat = runif(1000, e[3], e[4]),
+                sites = seq(1000))
 m <- vect(m)
 z <- selectbylocation(m, d)
 plot(d)

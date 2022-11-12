@@ -62,7 +62,7 @@ head(ras[[1]])
 require(terra)
 s <- vect(system.file("ex/nigeria.json", package="phyloregion"))
 sp <- random_species(100, species=5, pol=s)
-pol <- polys2comm(dat = sp, species = "species")
+pol <- polys2comm(dat = sp)
 head(pol[[1]])
 }
 
