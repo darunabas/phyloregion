@@ -24,7 +24,7 @@ Endm <- weighted_endemism(africa$comm)
 m <- merge(p, data.frame(grids=names(Endm), WE=Endm), by="grids")
 m <- m[!is.na(m$WE),]
 
-plot(m, "WE", col = hcl.colors(20))
+plot(m, "WE", col = hcl.colors(20), type="continuous")
 
 }
 \references{
