@@ -19,9 +19,7 @@ progress <- function(x, FUN, ...) {
 .matchnms <- function(x) {
     nat <- names(x)
     SP <- paste(c("\\bspecies\\b", "\\bbinomial\\b", "\\bbinomil\\b",
-                  "\\btaxon\\b", grep("Name", names(x),
-                                      ignore.case = TRUE, value = TRUE)),
-                collapse = "|")
+                  "\\btaxon\\b"), collapse = "|")
     species <- nat[grepl(SP, nat, ignore.case = TRUE)]
     x <- x[, species, drop = FALSE]
     names(x) <- "species"
