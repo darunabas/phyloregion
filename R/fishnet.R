@@ -1,4 +1,4 @@
-#' Create a fishnet of regular grids
+#' Create fishnet of regular grids
 #'
 #' The \code{fishnet} function creates a regular grid of locations covering
 #' the study area at various grain sizes.
@@ -21,7 +21,7 @@
 fishnet <- function(mask, res = 0.5){
     s <- rast(res = res, ext(mask))
     crs(s) <- crs(mask)
-    m <- as.polygons(s, dissolve=FALSE)
+    m <- as.polygons(s, dissolve = FALSE)
     m$grids <- paste0("v", seq_len(nrow(m)))
     m <- m[, "grids"]
     m[mask, ]
