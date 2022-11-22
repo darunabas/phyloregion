@@ -2,7 +2,7 @@
 % Please edit documentation in R/fishnet.R
 \name{fishnet}
 \alias{fishnet}
-\title{Create a fishnet of regular grids}
+\title{Create fishnet of regular grids}
 \usage{
 fishnet(mask, res = 0.5)
 }
