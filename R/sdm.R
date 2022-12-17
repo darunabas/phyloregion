@@ -128,6 +128,7 @@ sampleBuffer <- function(p, size, width) {
 #' @rdname sdm
 #' @importFrom terra distance convHull spatSample vect ext window<- rast nlyr
 #' @importFrom terra geom resample crop median deepcopy as.polygons predict
+#' @importFrom terra extract
 #' @importFrom predicts make_folds maxentropy pa_evaluate
 #' @importFrom stats glm median formula gaussian dist runif
 #' @importFrom smoothr smooth

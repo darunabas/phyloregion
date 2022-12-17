@@ -84,11 +84,10 @@ rast2comm <- function(files) {
 }
 
 #' @rdname rast2comm
-#' @importFrom terra values values<- ncell setValues buffer extract crs
+#' @importFrom terra values values<- ncell setValues buffer crs
 #' @importFrom terra project crs<- rasterize
 #' @importFrom methods as
 #' @importFrom utils txtProgressBar setTxtProgressBar object.size
-#' @param trace Trace the function; trace = 2 or higher will be more voluminous.
 #' @examples
 #' \donttest{
 #' require(terra)
@@ -99,79 +98,35 @@ rast2comm <- function(files) {
 #' }
 #'
 #' @export
-polys2comm <- function(dat, res = 0.25, pol.grids = NULL, trace = 1, ...) {
+polys2comm <- function(dat, res = 0.25, pol.grids = NULL, ...) {
     dat <- .matchnms(dat)
 
     if (!is.null(pol.grids)) {
         m <- pol.grids[, grep("grids", names(pol.grids)), drop = FALSE]
-        pj <- "+proj=longlat +datum=WGS84"
-        m <- suppressWarnings(invisible(project(m, "epsg:4326")))
-        crs(m) <- pj
-
-        s <- base::split(dat, f = dat$species)
-        r <- rast(res = res, ext(m))
-        ras <- rasterize(m, r, "grids", touches = TRUE)
-
-        a <- as.data.frame(ras)
-        b <- as.numeric(rownames(a))
-
-        if (object.size(dat) > 15000L && interactive() && trace > 0) {
-            f <- progress(s, function(x) {
-                rs <- rasterize(x, r, touches = TRUE)
-                k <- which(values(rs)==1)
-                j <- as.character(intersect(k, b))
-                unique(as.character(a[j,]))
-            })
-        } else {
-            f <- lapply(s, function(x) {
-                rs <- rasterize(x, r, touches = TRUE)
-                k <- which(values(rs)==1)
-                j <- as.character(intersect(k, b))
-                unique(as.character(a[j,]))
-            })
-        }
-        l <- lengths(f)
-        dx <- cbind(species = rep(names(l), l),
-                    grids = unlist(f, use.names = FALSE))
-        dx <- na.omit(dx)
-        y <- long2sparse(dx)
-        g <- rowSums(y)
-
-        i <- numeric(length(m))
-        names(i) <- m$grids
-        i[names(g)] <- g
-        values(m) <- cbind(values(m), richness=i)
-        z <- m[m$richness > 0, ]
     } else {
-        s <- base::split(dat, f = dat$species)
-        r <- rast(res=res, ext(dat))
-        if (object.size(dat) > 15000L && interactive() && trace > 0) {
-            files <- progress(s, function(x) {
-                ras <- rasterize(x, r)
-                which(values(ras)==1)
-            })
-        } else {
-            files <- lapply(s, function(x) {
-                ras <- rasterize(x, r)
-                which(values(ras)==1)
-            })
-        }
-        l <- lengths(files)
-        row_nam <- factor(paste0("v", unlist(files)))
-        y <- sparseMatrix(as.integer(row_nam), rep(seq_along(files), l), x = 1L,
-                          dimnames = list(levels(row_nam), names(files)))
-        g <- rowSums(y)
-        values(r) <- paste0("v", seq_len(ncell(r)))
-        i <- match(as.data.frame(r)[[1]], names(g))
-        z <- setValues(r, g[i])
+        m <- fishnet(mask = ext(dat), res = res)
+        crs(m) <- "+proj=longlat +datum=WGS84"
     }
+    pj <- "+proj=longlat +datum=WGS84"
+    m <- suppressWarnings(invisible(project(m, "epsg:4326")))
+    crs(m) <- pj
+    j <- relate(dat, m, "intersects", pairs=TRUE)
+    y <- m$grids[j[,2]]
+    spp <- dat$species[j[,1]]
+    r <- data.frame(species=spp, grids=y)
+    y <- long2sparse(r)
+    tmp <- data.frame(grids=row.names(y), abundance=rowSums(y),
+                      richness=rowSums(y>0))
+    z <- merge(m, tmp, by = "grids")
     return(list(comm_dat = y, map = z))
 }
 
 #' @rdname rast2comm
-#' @importFrom terra project vect crs<- rasterize as.data.frame
-#' @importFrom terra values values<- ncell setValues buffer extract crs
-#' @importFrom stats complete.cases predict
+#' @importFrom terra project vect crs<- rasterize as.data.frame intersect
+#' @importFrom terra values values<- ncell setValues buffer crs merge
+#' @importFrom terra relate
+#' @importFrom stats  predict
+#' @importFrom methods as
 #' @examples
 #' library(terra)
 #' s <- vect(system.file("ex/nigeria.json", package="phyloregion"))
@@ -182,76 +137,30 @@ polys2comm <- function(dat, res = 0.25, pol.grids = NULL, trace = 1, ...) {
 #' species <- paste0("sp", sample(1:100))
 #' m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 #'
-#' pt <- points2comm(dat = m, res = 0.5, lon = "lon", lat = "lat",
-#'             species = "taxon") # This generates a list of two objects
+#' pt <- points2comm(dat = m, res = 0.5) # This generates a list of two objects
 #' head(pt[[1]])
 #' @export
-points2comm <- function(dat, res = 0.25, pol.grids = NULL, trace = 1, ...) {
+points2comm <- function(dat, res = 0.25, pol.grids = NULL, ...) {
     dat <- .matchnames(dat)
     dat <- na.omit(dat)
 
-    dat <- vect(dat)
-
     if (!is.null(pol.grids)) {
         m <- pol.grids[, grep("grids", names(pol.grids)), drop = FALSE]
-        pj <- "+proj=longlat +datum=WGS84"
-        m <- suppressWarnings(invisible(project(m, "epsg:4326")))
-        crs(m) <- pj
-
-        s <- base::split(dat, f = dat$species)
-        r <- rast(res = res, ext(m))
-        ras <- rasterize(m, r, "grids", touches = TRUE)
-
-        a <- as.data.frame(ras)
-        b <- as.numeric(rownames(a))
-
-        if (object.size(dat) > 15000L && interactive() && trace > 0) {
-            f <- progress(s, function(x) {
-                rs <- rasterize(x, r, touches = TRUE)
-                k <- which(values(rs)==1)
-                j <- as.character(intersect(k, b))
-                as.character(a[j,])
-            })
-        } else {
-            f <- lapply(s, function(x) {
-                rs <- rasterize(x, r, touches = TRUE)
-                k <- which(values(rs)==1)
-                j <- as.character(intersect(k, b))
-                as.character(a[j,])
-            })
-        }
-        l <- lengths(f)
-        dx <- cbind(species = rep(names(l), l),
-                    grids = unlist(f, use.names = FALSE))
-        dx <- na.omit(dx)
-        y <- long2sparse(dx)
-        tmp <- data.frame(grids=row.names(y), abundance=rowSums(y),
-                          richness=rowSums(y>0))
-        z <- merge(m, tmp, by = "grids")
     } else {
-        s <- base::split(dat, f = dat$species)
-        r <- rast(res=res, ext(dat))
-        if (object.size(dat) > 15000L && interactive() && trace > 0) {
-            files <- progress(s, function(x) {
-                ras <- rasterize(x, r)
-                which(values(ras)==1)
-            })
-        } else {
-            files <- lapply(s, function(x) {
-                ras <- rasterize(x, r)
-                which(values(ras)==1)
-            })
-        }
-        l <- lengths(files)
-        row_nam <- factor(paste0("v", unlist(files)))
-        y <- sparseMatrix(as.integer(row_nam), rep(seq_along(files), l), x = 1L,
-                          dimnames = list(levels(row_nam), names(files)))
-        g <- rowSums(y)
-        values(r) <- paste0("v", seq_len(ncell(r)))
-        i <- match(as.data.frame(r)[[1]], names(g))
-        z <- setValues(r, g[i])
+        m <- fishnet(mask = ext(vect(dat)), res = res)
+        crs(m) <- "+proj=longlat +datum=WGS84"
     }
+    pj <- "+proj=longlat +datum=WGS84"
+    m <- suppressWarnings(invisible(project(m, "epsg:4326")))
+    crs(m) <- pj
+    b <- vect(dat)
+    j <- relate(b, m, "intersects", pairs=TRUE)
+    y <- m$grids[j[,2]]
+    spp <- b$species[j[,1]]
+    r <- data.frame(species=spp, grids=y)
+    y <- long2sparse(r)
+    tmp <- data.frame(grids=row.names(y), abundance=rowSums(y),
+                      richness=rowSums(y>0))
+    z <- merge(m, tmp, by = "grids")
     return(list(comm_dat = y, map = z))
 }
-
-

@@ -20,7 +20,7 @@
 #' @export
 fishnet <- function(mask, res = 0.5){
     s <- rast(res = res, ext(mask))
-    crs(s) <- crs(mask)
+    crs(s) <- "epsg:4326"
     m <- as.polygons(s, dissolve = FALSE)
     m$grids <- paste0("v", seq_len(nrow(m)))
     m <- m[, "grids"]

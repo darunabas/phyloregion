@@ -2,7 +2,7 @@
 # Must manually move images from phyloregion/ to phyloregion/vignettes/ after knit
 #
 
-library(knitr)
+#library(knitr)
 
 #knit("vignettes/Benchmark.Rmd.orig", "vignettes/Benchmark.Rmd")
 

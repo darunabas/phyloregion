@@ -8,9 +8,9 @@
 \usage{
 rast2comm(files)
 
-polys2comm(dat, res = 0.25, pol.grids = NULL, trace = 1, ...)
+polys2comm(dat, res = 0.25, pol.grids = NULL, ...)
 
-points2comm(dat, res = 0.25, pol.grids = NULL, trace = 1, ...)
+points2comm(dat, res = 0.25, pol.grids = NULL, ...)
 }
 \arguments{
 \item{files}{list of SpatRaster layer objects with the same spatial
@@ -29,8 +29,6 @@ with at least three columns:
 
 \item{pol.grids}{if specified, the vector polygon of grid cells
 with a column labeled \dQuote{grids}.}
-
-\item{trace}{Trace the function; trace = 2 or higher will be more voluminous.}
 
 \item{\dots}{Further arguments passed to or from other methods.}
 }
@@ -75,8 +73,7 @@ names(m) <- c("lon", "lat")
 species <- paste0("sp", sample(1:100))
 m$taxon <- sample(species, size = nrow(m), replace = TRUE)
 
-pt <- points2comm(dat = m, res = 0.5, lon = "lon", lat = "lat",
-            species = "taxon") # This generates a list of two objects
+pt <- points2comm(dat = m, res = 0.5) # This generates a list of two objects
 head(pt[[1]])
 }
 \seealso{
