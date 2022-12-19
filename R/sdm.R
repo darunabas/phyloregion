@@ -16,24 +16,6 @@ thin_max <- function(x, cols, npoints){
 }
 
 
-.matchnames <- function(x) {
-    x <- as.data.frame(x)
-    nat <- colnames(x)
-    X <- paste(c("\\blongitude\\b", "\\bdecimalLongitude\\b", "\\bLong\\b",
-                 "\\bx\\b", "\\blon\\b"), collapse = "|")
-    Y <- paste(c("\\blatitude\\b", "\\bdecimalLatitude\\b", "\\bLati\\b",
-                 "\\by\\b", "\\lat\\b"), collapse = "|")
-    SP <- paste(c("\\bspecies\\b", "\\bbinomial\\b", "\\bbinomil\\b",
-                  "\\btaxon\\b"), collapse = "|")
-
-    lon <- nat[grepl(X, nat, ignore.case = TRUE)]
-    lat <- nat[grepl(Y, nat, ignore.case = TRUE)]
-    species <- nat[grepl(SP, nat, ignore.case = TRUE)]
-    x <- x[, c(species, lon, lat)]
-    names(x) <- c("species", "lon", "lat")
-    return(x)
-}
-
 #myRF <- function(x, p, q) {
 #    tf <- tuneRF(x[, 2:ncol(x)], x[, "pa"], plot=FALSE)
 #    mt <- tf[which.min(tf[,2]), 1]

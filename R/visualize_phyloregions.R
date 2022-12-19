@@ -22,7 +22,7 @@ color_key <- function(y, cols, vals, lab = "ED", leg = 5, lwd = 15,
   for (i in seq_len(l)) lines(x[i, ], y[i, ], col = cols[i], lwd = lwd,
                               lend = 2)
   text(x = a, y = b, round(min(vals), 3), pos = 4, cex = 0.7) # lim texts
-  text(x = a, y = b + (leg / 2), round(median(vals), 3), pos = 4, cex = 0.7)
+  text(x = a, y = b + (leg / 2), round(stats::median(vals), 3), pos = 4, cex = 0.7)
   text(x = a, y = b + leg, round(max(vals), 3), pos = 4, cex = 0.7)
   text(x = a, y = b + leg, lab, pos = 3, cex = 1)
 }

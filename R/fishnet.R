@@ -7,7 +7,7 @@
 #' @param res the grain size of the grid cells in decimal degrees (default).
 #' @rdname fishnet
 #' @keywords bioregion
-#' @importFrom terra rast crs<- as.polygons crs
+#' @importFrom terra rast crs<- as.polygons crs ext
 #' @return A spatial vector polygon object of equal area grid cells covering
 #' the defined area.
 #' @references
