@@ -1,7 +1,7 @@
 Package: phyloregion
 Type: Package
 Title: Biogeographic Regionalization and Macroecology
-Version: 1.0.6
+Version: 1.0.7
 Authors@R: c(person("Barnabas H.", "Daru", email= "darunabas@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-2115-0257")),
              person("Piyal", "Karunarathne", role = c("aut"), comment = c(ORCID = "0000-0002-1934-145X")),
              person("Klaus", "Schliep", email="klaus.schliep@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0003-2941-0161")),
@@ -17,15 +17,18 @@ Description: Computational infrastructure for biogeography, community ecology,
     such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
     and global endangerment, as well as compositional turnover (e.g., beta diversity).
 Imports: ape, phangorn, Matrix, betapart, parallel, methods, colorspace, igraph,
-         clustMixType, maptpx, terra, smoothr, vegan, predicts
-Remotes: rspatial/predicts
+         clustMixType, maptpx, terra, vegan
 Suggests: tinytest, knitr, rmarkdown, mapproj, survival, rJava, phyloseq
 VignetteBuilder: knitr
 URL: https://github.com/darunabas/phyloregion, https://darunabas.github.io/phyloregion/index.html
 BugReports: https://github.com/darunabas/phyloregion/issues
 License: AGPL-3
 Encoding: UTF-8
+<<<<<<< HEAD
 RoxygenNote: 7.2.3
+=======
+RoxygenNote: 7.2.2
+>>>>>>> 72280d68af07eb7ebcbdb804e67388a9ff1f2069
 biocViews: Software
 NeedsCompilation: no
 Depends: R (>= 4.0.0)
