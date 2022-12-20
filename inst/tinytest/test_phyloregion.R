@@ -59,6 +59,14 @@ bc_sparse <- beta_core(M_sparse)
 expect_equal(bc_sparse[-1], bc_dense[-1])
 
 
+# unifrac
+dm_unifrac <- phyloregion::unifrac(com, tree)
+if(requireNamespace("picante")){
+    expect_inherits(dm_unifrac, "dist")
+    expect_equivalent(dm_unifrac, picante::unifrac(com, tree))
+}
+
+
 # evol_distinct vs evol.distinct
 if(requireNamespace("picante")){
   tree <- rcoal(100)

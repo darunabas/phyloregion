@@ -1,20 +1,40 @@
-progress <- function(x, FUN, ...) {
-    env <- environment()
-    pb_Total <- length(x)
-    counter <- 0
-    pb <- txtProgressBar(min = 0, max = pb_Total, style = 3,
-                         width = getOption("width")/2L)
+#progress <- function(x, FUN, ...) {
+#    env <- environment()
+#    pb_Total <- length(x)
+#    counter <- 0
+#    pb <- txtProgressBar(min = 0, max = pb_Total, style = 3,
+#                         width = getOption("width")/2L)
     # wrapper around FUN
-    wrapper <- function(...){
-        curVal <- get("counter", envir = env)
-        assign("counter", curVal +1 ,envir=env)
-        setTxtProgressBar(get("pb", envir=env), curVal +1)
-        FUN(...)
-    }
-    r <- lapply(x, wrapper, ...)
-    close(pb)
-    r
+#    wrapper <- function(...){
+#        curVal <- get("counter", envir = env)
+#        assign("counter", curVal +1 ,envir=env)
+#        setTxtProgressBar(get("pb", envir=env), curVal +1)
+#        FUN(...)
+#    }
+#    r <- lapply(x, wrapper, ...)
+#    close(pb)
+#    r
+#}
+
+
+.matchnames <- function(x) {
+    x <- as.data.frame(x)
+    nat <- colnames(x)
+    X <- paste(c("\\blongitude\\b", "\\bdecimalLongitude\\b", "\\bLong\\b",
+                 "\\bx\\b", "\\blon\\b"), collapse = "|")
+    Y <- paste(c("\\blatitude\\b", "\\bdecimalLatitude\\b", "\\bLati\\b",
+                 "\\by\\b", "\\lat\\b"), collapse = "|")
+    SP <- paste(c("\\bspecies\\b", "\\bbinomial\\b", "\\bbinomil\\b",
+                  "\\btaxon\\b"), collapse = "|")
+
+    lon <- nat[grepl(X, nat, ignore.case = TRUE)]
+    lat <- nat[grepl(Y, nat, ignore.case = TRUE)]
+    species <- nat[grepl(SP, nat, ignore.case = TRUE)]
+    x <- x[, c(species, lon, lat)]
+    names(x) <- c("species", "lon", "lat")
+    return(x)
 }
+
 
 .matchnms <- function(x) {
     nat <- names(x)
@@ -52,7 +72,6 @@ progress <- function(x, FUN, ...) {
 #' @seealso \code{\link[mapproj]{mapproject}} for conversion of
 #' latitude and longitude into projected coordinates system.
 #' \code{\link{long2sparse}} for conversion of community data.
-#' @importFrom utils txtProgressBar setTxtProgressBar
 #' @return Each of these functions generate a list of two objects as follows:
 #' \itemize{
 #'   \item comm_dat: (sparse) community matrix
@@ -85,9 +104,8 @@ rast2comm <- function(files) {
 
 #' @rdname rast2comm
 #' @importFrom terra values values<- ncell setValues buffer crs
-#' @importFrom terra project crs<- rasterize
+#' @importFrom terra project crs<- rasterize ext
 #' @importFrom methods as
-#' @importFrom utils txtProgressBar setTxtProgressBar object.size
 #' @examples
 #' \donttest{
 #' require(terra)
@@ -124,7 +142,7 @@ polys2comm <- function(dat, res = 0.25, pol.grids = NULL, ...) {
 #' @rdname rast2comm
 #' @importFrom terra project vect crs<- rasterize as.data.frame intersect
 #' @importFrom terra values values<- ncell setValues buffer crs merge
-#' @importFrom terra relate
+#' @importFrom terra relate ext
 #' @importFrom stats  predict
 #' @importFrom methods as
 #' @examples

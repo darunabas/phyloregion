@@ -22,3 +22,5 @@
 ^R/darwinize.*
 ^R/admixture.R
 ^CRAN-SUBMISSION$
+^R/sdm.R
+
