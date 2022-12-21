@@ -81,7 +81,7 @@
 #'   c(1,1,1,2,2,2,3,3,3,3,3,3,4,4,4),x=1,
 #'   dimnames = list(paste0("g", 1:6), tree$tip.label))
 #' pbc <- phylobeta(com, tree)
-#' phyloregion(pbc[[1]], k = 3)
+#' # phyloregion(pbc[[1]], k = 3)
 #' @export
 #'
 phyloregion <- function(x, k = 10, method = "average", pol = NULL, ...) {

@@ -47,7 +47,7 @@ com <- sparseMatrix(c(1,3,4,1,4,5,1,2,3,4,5,6,3,4,6),
   c(1,1,1,2,2,2,3,3,3,3,3,3,4,4,4),x=1,
   dimnames = list(paste0("g", 1:6), tree$tip.label))
 pbc <- phylobeta(com, tree)
-phyloregion(pbc[[1]], k = 3)
+# phyloregion(pbc[[1]], k = 3)
 }
 \references{
 Daru, B.H., Van der Bank, M., Maurin, O., Yessoufou, K., Schaefer, H.,

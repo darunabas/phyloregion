@@ -1,7 +1,7 @@
 [![R-CMD-check](https://github.com/darunabas/phyloregion/workflows/R-CMD-check/badge.svg)](https://github.com/darunabas/phyloregion/actions)
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/phyloregion)](https://cran.r-project.org/package=phyloregion)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/phyloregion)](https://cran.r-project.org/package=phyloregion)
-[![codecov](https://codecov.io/gh/darunabas/phyloregion/branch/master/graph/badge.svg)](https://codecov.io/gh/darunabas/phyloregion)
+[![codecov](https://codecov.io/gh/darunabas/phyloregion/branch/master/graph/badge.svg)](https://app.codecov.io/gh/darunabas/phyloregion)
 
 # phyloregion <img src='man/figures/logo.png' align="right" width="120" />
 

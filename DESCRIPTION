@@ -20,7 +20,7 @@ Imports: ape, phangorn, Matrix, betapart, parallel, methods, colorspace, igraph,
          clustMixType, maptpx, terra, vegan
 Suggests: tinytest, knitr, rmarkdown, mapproj, survival, rJava, phyloseq
 VignetteBuilder: knitr
-URL: https://github.com/darunabas/phyloregion, https://darunabas.github.io/phyloregion/index.html
+URL: https://github.com/darunabas/phyloregion, https://phyloregion.com/index.html
 BugReports: https://github.com/darunabas/phyloregion/issues
 License: AGPL-3
 Encoding: UTF-8
