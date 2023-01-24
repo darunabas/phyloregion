@@ -15,7 +15,6 @@ thin_max <- function(x, cols, npoints){
     return(x[inds,])
 }
 
-
 #myRF <- function(x, p, q) {
 #    tf <- tuneRF(x[, 2:ncol(x)], x[, "pa"], plot=FALSE)
 #    mt <- tf[which.min(tf[,2]), 1]
@@ -77,7 +76,7 @@ sampleBuffer <- function(p, size, width) {
     } else {
         h <- convHull(p)
     }
-    spatSample(h, size = size, method="random")
+    spatSample(h, size = size, method = "random")
 }
 
 #' Species distribution models
