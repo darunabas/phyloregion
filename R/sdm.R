@@ -38,9 +38,9 @@ myGLM <- function(f, x, p, q) {
 
 myMAXENT <- function(p, ox, ot, xy) {
     maxent_available <- FALSE
-    if (maxentropy()) {
+    if (MaxEnt()) {
         maxent_available <- TRUE
-        xm <- maxentropy(p, ox)
+        xm <- MaxEnt(p, ox)
         mx <- terra::predict(xm, p)
         xe <- pa_evaluate(xm, p = ot, a = xy, x = p)
         mr <- xe@thresholds
@@ -110,7 +110,7 @@ sampleBuffer <- function(p, size, width) {
 #' @importFrom terra distance convHull spatSample vect ext window<- rast nlyr
 #' @importFrom terra geom resample crop median deepcopy as.polygons predict
 #' @importFrom terra extract
-#' @importFrom predicts make_folds maxentropy pa_evaluate
+#' @importFrom predicts folds MaxEnt pa_evaluate
 #' @importFrom stats glm median formula gaussian dist runif
 #' @importFrom smoothr smooth
 #' @return A list with the following objects:
@@ -207,7 +207,7 @@ sdm <- function(x, predictors = NULL, pol = NULL, thin = TRUE, thin.size = 500,
     train <- j[-i,]
 
     # for maxent
-    fold <- predicts::make_folds(x, k=5)
+    fold <- predicts::folds(x, k=5)
     occtest <- x[fold == 1, ]
     occtrain <- x[fold != 1, ]
 
