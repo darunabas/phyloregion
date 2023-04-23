@@ -1,4 +1,4 @@
-# [November 16, 2022] Changes in `phyloregion` version 1.0.7
+# [November 16, 2022] Changes in `phyloregion` version 1.0.7.
 
 * Revised all spatial functions to use functions in terra throughout.
 
