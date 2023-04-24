@@ -19,6 +19,9 @@
 ^vignettes/1global.*
 ^vignettes/2continent.*
 ^vignettes/3national.*
+^vignettes/Benchmark.Rmd.orig
+^vignettes/ed.Rmd.orig
+^vignettes/precompile.R
 ^R/darwinize.*
 ^R/admixture.R
 ^CRAN-SUBMISSION$
