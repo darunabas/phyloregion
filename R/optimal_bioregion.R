@@ -262,7 +262,7 @@ elbow.batch <- function(x, inc.thres = c(0.01, 0.05, 0.1),
 #' data(africa)
 #' tree <- africa$phylo
 #' bc <- beta_diss(africa$comm)
-#' (d <- optimal_phyloregion(bc[[1]]))
+#' (d <- optimal_phyloregion(bc[[1]], k=15))
 #' plot(d$df$k, d$df$ev, ylab = "Explained variances",
 #'   xlab = "Number of clusters")
 #' lines(d$df$k[order(d$df$k)], d$df$ev[order(d$df$k)], pch = 1)

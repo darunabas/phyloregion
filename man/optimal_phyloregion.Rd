@@ -37,7 +37,7 @@ an evaluation graph that corresponds to the point of optimal curvature.
 data(africa)
 tree <- africa$phylo
 bc <- beta_diss(africa$comm)
-(d <- optimal_phyloregion(bc[[1]]))
+(d <- optimal_phyloregion(bc[[1]], k=15))
 plot(d$df$k, d$df$ev, ylab = "Explained variances",
   xlab = "Number of clusters")
 lines(d$df$k[order(d$df$k)], d$df$ev[order(d$df$k)], pch = 1)

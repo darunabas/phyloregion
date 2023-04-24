@@ -125,7 +125,7 @@ library(terra)
 data(africa)
 names(africa)
 p <- vect(system.file("ex/sa.json", package = "phyloregion"))
-m <- fitgom(x=sparse2long(africa$comm), K=5)
+m <- fitgom(x=sparse2long(africa$comm), K=3)
 
 COLRS <- phyloregion:::hue(m$K)
 plot_pie(m$omega, pol = p, col=COLRS)
