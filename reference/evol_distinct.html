@@ -140,15 +140,15 @@ phylogeny. <em>PLoS ONE</em>, <strong>2</strong>, e296.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html" class="external-link">rcoal</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">evol_distinct</span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         t6         t8         t5         t2         t7        t10         t9 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.49835583 0.49835583 0.48720429 0.37174765 0.10808162 0.06929468 0.06929468 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         t1         t4         t3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.15068378 0.21286831 0.30131164 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        t2        t9        t3       t10        t6        t4        t7        t5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.1251963 1.1251963 0.6034923 0.6034923 1.1399024 0.6961543 0.6961543 0.6569252 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        t1        t8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.6569252 2.0370036 </span>
 <span class="r-in"><span><span class="fu">evol_distinct</span><span class="op">(</span><span class="va">tree</span>, type <span class="op">=</span> <span class="st">"fair.proportion"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        t6        t8        t5        t2        t7       t10        t9        t1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.4983558 0.4983558 0.3542391 0.3082736 0.1596428 0.1421570 0.1421570 0.1749893 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        t4        t3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2019336 0.2870942 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        t2        t9        t3       t10        t6        t4        t7        t5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.9861594 0.9861594 0.8681339 0.8681339 0.8886930 0.9248998 0.9248998 0.8856707 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        t1        t8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.8856707 1.1220215 </span>
 </code></pre></div>
     </div>
   </div>
