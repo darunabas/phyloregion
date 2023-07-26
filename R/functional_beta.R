@@ -120,7 +120,7 @@ lbow <- function(varpc, low = .08, max.pc = .9) {
 #' plot(p)
 #' }
 #' @export
-functional_beta <- function(x, trait = NULL, bin = 10, na.rm = FALSE,
+functional_beta <- function(x, trait = NULL, bin = 10, na.rm = "no",
                             quick_elbow = FALSE, abundance = FALSE, ...) {
     if(is(x, "sparseMatrix")) {
         x <- sparse2long(x)
