@@ -77,7 +77,14 @@ taxa and sites.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PD_ses</span><span class="op">(</span><span class="va">x</span>, <span class="va">phy</span>, model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tipshuffle"</span>, <span class="st">"rowwise"</span>, <span class="st">"colwise"</span><span class="op">)</span>, reps <span class="op">=</span> <span class="fl">10</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PD_ses</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">phy</span>,</span>
+<span>  model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tipshuffle"</span>, <span class="st">"rowwise"</span>, <span class="st">"colwise"</span><span class="op">)</span>,</span>
+<span>  reps <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  metric <span class="op">=</span> <span class="st">"pd"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -106,6 +113,10 @@ keeping site richness constant.</p></li>
 <dd><p>Number of replications.</p></dd>
 
 
+<dt>metric</dt>
+<dd><p>The phylodiversity measure to compute.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further arguments passed to or from other methods.</p></dd>
 
@@ -116,15 +127,20 @@ keeping site richness constant.</p></li>
 
 <p>A data frame of results for each community or grid cell</p><ul><li><p>grids: Site identity</p></li>
 <li><p>richness: Number of taxa in community</p></li>
-<li><p>PD_obs: Observed PD in community</p></li>
-<li><p>pd_rand_mean: Mean PD in null communities</p></li>
-<li><p>pd_rand_sd: Standard deviation of PD in null communities</p></li>
-<li><p>pd_obs_rank: Rank of observed PD vs. null communities</p></li>
-<li><p>pd_obs_z: Standardized effect size of PD vs. null communities
-  \(= (PD_obs - pd_rand_mean) / pd_rand_sd\)</p></li>
-<li><p>pd_obs_p: P-value (quantile) of observed PD vs. null communities
+<li><p>pd_obs: Observed PD in community</p></li>
+<li><p>pd_rand.mean: Mean PD in null communities</p></li>
+<li><p>pd_rand.sd: Standard deviation of PD in null communities</p></li>
+<li><p>pd_obs.rank: Rank of observed PD vs. null communities</p></li>
+<li><p>pd_obs.z: Standardized effect size of PD vs. null communities
+  \(= (pd_obs - pd_rand.mean) / pd_rand_sd\)</p></li>
+<li><p>pvalue: P-value (quantile) of observed PD vs. null communities
   \(= mpd_obs_rank / iter + 1\)</p></li>
 <li><p>reps: Number of replicates</p></li>
+<li><p>p_obs_c_lower: Number of times observed value &lt; random value</p></li>
+<li><p>p_obs_c_upper: Number of times observed value &gt; random value</p></li>
+<li><p>p_obs_p_lower: Percentage of times observed value &lt; random value</p></li>
+<li><p>p_obs_p_upper: Percentage of times observed value &gt; random value</p></li>
+<li><p>p_obs_q: Number of the non-NA random values used for comparison</p></li>
 </ul></div>
     <div id="references">
     <h2>References</h2>
@@ -143,20 +159,27 @@ history in a 10 x 10m plot? <em>Proceedings of Royal Society B</em>
 <span class="r-in"><span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"g"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">PD_ses</span><span class="op">(</span><span class="va">com</span>, <span class="va">tree</span>, model<span class="op">=</span><span class="st">"rowwise"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   grids richness PD_obs pd_rand_mean pd_rand_sd pd_obs_rank     zscore</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    g1        3      5          4.0  2.2222222         8.0  0.6708204</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    g2        1      2          4.6  1.8222222         1.5 -1.9260727</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    g3        3      5          4.7  1.3444444         6.5  0.2587318</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    g4        4      6          4.3  2.0111111        10.0  1.1987563</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    g5        2      4          3.0  1.5555556         8.5  0.8017837</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    g6        2      3          4.4  0.9333333         2.0 -1.4491377</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    pd_obs_p reps</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.7272727   10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1363636   10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.5909091   10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.9090909   10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.7727273   10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.1818182   10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ID pd_obs pd_rand.mean pd_rand.sd   pd_obs.z pd_obs.rank pd_obs_c_upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g1 g1      5          4.2   1.135292  0.7508205         8.5              6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g2 g2      2          4.0   1.247219 -1.7908475         1.5              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g3 g3      5          4.6   1.173788  0.3692030         7.0              5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g4 g4      6          4.0   1.632993  1.5650846         9.5              7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g5 g5      4          4.2   1.549193 -0.1606857         4.0              3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g6 g6      3          4.0   1.563472 -0.7997513         4.5              3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pd_obs_c_lower pd_obs_q pd_obs_pvalue_upper pd_obs_pvalue_lower pd_pvalue</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g1              1       10                 0.6                 0.1 0.7727273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g2              9       10                 0.0                 0.9 0.1363636</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g3              3       10                 0.5                 0.3 0.6363636</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g4              0       10                 0.7                 0.0 0.8636364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g5              7       10                 0.3                 0.7 0.3636364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g6              6       10                 0.3                 0.6 0.4090909</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               signif</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g1 c_not significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g2 c_not significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g3 c_not significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g4 c_not significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g5 c_not significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g6 c_not significant</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
