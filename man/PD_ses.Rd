@@ -4,7 +4,14 @@
 \alias{PD_ses}
 \title{Phylogenetic diversity standardized for species richness}
 \usage{
-PD_ses(x, phy, model = c("tipshuffle", "rowwise", "colwise"), reps = 10, ...)
+PD_ses(
+  x,
+  phy,
+  model = c("tipshuffle", "rowwise", "colwise"),
+  reps = 10,
+  metric = "pd",
+  ...
+)
 }
 \arguments{
 \item{x}{a (sparse) community matrix, i.e. an object of class matrix or
@@ -24,6 +31,8 @@ keeping site richness constant.}}
 
 \item{reps}{Number of replications.}
 
+\item{metric}{The phylodiversity measure to compute.}
+
 \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
@@ -31,15 +40,20 @@ A data frame of results for each community or grid cell
 \itemize{
   \item grids: Site identity
   \item richness: Number of taxa in community
-  \item PD_obs: Observed PD in community
-  \item pd_rand_mean: Mean PD in null communities
-  \item pd_rand_sd: Standard deviation of PD in null communities
-  \item pd_obs_rank: Rank of observed PD vs. null communities
-  \item pd_obs_z: Standardized effect size of PD vs. null communities
-  \eqn{= (PD_obs - pd_rand_mean) / pd_rand_sd}
-  \item pd_obs_p: P-value (quantile) of observed PD vs. null communities
+  \item pd_obs: Observed PD in community
+  \item pd_rand.mean: Mean PD in null communities
+  \item pd_rand.sd: Standard deviation of PD in null communities
+  \item pd_obs.rank: Rank of observed PD vs. null communities
+  \item pd_obs.z: Standardized effect size of PD vs. null communities
+  \eqn{= (pd_obs - pd_rand.mean) / pd_rand_sd}
+  \item pvalue: P-value (quantile) of observed PD vs. null communities
   \eqn{= mpd_obs_rank / iter + 1}
   \item reps: Number of replicates
+  \item p_obs_c_lower: Number of times observed value < random value
+  \item p_obs_c_upper: Number of times observed value > random value
+  \item p_obs_p_lower: Percentage of times observed value < random value
+  \item p_obs_p_upper: Percentage of times observed value > random value
+  \item p_obs_q: Number of the non-NA random values used for comparison
 }
 }
 \description{

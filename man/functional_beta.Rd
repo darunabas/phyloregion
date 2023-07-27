@@ -8,7 +8,7 @@ functional_beta(
   x,
   trait = NULL,
   bin = 10,
-  na.rm = FALSE,
+  na.rm = "no",
   quick_elbow = FALSE,
   abundance = FALSE,
   ...

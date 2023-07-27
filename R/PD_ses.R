@@ -15,6 +15,7 @@ rt <- function (phy) {
 #' Matrix.
 #' @param phy a phylogenetic tree (object of class phylo).
 #' @param reps Number of replications.
+#' @param metric The phylodiversity measure to compute.
 #' @param model The null model for separating patterns from processes and
 #' for contrasting against alternative hypotheses. Available null models
 #' include:
@@ -47,50 +48,74 @@ rt <- function (phy) {
 #' \itemize{
 #'   \item grids: Site identity
 #'   \item richness: Number of taxa in community
-#'   \item PD_obs: Observed PD in community
-#'   \item pd_rand_mean: Mean PD in null communities
-#'   \item pd_rand_sd: Standard deviation of PD in null communities
-#'   \item pd_obs_rank: Rank of observed PD vs. null communities
-#'   \item pd_obs_z: Standardized effect size of PD vs. null communities
-#'   \eqn{= (PD_obs - pd_rand_mean) / pd_rand_sd}
-#'   \item pd_obs_p: P-value (quantile) of observed PD vs. null communities
+#'   \item pd_obs: Observed PD in community
+#'   \item pd_rand.mean: Mean PD in null communities
+#'   \item pd_rand.sd: Standard deviation of PD in null communities
+#'   \item pd_obs.rank: Rank of observed PD vs. null communities
+#'   \item pd_obs.z: Standardized effect size of PD vs. null communities
+#'   \eqn{= (pd_obs - pd_rand.mean) / pd_rand_sd}
+#'   \item pvalue: P-value (quantile) of observed PD vs. null communities
 #'   \eqn{= mpd_obs_rank / iter + 1}
 #'   \item reps: Number of replicates
+#'   \item p_obs_c_lower: Number of times observed value < random value
+#'   \item p_obs_c_upper: Number of times observed value > random value
+#'   \item p_obs_p_lower: Percentage of times observed value < random value
+#'   \item p_obs_p_upper: Percentage of times observed value > random value
+#'   \item p_obs_q: Number of the non-NA random values used for comparison
 #' }
 #' @export
 PD_ses <- function(x, phy,
                    model = c("tipshuffle", "rowwise", "colwise"),
-                   reps = 10, ...) {
+                   reps = 10, metric = "pd", ...) {
 
     colnames(x) <- gsub(" ", "_", colnames(x))
     p <- keep.tip(phy, intersect(phy$tip.label, colnames(x)))
     x <- x[, intersect(p$tip.label, colnames(x))]
 
-    PD_obs <- PD(x, p)
-    pd.rand <- switch(model,
-                      tipshuffle = lapply(seq_len(reps), function(i)
-                          PD(x, rt(p))),
-                      rowwise = lapply(seq_len(reps), function(i)
-                          PD(x[sample(nrow(x)),], p)),
-                      colwise = lapply(seq_len(reps), function(i)
-                          PD(x[,sample(ncol(x))], p)))
+    obs <- PD(x, p)
+    rand <- switch(model,
+                   tipshuffle = lapply(seq_len(reps), function(i)
+                       PD(x, rt(p))),
+                   rowwise = lapply(seq_len(reps), function(i)
+                       PD(x[sample(nrow(x)),], p)),
+                   colwise = lapply(seq_len(reps), function(i)
+                       PD(x[,sample(ncol(x))], p)))
 
-    y <- do.call(rbind, pd.rand)
-    pd_rand_mean <- apply(X = y, MARGIN = 2, FUN = mean, na.rm = TRUE)
-    pd_rand_sd <- apply(X = y, MARGIN = 2, FUN = var, na.rm = TRUE)
-    #pd_rand_sd[pd_rand_sd == 0] <- 1
-    zscore <- (PD_obs - pd_rand_mean)/sqrt(pd_rand_sd)
-    pd_obs_rank <- apply(X = rbind(PD_obs, y), MARGIN = 2, FUN = rank)[1, ]
-    pd_obs_rank <- ifelse(is.na(pd_rand_mean), NA, pd_obs_rank)
+    y <- do.call(rbind, rand)
+    rand.mean <- apply(X = y, MARGIN = 2, FUN = mean, na.rm = TRUE)
+    rand.sd <- apply(X = y, MARGIN = 2, FUN = sd, na.rm = TRUE)
+    obs.z <- (obs - rand.mean)/sqrt(rand.sd)
+    obs.rank <- apply(X = rbind(obs, y), MARGIN = 2, FUN = rank)[1, ]
+    obs.rank <- ifelse(is.na(rand.mean), NA, obs.rank)
+    pvalue <- obs.rank/(length(rand)+1)
 
-    m <- data.frame(grids=rownames(x), PD_obs, pd_rand_mean, pd_rand_sd,
-                    pd_obs_rank, zscore,
-                    pd_obs_p = pd_obs_rank/(reps + 1), reps = reps,
-                    row.names = row.names(x))
+    obs_c_upper <- numeric(length = ncol(y))
+    for (i in seq_len(ncol(y))) {obs_c_upper[i] <- sum(obs[i] > y[, i])}
 
+    obs_c_lower <- numeric(length = ncol(y))
+    for (i in seq_len(ncol(y))) {obs_c_lower[i] <- sum(obs[i] < y[, i])}
+    # Count the number of non-NA random values used for comparison
+    obs_q <- apply(y, 2, function(x) sum(!is.na(x)))
+    # Calculate p-value for upper tail
+    obs_pvalue_upper <- obs_c_upper / obs_q
+    # Calculate p-value for lower tail
+    obs_pvalue_lower <- obs_c_lower / obs_q
+    res <- data.frame(
+        ID=rownames(x),
+        obs, rand.mean, rand.sd, obs.z, obs.rank, obs_c_upper, obs_c_lower,
+        obs_q, obs_pvalue_upper, obs_pvalue_lower, pvalue
+    )
 
-    z <- data.frame(table(sparse2long(x)$grids))
-    names(z) <- c("grids", "richness")
-    res <- Reduce(function(x, y) merge(x, y, by="grids",all=TRUE) , list(z, m))
-    res
+    colnames(res)[-1] <- paste(metric, colnames(res)[-1], sep = "_")
+    # Calculate the significance column 'signif'
+    res$signif <- with(res, ifelse(
+        is.na(get(paste0(metric, "_obs_pvalue_lower"))), NA_character_,
+        ifelse(is.na(get(paste0(metric, "_obs_pvalue_upper"))), NA_character_,
+               ifelse(get(paste0(metric, "_obs_pvalue_lower")) > 0.99, "a_< 0.01",
+                      ifelse(get(paste0(metric, "_obs_pvalue_lower")) > 0.975, "b_< 0.025",
+                             ifelse(get(paste0(metric, "_obs_pvalue_upper")) > 0.99, "e_> 0.99",
+                                    ifelse(get(paste0(metric, "_obs_pvalue_upper")) > 0.975, "d_> 0.975",
+                                           "c_not significant"
+                                    )))))))
+    return(res)
 }
