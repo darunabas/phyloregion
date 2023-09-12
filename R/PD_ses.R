@@ -1,4 +1,4 @@
-rt <- function (phy) {
+simtree <- function (phy) {
     phy$tip.label <- phy$tip.label[sample(length(phy$tip.label))]
     return(phy)
 }
@@ -75,7 +75,7 @@ PD_ses <- function(x, phy,
     obs <- PD(x, p)
     rand <- switch(model,
                    tipshuffle = lapply(seq_len(reps), function(i)
-                       PD(x, rt(p))),
+                       PD(x, simtree(p))),
                    rowwise = lapply(seq_len(reps), function(i)
                        PD(x[sample(nrow(x)),], p)),
                    colwise = lapply(seq_len(reps), function(i)
