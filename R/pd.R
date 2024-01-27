@@ -1,6 +1,7 @@
 #' Phylogenetic diversity
 #'
-#' \code{PD} calculates Faith's (1992) phylogenetic diversity.
+#' \code{PD} calculates Faith's (1992) phylogenetic diversity and relative
+#' phylogenetic diversity.
 #'
 #' @param x a community matrix, i.e. an object of class matrix or Matrix or an
 #' object of class phyloseq.
@@ -20,6 +21,8 @@
 #'   dimnames = list(paste0("g", 1:6), tree$tip.label))
 #'
 #' PD(com, tree)
+#' # Relative phylogenetic diversity
+#' RPD(com, tree)
 #' @rdname PD
 #' @export
 PD <- function(x, phy){
@@ -42,4 +45,32 @@ PD <- function(x, phy){
   (z$Matrix %*% z$edge.length)[,1]
 }
 
+#' @rdname PD
+#' @export
+RPD <- function(x, phy) {
+  if(inherits(x, "matrix") && ncol(x)>2) x <- Matrix(x, sparse = TRUE)
+  if(!is(x, "sparseMatrix")) stop("x needs to be a sparse matrix!")
+  if(length(setdiff(colnames(x), phy$tip.label)) > 0)
+    stop("There are species labels in community matrix missing in the tree!")
+  dat <- match_phylo_comm(phy, x)
+  phy <- dat$phy
+  phy_alt <- phy
+  # convert **non-zero** branch lengths to same value (1)
+  nb <- unlist(lapply(phy_alt$edge.length, function(x) !identical(x, 0)))
+  phy_alt$edge.length[nb] <- rep(x=1, times=length(phy_alt$edge.length[nb])) 
+  phy_alt$edge.length <- phy_alt$edge.length / sum(phy_alt$edge.length)
+  # rescale original phy so total length is 1
+  phy$edge.length <- phy$edge.length / sum(phy$edge.length)
+  # 1. PD
+  pd <- PD(x, phy)
+  pd <- data.frame(grids=names(pd), pd)
+  # 2. PD_ALT
+  pd_alt <- PD(x, phy_alt)
+  pd_alt <- data.frame(grids=names(pd_alt), pd_alt)
+  w <- Reduce(function(x, y) merge(x, y, by="grids"), list(pd, pd_alt))
+  w$rpd <- w$pd / w$pd_alt
+  rpd <- w$rpd
+  names(rpd) <- w$grids
+  return(rpd)
+}
 

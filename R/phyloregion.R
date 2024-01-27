@@ -8,19 +8,6 @@
     return(x)
 }
 
-#dissolve_poly <- function(x){
-# Now the dissolve
-#  x <- x[!is.na(x@data$cluster),]
-#  region <- rgeos::gUnaryUnion(x, id = x@data$cluster)
-#  # make sure row names match
-#  row.names(region) <- as.character(seq_along(region))
-#  # Extract the data you want (the larger geography)
-#  fx <- unique(x$cluster)
-#  fx <- as.data.frame(fx)
-#  colnames(fx) <- "cluster"
-#  # And add the data back in
-#  SpatialPolygonsDataFrame(region, fx)
-#}
 #' Compute phylogenetic regionalization and evolutionary distinctiveness of phyloregions
 #'
 #' This function estimates evolutionary distinctiveness of each phyloregion by
@@ -95,9 +82,10 @@ phyloregion <- function(x, k = 10, method = "average", pol = NULL, ...) {
 
     Q <- as.dist(x)
     P1 <- hclust(Q, method = method)
-    g <- cutree(P1, k)
-    dx <- data.frame(grids=names(g), cluster = unname(g))
 
+    g <- cutree(P1, k=k)
+    dx <- data.frame(grids=names(g), cluster = unname(g))
+    
     x <- as.matrix(x)
     colnames(x) <- rownames(x)
 
@@ -206,3 +194,4 @@ infomap <- function(x, pol = NULL, ...){
     class(result) <- "phyloregion"
     result
 }
+

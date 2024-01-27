@@ -1,0 +1,27 @@
+url: https://phyloregion.com/
+
+destination: docs
+
+template:
+  params:
+    bootswatch: flatly
+
+authors:
+  Barnabas H. Daru:
+    href: https://darulab.org/
+  Piyal Karunarathne:
+    href: https://github.com/piyalkarum/
+  Klaus Schliep:
+    href: https://kschliep.netlify.app/
+
+navbar:
+  components:
+    articles:
+      text: Vignettes
+      menu:
+      - text: 'Vig 1: An introduction to the phyloregion package'
+        href: articles/phyloregion-intro.html
+      - text: 'Vig 2: Benchmarking phyloregion'
+        href: articles/Benchmark.html
+      - text: 'Vig 3: Fast Evolutionary Distinctiveness'
+        href: articles/ed.html
