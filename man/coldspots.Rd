@@ -3,23 +3,29 @@
 \name{coldspots}
 \alias{coldspots}
 \alias{hotspots}
+\alias{rast_hotspot}
 \title{Computes biodiversity coldspots and hotspots}
 \usage{
-coldspots(x, prob = 2.5, na.rm = TRUE, ...)
+coldspots(x, y = NULL, prob = 2.5, ...)
 
-hotspots(x, prob = 2.5, na.rm = TRUE, ...)
+hotspots(x, y = NULL, prob = 2.5, ...)
+
+rast_hotspot(ras, ref = NULL, prob = 10)
 }
 \arguments{
-\item{x}{a vector on which to compute coldspots}
+\item{x}{a vector on which to compute hotspots or coldspots}
+
+\item{y}{a vector on which to compare x against}
 
 \item{prob}{The threshold quantile for representing the lowest
 (\code{coldspots}) or highest (\code{hotspots}) proportion of biodiversity in
 an area. By default, the threshold is set to \code{prob = 2.5} percent.}
 
-\item{na.rm}{logical; if true, any NA and NaN's are removed from x before
-the quantiles are computed.}
-
 \item{\dots}{Further arguments passed to or from other methods.}
+
+\item{ras}{a SpatRaster on which to compute hotspots.}
+
+\item{ref}{a raster layer for reference.}
 }
 \value{
 A vector of integers of 1s and 0s with 1 corresponding to the
@@ -36,8 +42,8 @@ data(africa)
 p <- vect(system.file("ex/sa.json", package = "phyloregion"))
 
 Endm <- weighted_endemism(africa$comm)
-C <- coldspots(Endm) # coldspots
-H <- hotspots(Endm) # hotspots
+C <- coldspots(Endm, na.rm=TRUE) # coldspots
+H <- hotspots(Endm, na.rm=TRUE) # hotspots
 
 ## Merge endemism values to shapefile of grid cells.
 DF <- data.frame(grids=names(C), cold=C, hot=H)

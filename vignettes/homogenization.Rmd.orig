@@ -1,0 +1,329 @@
+---
+title: "Homogenization"
+author: "Barnabas H. Daru"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+bibliography: phyloregion.bib
+vignette: >
+   %\VignetteIndexEntry{Homogenization}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\usepackage[utf8]{inputenc}
+---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  dpi = 72, fig.path = "pd-",
+  message = FALSE, warning = FALSE, error = FALSE
+)
+```
+
+# 1. Changes in alpha diversity
+
+## 1.1 Holocene species alpha diversity
+
+This is defined as native species’ assemblages in each region before widespread 
+migration by humans as initiated by the Columbian Exchange circa 1492.
+
+First, load the packages for the analysis:
+```{r, echo=FALSE}
+suppressPackageStartupMessages( library(phyloregion) )
+suppressPackageStartupMessages( library(raster) )
+suppressPackageStartupMessages( library(ape) )
+suppressPackageStartupMessages( library(parallel) )
+```
+```{r}
+library(phyloregion)
+library(raster)
+library(ape)
+library(parallel)
+```
+#### 1.1.1 Load function for superinvasives
+```{r, eval=FALSE}
+alpha_historical <- function(nat, ext, phy) {
+  n1 <- subset(nat, nat$species %in% intersect(phy$tip.label, nat$species))
+  n2 <- subset(n1, n1$species %in% intersect(n1$species, ext$species))
+  n3 <- subset(n1, !(n1$species %in% intersect(n1$species, ext$species)))
+  n <- rbind(n2, n3) 
+  subphy <- match_phylo_comm(phy, long2sparse(n))$phy
+  submat <- match_phylo_comm(phy, long2sparse(n))$comm
+  return(list(subphy = subphy, submat = submat))
+}
+```
+#### 1.1.2 INPUT DATA
+Because downloading large number of species using the `BIEN` R package can take a long time, we previously downloaded the shapefiles and saved to file:
+
+
+```{r}
+n <- read.csv("/home/bdaru/MASTER_DATA/BEHRMANN/PRESAB_100km_NATIVES.csv", stringsAsFactors = FALSE)
+
+e <- read.csv("/home/bdaru/MASTER_DATA/BEHRMANN/EXTINCT_species.csv")
+
+tree <- read.tree("/home/bdaru/MASTER_DATA/phylogeny/WRLD_phylo_trees.tre")
+
+nc <- detectCores()-1
+```
+
+#### 1.1.3 ANALYSIS
+##### 1.1.3.1 Phylogenetic Diversity
+
+```{r}
+p <- mclapply(tree, function(x) {
+  f <- alpha_historical(nat = n, ext = e, phy = x)
+  PD(f$submat, f$subphy)
+}, mc.cores = nc)
+
+pd <- apply(do.call(cbind, p), MARGIN = 1, FUN = median, na.rm = TRUE)
+pd <- data.frame(grids=names(pd), PD_hist=pd)
+```
+
+##### 1.1.3.2 Species richness
+
+```{r}
+s <- alpha_historical(nat = n, ext = e, phy = tree[[1]])
+sr <- data.frame(grids=row.names(s$submat), SR_hist=rowSums(s$submat>0))
+```
+
+##### 1.1.3.3 ses Phylogenetic Diversity
+
+```{r}
+p1 <- mclapply(tree, function(x) {
+  f <- alpha_historical(nat = n, ext = e, phy = x)
+  hh <- PD_ses(f$submat, f$subphy, model="tipshuffle")
+  z <- hh$zscore
+  names(z) <- hh$grids
+  return(z)
+}, mc.cores = nc)
+
+pdses <- apply(do.call(cbind, p1), MARGIN = 1, FUN = median, na.rm = TRUE)
+pdses <- data.frame(grids=names(pdses), sesPD_hist=pdses)
+
+##### 1.1.3.4 Combine results
+R <- Reduce(function(x, y) merge(x, y, by="grids", all=TRUE) , list(pd, sr, pdses))
+
+setwd(wd)
+
+write.csv(R, "RESULTS/historical.csv", row.names = FALSE)
+```
+
+
+## 1.2 Anthropocene species alpha diversity
+
+Species composition in the Anthropocene post-date this seminal event, and include non-native introductions, and recent past and projected plant extinctions26. 
+
+### 1.2.1 Scenario of no extinctions
+
+First, load the packages for the analysis:
+```{r, echo=FALSE}
+suppressPackageStartupMessages( library(phyloregion) )
+suppressPackageStartupMessages( library(raster) )
+suppressPackageStartupMessages( library(ape) )
+suppressPackageStartupMessages( library(parallel) )
+```
+```{r}
+library(phyloregion)
+library(raster)
+library(ape)
+library(parallel)
+```
+#### 1.2.1 Load function for superinvasives
+```{r, eval=FALSE}
+alpha_noextinctions <- function(nat, inv, phy) {
+  n <- subset(nat, nat$species %in% intersect(phy$tip.label, nat$species))
+  inv <- subset(inv, inv$species %in% intersect(inv$species, n$species))
+  mm <- unique(rbind(n, inv))
+  subphy <- match_phylo_comm(phy, long2sparse(mm))$phy
+  submat <- match_phylo_comm(phy, long2sparse(mm))$comm
+  return(list(subphy = subphy, submat = submat))
+}
+```
+#### 1.2.2 INPUT DATA
+Because downloading large number of species using the `BIEN` R package can take a long time, we previously downloaded the shapefiles and saved to file:
+
+
+```{r}
+n <- read.csv("/home/bdaru/MASTER_DATA/BEHRMANN/PRESAB_100km_NATIVES.csv", stringsAsFactors = FALSE)
+i <- read.csv("/home/bdaru/MASTER_DATA/BEHRMANN/PRESAB_100km_INVASIVES.csv", stringsAsFactors = FALSE)
+tree <- read.tree("/home/bdaru/MASTER_DATA/phylogeny/WRLD_phylo_trees.tre")
+
+nc <- detectCores()-1
+```
+
+#### 1.2.3 ANALYSIS
+##### 1.1.3.1 Phylogenetic Diversity
+
+```{r}
+p <- mclapply(tree, function(x) {
+  f <- alpha_noextinctions(nat = n, inv = i, phy = x)
+  PD(f$submat, f$subphy)
+}, mc.cores = nc)
+pd <- apply(do.call(cbind, p), MARGIN = 1, FUN = median, na.rm = TRUE)
+pd <- data.frame(grids=names(pd), PD_curr=pd)
+```
+
+##### 1.2.3.2 Species richness
+
+```{r}
+s <- alpha_noextinctions(nat = n, inv = i, phy = tree[[1]])
+sr <- data.frame(grids=row.names(s$submat), SR_curr=rowSums(s$submat>0))
+```
+
+##### 1.2.3.3 ses Phylogenetic Diversity
+
+```{r}
+p1 <- mclapply(tree, function(x) {
+  f <- alpha_noextinctions(nat = n, inv = i, phy = x)
+  hh <- PD_ses(f$submat, f$subphy, model="tipshuffle")
+  z <- hh$zscore
+  names(z) <- hh$grids
+  return(z)
+}, mc.cores = nc)
+
+pdses <- apply(do.call(cbind, p1), MARGIN = 1, FUN = median, na.rm = TRUE)
+pdses <- data.frame(grids=names(pdses), sesPDcur=pdses)
+
+##### 1.2.3.4 Combine results
+R <- Reduce(function(x, y) merge(x, y, by="grids", all=TRUE) , list(pd, sr, pdses))
+
+setwd(wd)
+
+write.csv(R, "RESULTS/current.csv", row.names = FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+## 1. Changes in alpha diversity
+
+### Scenario of effect of superinvasive species
+
+First, load the packages for the analysis:
+```{r, echo=FALSE}
+suppressPackageStartupMessages( library(phyloregion) )
+suppressPackageStartupMessages( library(raster) )
+suppressPackageStartupMessages( library(ape) )
+suppressPackageStartupMessages( library(parallel) )
+```
+```{r}
+library(phyloregion)
+library(raster)
+library(ape)
+library(parallel)
+```
+### 1. Load function for superinvasives
+```{r, eval=FALSE}
+alpha_superinvasives <- function(nat, ext, inv, phy, tdwg) {
+  n1 <- subset(nat, nat$species %in% intersect(phy$tip.label, nat$species))
+  n2 <- subset(n1, !(n1$species %in% intersect(n1$species, ext$species)))
+  n2$status <- "native"
+  inv <- subset(inv, inv$species %in% intersect(inv$species, n2$species))
+  inv$status <- "intro"
+  m <- unique(rbind(n2, inv))
+  mx <- cbind(m, level3=tdwg$level3[match(m$grids, tdwg$grids)])
+  mx <- na.omit(mx)
+  fx <- split(mx, mx$level3)
+  
+  spo <- lapply(fx, function(x) {
+    name.sp <- unique(x$level3)
+    alien <- subset(x, x$status %in% "intro")
+    z <- data.frame(table(alien$species))
+    names(z) <- c("species", "range_size")
+    lowerq = quantile(z$range_size)[2]
+    upperq = quantile(z$range_size)[4]
+    iqr = upperq - lowerq
+    zz = (iqr * 1.5) + upperq
+    # Drop nonnatives with 1.5x interquartile range above 3rd quartile of 
+    # invaded range size
+    S1 <- subset(z, z$range_size > zz[[1]])
+    dd <- subset(x, !(x$species %in% intersect(S1$species, x$species)))
+    return(dd)
+  })
+  
+  l <- do.call(rbind, spo)
+  subphy <- match_phylo_comm(phy, long2sparse(l))$phy
+  submat <- match_phylo_comm(phy, long2sparse(l))$comm
+  return(list(subphy = subphy, submat = submat))
+}
+```
+#### 2. INPUT DATA
+Because downloading large number of species using the `BIEN` R package can take a long time, we previously downloaded the shapefiles and saved to file:
+
+
+```{r}
+tree <- read.tree("/Users/barnabasdaru/Dropbox/Projects/Plant_phyloregions/data/GreenMaps_v_1_2/INPUT/MASTER_DATA/phylogeny/WRLD_phylo_trees.tre")
+
+n <- read.csv("/Users/barnabasdaru/Dropbox/Projects/Plant_phyloregions/data/GreenMaps_v_1_2/INPUT/MASTER_DATA/BEHRMANN/PRESAB_100km_NATIVES.csv", stringsAsFactors = FALSE)
+
+e <- read.csv("/Users/barnabasdaru/Dropbox/Projects/Plant_phyloregions/data/GreenMaps_v_1_2/INPUT/MASTER_DATA/BEHRMANN/EXTINCT_species.csv", stringsAsFactors = FALSE)
+
+i <- read.csv("/Users/barnabasdaru/Dropbox/Projects/Plant_phyloregions/data/GreenMaps_v_1_2/INPUT/MASTER_DATA/BEHRMANN/PRESAB_100km_INVASIVES.csv", stringsAsFactors = FALSE)
+
+s <- read.csv("/Users/barnabasdaru/Dropbox/Projects/Plant_phyloregions/data/GreenMaps_v_1_2/INPUT/MASTER_DATA/BEHRMANN/TDWG_100km.csv")
+wd <- getwd()
+dir = tempdir()
+setwd(dir)
+download.file(
+    url="https://barnabasdaru.files.wordpress.com/2020/10/bien_data.zip",
+    destfile = "bien_data.zip")
+unzip(zipfile = "bien_data.zip")
+setwd(dir = "bien_data")
+list.files()
+```
+
+#### 3. ANALYSIS
+##### a. PD
+
+```{r}
+nc <- detectCores()-1
+p <- mclapply(tree, function(x) {
+  f <- alpha_superinvasives(nat = n, ext = e, inv = i, phy = x, tdwg = s)
+  PD(f$submat, f$subphy)
+}, mc.cores = nc)
+pd <- apply(do.call(cbind, p), MARGIN = 1, FUN = median, na.rm = TRUE)
+pd <- data.frame(grids=names(pd), PD_curr=pd)
+```
+
+##### b. SR
+
+```{r}
+sr <- alpha_superinvasives(nat = n, ext = e, inv = i, phy = tree[[1]], tdwg = s)
+sr <- data.frame(grids=row.names(sr$submat), SR_curr=rowSums(sr$submat>0))
+```
+
+##### c. ses PD
+
+```{r}
+p1 <- mclapply(tree, function(x) {
+  f <- alpha_superinvasives(nat = n, ext = e, inv = i, phy = x, tdwg = s)
+  hh <- PD_ses(f$submat, f$subphy, model="tipshuffle", reps = 2)
+  z <- hh$zscore
+  names(z) <- hh$grids
+  return(z)
+}, mc.cores = nc)
+pdses <- apply(do.call(cbind, p1), MARGIN = 1, FUN = median, na.rm = TRUE)
+pdses <- data.frame(grids=names(pdses), sesPDcur=pdses)
+
+# Combine results
+R <- Reduce(function(x, y) merge(x, y, by="grids", all=TRUE), 
+            list(pd, sr, pdses))
+```
+### Read in species polygon maps
+
+```{r}
+setwd(wd)
+
+write.csv(R, "RESULTS/current.csv", row.names = FALSE)
+```
+
+If you find this vignette tutorial useful, please cite in publications as:
+
+Daru, B.H., Karunarathne, P. & Schliep, K. (2020) phyloregion: R package for biogeographic regionalization and macroecology. **_Methods in Ecology and Evolution_** [doi: 10.1111/2041-210X.13478](https://doi.org/10.1111/2041-210X.13478).
+
+
+## REFERENCES

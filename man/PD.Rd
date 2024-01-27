@@ -2,9 +2,12 @@
 % Please edit documentation in R/pd.R
 \name{PD}
 \alias{PD}
+\alias{RPD}
 \title{Phylogenetic diversity}
 \usage{
 PD(x, phy)
+
+RPD(x, phy)
 }
 \arguments{
 \item{x}{a community matrix, i.e. an object of class matrix or Matrix or an
@@ -16,7 +19,8 @@ object of class phyloseq.}
 a vector with the PD for all samples.
 }
 \description{
-\code{PD} calculates Faith's (1992) phylogenetic diversity.
+\code{PD} calculates Faith's (1992) phylogenetic diversity and relative
+phylogenetic diversity.
 }
 \examples{
 library(ape)
@@ -27,6 +31,8 @@ com <- sparseMatrix(c(1,3,4,1,4,5,1,2,3,4,5,6,3,4,6),
   dimnames = list(paste0("g", 1:6), tree$tip.label))
 
 PD(com, tree)
+# Relative phylogenetic diversity
+RPD(com, tree)
 }
 \references{
 Faith, D.P. (1992) Conservation evaluation and phylogenetic diversity.
