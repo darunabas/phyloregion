@@ -159,25 +159,25 @@ history in a 10 x 10m plot? <em>Proceedings of Royal Society B</em>
 <span class="r-in"><span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"g"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">PD_ses</span><span class="op">(</span><span class="va">com</span>, <span class="va">tree</span>, model<span class="op">=</span><span class="st">"rowwise"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ID pd_obs pd_rand.mean pd_rand.sd    pd_obs.z pd_obs.rank pd_obs_c_upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g1 g1      5          4.2   1.316561  0.69721940         8.0              5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g2 g2      2          5.0   1.247219 -2.68627131         1.5              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g3 g3      5          3.8   1.398412  1.01476086         8.5              5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g4 g4      6          3.9   0.875595  2.24423148        11.0             10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g5 g5      4          3.9   1.728840  0.07605409         6.5              5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g6 g6      3          4.2   1.398412 -1.01476086         3.5              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ID pd_obs pd_rand.mean pd_rand.sd   pd_obs.z pd_obs.rank pd_obs_c_upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g1 g1      5          3.8   1.316561  1.0458291         9.0              7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g2 g2      2          4.1   1.663330 -1.6282837         2.0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g3 g3      5          3.7   1.159502  1.2072790         9.5              7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g4 g4      6          4.7   1.159502  1.2072790        10.0              8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g5 g5      4          4.7   1.337494 -0.6052743         3.5              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g6 g6      3          4.0   1.414214 -0.8408964         4.0              2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    pd_obs_c_lower pd_obs_q pd_obs_pvalue_upper pd_obs_pvalue_lower pd_pvalue</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g1              1       10                 0.5                 0.1 0.7272727</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g2              9       10                 0.0                 0.9 0.1363636</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g3              0       10                 0.5                 0.0 0.7727273</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g4              0       10                 1.0                 0.0 1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g5              4       10                 0.5                 0.4 0.5909091</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g6              6       10                 0.1                 0.6 0.3181818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g1              1       10                 0.7                 0.1 0.8181818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g2              8       10                 0.0                 0.8 0.1818182</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g3              0       10                 0.7                 0.0 0.8636364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g4              0       10                 0.8                 0.0 0.9090909</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g5              7       10                 0.2                 0.7 0.3181818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g6              6       10                 0.2                 0.6 0.3636364</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               signif</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g1 c_not significant</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g2 c_not significant</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g3 c_not significant</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g4          e_&gt; 0.99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g4 c_not significant</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g5 c_not significant</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g6 c_not significant</span>
 <span class="r-in"><span></span></span>
