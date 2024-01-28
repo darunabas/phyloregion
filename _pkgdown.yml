@@ -1,11 +1,8 @@
-url: https://phyloregion.com/
-
+url: http://phyloregion.com/
 destination: docs
-
 template:
   params:
     bootswatch: flatly
-
 authors:
   Barnabas H. Daru:
     href: https://darulab.org/
@@ -13,7 +10,6 @@ authors:
     href: https://github.com/piyalkarum/
   Klaus Schliep:
     href: https://kschliep.netlify.app/
-
 navbar:
   components:
     articles:
@@ -25,3 +21,4 @@ navbar:
         href: articles/Benchmark.html
       - text: 'Vig 3: Fast Evolutionary Distinctiveness'
         href: articles/ed.html
+
