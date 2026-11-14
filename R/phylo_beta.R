@@ -25,13 +25,16 @@ phylo_community <- function(x, phy) {
 #' @param index.family family of dissimilarity indices, partial match of
 #' "sorensen" or "jaccard".
 #' @return \code{phylobeta_core} returns an object of class "phylo.betapart",
-#' see \code{\link{phylo.betapart.core}} for details. This object can be called
-#' by \code{\link{phylo.beta.pair}} or \code{\link{phylo.beta.multi}}.
+#' see \code{\link[betapart]{phylo.betapart.core}} for details. 
+#' This object can be called
+#' by \code{\link[betapart]{phylo.beta.pair}} 
+#' or \code{\link[betapart]{phylo.beta.multi}}.
 #'
 #' \code{phylobeta} returns a list with three phylogenetic dissimilarity
-#' matrices. See \code{\link{phylo.beta.pair}} for details.
+#' matrices. See \code{\link[betapart]{phylo.beta.pair}} for details.
 #' @keywords phyloregion
-#' @seealso \code{\link{read.community}}, \code{\link{phylo.betapart.core}},
+#' @seealso \code{\link{read.community}}, 
+#' \code{\link[betapart]{phylo.betapart.core}},
 #' \code{\link{beta_core}}
 #' @examples
 #' library(ape)
@@ -78,8 +81,8 @@ phylobeta_core <- function(x, phy) {
   max.not.shared <- pmax(B, C)
   min.not.shared <- pmin(B, C)
 
-  at <- structure(list(Labels = Labels, Size = l, class = "dist", Diag = FALSE,
-        Upper = FALSE), .Names = c("Labels", "Size", "class", "Diag", "Upper"))
+  at <- list(Labels = Labels, Size = l, class = "dist", Diag = FALSE,
+        Upper = FALSE)
   attributes(SHARED) <- at
   attributes(sum.not.shared) <- at
   attributes(max.not.shared) <- at
@@ -195,13 +198,13 @@ match_phylo_comm <- function(phy, comm, delete_empty_rows=TRUE) {
 #' @param index.family family of dissimilarity indices, partial match of
 #' "sorensen" or "jaccard".
 #' @return \code{beta_core} returns an object of class \code{beta_diss} like the
-#' \code{\link{betapart.core}} function. This object can be called by
-#' \code{\link{beta.pair}} or \code{\link{beta.multi}}.
+#' \code{\link[betapart]{betapart.core}} function. This object can be called by
+#' \code{\link[betapart]{beta.pair}} or \code{\link[betapart]{beta.multi}}.
 #'
 #' \code{beta_diss} returns a list with three dissimilarity matrices. See
-#' \code{\link{beta.pair}} for details.
+#' \code{\link[betapart]{beta.pair}} for details.
 #' @importFrom Matrix Matrix tcrossprod colSums
-#' @seealso \code{\link{betapart.core}}, \code{\link{betapart}},
+#' @seealso \code{\link[betapart]{betapart.core}}, \code{\link[betapart]{betapart}},
 #' \code{\link{phylobeta}}
 #' @author Klaus Schliep
 #' @examples

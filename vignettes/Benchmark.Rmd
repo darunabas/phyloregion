@@ -7,7 +7,7 @@ bibliography: phyloregion.bib
 vignette: >
    %\VignetteIndexEntry{Benchmarking phyloregion}
    %\VignetteEngine{knitr::rmarkdown}
-   %\usepackage[utf8]{inputenc}
+   %\VignetteEncoding{UTF-8}
 ---
 
 

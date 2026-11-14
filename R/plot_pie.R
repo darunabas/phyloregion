@@ -138,7 +138,15 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 }
 
 
-#' Visualize biogeographic patterns using pie charts
+blend_colors <- function(weights, colors) {
+  rgb_list <- lapply(colors, function(col) col2rgb(col) / 255)
+  rgb_mat <- do.call(cbind, rgb_list)
+  blended_rgb <- as.numeric(rgb_mat %*% weights)
+  rgb(blended_rgb[1], blended_rgb[2], blended_rgb[3])
+}
+
+
+#' Visualize spatial memberships
 #'
 #' @param omega a matrix of phyloregion of probabilities of each species
 #' @param pol a vector polygon of grid cells with a column labeled
@@ -147,16 +155,18 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' the add.pie function.
 #' @param legend_pie Legend for the pie plots.
 #' @param radius Radius of the pie legend to be displayed
+#' @param type Type of visualization, whether piecharts or blended colors.
 #' @param legend Logical, whether to plot a legend or not.
 #' @param col List of colors for the pies.
 #' @param \dots Further arguments passed to or from other methods.
 #' @rdname plot_pie
 #' @importFrom graphics polygon par legend
-#' @importFrom terra centroids as.data.frame
+#' @importFrom terra centroids as.data.frame is.lonlat
 #' @importFrom methods slot
 #' @importFrom colorspace LAB hex coords
 #' @importFrom utils modifyList
 #' @importFrom stats kmeans
+#' @importFrom grDevices col2rgb rgb
 #' @return Returns no value, just map color pies in geographic space!
 #' @examples
 #' library(terra)
@@ -165,14 +175,18 @@ add_pie <- function (z, x = 0, y = 0, labels = names(z), radius = 1,
 #' K <- ncol(africa$omega)
 #'
 #' CLRS <- hcl.colors(K)
-#' plot_pie(africa$omega, pol = p, col=CLRS)
+#' plot_spatial_membership(africa$omega, pol = p, col=CLRS, type="blend")
 #' @export
-plot_pie <- function (omega, pol, radius = 0.55, col=hcl.colors(5),
+plot_spatial_membership <- function (omega, pol, radius = NULL, col=hcl.colors(5),
                       pie_control = list(), legend = FALSE,
-                      legend_pie = FALSE, ...) {
+                      legend_pie = FALSE, type = c("pie", "blend"), ...) {
 
+    type <- match.arg(type)
+    
     index <- intersect(pol$grids, rownames(omega))
     s <- pol[pol$grids %in% index,]
+    s <- s[, "grids", drop=FALSE]
+    
     omega <- omega[index,]
 
     pie_control_default <- list(edges = 200, clockwise = TRUE,
@@ -180,16 +194,41 @@ plot_pie <- function (omega, pol, radius = 0.55, col=hcl.colors(5),
                                 angle = 45, border = NA,
                                 lty = NULL, label.dist = 1.1)
     pie_control <- modifyList(pie_control_default, pie_control)
-    XY <-as.data.frame(centroids(s), geom="XY")[, c(2,3)]
+
+    if (is.lonlat(s)) {
+      crs_units <- "degree"
+    } else {
+      crs_units <- "m"
+    }
+    
+    if (is.null(radius)) {
+      radius <- if (crs_units == "degree") {
+        0.55
+      } else if (crs_units == "m") {
+        60000 
+      } else {
+        warning("Unknown CRS units; defaulting radius to 0.55")
+        0.55
+      }
+    }
+    
+    
+    XY <- as.data.frame(centroids(s), geom="XY")[, c("x", "y")]
 
     #COLRS <- hue(K, hmin=0, hmax=360, cmin=0, cmax=180, lmin=0, lmax=100,
     #                 random=FALSE)
 
-    plot(s, border = NA, ...)
-
-    for(i in seq_len(dim(omega)[1])){
+    #plot(s, border = NA, ...)
+    
+    if (type == "blend") {
+      color_vec <- apply(omega, 1, function(w) blend_colors(as.numeric(w), col))
+      s$color <- color_vec
+      plot(s, col = s$color, border = NA, ...)
+    } else if (type == "pie") {
+      plot(s, border = NA, ...)
+      for(i in seq_len(dim(omega)[1])){
         suppressWarnings(invisible(
-        do.call(add_pie, append(list(
+          do.call(add_pie, append(list(
             z = as.integer(100 * omega[i, ]),
             x = XY[i,1],
             y = XY[i,2],
@@ -197,7 +236,9 @@ plot_pie <- function (omega, pol, radius = 0.55, col=hcl.colors(5),
             radius = radius,
             col = col), pie_control))
         ))
+      }
     }
+
     if (isTRUE(legend)) {
       legend("bottomright", legend=colnames(omega), y.intersp = 0.8,
             bty = "n", col = col, ncol = 2, pch = 19, pt.cex = 1.5, ...)

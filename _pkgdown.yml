@@ -22,3 +22,5 @@ navbar:
       - text: 'Vig 3: Fast Evolutionary Distinctiveness'
         href: articles/ed.html
 
+      - text: 'Vig 4: Functional diversity with trait probability densities'
+        href: articles/tpd.html

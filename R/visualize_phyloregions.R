@@ -63,7 +63,7 @@ plot.phyloregion <- function(x, pol = NULL, palette = "NMDS",
     if(length(col)==k) col <- col[pol$cluster]
     else stop("Expect 'col' of length x$k!")
   }
-  plot(pol, "cluster", col = col, ...)
+  plot(pol, "cluster", type="classes", col = col, ...)
   if (label == TRUE) text(pol, labels = as.character(pol$cluster), ...)
 }
 

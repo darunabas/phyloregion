@@ -18,11 +18,11 @@ species.}
 }
 \value{
 \code{beta_core} returns an object of class \code{beta_diss} like the
-\code{\link{betapart.core}} function. This object can be called by
-\code{\link{beta.pair}} or \code{\link{beta.multi}}.
+\code{\link[betapart]{betapart.core}} function. This object can be called by
+\code{\link[betapart]{beta.pair}} or \code{\link[betapart]{beta.multi}}.
 
 \code{beta_diss} returns a list with three dissimilarity matrices. See
-\code{\link{beta.pair}} for details.
+\code{\link[betapart]{beta.pair}} for details.
 }
 \description{
 Data are assumed to be presence / absence (0 / 1) and all values greater
@@ -39,7 +39,7 @@ bc <- beta_core(x)
 beta_sorensen <- beta_diss(x)
 }
 \seealso{
-\code{\link{betapart.core}}, \code{\link{betapart}},
+\code{\link[betapart]{betapart.core}}, \code{\link[betapart]{betapart}},
 \code{\link{phylobeta}}
 }
 \author{

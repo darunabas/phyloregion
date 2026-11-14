@@ -5,20 +5,27 @@
 ## Mostly intended for being able to take advantage of LP solvers which
 ## allow for sparse specifictions of (possible rather large) constraint
 ## matrices.
-
+#' @keywords internal
+#' @noRd
 simple_triplet_matrix <-
     function(i, j, v, nrow = max(i), ncol = max(j))
     {
         structure(list(i = i, j = j, v = v, nrow = nrow, ncol = ncol),
                   class = "simple_triplet_matrix")
     }
-
+#' @keywords internal
+#' @noRd
 as.simple_triplet_matrix <-
     function(x)
         UseMethod("as.simple_triplet_matrix")
 
-as.simple_triplet_matrix.simple_triplet_matrix <- identity
+#' @keywords internal
+#' @noRd
+as.simple_triplet_matrix.simple_triplet_matrix <- function(x) x
 
+#as.simple_triplet_matrix.simple_triplet_matrix <- identity
+#' @keywords internal
+#' @noRd
 as.simple_triplet_matrix.matrix <-
     function(x)
     {
@@ -29,7 +36,8 @@ as.simple_triplet_matrix.matrix <-
         simple_triplet_matrix(ind[, 1L], ind[, 2L], x[ind],
                               nrow = nrow(x), ncol = ncol(x))
     }
-
+#' @keywords internal
+#' @noRd
 as.matrix.simple_triplet_matrix <-
     function(x, ...)
     {
@@ -48,11 +56,13 @@ as.matrix.simple_triplet_matrix <-
 ##       x = v,
 ##       Dim = c(nrow, ncol))
 ## (Note that these have C-style indices starting at zero.)
-
+#' @keywords internal
+#' @noRd
 dim.simple_triplet_matrix <-
     function(x)
         c(x$nrow, x$ncol)
-
+#' @keywords internal
+#' @noRd
 `[.simple_triplet_matrix` <-
     function(x, i, j, ...)
     {
@@ -156,7 +166,8 @@ dim.simple_triplet_matrix <-
 
         out
     }
-
+#' @keywords internal
+#' @noRd
 rbind.simple_triplet_matrix <-
     function(..., deparse.level = 1L)
     {
@@ -173,7 +184,8 @@ rbind.simple_triplet_matrix <-
         lapply(Filter(Negate(is.null), list(...)),
                as.simple_triplet_matrix))
     }
-
+#' @keywords internal
+#' @noRd
 cbind.simple_triplet_matrix <-
     function(..., deparse.level = 1L)
     {

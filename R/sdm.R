@@ -97,8 +97,8 @@ myGLM <- function(f, x, p, q, forcast) {
   
   # AUC
   auc_glm <- ge@stats$auc
-  df_glm <- data.frame(TSS = tss_glm, AUC = auc_glm)
-  return(list(GLM = glm_fnl, data_glm = df_glm))
+  df_glm <- data.frame(TSS = tss_glm, AUC = auc_glm, thresh=gtr$max_spec_sens)
+  return(list(GLM = glm_fnl, data_glm = df_glm, GLM_raw = pg))
 }
 
 myMAXENT <- function(p, ox, ot, xy, forcast) {
@@ -149,7 +149,7 @@ myMAXENT <- function(p, ox, ot, xy, forcast) {
     
     # AUC
     aucs <- xe@stats$auc
-    stats_df <- data.frame(TSS = tss, AUC = aucs)
+    stats_df <- data.frame(TSS = tss, AUC = aucs, thresh=mr$max_spec_sens)
     return(list(MAXENT = MX, data_maxent = stats_df, MAXENT_raw = mx))
   }
 }
@@ -229,11 +229,17 @@ sampleBuffer <- function(p, size, width) {
 #' \itemize{
 #'   \item \code{ensemble_raster} The ensembled raster that predicts
 #'   the potential species distribution based on the algorithms selected.
-#'   \item \code{data} The dataframe of occurrences used to implement the model.
+#'   \item \code{data} Model evaluation statistics: true skill statistic
+#'   (\code{TSS}), area under the curve (\code{AUC}) and the threshold that
+#'   maximizes sensitivity plus specificity (\code{thresh}); for a single
+#'   algorithm also the Boyce index (\code{boyce}). With
+#'   \code{algorithm = "all"}, the median across algorithms.
 #'   \item \code{polygon} Map polygons of the predicted distributions
 #'   analogous to extent-of-occurrence range polygon.
 #'   \item \code{indiv_models} Raster layers for the separate models that
 #'   predict the potential species distribution.
+#'   \item \code{raw_habitatsuit} Continuous habitat suitability before
+#'   thresholding, one layer per algorithm.
 #' }
 #' @references
 #' Zurell, D., Franklin, J., König, C., Bouchet, P.J., Dormann, C.F., Elith, J.,
@@ -331,6 +337,7 @@ sdm <- function (x, layers = NULL, pol = NULL, thin = TRUE, thin.size = 500,
 
   if (algorithm == "all") {
     models <- c()
+    raws <- list()
     dat <- list()
     tryCatch({
       GLM1 <- FALSE
@@ -340,6 +347,7 @@ sdm <- function (x, layers = NULL, pol = NULL, thin = TRUE, thin.size = 500,
       if (GLM1) {
         names(glm_fnl)[1] <- "GLM"
         models <- c(models, glm_fnl[[1]])
+        raws$GLM <- glm_fnl[[3]]
         dat[[1]] <- glm_fnl[[2]]
       }
     }, error = function(e) {
@@ -353,12 +361,15 @@ sdm <- function (x, layers = NULL, pol = NULL, thin = TRUE, thin.size = 500,
       if (MX1) {
         names(MX)[[1]] <- "MAXENT"
         models <- c(models, MX[[1]])
+        raws$MAXENT <- MX[[3]]
         dat[[2]] <- MX[[2]]
       }
     }, error = function(e) {
       cat("ERROR:", conditionMessage(e), "\n")
     })
     models <- rast(models)
+    raw_model <- rast(raws)
+    names(raw_model) <- names(raws)
     dat <- do.call(rbind, dat)
     dat <- apply(dat, 2, FUN=median)
   }

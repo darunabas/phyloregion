@@ -7,9 +7,8 @@
 fitgom(
   x,
   trait = NULL,
-  cut = NULL,
   phy = NULL,
-  bin = 10,
+  bin = NULL,
   na.rm = FALSE,
   K,
   shape = NULL,
@@ -30,9 +29,7 @@ labeled \dQuote{species}.}
 \item{trait}{A data frame or matrix object with the first column
 labeled \dQuote{species} containing the taxonomic groups to be
 evaluated whereas the remaining columns have the various functional
-traits. The variables must be a mix of numeric and categorical values.}
-
-\item{cut}{The slice time for the phylogenetic tree.}
+traits. The variables must be a mix of numeric and categorical trait values.}
 
 \item{phy}{is a dated phylogenetic tree with branch lengths stored
 as a phylo object (as in the ape package).}
@@ -84,7 +81,7 @@ An topics object list with entries
   \item \code{K} The number of latent topics estimated. If input
   \code{length(K)>1}, on output this is a single value corresponding to
   the model with the highest Bayes factor.
-  \item \code{theta} The \code{ncol(counts)} by K matrix of estimated
+  \item \code{theta} The \code{ncol(counts)} by K matrix of estimated 
   topic-phrase probabilities.
   \item \code{omega} The \code{nrow(counts)} by K matrix of estimated
   document-topic weights.
@@ -104,19 +101,18 @@ as partial memberships in multiple groups. It can group regions
 based on phylogenetic information or functional traits.
 }
 \details{
-Mapping phylogenetic regions (phyloregions) involves successively slicing
-the phylogenetic tree at various time depths (e.g., from 1, 2, 3, 4, to 5
-million years ago (Ma)), collapsing nodes and ranges that originated at
-each time depth, and generating a new community matrix based on the presence
-or absence of each lineage in a grid cell. A grade of membership model is
-then fitted to the reduced community matrix. To map functional trait regions
-(traitregions), the function uses k-means to cluster species based on their
-functional traits, often for mixed-type data including categorical and
-numeric functional traits. The ranges for each species in each resulting
-cluster are collapsed to generate a new community matrix based on the
-presence or absence of cluster representative in a grid cell. A grade of
-membership model is then fitted to the new reduced community matrix. Mapping
-bioregions for taxonomic diversity is based on fitting a grade of
+Mapping phylogenetic regions (phyloregions) involves combining species
+occurrence matrix with phylogenetic tree to generate a new phylocommunity 
+matrix based on the presence or absence of each lineage in a grid cell. 
+A grade of membership model is  then fitted to the reduced community matrix. 
+To map functional trait regions (traitregions), the function uses k-means 
+to cluster species based on their functional traits, often best suited for 
+mixed-type data including categorical and numeric functional traits. The 
+ranges for each species in each resulting cluster are collapsed to generate 
+a new community matrix based on the presence or absence of cluster 
+representative in a grid cell. A grade of membership model is then fitted 
+to the new reduced community matrix. Mapping bioregions for taxonomic 
+diversity (that is, species alone) is based on fitting a grade of
 membership model directly to the original community matrix that is often
 represented with species in the columns and sites as rows.
 }
@@ -128,6 +124,6 @@ p <- vect(system.file("ex/sa.json", package = "phyloregion"))
 m <- fitgom(x=sparse2long(africa$comm), K=3)
 
 COLRS <- phyloregion:::hue(m$K)
-plot_pie(m$omega, pol = p, col=COLRS)
+plot_spatial_membership(m$omega, pol = p, col=COLRS, type="pie")
 }
 \keyword{bioregion}

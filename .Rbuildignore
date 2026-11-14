@@ -26,3 +26,4 @@
 ^R/admixture.R
 ^CRAN-SUBMISSION$
 
+^cran-comments\.md$

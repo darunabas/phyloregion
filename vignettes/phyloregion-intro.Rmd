@@ -7,7 +7,7 @@ bibliography: phyloregion.bib
 vignette: >
    %\VignetteIndexEntry{An introduction to the phyloregion package}
    %\VignetteEngine{knitr::rmarkdown}
-   %\usepackage[utf8]{inputenc}   
+   %\VignetteEncoding{UTF-8}
 ---
 ---
 nocite: | 

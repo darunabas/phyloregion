@@ -62,11 +62,17 @@ A list with the following objects:
 \itemize{
   \item \code{ensemble_raster} The ensembled raster that predicts
   the potential species distribution based on the algorithms selected.
-  \item \code{data} The dataframe of occurrences used to implement the model.
+  \item \code{data} Model evaluation statistics: true skill statistic
+  (\code{TSS}), area under the curve (\code{AUC}) and the threshold that
+  maximizes sensitivity plus specificity (\code{thresh}); for a single
+  algorithm also the Boyce index (\code{boyce}). With
+  \code{algorithm = "all"}, the median across algorithms.
   \item \code{polygon} Map polygons of the predicted distributions
   analogous to extent-of-occurrence range polygon.
   \item \code{indiv_models} Raster layers for the separate models that
   predict the potential species distribution.
+  \item \code{raw_habitatsuit} Continuous habitat suitability before
+  thresholding, one layer per algorithm.
 }
 }
 \description{

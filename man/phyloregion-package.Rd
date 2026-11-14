@@ -81,8 +81,30 @@ Barnabas Daru thanks Texas A&M University-Corpus Christi for financial
 and logistic support.
 }
 
-\author{
-\href{https://darulab.org/}{Barnabas H. Daru}, Piyal Karunarathne,
-\href{https://kschliep.netlify.app/}{Klaus Schliep}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/darunabas/phyloregion}
+  \item \url{https://phyloregion.com/index.html}
+  \item Report bugs at \url{https://github.com/darunabas/phyloregion/issues}
 }
-\keyword{package}
+
+}
+\author{
+\strong{Maintainer}: Barnabas H. Daru \email{darunabas@gmail.com} (\href{https://orcid.org/0000-0002-2115-0257}{ORCID}) [copyright holder]
+
+Authors:
+\itemize{
+  \item Piyal Karunarathne (\href{https://orcid.org/0000-0002-1934-145X}{ORCID})
+  \item Klaus Schliep \email{klaus.schliep@gmail.com} (\href{https://orcid.org/0000-0003-2941-0161}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Xiaobei Zhao [contributor]
+  \item Albin Sandelin [contributor]
+  \item Luciano Pataro [contributor]
+}
+
+}
+\keyword{internal}

@@ -1,0 +1,184 @@
+---
+title: "Functional diversity with trait probability densities"
+author: "Barnabas H. Daru"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: rmarkdown::html_vignette
+bibliography: phyloregion.bib
+vignette: >
+   %\VignetteIndexEntry{Functional diversity with trait probability densities}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7,
+                      fig.height = 4, message = FALSE, warning = FALSE)
+```
+
+## Introduction
+
+Species richness counts how many species live in a place. Functional
+diversity asks what those species are like: how tall they grow, whether they
+are trees or herbs, how big their seeds are. Two places can have the same
+number of species but very different traits, and a place can keep its number
+of species while its traits change.
+
+`phyloregion` measures functional diversity with trait probability densities
+[TPD, @Carmona2016]. Each species is a small hill of probability placed at its
+traits in trait space. A grid cell's trait spectrum is the sum of its species'
+hills. From these spectra we get functional alpha diversity for each grid cell,
+functional beta diversity between grid cells, functional regions, and, for a
+whole group of species, the trait spectrum of threatened versus non-threatened
+species and its erosion under extinction scenarios [@Carmona2021].
+
+The functions work with any mix of continuous and categorical traits and use
+the same sparse-matrix approach as `phylobeta`, so they are fast for large
+community matrices.
+
+## 1. Data
+
+We use the `africa` data: a grid-cell × species matrix for woody plants of
+southern Africa, with traits for each species. We use one continuous trait,
+maximum height (log-transformed, because heights are skewed), and one
+categorical trait, growth habit.
+
+```{r}
+library(phyloregion)
+library(terra)
+
+data(africa)
+p <- vect(system.file("ex/sa.json", package = "phyloregion"))
+
+tr <- data.frame(species = africa$trait$species,
+                 height = log10(africa$trait$h_max),
+                 habit = africa$trait$habit)
+head(tr)
+```
+
+The first column must contain the species names. Every other column is used as
+a trait: numeric columns are treated as continuous and character or factor
+columns as categorical. Species with missing values are left out.
+
+## 2. How the trait space is built
+
+* Continuous traits are standardized and become the axes of trait space
+  (a ruler for one trait, a sheet for two, a box for three).
+* Each combination of categories gets its own trait space, so a tree's density
+  never spills into the trait space of herbs.
+* With more than three continuous traits or more than eight combinations of
+  categories, all traits are summarized by two mixed principal component axes.
+* Each species' hill is a normal kernel with a width chosen by `bw.nrd0`, cut so
+  that it keeps 99% of its density (`quantile = 0.99`).
+
+## 3. Functional alpha diversity
+
+```{r}
+fa <- tpd_alpha(africa$comm, tr)
+head(fa)
+```
+
+`tpd_alpha` returns one row per grid cell:
+
+* `SR`: species richness
+* `FRic`: functional richness, the volume of trait space occupied
+* `FEve`: functional evenness, how evenly the density is spread
+* `FRed`: functional redundancy, the average number of extra species sharing
+  the same traits
+* `CWM_height`: community-weighted mean of each continuous trait
+* `share_`: share of each category
+
+Map them with the grid-cell polygons:
+
+```{r, fig.height = 3.2}
+m <- merge(p, fa, by = "grids")
+par(mfrow = c(1, 3), mar = c(1, 1, 2, 3))
+plot(m, "FRic", main = "FRic", axes = FALSE, border = NA,
+     col = hcl.colors(20, "YlOrRd", rev = TRUE))
+plot(m, "FEve", main = "FEve", axes = FALSE, border = NA,
+     col = hcl.colors(20, "YlOrRd", rev = TRUE))
+plot(m, "FRed", main = "FRed", axes = FALSE, border = NA,
+     col = hcl.colors(20, "YlOrRd", rev = TRUE))
+```
+
+## 4. Functional beta diversity
+
+`tpd_beta` compares the trait spectra of every pair of grid cells. The total
+dissimilarity is one minus their overlap. It is split into two parts
+[@Carmona2016]:
+
+* `beta.unique`: density in trait space used by only one of the two grid cells
+  (like turnover)
+* `beta.nested`: different amounts of density in trait space used by both
+  (like nestedness)
+
+```{r}
+fb <- tpd_beta(africa$comm, tr)
+sapply(fb, function(d) round(mean(d), 3))
+```
+
+`tpd_beta_core` returns the shared and unshared parts of each pair, in the same
+way as `phylobeta_core`.
+
+## 5. Functional regions
+
+Functional beta diversity can be used like any other beta diversity in
+`phyloregion`. Grid cells with very few species look completely different from
+everything else, so we keep grid cells with at least 10 species before
+clustering.
+
+```{r, fig.height = 4.5}
+keep <- fa$grids[fa$SR >= 10]
+fbk <- as.dist(as.matrix(fb$beta.total)[keep, keep])
+fr <- phyloregion(fbk, k = 5, pol = p)
+plot(fr)
+```
+
+## 6. Trait spectra of groups: threatened versus non-threatened
+
+Instead of grid cells, we can compare groups of species, as
+@Carmona2021 did for the global spectra of plants and vertebrates.
+`tpd_groups` turns a vector of group labels into a groups × species matrix
+that can be used in `tpd_alpha` and `tpd_beta`.
+
+```{r}
+status <- ifelse(africa$IUCN$IUCN %in% c("CR", "EN", "VU"),
+                 "threatened", "not_threatened")
+names(status) <- africa$IUCN$Species
+g <- tpd_groups(status)
+rowSums(g)
+
+tpd_alpha(g, tr)[, c("grids", "SR", "FRic", "FRed", "CWM_height")]
+round(as.matrix(tpd_beta(g, tr)$beta.total), 3)
+```
+
+In this example, threatened species are on average shorter (a smaller
+`CWM_height`) and occupy a part of the trait space that differs from the
+spectrum of non-threatened species.
+
+## 7. Extinction scenarios
+
+`tpd_extinction` removes species at random according to their extinction
+probabilities, many times, and compares the trait spectrum before and after.
+As a null model, the same number of species is removed completely at random.
+The probabilities below are hypothetical values for each IUCN category; use
+probabilities suited to your question.
+
+```{r}
+pr <- c(LC = 0.001, NT = 0.01, VU = 0.1, EN = 0.5, CR = 0.9)
+prob <- setNames(pr[africa$IUCN$IUCN], africa$IUCN$Species)
+set.seed(1)
+ex <- tpd_extinction(tr, prob, nsim = 50)
+ex$summary[ex$summary$quantity %in% c("lost", "FRic", "overlap"), ]
+```
+
+If the overlap with the current spectrum is lower for extinctions than for
+random losses of the same number of species, extinctions are reorganizing the
+trait spectrum more than expected by chance.
+
+## Session info
+
+```{r}
+sessionInfo()
+```
+
+## References

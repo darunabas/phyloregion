@@ -1,3 +1,32 @@
+# [November 13, 2026] Changes in `phyloregion` version 2.1.0.
+
+* Revised and improved the function sdm to return the evaluation threshold.
+
+* Fixed sdm() failing with algorithm = "all" (the default) and algorithm = "GLM".
+
+* sdm() now returns the continuous habitat suitability for every algorithm in raw_habitatsuit.
+
+* Replaced the deprecated structure(.Names = ) call in phylobeta_core (CRAN check NOTE).
+
+* New functions tpd_alpha(), tpd_beta_core() and tpd_beta() compute functional alpha diversity (richness, evenness, redundancy, community weighted means) and functional beta diversity split into unique (turnover-like) and nested components, using trait probability densities for any mix of continuous and categorical traits (Carmona et al. 2016).
+
+* New functions tpd_groups() and tpd_extinction() describe the trait spectra of groups of species (for example threatened versus non-threatened) and simulate the erosion of functional diversity under extinction scenarios, with random loss of the same number of species as a null model (Carmona et al. 2021).
+
+* New vignette: Functional diversity with trait probability densities.
+
+# [July 14, 2025] Changes in `phyloregion` version 1.0.9.
+
+* Prepared and updated package for CRAN.
+
+* Revised and updated plot_pie to plot_spatial_membership and now uses blended color visualization.
+
+* Automatically adjusts radius depending on the projection system (e.g., EPSG:4326 vs EPSG:6933).
+
+* Added new functions backg, randpoints, rast_quantile, rast_hotspot
+
+* Updated documentation and examples accordingly.
+
+
 # [April 25, 2023] Changes in `phyloregion` version 1.0.8.
 
 * Prepared and updated package for CRAN.

@@ -1,13 +1,14 @@
 Package: phyloregion
 Type: Package
 Title: Biogeographic Regionalization and Macroecology
-Version: 1.0.9
+Version: 2.1.0
 Authors@R: c(person("Barnabas H.", "Daru", email= "darunabas@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-2115-0257")),
              person("Piyal", "Karunarathne", role = c("aut"), comment = c(ORCID = "0000-0002-1934-145X")),
              person("Klaus", "Schliep", email="klaus.schliep@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0003-2941-0161")),
              person("Xiaobei", "Zhao", role=c("ctb")),
              person("Albin", "Sandelin", role=c("ctb")),
-             person("Luciano", "Pataro", role=c("ctb")))
+             person("Luciano", "Pataro", role=c("ctb")),
+             person("Liu", "Rong", role=c("ctb")))
 Description: Computational infrastructure for biogeography, community ecology,
     and biodiversity conservation (Daru et al. 2020) <doi:10.1111/2041-210X.13478>.
     It is based on the methods described in Daru et al. (2020) <doi:10.1038/s41467-020-15921-6>.
@@ -15,27 +16,21 @@ Description: Computational infrastructure for biogeography, community ecology,
     on patterns and processes of biogeographical regionalization. Additionally, the package
     contains fast and efficient functions to compute more standard conservation measures
     such as phylogenetic diversity, phylogenetic endemism, evolutionary distinctiveness
-    and global endangerment, as well as compositional turnover (e.g., beta diversity).
+    and global endangerment, as well as compositional turnover (e.g., beta diversity),
+    and functional alpha and beta diversity from trait probability densities for mixed
+    continuous and categorical traits (Carmona et al. 2016) <doi:10.1016/j.tree.2016.02.003>.
 Imports: ape, phangorn, Matrix, betapart, parallel, methods,
         colorspace, igraph, clustMixType, maptpx, terra, vegan,
         predicts, smoothr
 Suggests: tinytest, knitr, rmarkdown, mapproj, survival, rJava,
         phyloseq, V8
 VignetteBuilder: knitr
-URL: https://github.com/darunabas/phyloregion, https://phyloregion.com/index.html, http://phyloregion.com/
+URL: https://github.com/darunabas/phyloregion,
+        https://phyloregion.com/index.html
 BugReports: https://github.com/darunabas/phyloregion/issues
 License: AGPL-3
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 biocViews: Software
 NeedsCompilation: no
-Depends: R (>= 4.0.0)
-Packaged: 2023-07-26 23:47:36 UTC; bdaru
-Author: Barnabas H. Daru [aut, cre, cph]
-    (<https://orcid.org/0000-0002-2115-0257>),
-  Piyal Karunarathne [aut] (<https://orcid.org/0000-0002-1934-145X>),
-  Klaus Schliep [aut] (<https://orcid.org/0000-0003-2941-0161>),
-  Xiaobei Zhao [ctb],
-  Albin Sandelin [ctb],
-  Luciano Pataro [ctb]
-Maintainer: Barnabas H. Daru <darunabas@gmail.com>
+Depends: R (>= 4.1.0)

@@ -19,11 +19,13 @@ phylobeta(x, phy, index.family = "sorensen")
 }
 \value{
 \code{phylobeta_core} returns an object of class "phylo.betapart",
-see \code{\link{phylo.betapart.core}} for details. This object can be called
-by \code{\link{phylo.beta.pair}} or \code{\link{phylo.beta.multi}}.
+see \code{\link[betapart]{phylo.betapart.core}} for details. 
+This object can be called
+by \code{\link[betapart]{phylo.beta.pair}} 
+or \code{\link[betapart]{phylo.beta.multi}}.
 
 \code{phylobeta} returns a list with three phylogenetic dissimilarity
-matrices. See \code{\link{phylo.beta.pair}} for details.
+matrices. See \code{\link[betapart]{phylo.beta.pair}} for details.
 }
 \description{
 \code{phylobeta_core} computes efficiently for large community matrices and
@@ -42,7 +44,8 @@ pbc <- phylobeta_core(com, tree)
 pb <- phylobeta(com, tree)
 }
 \seealso{
-\code{\link{read.community}}, \code{\link{phylo.betapart.core}},
+\code{\link{read.community}}, 
+\code{\link[betapart]{phylo.betapart.core}},
 \code{\link{beta_core}}
 }
 \author{
